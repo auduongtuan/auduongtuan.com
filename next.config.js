@@ -1,4 +1,46 @@
 /** @type {import('next').NextConfig} */
-module.exports = {
-  reactStrictMode: true,
-}
+// const withImages = require("next-images");
+const withVideos = require("next-videos");
+// module.exports = {
+//   webpack: (config, options) => {
+//     // config.module.rules.push({
+//     //   test: /\.(svg|png|jpe?g|gif|mp4)$/i,
+//     //   use: [
+//     //     {
+//     //       loader: 'file-loader',
+//     //       options: {
+//     //         publicPath: '/_next',
+//     //         name: 'static/media/[name].[hash].[ext]'
+//     //       }
+//     //     }
+//     //   ]
+//     // })
+//     return config
+//   },
+//   // images: {
+//   //   disableStaticImages: true
+//   // }
+// }
+module.exports = withVideos(
+  // withImages({
+  //   images: {
+  //     disableStaticImages: true,
+  //   },
+  // })
+);
+// module.exports = {
+//   webpack: (config, options) => {
+//       config.module.rules.push({
+//           test: /\.(jpe?g|png|svg|gif|ico|eot|ttf|woff|woff2|mp4|pdf|webm|txt)$/,
+//           type: 'asset/resource',
+//           generator: {
+//               filename: 'static/chunks/[path][name].[hash][ext]'
+//           },
+//       });
+
+//       return config;
+//   },
+//   images: {
+//     disableStaticImages: true,
+//   }
+// };

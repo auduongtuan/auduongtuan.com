@@ -1,0 +1,32 @@
+module.exports = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {
+      fontFamily: {
+        "display": ['Work Sans', 'Helvetica', 'Arial', 'sans-serif'],
+        "body": ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
+      },
+      backgroundImage: {
+        "colorful": "linear-gradient(100.21deg, #E3EAF6 18.6%, #DDEFFF 31.32%, #E9F1FF 45.95%, #F7F5FF 60.25%, #E0F0E8 79.65%)",
+        "white-fade": "linear-gradient(180deg, #FFFFFF 47.4%, rgba(255, 255, 255, 0) 100%)"
+      },
+      colors: {
+        "neutral": {
+          900: "#202020"
+        },
+        "blue": {
+          900: "#050F32"
+        }
+      },
+      transitionTimingFunction: {
+        'bounce': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+      }
+    },
+  },
+  plugins: [
+    require('@tailwindcss/typography')
+  ],
+}

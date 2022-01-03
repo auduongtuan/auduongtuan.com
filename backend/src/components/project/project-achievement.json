@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_project_project_achievements",
+  "info": {
+    "displayName": "Project Achievement",
+    "icon": "award"
+  },
+  "options": {},
+  "attributes": {
+    "Name": {
+      "type": "string"
+    },
+    "Description": {
+      "type": "string"
+    }
+  }
+}

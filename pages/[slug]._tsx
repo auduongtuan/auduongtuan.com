@@ -1,0 +1,84 @@
+import Head from 'next/head'
+import { useRouter } from 'next/router'
+import { GetStaticProps, GetStaticPaths } from 'next'
+import DefaultErrorPage from 'next/error'
+import Image from 'next/image'
+import { Client } from "@notionhq/client"
+
+export default function ProjectView({project}) {
+    const router = useRouter()
+  
+    if(router.isFallback) {
+       return <h1>Loading...</h1>
+    }
+  
+    if(!project) {
+      return <>
+        <Head>
+          <meta name="robots" content="noindex" />
+        </Head>
+        <DefaultErrorPage statusCode={404} />
+      </>
+    }
+    return (
+    <div>
+      <div>{project.title}</div>
+      <div>
+          {project.content.map(block => {
+              return (block.type == 'paragraph') ? <p>{block.paragraph.text.map(textItem => textItem.plain_text)}</p> : '';
+          })}
+      </div>
+    </div>
+   
+    )
+  }
+  
+export const getStaticProps: GetStaticProps = async ({params}) => {
+    const slug = params?.slug as string;
+    // let project = slug ? {title: 'Menutri'} : undefined;
+    const notion = new Client({ auth: process.env.NOTION_KEY })
+
+    const databaseId = process.env.NOTION_DATABASE_ID || ''
+    const myPage = await notion.databases.query({
+        database_id: databaseId,
+        filter: {
+            "or": [
+                {
+                    "property": "Slug",
+                    "rich_text": {
+                        "equals": slug
+                    }
+                }
+            ]
+        }
+    })
+    // if (project) project.parsedContent = await serialize(project.content);
+    const pageId = myPage.results[0].id;
+    const response = await notion.blocks.children.list({
+        block_id: pageId,
+        page_size: 100,
+    });
+    console.log(response.results);
+    const project = {
+        title: 'Menutri',
+        content: response.results
+    }
+    return {
+      props: {
+        project: project
+      }
+    }
+    
+   
+  }
+  export const getStaticPaths: GetStaticPaths = async () => {
+  
+    const paths = ['eware', 'dongdong', 'menutri'].map(slug => ({
+      params: { slug: slug },
+    }))
+    // We'll pre-render only these paths at build time.
+    // { fallback: blocking } will server-render pages
+    // on-demand if the path doesn't exist.
+    return { paths, fallback: false }
+  }
+  

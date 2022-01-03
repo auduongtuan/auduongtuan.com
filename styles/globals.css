@@ -1,16 +1,151 @@
-html,
-body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+  .translate-z-0 {
+    transform: translateZ(0);
+  }
+}
+@layer base {
+  /* html {
+    scroll-behavior: smooth;
+  } */
+  h1,
+  .h1 {
+    @apply text-4xl md:text-5xl font-display font-bold;
+  }
+  h2,
+  .h2 {
+    @apply text-3xl md:text-4xl font-display font-bold;
+  }
+  h3,
+  .h3 {
+    @apply text-xl md:text-2xl font-display font-semibold tracking-tight;
+  }
+  h4,
+  .h4 {
+    @apply text-sm md:text-sm font-sans font-medium uppercase tracking-wide;
+  }
+  .btn {
+    @apply py-2 px-4 rounded-lg font-display font-bold text-base tracking-wide text-white bg-blue-900 hover:bg-blue-800 inline-block transition-all;
+    @apply inline-flex items-center;
+    svg {
+      @apply ml-2 transition-transform translate-x-0 duration-300 ease-in;
+    }
+    &:hover {
+      svg {
+        @apply translate-x-1;
+      }
+    }
+  }
+  .description {
+    @apply text-xl tracking-tight font-display;
+  }
+  .main-container {
+    @apply px-4 md:px-6 mx-auto;
+    @apply max-w-full lg:w-[78rem];
+  }
+  .project-grid {
+    @apply grid grid-cols-3 gap-x-4 text-gray-700;
+    
+    a {
+      @apply text-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
+    }
+    > * {
+      @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
+    }
+
+    .full {
+      @apply col-span-3 col-start-1;
+    }
+   
+    p {
+      @apply text-xl leading-8;
+    }
+
+    ul {
+      list-style-type: disc;
+      @apply mt-4 pl-8;
+    }
+
+    li {
+      @apply mt-2 first:mt-0;
+    }
+
+ 
+
+    h3 {
+      @apply mt-4 text-zinc-800;
+    }
+
+    h4 {
+      @apply mt-4 text-gray-500;
+    }
+
+    h3 + p, p + p, p + ul {
+      @apply mt-4;
+    }
+
+    h4 + p, h4 + ul {
+      @apply mt-0.5;
+      @apply text-base leading-7;
+    }
+
+    > .grid,
+    > .full {
+      @apply mt-6 md:mt-12;
+    }
+    > ul,
+    > p,
+    > h3,
+    > .box {
+      @apply mt-6 md:mt-12;
+    }
+
+    figure > div > p {
+      line-height: 0;
+    }
+
+    h2 {
+      @apply mt-0 lg:col-span-1 lg:col-start-1 pt-20 md:pt-28 text-zinc-900;
+      & + *:not(.full) {
+        @apply lg:mt-0 lg:pt-28;
+      }
+      /* &:first-child + * {
+        @apply lg:mt-0 lg:pt-0;
+      } */
+    }
+
+    .persona {
+      &-2 {
+        @apply grid grid-cols-3 gap-x-2 relative;
+        @apply text-base leading-7;
+        li {
+          @apply mt-2 first:mt-0;
+        }
+        > * {
+          @apply col-span-3;
+        }
+        .image {
+          @apply col-span-1 col-start-3 absolute top-4 right-0;
+        }
+        .image + * {
+          @apply mt-0;
+        }
+        h3, h4 {
+          &:nth-child(1), &:nth-child(2), &:nth-child(3) {
+            & + p {
+              @apply col-span-2 col-start-1;
+            }
+          }
+        }
+      }
+    }
+   
+
+ 
+  }
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-* {
-  box-sizing: border-box;
-}
+@tailwind variants;
