@@ -5,7 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import BrowserFrame from '../atoms/BrowserFrame'
 import CustomImage from '../atoms/CustomImage'
-
+import CustomVideo from '../atoms/CustomVideo'
 export type ProjectItemProps = {
     project: Project,
     index: number
@@ -58,7 +58,9 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
                     <Button scroll={false} href={`/project/${project.slug}`} className='mt-5 md:mt-9' arrow>{project.meta.type == "casestudy" ? "Case study" : "View website"}</Button>
                 </div>
                 <div className={`col-span-12 ${!project.meta.half ? 'md:col-start-6 md:col-span-7' : 'row-start-1' } flex justify-center gap-8 md:gap-4 lg:gap-8`}>
-                    {project.meta.video && <BrowserFrame url={project.meta.link && project.meta.link}><video src={`/${project.slug}/${project.meta.video}`} autoPlay muted loop playsInline></video></BrowserFrame>}
+                    {project.meta.video && <BrowserFrame url={project.meta.link && project.meta.link}>
+                        <CustomVideo src={project.meta.video} slug={project.slug}></CustomVideo>
+                    </BrowserFrame>}
                     {project.meta.cover && project.meta.browser &&
                     
                         <BrowserFrame url={project.meta.link && project.meta.link}>

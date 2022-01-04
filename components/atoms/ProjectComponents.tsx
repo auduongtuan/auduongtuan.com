@@ -5,7 +5,7 @@ import BrowserFrame from './BrowserFrame';
 import Box, {EmojiBox, VideoBox} from './Box';
 import {Grid, Col} from "./Grid";
 import CustomImage from './CustomImage';
-
+import CustomVideo, {CustomVideoProps} from './CustomVideo';
 const ProjectComponents = (slug: string) => ({
     h2: ({children}:{children:React.ReactNode}) => (
       <h2 className='lg:relative'><span className='relative lg:absolute'>{children}</span></h2>
@@ -22,9 +22,7 @@ const ProjectComponents = (slug: string) => ({
         <iframe title='Video' src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&sidedock=0`} style={{position: "absolute", top: 0, left:0, width: "100%", height: "100%"}} frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>
       </div>
     ),
-    Video: ({poster, src, width, height}: {poster: string, src: string, width: string|number, height: string|number}) => {
-      return <video className='w-full h-auto' poster={poster && poster} src={`/${slug}/${src}`} width={width ? width : undefined} height={height ? height: undefined} loop muted autoPlay playsInline preload="true"></video>
-    },
+    Video: (props: CustomVideoProps) => <CustomVideo {...props} slug={slug} />,
     Figure: ({children, caption}:{children:React.ReactNode, caption:React.ReactNode}) => (
       <figure>
         <div className='rounded-xl overflow-hidden translate-z-0'>{children}</div>
