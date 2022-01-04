@@ -1,5 +1,5 @@
 import Image, {ImageProps} from 'next/image'
-interface CustomImageProps extends ImageProps {
+export interface CustomImageProps extends ImageProps {
   slug: string
 }
 const CustomImage = ({src, alt, slug, ...rest}: CustomImageProps) => {

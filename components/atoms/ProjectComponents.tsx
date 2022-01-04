@@ -4,7 +4,7 @@ import React from 'react';
 import BrowserFrame from './BrowserFrame';
 import Box, {EmojiBox, VideoBox} from './Box';
 import {Grid, Col} from "./Grid";
-import CustomImage from './CustomImage';
+import CustomImage, {CustomImageProps} from './CustomImage';
 import CustomVideo, {CustomVideoProps} from './CustomVideo';
 const ProjectComponents = (slug: string) => ({
     h2: ({children}:{children:React.ReactNode}) => (
@@ -16,8 +16,8 @@ const ProjectComponents = (slug: string) => ({
           (ext == 'png' || ext == 'jpg') ? <CustomImage alt={alt} src={src} slug={slug} /> : ''
       );
     },
-    Image: ({src, alt = '', width, height, ...rest}) => {
-      return <Image src={`/uploads/${slug}/${src}`} alt={alt} width={width} height={height} {...rest} />;
+    Image: (props: CustomImageProps) => {
+      return <CustomImage {...props} slug={slug} />;
     },
     Vimeo: ({id, ratio = 56.25}: {id: string | number, ratio: number}) => (
       <div className="vimeo" style={{ padding: `${ratio}% 0 0 0`, position: "relative"}}>
