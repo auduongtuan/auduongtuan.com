@@ -23,6 +23,10 @@ export type Project = {
         link?: string,
         browser?: boolean,
         half?: boolean,
+        coverHeight?: number,
+        coverWidth?: number,
+        videoWidth?: number,
+        videoHeight?: number
         [key:string]: any
     };
     content: string;

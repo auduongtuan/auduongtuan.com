@@ -5,9 +5,9 @@ interface CustomImageProps extends ImageProps {
 const CustomImage = ({src, alt, slug, ...rest}: CustomImageProps) => {
   return (
     <Image
-        src={require(`../../content/uploads/${slug}/${src}`).default}
+        src={`/uploads/${slug}/${src}`}
         alt={alt}
-        placeholder="blur"
+        // placeholder="blur"
         quality={90}
         // layout='fill'
         // objectFit="contain"

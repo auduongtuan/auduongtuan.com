@@ -59,25 +59,25 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
                 </div>
                 <div className={`col-span-12 ${!project.meta.half ? 'md:col-start-6 md:col-span-7' : 'row-start-1' } flex justify-center gap-8 md:gap-4 lg:gap-8`}>
                     {project.meta.video && <BrowserFrame url={project.meta.link && project.meta.link}>
-                        <CustomVideo src={project.meta.video} slug={project.slug}></CustomVideo>
+                        <CustomVideo src={project.meta.video} slug={project.slug} width={project.meta.videoWidth} height={project.meta.videoHeight}></CustomVideo>
                     </BrowserFrame>}
                     {project.meta.cover && project.meta.browser &&
                     
                         <BrowserFrame url={project.meta.link && project.meta.link}>
                             <div className='relative'>
-                            <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} /></div>
+                            <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} /></div>
                         </BrowserFrame>
               
                     }
                     {project.meta.cover && !project.meta.browser &&
                     <div className='relative md:mx-4'>
-                        <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} />
+                        <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} />
 
                     </div>
                     }
                     {project.meta.cover2 && !project.meta.browser &&
                     <div className='relative md:mx-4'>
-                        <CustomImage slug={project.slug} src={project.meta.cover2} alt={project.meta.title} />
+                        <CustomImage slug={project.slug} src={project.meta.cover2} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} />
 
                     </div>
                     }

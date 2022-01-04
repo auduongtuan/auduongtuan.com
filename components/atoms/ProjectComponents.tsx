@@ -16,7 +16,9 @@ const ProjectComponents = (slug: string) => ({
           (ext == 'png' || ext == 'jpg') ? <CustomImage alt={alt} src={src} slug={slug} /> : ''
       );
     },
-    Image: Image,
+    Image: ({src, alt = '', width, height, ...rest}) => {
+      return <Image src={`/uploads/${slug}/${src}`} alt={alt} width={width} height={height} {...rest} />;
+    },
     Vimeo: ({id, ratio = 56.25}: {id: string | number, ratio: number}) => (
       <div className="vimeo" style={{ padding: `${ratio}% 0 0 0`, position: "relative"}}>
         <iframe title='Video' src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&sidedock=0`} style={{position: "absolute", top: 0, left:0, width: "100%", height: "100%"}} frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>
@@ -40,10 +42,10 @@ const ProjectComponents = (slug: string) => ({
     EmojiBox: EmojiBox,
     VideoBox: VideoBox,
     BrowserFrame: BrowserFrame,
-    Persona: ({children, name = '', image = '', layout = 1 }:{children:React.ReactNode, name: string, image: string | React.ReactNode, layout: 1|2}) => {
+    Persona: ({children, name = '', image = '', layout = 1, imageWidth, imageHeight }:{children:React.ReactNode, name: string, image: string | React.ReactNode, layout: 1|2, imageWidth?: number , imageHeight?: number}) => {
       let imageTag;
       if (typeof image == 'string' && (image.split('.').pop() == 'png' || image.split('.').pop() == 'jpg')) {
-        imageTag = <CustomImage slug={slug} alt={name} src={image} />;
+        imageTag = <Image src={`/uploads/${slug}/${image}`} alt={name} width={imageWidth} height={imageHeight} />;
       } else if (React.isValidElement(image)) {
         imageTag = image;
       }
