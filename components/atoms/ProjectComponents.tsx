@@ -45,7 +45,11 @@ const ProjectComponents = (slug: string) => ({
     Persona: ({children, name = '', image = '', layout = 1, imageWidth, imageHeight }:{children:React.ReactNode, name: string, image: string | React.ReactNode, layout: 1|2, imageWidth?: number , imageHeight?: number}) => {
       let imageTag;
       if (typeof image == 'string' && (image.split('.').pop() == 'png' || image.split('.').pop() == 'jpg')) {
-        imageTag = <Image src={`/uploads/${slug}/${image}`} alt={name} width={imageWidth} height={imageHeight} />;
+        if ( imageWidth && imageHeight) {
+          imageTag = <CustomImage src={image} slug={slug} alt={name} width={imageWidth} height={imageHeight} />;
+        } else {
+          imageTag = <CustomImage src={image} slug={slug} alt={name} layout="fill" />;
+        }
       } else if (React.isValidElement(image)) {
         imageTag = image;
       }
