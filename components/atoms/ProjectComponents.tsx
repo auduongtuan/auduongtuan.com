@@ -8,7 +8,7 @@ import CustomImage, {CustomImageProps} from './CustomImage';
 import CustomVideo, {CustomVideoProps} from './CustomVideo';
 const ProjectComponents = (slug: string) => ({
     h2: ({children}:{children:React.ReactNode}) => (
-      <h2 className='lg:relative'><span className='relative lg:absolute'>{children}</span></h2>
+      <h2 className='lg:relative'><span className='relative lg:sticky lg:top-3'>{children}</span></h2>
     ),
     img: ({ src, alt }:{src: string, alt: string}) => {
       const ext = src.split('.').pop();
@@ -57,7 +57,7 @@ const ProjectComponents = (slug: string) => ({
         <div className={`shadow-sm bg-white p-4 h-full rounded-xl persona-${layout}`}>
           <div className={`${layout == 2 ? 'rounded-full overflow-hidden w-40 h-40 leading-0' : ''} image`}>{imageTag}</div>
           {name && <h3>{name}</h3>}
-          {children}
+          <div className="text-base">{children}</div>
         </div>
       );
     },

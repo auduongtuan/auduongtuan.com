@@ -45,6 +45,13 @@ const ProjectContentMenu = () => {
           const start = heading.offsetTop;
           const parentEl = heading.parentElement as HTMLElement;
           const end = i != headings.length - 1 ? headings[i+1].offsetTop : parentEl.offsetTop + parentEl.clientHeight;
+          let nextSibling = heading.nextElementSibling;
+          let count = 0;
+          while(nextSibling && (nextSibling.tagName != 'H2' && nextSibling.tagName != 'h2')) {
+              count++;
+              nextSibling = nextSibling.nextElementSibling;
+          }
+          heading.style.gridRow = `span ${count}`;
           heading.setAttribute('startVisible', start.toString());
           heading.setAttribute('endVisible', end.toString());
           heading.setAttribute('lengthVisible', (end-start).toString());

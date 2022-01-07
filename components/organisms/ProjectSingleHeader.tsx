@@ -45,7 +45,7 @@ export const ProjectSingleHeader = ({project}:ProjectSingleHeaderProps) => {
       <div className="main-container pt-32 pb-20">
         <div className="grid grid-cols-12 gap-y-8 gap-4">
             <div className='col-span-12 md:col-span-6 md:row-span-1'>
-            <h1 className='text-6xl font-display tracking-tight'>{project.meta.title}</h1>
+            <h1 className='text-4xl md:text-5xl lg:text-6xl font-display tracking-tight'>{project.meta.title}</h1>
             </div>
             <div className='col-span-12 md:col-span-6 md:row-span-1 md:justify-self-end flex gap-4'>
               {project.meta.achievements && project.meta.achievements.map((achievement, i) => 

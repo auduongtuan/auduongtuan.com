@@ -94,9 +94,9 @@ The brand voice is bold, funny, and inspirational, which is presented by copywri
 
 <Grid>
 
-<Col spanMd="6">
+<Col spanSm="12" spanMd="6" className="row-span-1 row-start-1">
 <Box caption="Logo">
-<div style={{maxWidth: '400px', margin: '0 auto'}}>
+<div>
 
 <Image src="logo-meaning.png" alt="Logo Meaning" width={885} height={420} />
 
@@ -105,7 +105,7 @@ The brand voice is bold, funny, and inspirational, which is presented by copywri
 
 </Col>
 
-<Col spanMd="3" style={{gridRow: 'second-line / 2'}}><Box caption="Color Palette">
+<Col spanSm="6" spanMd="3" className="row-span-1 row-start-2"><Box caption="Color Palette">
 <div style={{maxWidth: '120px', margin: '0 auto'}}>
 
 <Image src="color-palette.png" alt="Color Palette" width={471} height={255} />
@@ -113,18 +113,18 @@ The brand voice is bold, funny, and inspirational, which is presented by copywri
 </div>
 </Box></Col>
 
-<Col spanMd="3" style={{gridRow: 'second-line / 2'}}><Box caption="App Logo">
+<Col spanSm="6" spanMd="3" className="row-span-1 row-start-2"><Box caption="App Logo">
 
 <div style={{maxWidth: '120px', margin: '0 auto'}}>
 
-<Image alt="Logo App" src="/eware/logo.svg" width="72" height="72" />
+<Image alt="Logo App" src="logo.svg" width="72" height="72" />
 
 </div>
 </Box></Col>
 
-<Col start="7" spanMd="6" style={{gridRow: '1 / span 2'}}>
+<Col spanMd="6" className="row-start-3 md:row-start-1 md:row-span-2">
 <Box caption="Copywriting">
-<div style={{fontSize: 'var(--fontSizeM)', fontWeight: 'var(--medium)'}}>
+<div className="text-xl text-center font-semibold">
 
 Di động, tủ lạnh, tivi<br />
 Hỏng không dùng nữa vậy thì bán thôi

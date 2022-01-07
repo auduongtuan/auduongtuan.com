@@ -90,7 +90,8 @@ export default function Navigation({fixed = true, hideOnScroll = false}: Navigat
   const items = [
     {pathname: "/", href: "/#works", name: "Works"},
     {pathname: "/about", href: "/about", name: "About"},
-    {pathname: "/", href: "/#contact", name: "Contact"},
+    {pathname: "/", href: "/blog", name: "Blog"},
+    // {pathname: "/", href: "/#contact", name: "Contact"},
   ]
   useEffect(() => {
     let lastScrollTop = 0;
@@ -120,7 +121,7 @@ export default function Navigation({fixed = true, hideOnScroll = false}: Navigat
   }, [hideOnScroll]);
   return (
     <header className={`${fixed ? 'fixed' : 'absolute'} w-full top-0 z-20 transition-all duration-300 ${(hideOnScroll && !scrollUp) && '-translate-y-full'} ${(appContext.headerInView ? 'text-white' : 'bg-white-fade text-blue-900')}`}>
-      <nav className="text-display text-xl font-semibold main-container pt-4 pb-8 flex items-center justify-between">
+      <nav className="text-display hidden  text-base md:text-xl font-semibold main-container pt-4 pb-8 md:flex items-center justify-between">
      
         <NavigationLink href="/" className={`flex items-center ${router.pathname != '/' && '-ml-7'}`} inverted={appContext.headerInView}>{router.pathname != '/' && <FiArrowLeft className="w-5 h-5 mr-2"/>}Tuan&apos;s Homepage</NavigationLink>
   

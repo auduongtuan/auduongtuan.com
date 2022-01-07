@@ -7,7 +7,7 @@ const Box = ({children, className = '', caption = null, ...rest}:{
     <div className={`box shadow-sm bg-white p-4 h-full rounded-xl ${className}`} {...rest}>
         {caption ? 
         <div className="flex flex-col  justify-center h-full">
-          <div className="flew-grow flex items-center justify-center">{children}</div>
+          <div className="flex-grow flex items-center justify-center">{children}</div>
           <h4 className='text-center'>{caption}</h4>
         </div> : children}
        

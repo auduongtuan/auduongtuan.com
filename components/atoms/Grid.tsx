@@ -1,6 +1,10 @@
-export const Grid = ({children}:{children:React.ReactNode}) => {
+export const Grid = ({cols = 12, className = '', children}:{
+  cols: number,
+  className: string,
+  children:React.ReactNode
+}) => {
   return (
-    <div className='grid grid-cols-12 gap-4 full'>{children}</div>
+    <div className={`grid grid-cols-12 gap-4 full ${className}`}>{children}</div>
   );
 };
 
@@ -59,7 +63,7 @@ export const Col = ({span, spanMd, spanSm, spanLg, className = '', children, ...
     }
   }
   return (
-    <div className={`${getClass(span, 'sm')} ${getClass(spanMd, 'md')} ${getClass(spanLg, 'lg')} ${className}`} {...rest}>{children}</div>
+    <div className={`${getClass(spanSm, 'sm')} ${getClass(spanMd, 'md')} ${getClass(spanLg, 'lg')} ${className}`} {...rest}>{children}</div>
   );
 }
 

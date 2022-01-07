@@ -1,9 +1,9 @@
 import React from 'react'
 import { FiChevronLeft, FiChevronRight, FiPlus, FiGrid } from "react-icons/fi";
 
-const BrowserFrame: React.FC<{url?: string}> = ({children, url}) => {
+const BrowserFrame: React.FC<{url?: string} & React.HTMLAttributes<HTMLElement>> = ({children, url, ...rest}) => {
   return (
-    <div className='flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg'>
+    <div className='flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg' {...rest}>
       <header className='flex items-center justify-between bg-slate-800 px-2 py-1.5 rounded-t-[11px]'>
         <div className="flex gap-2 flex-grow basis-0 items-center">
         <span className="w-2 h-2 bg-slate-400 rounded block"></span>
