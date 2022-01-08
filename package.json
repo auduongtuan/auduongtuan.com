@@ -21,7 +21,8 @@
     "react-scroll-percentage": "^4.2.0",
     "sharp": "^0.29.3",
     "slugify": "^1.6.4",
-    "smoothscroll-polyfill": "^0.4.4"
+    "smoothscroll-polyfill": "^0.4.4",
+    "tailwindcss-animation-delay": "^1.0.7"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.0",

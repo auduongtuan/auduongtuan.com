@@ -18,7 +18,6 @@ export default function HomePage({ posts, projects }: HomePageProps) {
   return (
     <div>
       <HeadMeta />
-      <Navigation />
       <Header />
       <ProjectList projects={projects} />
       {/* <PostList posts={posts} /> */}

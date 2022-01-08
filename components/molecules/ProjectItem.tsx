@@ -3,7 +3,7 @@ import { Project } from '../../lib/project'
 import Button from '../atoms/Button'
 import Image from 'next/image'
 import Link from 'next/link'
-import BrowserFrame from '../atoms/BrowserFrame'
+import BrowserFrame from '../atoms/Frame'
 import CustomImage from '../atoms/CustomImage'
 import CustomVideo from '../atoms/CustomVideo'
 export type ProjectItemProps = {

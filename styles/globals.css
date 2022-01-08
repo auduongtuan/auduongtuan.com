@@ -55,7 +55,9 @@
     > * {
       @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
     }
-
+    blockquote p {
+      @apply text-2xl font-display font-semibold;
+    }
     .full {
       @apply col-span-3 col-start-1;
     }
@@ -101,6 +103,7 @@
       @apply mt-6 md:mt-12;
     }
     > ul,
+    > blockquote,
     > p,
     > h3,
     > .box {

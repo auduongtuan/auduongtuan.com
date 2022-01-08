@@ -24,10 +24,25 @@ module.exports = {
       },
       transitionTimingFunction: {
         'bounce': 'cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+      },
+      keyframes: {
+        'slide-in': {
+          '0%': { transform: 'translateY(40px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
+        },
+        'fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
+        }
+      },
+      animation: {
+        'slide-in-fast': 'slide-in 200ms ease-in forwards',
+        'fade-in-fast': 'fade-in 400ms ease-in-out forwards',
       }
     },
   },
   plugins: [
-    require('@tailwindcss/typography')
+    require('@tailwindcss/typography'),
+    require("tailwindcss-animation-delay")
   ],
 }

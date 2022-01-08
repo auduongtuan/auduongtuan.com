@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react';
-import BrowserFrame from './BrowserFrame';
+import BrowserFrame from './Frame';
 import Box, {EmojiBox, VideoBox} from './Box';
 import {Grid, Col} from "./Grid";
 import CustomImage, {CustomImageProps} from './CustomImage';

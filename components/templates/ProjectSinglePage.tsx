@@ -12,7 +12,6 @@ const ProjectSinglePage = ({ project, projects }: ProjectSinglePageProps) => {
   return (
     <div>
       <HeadMeta title={project.meta.title} />
-      <Navigation hideOnScroll={true} fixed={true} />
       <ProjectSingleHeader project={project} />
       <ProjectSingleContent project={project} />
       <ProjectSingleFooter projects={projects} />

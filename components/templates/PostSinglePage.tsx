@@ -1,6 +1,4 @@
 import { Post } from "../../lib/post";
-import Link from "next/link";
-import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote";
 type PostSinglePageProps = {
   post: Post;

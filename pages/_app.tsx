@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import type { AppProps } from "next/app";
 import { AppWrapper } from "../lib/context/AppContext";
 import smoothscroll from 'smoothscroll-polyfill';
-
+import Navigation from "../components/organisms/Navigation";
 function MyApp({ Component, pageProps }: AppProps) {
   // const router = useRouter()
   useEffect(() => {
@@ -52,6 +52,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <AppWrapper>
+      <Navigation hideOnScroll={true} fixed={true} />
       <Component {...pageProps} />
     </AppWrapper>
   );
