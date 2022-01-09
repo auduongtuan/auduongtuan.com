@@ -22,6 +22,7 @@
     "sharp": "^0.29.3",
     "slugify": "^1.6.4",
     "smoothscroll-polyfill": "^0.4.4",
+    "swr": "^1.1.2",
     "tailwindcss-animation-delay": "^1.0.7"
   },
   "devDependencies": {

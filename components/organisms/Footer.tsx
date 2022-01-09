@@ -1,29 +1,51 @@
 import React from "react";
+import useSWR from 'swr';
 import { FiFacebook, FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
 
 export default function Footer() {
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const { data } = useSWR('/api/spotify', fetcher);
+  const socialNetworks = [
+    {name: "Github", url: ""},
+    {name: "Instagram", url: ""},
+    {name: "Linkedin", url: ""}
+  ];
   return (
     <div id="contact" className="relative">
-      <footer className="text-black sticky bottom-0 z-0">
+      <footer className="text-gray-900 sticky bottom-0 z-0">
         <div className="main-container pt-24 pb-40 ">
-          <section className="grid grid-cols-12 grid-rows-2 gap-x-3 gap-y-12 border-t border-t-gray-500 pt-12">
-             <div className="col-span-12 lg:col-span-9 row-span-2 ">
-              <p className="font-display text-3xl leading-10 font-semibold">
-                Send me any bussiness inquiries via <a href="mailto:hi@auduongtuan.com" className="-mx-2 px-2 py-1 rounded-xl text-blue-900 hover:bg-black/5 ">hi@auduongtuan.com</a>, or talk via other social networks
+          <section className="grid grid-cols-12 md:grid-rows-2 gap-x-3 gap-y-12 border-t border-t-gray-500 pt-12">
+            <div className="col-span-12 lg:col-span-4 lg:row-span-1">
+              
+              {data?.isPlaying && <div className="flex items-center gap-4">
+                <img className="rounded-full animate-spin-slow flex-grow-0" width="64" height="64" src={data.albumImageUrl} alt={data.title} />
+                <div className="flex-1">
+                  <p className="text-sm text-gray-600">Now playing 🎵</p>
+                  <p className="font-medium">
+                  {data.artist} <span className="text-gray-600">-</span> <a href={data.songUrl}>{data.title}</a>
+                  </p>
+                </div>
+              </div>}
+              {!data?.isPlaying && <div className="flex items-center gap-4">
+                <div className="rounded-full animate-spin-slow flex-grow-0 w-16 h-16 bg-gray-200"></div>
+                <p className="text-sm text-gray-600">Not playing 🎵</p>
+              </div>}
+            </div>
+       
+             <div className="col-span-12 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:justify-self-end lg:self-end">
+             <p className="font-display text-3xl leading-10 font-semibold">
+              I'd love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="-mx-2 px-2 py-1 rounded-xl hover:bg-black/5 ">hi@auduongtuan.com</a> or find me on 
+              {socialNetworks.map((item, i) =>
+                <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="-mx-2 px-2 py-1 rounded-xl  hover:bg-black/5 inline-flex items-center gap-2">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
+              )}
               </p>
             </div>
-             <div className="col-span-12 lg:col-span-7 row-span-1 self-end text-xl leading-8 text-display font-medium ">
-              Written, designed and built by Tuan
+              
+            <div className="col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-8">
+             Written, designed and built by Tuan<br />using <a href="">Next.js</a>, <a href="">Tailwind</a><br />
+             © {new Date().getFullYear()}.
             </div>
-            <ul className="col-span-12 lg:col-span-5 row-span-1 lg:justify-self-end self-start text-xl leading-8 text-display font-medium flex gap-8">
-              <li><a href="#" className="-mx-2 text-xl px-2 py-1 rounded-xl text-blue-900 hover:bg-black/5 inline-flex items-center gap-2">Github</a></li>
-              <li><a href="#" className="-mx-2 text-xl px-2 py-1 rounded-xl text-blue-900 hover:bg-black/5 inline-flex items-center gap-2">Instagram</a></li>
-              <li><a href="#" className="-mx-2 text-xl px-2 py-1 rounded-xl text-blue-900 hover:bg-black/5 inline-flex items-center gap-2">Linkedin</a></li>
-              <li><a href="#" className="-mx-2 text-xl px-2 py-1 rounded-xl text-blue-900 hover:bg-black/5 inline-flex items-center gap-2">Facebook</a></li>
-            </ul>
-         
-   
-
+           
           </section>
         </div>
       </footer>

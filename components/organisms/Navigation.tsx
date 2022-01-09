@@ -123,8 +123,8 @@ export default function Navigation({fixed = true, hideOnScroll = false}: Navigat
     <header className={`${fixed ? 'fixed' : 'absolute'} opacity-0 w-full top-0 z-20 transition-all duration-300 animate-fade-in-fast ${(hideOnScroll && !scrollUp) && '-translate-y-full'} ${(appContext.headerInView ? 'text-white' : 'bg-white-fade text-blue-900')}`}>
       <nav className="text-display text-base md:text-xl font-semibold main-container pt-4 pb-8 md:flex items-center justify-between">
      
-        <NavigationLink href="/" className={`flex items-center`} inverted={appContext.headerInView}>
-        <svg
+        <NavigationLink href="/" activeClassName="" className={`flex items-center uppercase`} inverted={appContext.headerInView}>Au Duong Tuan
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           width="81"
           height="50"
@@ -152,10 +152,10 @@ export default function Navigation({fixed = true, hideOnScroll = false}: Navigat
 
             d="M72.556 32.728c.873-.604 1.727-1.068 2.563-1.392.837-.324 1.56-.486 2.172-.486.611 0 1.002.175 1.173.527a1.79 1.79 0 011.309-.649c.153-.009.341-.014.566-.014.225 0 .364.032.418.095.054.054.104.162.149.324.044.163.072.253.08.27.01.019.014.05.014.095 0 .036-.022.086-.067.149a1.382 1.382 0 01-.162.162l-.095.095c-1.987 2.856-4.02 6.113-6.096 9.77 2.14-1.9 4.055-3.265 5.746-4.094a.692.692 0 01.31-.081c.144 0 .238.094.283.284.045.18.068.441.068.783 0 .343-.023.555-.068.636-.036.08-.243.243-.62.486l-1.47.946c-.603.388-1.241.816-1.916 1.284-1.618 1.126-2.95 2.311-3.992 3.555-1.35 1.63-2.316 2.946-2.9 3.946-.216.387-.58.581-1.093.581-1.016 0-1.524-.482-1.524-1.446 0-.982.481-1.987 1.443-3.014.72-.766 1.38-1.392 1.983-1.878.603-.487.93-.762.985-.825.665-1 1.569-2.419 2.71-4.257-.97 1.018-1.915 1.829-2.832 2.433-.908.603-1.587.905-2.036.905-1.376 0-2.064-.59-2.064-1.77 0-.937.238-1.883.715-2.838a9.757 9.757 0 011.834-2.555 16.652 16.652 0 012.415-2.027zm5.14-.351c-1.044.225-2.024.599-2.94 1.121-.918.514-1.674 1.068-2.267 1.663a12.844 12.844 0 00-1.538 1.81c-.809 1.163-1.213 2.064-1.213 2.704 0 .153.035.23.107.23.081 0 .252-.082.513-.244.27-.162.647-.437 1.133-.824a40.093 40.093 0 001.618-1.406c1.376-1.27 2.905-2.955 4.586-5.054z"
           ></path>
-        </svg>
+        </svg> */}
         </NavigationLink>
   
-        <ul className="md:flex gap-20 items-center hidden">
+        <ul className="md:flex gap-12 items-center hidden">
          {items.map((item, i) => <li key={i}><NavigationLink pathname={item.pathname} href={item.href} inverted={appContext.headerInView}>{item.name}</NavigationLink></li>)}
         </ul>
       </nav>

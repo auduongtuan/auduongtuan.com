@@ -1,6 +1,6 @@
 import Link, {LinkProps} from "next/link"
 import React from "react";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiLink2 } from "react-icons/fi";
 export interface ButtonProps extends LinkProps {
     href: string;
     className?: string;
@@ -8,6 +8,7 @@ export interface ButtonProps extends LinkProps {
     children: React.ReactNode;
     arrow?: boolean;
     disabled?: boolean;
+    external?: boolean;
 }
 const Button = ({
     href,
@@ -17,9 +18,13 @@ const Button = ({
     arrow = false,
     scroll = false,
     disabled = false,
+    external = false,
     ...rest
 }:ButtonProps) => {
     if (colorful) className += ' bg-colorful text-blue-900';
-    return <Link href={href}><a className={`btn ${disabled && 'disabled'} ${className}`} {...rest}>{children && children}{arrow && <FiArrowRight />}</a></Link>;
+    return (
+        external ? <a className={`btn ${disabled && 'disabled'} ${className}`} {...rest} target="_blank" rel="noreferrer">{children && children} <FiLink2 /></a> : 
+        <Link href={href}><a className={`btn ${disabled && 'disabled'} ${className}`} {...rest}>{children && children}{arrow && <FiArrowRight />}</a></Link>
+    );
 }
 export default Button;

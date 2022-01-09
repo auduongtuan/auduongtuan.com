@@ -17,10 +17,15 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
     const [scrollPosition, setScrollPosition] = useState(0);
     const [visibleRatio, setVisibleRatio] = useState(0);
     useEffect(() => {
+        if (!ref.current) return;
+        const el = ref.current as HTMLElement;
+        if (index == 0) {
+            el.querySelectorAll('.intro.opacity-0').forEach(node => node.classList.add("animation-delay-400", "animate-slide-in-fast"));
+            el.querySelectorAll('.thumbnail.opacity-0').forEach(node => node.classList.add("animation-delay-500", "animate-slide-in-fast"));
+        }
         const handleScroll = () => {
             // if(ref.current) setScrollPosition(getElementVisibility(ref.current).visibleRatio);
-            if(ref.current && index != 0) {
-                const el = ref.current as HTMLElement;
+            if(index != 0) {
                 const vh = document.documentElement.clientHeight;
                 const rect = el.getBoundingClientRect();
                 if (rect.top < vh) {
@@ -30,10 +35,14 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
                     el.style.opacity = visibleRatio.toString();
                     // el.style.transform = `translateX(${200-200*visibleRatio}px) scale(${Math.max(0.5, visibleRatio)})`;
                     // console.log(`show ${visibleRatio}`, project.meta.title);
+                    if (visibleRatio == 1) {
+                        console.log('aaa');
+                        el.querySelectorAll('.intro.opacity-0').forEach(node => node.classList.add("animate-slide-in-fast"));
+                        el.querySelectorAll('.thumbnail.opacity-0').forEach(node => node.classList.add("animation-delay-100", "animate-slide-in-fast"));
+                    }
                 } else {
                     // console.log('now show', project.meta.title)
                 }
-                 
             }
             // console.log(scrollPosition);
         };
@@ -43,7 +52,10 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [setScrollPosition]);
+    }, [setScrollPosition, index]);
+
+    // style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}
+
     return (
         <div ref={ref} className={`rounded-2xl p-6 md:p-10 lg:p-16 text-blue-900 ${!project.meta.half ? 'col-span-12' : 'col-span-12 md:col-span-6' } transition-all ease duration-400`}
         style={{
@@ -52,31 +64,34 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
             // opacity: scrollPosition.toString()
         }} {...rest}>
             <div className="grid grid-cols-12 gap-4 gap-y-8 items-center justify-end">
-                <div className={`col-span-12 transition-all duration-200 ease-bounce ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`} style={index != 0 ? {opacity: 100 * visibleRatio, transform: `translateY(${100-100*visibleRatio}px)`} : {}}>
-                    <h2><Link href={`/project/${project.slug}`}>{project.meta.title}</Link></h2>
+                {/* <div className={`col-span-12 transition-all duration-200 ease-bounce ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`} style={index != 0 ? {opacity: 100 * visibleRatio, transform: `translateY(${100-100*visibleRatio}px)`} : {}}> */}
+                <div className={`col-span-12 transition-all duration-200 ease-bounce opacity-0 intro ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`}>
+                    <h2>{project.meta.type == "casestudy" ? <Link href={`/project/${project.slug}`}>{project.meta.title}</Link> : project.meta.title}</h2>
                     <p className='mt-2 description'>{project.meta.tagline}</p>
-                    <Button scroll={false} href={`/project/${project.slug}`} className='mt-5 md:mt-9' arrow>{project.meta.type == "casestudy" ? "Case study" : "View website"}</Button>
+                    {project.meta.type == "casestudy" && <Button scroll={false} href={`/project/${project.slug}`} className='mt-5 md:mt-9' arrow>Case study</Button>}
+                    {project.meta.type == "link" && <Button scroll={false} href={project.meta.link ? project.meta.link : '#'} className='mt-5 md:mt-9' external>View website</Button>}
+                    
                 </div>
                 <div className={`col-span-12 ${!project.meta.half ? 'md:col-start-6 md:col-span-7' : 'row-start-1' } flex justify-center gap-8 md:gap-4 lg:gap-8`}>
-                    {project.meta.video && <BrowserFrame url={project.meta.link && project.meta.link} style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}>
+                    {project.meta.video && <BrowserFrame url={project.meta.link && project.meta.link} className='thumbnail opacity-0'>
                         <CustomVideo src={project.meta.video} slug={project.slug} width={project.meta.videoWidth} height={project.meta.videoHeight}></CustomVideo>
                     </BrowserFrame>}
                     {project.meta.cover && project.meta.browser &&
                     
-                        <BrowserFrame url={project.meta.link && project.meta.link} style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}>
+                        <BrowserFrame url={project.meta.link && project.meta.link} className='thumbnail opacity-0'>
                             <div className='relative'>
                             <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} /></div>
                         </BrowserFrame>
               
                     }
                     {project.meta.cover && !project.meta.browser &&
-                    <div className='relative md:mx-4 transition-all ease-bounce' style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}>
+                    <div className='relative md:mx-4 transition-all ease-bounce thumbnail opacity-0'>
                         <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} />
 
                     </div>
                     }
                     {project.meta.cover2 && !project.meta.browser &&
-                    <div className='relative md:mx-4 transition-all ease-bounce' style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}>
+                    <div className='relative md:mx-4 transition-all ease-bounce thumbnail opacity-0'>
                         <CustomImage slug={project.slug} src={project.meta.cover2} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} />
 
                     </div>
