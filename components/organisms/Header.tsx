@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import { useAppContext } from "../../lib/context/AppContext";
 import CustomVideo from "../atoms/CustomVideo";
 import Link from "next/link";
+import { PhotoFrame } from "../atoms/Frame";
 const Headline = () => {
   const startTextStyle = {
     opacity: '0',
@@ -21,6 +22,7 @@ const Headline = () => {
       console.log('underline', currentUnderline);
       if (!firstTime) underlineEl.style.transitionDuration = '300ms';
       underlineEl.style.width = textEl.offsetWidth+'px';
+      underlineEl.style.backgroundColor = textEl.getAttribute("data-color") as string;
       currentUnderline++;
       if (currentUnderline == texts.length) currentUnderline = 0;
 
@@ -60,17 +62,17 @@ const Headline = () => {
     }
   }, []);
   return (
-    <div className="font-display text-4xl md:text-5xl lg:text-7xl leading-24 lg:leading-[5rem] font-bold tracking-tight grid grid-cols-1">
+    <div className="h1 grid grid-cols-1">
     <div className="row-start-1 row-span-1 col-start-1 col-span-1 w-full opacity-0 animate-slide-in-fast animation-delay-100">Hi! I design and build</div>
     <div className="row-start-2 row-span-1 col-start-1 col-span-1 w-full  relative z-20">
-      <span className="inline-block transition-all duration-300 ease-bounce" style={startTextStyle} ref={texts[0]}>digital products.</span></div>
+      <span className="inline-block transition-all duration-300 ease-bounce" style={startTextStyle} ref={texts[0]} data-color="#13464b">digital products.</span></div>
     <div className="row-start-2 row-span-1 col-start-1 col-span-1 w-full relative z-20">
-      <span className="inline-block transition-all duration-300 ease-bounce " style={startTextStyle} ref={texts[1]}>web applications.</span>
+      <span className="inline-block transition-all duration-300 ease-bounce " style={startTextStyle} ref={texts[1]} data-color="#1a3059">web applications.</span>
     </div>
     <div className="row-start-2 row-span-1 col-start-1 col-span-1 w-full relative z-20">
-    <span className="inline-block transition-all duration-300 ease-bounce " style={startTextStyle} ref={texts[2]}>automate tools.</span>
+    <span className="inline-block transition-all duration-300 ease-bounce " style={startTextStyle} ref={texts[2]} data-color="#5f276c">automate tools.</span>
     </div>
-    <div className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-[6px] bg-[#9FC3FF] transition-all duration-[800ms] relative z-10" ref={underline} style={{width: '0'}}></div>
+    <div className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-4 bg-zinc-700 bottom-1 lg:bottom-2 transition-all duration-[800ms] relative z-10" ref={underline} style={{width: '0'}}></div>
     </div>
   )
 }
@@ -87,7 +89,7 @@ const GifText = ({children, gif, link, ...rest}: GifTextProps) => {
     // console.log(gif);
     gif?.classList.remove('animate-slide-in-fast');
   }
-  const span = <a className="underline underline-offset-1 decoration-gray-600" onMouseOver={showGif} onMouseLeave={hideGif} {...rest}>{children}</a>;
+  const span = <a className="underline underline-offset-1 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 px-2 py-1 rounded-xl hover:bg-white/5" onMouseOver={showGif} onMouseLeave={hideGif} {...rest}>{children}</a>;
   return (
     link ? <Link href={link}>{span}</Link> : span
   )
@@ -104,24 +106,24 @@ export default function Header() {
     appContext && appContext.setHeaderInView && appContext.setHeaderInView(inView)    
     // console.log(entry);
   }, [inView, appContext]);
-  const gif1 = useRef<HTMLVideoElement>(null);
-  const gif2 = useRef<HTMLVideoElement>(null);
-  const gif3 = useRef<HTMLVideoElement>(null);
+  const gif1 = useRef<HTMLDivElement>(null);
+  const gif2 = useRef<HTMLDivElement>(null);
+  const gif3 = useRef<HTMLDivElement>(null);
   return (
-    <header ref={ref} className="bg-neutral-900 text-white w-full z-10">
-      <div className="main-container pt-32 pb-32 lg:pt-40 lg:pb-42">
+    <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
+      <div className="main-container p-header">
         <div className="grid grid-cols-12 gap-3">
-          <div className="col-span-12 lg:col-span-8 lg:max-w-[50rem]">
+          <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-8 lg:max-w-[50rem] z-4">
             <Headline />
-            <p className="font-display text-xl md:text-2xl mt-9 tracking-tight opacity-0 animate-slide-in-fast animation-delay-200">I am a <GifText gif={gif1?.current}>designer</GifText> x <GifText gif={gif2?.current}>developer</GifText> hybrid (maybe a  <GifText link="/about" title="Read more about this term" gif={gif3?.current}>design technologist</GifText>?). Everyday I try to make good products with the human at the center</p>
+            <p className="font-display text-xl md:text-2xl mt-6 lg:mt-9 tracking-tight opacity-0 animate-slide-in-fast animation-delay-200">I am a <GifText gif={gif1?.current}>designer</GifText> x <GifText gif={gif2?.current}>developer</GifText> hybrid (maybe a  <GifText link="/about" title="Read more about this term" gif={gif3?.current}>design technologist</GifText>?). Everyday I try to make good products with the human at the center</p>
             <Button href="/about" className="mt-10 opacity-0 animate-slide-in-fast animation-delay-300" colorful arrow>
               Get to know me
             </Button>
           </div>
-          <div className="col-span-12 lg:col-span-4 relative">
-            <CustomVideo className="absolute top-0 w-full h-auto opacity-0" slug="gif" src="designer.mp4" width={480} height={264} ref={gif1} />
-            <CustomVideo className="absolute bottom-0 w-full h-auto opacity-0" slug="gif" src="codes.mp4" width={480} height={270} ref={gif2} />
-            <CustomVideo className="absolute top-0 w-full h-auto opacity-0" slug="gif" src="unicorn.mp4" width={480} height={480} ref={gif3} />
+          <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-4 relative z-30 pointer-events-none md:block">
+            <PhotoFrame ref={gif1} className="absolute md:top-0 opacity-0" name="lam-dau-tram-ho.gif" inverted><CustomVideo className="w-full h-auto " slug="gif" src="designer.mp4" width={480} height={264} /></PhotoFrame>
+            <PhotoFrame ref={gif2} className="absolute md:bottom-0 opacity-0" name="muon-bung-chay.gif" inverted><CustomVideo className="w-full h-auto" slug="gif" src="codes.mp4" width={480} height={270} /></PhotoFrame>
+            <PhotoFrame ref={gif3} className="absolute md:-bottom-8 opacity-0" name="unicorn-designer.gif" inverted><CustomVideo className="w-full h-auto" slug="gif" src="unicorn.mp4" width={480} height={480} /></PhotoFrame>
           </div>
         </div>
       </div>

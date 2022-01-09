@@ -57,7 +57,7 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
     // style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}
 
     return (
-        <div ref={ref} className={`rounded-2xl p-6 md:p-10 lg:p-16 text-blue-900 ${!project.meta.half ? 'col-span-12' : 'col-span-12 md:col-span-6' } transition-all ease duration-400`}
+        <div ref={ref} className={`rounded-2xl p-6 md:p-10 lg:p-16 text-dark-blue-900 ${!project.meta.half ? 'col-span-12' : 'col-span-12 md:col-span-6' } transition-all ease duration-400`}
         style={{
             backgroundColor: project.meta.background,
             opacity: index == 0 ? 1 : 0
@@ -67,7 +67,7 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
                 {/* <div className={`col-span-12 transition-all duration-200 ease-bounce ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`} style={index != 0 ? {opacity: 100 * visibleRatio, transform: `translateY(${100-100*visibleRatio}px)`} : {}}> */}
                 <div className={`col-span-12 transition-all duration-200 ease-bounce opacity-0 intro ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`}>
                     <h2>{project.meta.type == "casestudy" ? <Link href={`/project/${project.slug}`}>{project.meta.title}</Link> : project.meta.title}</h2>
-                    <p className='mt-2 description'>{project.meta.tagline}</p>
+                    <p className='mt-2 text-base md:text-xl tracking-tight font-display'>{project.meta.tagline}</p>
                     {project.meta.type == "casestudy" && <Button scroll={false} href={`/project/${project.slug}`} className='mt-5 md:mt-9' arrow>Case study</Button>}
                     {project.meta.type == "link" && <Button scroll={false} href={project.meta.link ? project.meta.link : '#'} className='mt-5 md:mt-9' external>View website</Button>}
                     

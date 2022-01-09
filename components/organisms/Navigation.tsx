@@ -77,7 +77,7 @@ const NavigationLink = ({href, children, pathname = '/', className='', activeCla
   pathname?: string
 }) => {
   const router = useRouter();
-  const anchorClassName = `inline-block -mx-2 text-xl px-2 py-1 rounded-xl ${(inverted ? 'text-white hover:bg-white/10' : 'text-blue-900 hover:bg-black/5')} ${router.asPath == href ? ''+activeClassName : ''} ${className}`;
+  const anchorClassName = `inline-block -mx-2 text-xl px-2 py-1 rounded-xl ${(inverted ? 'text-white hover:bg-white/10' : 'text-dark-blue-900 hover:bg-black/5')} ${router.asPath == href ? ''+activeClassName : ''} ${className}`;
   return (
     // <Link href={href} scroll={false} passHref><NavigationAnchor className={anchorClassName}>{children}</NavigationAnchor></Link>
     <CustomLink href={href} className={anchorClassName}>{children}</CustomLink>
@@ -120,17 +120,17 @@ export default function Navigation({fixed = true, hideOnScroll = false}: Navigat
     }
   }, [hideOnScroll]);
   return (
-    <header className={`${fixed ? 'fixed' : 'absolute'} opacity-0 w-full top-0 z-20 transition-all duration-300 animate-fade-in-fast ${(hideOnScroll && !scrollUp) && '-translate-y-full'} ${(appContext.headerInView ? 'text-white' : 'bg-white-fade text-blue-900')}`}>
+    <header className={`${fixed ? 'fixed' : 'absolute'} opacity-0 w-full top-0 z-20 transition-all duration-300 animate-fade-in-fast ${(hideOnScroll && !scrollUp) && '-translate-y-full'} ${(appContext.headerInView ? 'text-white' : 'bg-white-fade text-dark-blue-900')}`}>
       <nav className="text-display text-base md:text-xl font-semibold main-container pt-4 pb-8 md:flex items-center justify-between">
      
-        <NavigationLink href="/" activeClassName="" className={`flex items-center uppercase`} inverted={appContext.headerInView}>Au Duong Tuan
+        <NavigationLink href="/" activeClassName="" className={`uppercase`} inverted={appContext.headerInView}>Au Duong Tuan
         {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           width="81"
           height="50"
           fill="none"
           viewBox="0 0 81 50"
-          className={`${(appContext.headerInView ? 'fill-white' : 'fill-blue-900')}`}
+          className={`${(appContext.headerInView ? 'fill-white' : 'fill-dark-blue-900')}`}
         >
           <path
 

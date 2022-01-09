@@ -15,10 +15,10 @@ module.exports = {
         "white-fade": "linear-gradient(180deg, #FFFFFF 47.4%, rgba(255, 255, 255, 0) 100%)"
       },
       colors: {
-        "neutral": {
+        "custom-neutral": {
           900: "#202020"
         },
-        "blue": {
+        "dark-blue": {
           900: "#050F32"
         }
       },

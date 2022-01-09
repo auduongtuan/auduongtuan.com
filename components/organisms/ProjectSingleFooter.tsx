@@ -1,20 +1,28 @@
 import Link from 'next/link'
 import React from 'react'
 import { Project } from '../../lib/project'
+import CustomImage from '../atoms/CustomImage'
 const ProjectSingleFooter = ({projects}:{projects:Project[]}) => {
   return (
-    <div className="py-20 bg-neutral-900 text-white relative">
+    <div className="p-content bg-custom-neutral-900 text-white relative">
       <section className="main-container">
       <h2>Other projects</h2>
-      <ul className='mt-8 grid grid-cols-3 gap-2'>
+      <div className='mt-8 grid grid-cols-6 gap-6'>
 
       {projects.filter(project => project.meta.type == "casestudy").map((project, i) =>
-        <li className="col-span-1" key={i}>
-        <Link href={`/project/${project.slug}`}>{project.meta.title}</Link>
-        </li>
+      <Link href={`/project/${project.slug}`} key={i}>
+        <a className="col-span-6 md:col-span-3 lg:col-span-2 text-gray-900 p-3 rounded-xl flex flex-row items-center gap-4" style={{backgroundColor: project.meta.background}}>
+          {project.meta.logo && <CustomImage src={project.meta.logo} slug={project.slug} width={64} height={64} alt={project.meta.title} />}
+          <div>
+            <h3>{project.meta.title}</h3>
+            <p>{project.meta.tagline}</p>
+
+          </div>
+        </a>
+        </Link>
       )}
 
-      </ul>
+      </div>
 
       </section>
     </div>

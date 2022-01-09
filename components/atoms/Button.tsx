@@ -21,9 +21,9 @@ const Button = ({
     external = false,
     ...rest
 }:ButtonProps) => {
-    if (colorful) className += ' bg-colorful text-blue-900';
+    if (colorful) className += ' bg-colorful text-dark-blue-900';
     return (
-        external ? <a className={`btn ${disabled && 'disabled'} ${className}`} {...rest} target="_blank" rel="noreferrer">{children && children} <FiLink2 /></a> : 
+        external ? <a href={href} className={`btn ${disabled && 'disabled'} ${className}`} {...rest} target="_blank" rel="noreferrer">{children && children} <FiLink2 /></a> : 
         <Link href={href}><a className={`btn ${disabled && 'disabled'} ${className}`} {...rest}>{children && children}{arrow && <FiArrowRight />}</a></Link>
     );
 }

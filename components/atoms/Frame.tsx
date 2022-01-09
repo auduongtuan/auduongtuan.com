@@ -1,10 +1,10 @@
 import React from 'react'
 import { FiChevronLeft, FiChevronRight, FiPlus, FiGrid, FiZoomIn, FiZoomOut } from "react-icons/fi";
 
-const BrowserFrame: React.FC<{url?: string, inverted?: boolean} & React.HTMLAttributes<HTMLElement>> = ({children, url, inverted = false, className = '', ...rest}) => {
+const BrowserFrame = React.forwardRef<HTMLDivElement, {url?: string, inverted?: boolean} & React.HTMLProps<HTMLDivElement>>(({children, url, inverted = false, className = '', ...rest}, ref) => {
   return (
     <div className={`flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`} {...rest}>
-      <header className={`flex items-center justify-between ${inverted ? 'bg-slate-100' : 'bg-slate-800'} px-2 py-1.5 rounded-t-[11px] border-b border-black/10`}>
+      <header className={`flex items-center justify-between ${inverted ? 'bg-slate-100' : 'bg-slate-800'} px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)]`}>
         <div className="flex gap-2 flex-grow basis-0 items-center">
         <span className="w-2 h-2 bg-slate-400 rounded block"></span>
         <span className="w-2 h-2 bg-slate-400 rounded block"></span>
@@ -25,12 +25,13 @@ const BrowserFrame: React.FC<{url?: string, inverted?: boolean} & React.HTMLAttr
       </main>
     </div>
   )
-}
+});
+BrowserFrame.displayName = 'BrowserFrame';
 
-export const PhotoFrame: React.FC<{name?: string, inverted?: boolean} & React.HTMLAttributes<HTMLElement>> = ({children, inverted = false, name, className = '', ...rest}) => {
+export const PhotoFrame = React.forwardRef<HTMLDivElement, {name?: string, inverted?: boolean} & React.HTMLProps<HTMLDivElement>>(({children, inverted = false, name, className = '', ...rest}, ref) => {
   return (
-    <div className={`flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`} {...rest}>
-      <header className={`flex items-center justify-between ${inverted ? 'bg-slate-100' : 'bg-slate-800'} px-2 py-1.5 rounded-t-[11px] border-b border-black/10`}>
+    <div ref={ref} className={`flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`} {...rest}>
+      <header className={`flex items-center justify-between ${inverted ? 'bg-slate-100' : 'bg-slate-800'} px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)]`}>
         <div className="flex gap-2 flex-grow basis-0 items-center">
         <span className="w-2 h-2 bg-slate-400 rounded block"></span>
         <span className="w-2 h-2 bg-slate-400 rounded block"></span>
@@ -51,6 +52,7 @@ export const PhotoFrame: React.FC<{name?: string, inverted?: boolean} & React.HT
       </main>
     </div>
   )
-}
+});
+PhotoFrame.displayName = 'PhotoFrame';
 
 export default BrowserFrame;

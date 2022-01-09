@@ -13,7 +13,7 @@
   } */
   h1,
   .h1 {
-    @apply text-4xl md:text-5xl font-display font-bold;
+    @apply text-4xl md:text-5xl lg:text-7xl font-display font-bold tracking-tight leading-[1.11] md:leading-[1.11] lg:leading-[1.11];
   }
   h2,
   .h2 {
@@ -27,8 +27,17 @@
   .h4 {
     @apply text-sm md:text-sm font-sans font-medium uppercase tracking-wide;
   }
+  .big-text {
+    @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-display;
+  }
+  .p-header {
+    @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-36 lg:pb-32;
+  }
+  .p-content {
+    @apply py-12 md:py-16 lg:py-24;
+  }
   .btn {
-    @apply py-2 px-4 rounded-lg font-display font-bold text-base tracking-wide text-white bg-blue-900 hover:bg-blue-800 inline-block transition-all;
+    @apply py-2 px-4 rounded-lg font-display font-bold text-base tracking-wide text-white bg-dark-blue-900 hover:bg-blue-800 inline-block transition-all;
     @apply inline-flex items-center;
     svg {
       @apply ml-2 transition-transform translate-x-0 duration-300 ease-in;
@@ -39,9 +48,6 @@
       }
     }
   }
-  .description {
-    @apply text-xl tracking-tight font-display;
-  }
   .main-container {
     @apply px-4 md:px-6 mx-auto;
     @apply max-w-full lg:w-[78rem];
@@ -50,20 +56,20 @@
     @apply grid grid-cols-3 gap-x-4 text-gray-700;
     
     a {
-      @apply text-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
+      @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
     }
     > * {
       @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
     }
     blockquote p {
-      @apply text-2xl font-display font-semibold;
+      @apply text-xl md:text-2xl font-display font-semibold;
     }
     .full {
       @apply col-span-3 col-start-1;
     }
    
     p, ul, ol {
-      @apply text-xl leading-8;
+      @apply text-base leading-7 md:text-xl md:leading-8;
     }
 
     [class^="text"] > p {
@@ -72,7 +78,7 @@
 
     ul {
       list-style-type: disc;
-      @apply mt-4 pl-8;
+      @apply mt-3 md:mt-4 pl-8;
     }
 
     li {
@@ -90,7 +96,7 @@
     }
 
     h3 + p, p + p, p + ul {
-      @apply mt-4;
+      @apply mt-3 md:mt-4;
     }
 
     h4 + p, h4 + ul {
@@ -115,9 +121,9 @@
     }
 
     h2 {
-      @apply mt-0 lg:col-span-1 lg:col-start-1 pt-20 md:pt-28 text-zinc-900;
+      @apply mt-0 lg:col-span-1 lg:col-start-1 pt-12 md:pt-16 lg:pt-24 text-zinc-900;
       & + *:not(.full) {
-        @apply lg:mt-0 lg:pt-28;
+        @apply lg:mt-0 lg:pt-24;
       }
       /* &:first-child + * {
         @apply lg:mt-0 lg:pt-0;

@@ -10,7 +10,7 @@ export default function AboutContent() {
 
 
   return (
-    <div className="pt-28 pb-28 bg-zinc-100 relative h-full">
+    <div className="p-content bg-zinc-100 relative h-full">
     
     <main className="main-container opacity-0 animate-fade-in-fast animation-delay-300">
     <div className="grid grid-cols-12 gap-6 text-xl">
