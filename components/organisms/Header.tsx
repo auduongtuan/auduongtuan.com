@@ -115,7 +115,7 @@ export default function Header() {
         <div className="grid grid-cols-12 gap-3">
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-8 lg:max-w-[50rem] z-4">
             <Headline />
-            <p className="font-display text-xl md:text-2xl mt-6 lg:mt-9 tracking-tight opacity-0 animate-slide-in-fast animation-delay-200">I am a <GifText gif={gif1?.current}>designer</GifText> x <GifText gif={gif2?.current}>developer</GifText> hybrid (maybe a  <GifText link="/about" title="Read more about this term" gif={gif3?.current}>design technologist</GifText>?). Everyday I try to make good products with the human at the center</p>
+            <p className="_font-display text-xl md:text-2xl mt-6 lg:mt-9 _tracking-tight opacity-0 animate-slide-in-fast animation-delay-200">I am a <GifText gif={gif1?.current}>designer</GifText> x <GifText gif={gif2?.current}>developer</GifText> hybrid (maybe a  <GifText link="/about" title="Read more about this term" gif={gif3?.current}>design technologist</GifText>?). Everyday I try to make good products with the human at the center</p>
             <Button href="/about" className="mt-10 opacity-0 animate-slide-in-fast animation-delay-300" colorful arrow>
               Get to know me
             </Button>

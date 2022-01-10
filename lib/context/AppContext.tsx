@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 type AppContextType = {
   headerInView?: boolean | null,
+  menuOpened?: boolean | null,
   webName: string,
   titleSeparator: string,
+  setMenuOpened?: Function,
   setHeaderInView?: Function,
   [key: string]: any;
 };
@@ -14,9 +16,12 @@ const AppContext = React.createContext<AppContextType>(defaultAppContextValues);
 export function AppWrapper({ children }: { children: React.ReactNode }) {
 
   const [headerInView, setHeaderInView] = useState(null);
+  const [menuOpened, setMenuOpened] = useState(false);
   const sharedState = {
     ...defaultAppContextValues,
     headerInView: headerInView,
+    menuOpened: menuOpened,
+    setMenuOpened: setMenuOpened,
     setHeaderInView: setHeaderInView
   };
   return (

@@ -46,7 +46,7 @@ const ProjectComponents = (slug: string) => ({
       let imageTag;
       if (typeof image == 'string' && (image.split('.').pop() == 'png' || image.split('.').pop() == 'jpg')) {
         if ( imageWidth && imageHeight) {
-          imageTag = <CustomImage src={image} slug={slug} alt={name} width={imageWidth} height={imageHeight} />;
+          imageTag = <CustomImage src={image} slug={slug} alt={name} width={imageWidth} height={imageHeight} layout="responsive" />;
         } else {
           imageTag = <CustomImage src={image} slug={slug} alt={name} layout="fill" />;
         }
@@ -55,9 +55,9 @@ const ProjectComponents = (slug: string) => ({
       }
       return (
         <div className={`shadow-sm bg-white p-4 h-full rounded-xl persona-${layout}`}>
-          <div className={`${layout == 2 ? 'rounded-full overflow-hidden w-40 h-40 leading-0' : ''} image`}>{imageTag}</div>
+          <div className={`${layout == 2 ? 'rounded-full overflow-hidden w-28 h-28 md:w-32 md:h-32 lg:w-32 lg:h-32 xl:w-40 xl:h-40 leading-0' : ''} image`}>{imageTag}</div>
           {name && <h3>{name}</h3>}
-          <div className="text-base">{children}</div>
+          {children}
         </div>
       );
     },
