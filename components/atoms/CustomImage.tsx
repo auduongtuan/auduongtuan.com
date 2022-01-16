@@ -1,5 +1,6 @@
 import Image, {ImageProps} from 'next/image'
 export interface CustomImageProps extends ImageProps {
+  src: string,
   slug: string
 }
 const CustomImage = ({src, alt, slug, width = undefined, height = undefined, ...rest}: CustomImageProps) => {
@@ -15,8 +16,8 @@ const CustomImage = ({src, alt, slug, width = undefined, height = undefined, ...
     <Image
         src={`/uploads/${slug}/${src}`}
         alt={alt}
-        placeholder="blur"
-        blurDataURL={`https://auduongtuan.imgix.net/${slug}/${src}?w=80`}
+        placeholder={src.split(".").pop() != "svg" ? "blur" : undefined}
+        blurDataURL={src.split(".").pop() != "svg" ? `https://auduongtuan.imgix.net/${slug}/${src}?w=80` : undefined}
         quality={100}
         width={width}
         height={height}
