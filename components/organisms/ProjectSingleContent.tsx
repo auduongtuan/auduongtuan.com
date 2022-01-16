@@ -5,7 +5,7 @@ import ProjectComponents from '../atoms/ProjectComponents'
 import {Project} from "../../lib/project"
 const ProjectSingleContent = ({project}:{project: Project}) => {
   return (
-    <div className="p-content pt-0 bg-zinc-100 relative" style={{background: project.meta.contentBackground && project.meta.contentBackground}}>
+    <div className="p-content pt-0 bg-slate-100 relative" style={{background: project.meta.contentBackground && project.meta.contentBackground}}>
       <ProjectContentMenu />
       <article id="project" className="main-container">
       <div className="project-grid">

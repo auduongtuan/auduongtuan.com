@@ -35,7 +35,7 @@ export default function AboutHeader() {
      
           </div>
           <div className="col-span-12 md:col-span-4 md:row-start-1 md:col-start-9 md:row-span-2" onMouseOver={() => setImage(1)} onMouseLeave={() => setImage(0)}>
-            <PhotoFrame name={images[image]} inverted>
+            <PhotoFrame name={images[image]} inverted className="opacity-0 animate-slide-in-fast animation-delay-400">
             <div className="grid grid-cols-1 grid-rows-1">
               <div className="col-start-1 row-start-1">
               <CustomImage src={images[0]} slug="about" width="1256" height="1570" />

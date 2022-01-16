@@ -11,6 +11,9 @@
   /* html {
     scroll-behavior: smooth;
   } */
+  body {
+    /* letter-spacing: -0.02em; */
+  }
   h1,
   .h1 {
     @apply text-4xl md:text-5xl lg:text-7xl font-display font-bold tracking-tight leading-[1.11] md:leading-[1.11] lg:leading-[1.11];
@@ -32,6 +35,9 @@
   }
   .p-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-36 lg:pb-32;
+  }
+  .p-homepage-header {
+    @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
   }
   .p-content {
     @apply py-12 md:py-16 lg:py-24;
@@ -88,7 +94,7 @@
  
 
     h3 {
-      @apply mt-4 text-zinc-800;
+      @apply mt-4 text-slate-800;
     }
 
     h4 {
@@ -121,7 +127,7 @@
     }
 
     h2 {
-      @apply mt-0 lg:col-span-1 lg:col-start-1 pt-12 md:pt-16 lg:pt-24 text-zinc-900;
+      @apply mt-0 lg:col-span-1 lg:col-start-1 pt-12 md:pt-16 lg:pt-24 text-slate-900;
       & + *:not(.full) {
         @apply lg:mt-0 lg:pt-24;
       }

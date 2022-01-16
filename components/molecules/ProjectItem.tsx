@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef, useCallback} from 'react'
+import React, {useEffect, useState, useRef, useCallback, memo} from 'react'
 import { Project } from '../../lib/project'
 import Button from '../atoms/Button'
 import Image from 'next/image'
@@ -11,11 +11,11 @@ export type ProjectItemProps = {
     index: number
 }
 
-export default function ProjectItem({project, index, ...rest}:ProjectItemProps) {
+const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
 
     const ref = useRef(null);
-    const [scrollPosition, setScrollPosition] = useState(0);
-    const [visibleRatio, setVisibleRatio] = useState(0);
+    // const [scrollPosition, setScrollPosition] = useState(0);
+    // const [visibleRatio, setVisibleRatio] = useState(0);
     useEffect(() => {
         if (!ref.current) return;
         const el = ref.current as HTMLElement;
@@ -31,12 +31,11 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
                 if (rect.top < vh) {
                     const visibleRatio = Math.min((vh - rect.top+200)/rect.height, 1);
                     // const ratio = visibleRatio.toPrecision(6);
-                    setVisibleRatio(visibleRatio);
+                    // setVisibleRatio(visibleRatio);
                     el.style.opacity = visibleRatio.toString();
                     // el.style.transform = `translateX(${200-200*visibleRatio}px) scale(${Math.max(0.5, visibleRatio)})`;
                     // console.log(`show ${visibleRatio}`, project.meta.title);
                     if (visibleRatio == 1) {
-                        console.log('aaa');
                         el.querySelectorAll('.intro.opacity-0').forEach(node => node.classList.add("animate-slide-in-fast"));
                         el.querySelectorAll('.thumbnail.opacity-0').forEach(node => node.classList.add("animation-delay-100", "animate-slide-in-fast"));
                     }
@@ -52,7 +51,7 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, [setScrollPosition, index]);
+    }, [index]);
 
     // style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}
 
@@ -100,4 +99,6 @@ export default function ProjectItem({project, index, ...rest}:ProjectItemProps) 
             </div>
         </div>
     )
-}
+});
+ProjectItem.displayName = 'ProjectItem';
+export default ProjectItem

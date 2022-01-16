@@ -34,7 +34,7 @@ const NavigationLink = ({href, children, pathname = '/', className='', activeCla
   callback?: () => void
 }) => {
   const router = useRouter();
-  const anchorClassName = `inline-block -mx-2 text-xl px-2 py-1 rounded-xl ${(inverted ? 'text-white hover:bg-white/10' : 'text-dark-blue-900 hover:bg-black/5')} ${router.asPath == href ? ''+activeClassName : ''} ${className}`;
+  const anchorClassName = `inline-block -mx-2 text-xl px-2 py-1 rounded-xl ${(inverted ? 'text-white hover:bg-white/10' : 'text-dark-blue-900 hover:bg-black/5')} ${router.asPath == href || router.pathname == href.split("#")[0] ? ''+activeClassName : ''} ${className}`;
   return (
     // <Link href={href} scroll={false} passHref><NavigationAnchor className={anchorClassName}>{children}</NavigationAnchor></Link>
     <CustomLink href={href} className={anchorClassName} callback={callback}>{children}</CustomLink>

@@ -28,7 +28,7 @@ const ProjectComponents = (slug: string) => ({
     Figure: ({children, caption}:{children:React.ReactNode, caption:React.ReactNode}) => (
       <figure>
         <div className='rounded-xl overflow-hidden translate-z-0'>{children}</div>
-      <figcaption className='mt-4 text-base'>{caption}</figcaption>
+      <figcaption className='mt-2 lg:mt-4 text-base'>{caption}</figcaption>
       </figure>
     ),
     FullWidth: ({children}:{children:React.ReactNode}) => {

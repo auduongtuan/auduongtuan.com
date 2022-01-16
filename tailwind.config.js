@@ -6,9 +6,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        'tall': { 'raw': '(min-height: 960px)' },
+      },
       fontFamily: {
         "display": ['Work Sans', 'Helvetica', 'Arial', 'sans-serif'],
-        "body": ['Inter', 'Helvetica', 'Arial', 'sans-serif'],
+        "sans": ['IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif'],
       },
       backgroundImage: {
         "colorful": "linear-gradient(100.21deg, #E3EAF6 18.6%, #DDEFFF 31.32%, #E9F1FF 45.95%, #F7F5FF 60.25%, #E0F0E8 79.65%)",
@@ -20,6 +23,9 @@ module.exports = {
         },
         "dark-blue": {
           900: "#050F32"
+        },
+        "dark-header": {
+          900: 'hsl(230, 82%, 10%)'
         }
       },
       transitionTimingFunction: {

@@ -72,7 +72,7 @@ const Headline = () => {
     <div className="row-start-2 row-span-1 col-start-1 col-span-1 w-full relative z-20">
     <span className="inline-block transition-all duration-300 ease-bounce " style={startTextStyle} ref={texts[2]} data-color="#5f276c">automate tools.</span>
     </div>
-    <div className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-4 bg-zinc-700 bottom-1 lg:bottom-2 transition-all duration-[800ms] relative z-10" ref={underline} style={{width: '0'}}></div>
+    <div className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-2 md:h-3 lg:h-4 bg-slate-700 bottom-1 lg:bottom-2 transition-all duration-[800ms] relative z-10" ref={underline} style={{width: '0'}}></div>
     </div>
   )
 }
@@ -111,7 +111,7 @@ export default function Header() {
   const gif3 = useRef<HTMLDivElement>(null);
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
-      <div className="main-container p-header">
+      <div className="main-container p-homepage-header">
         <div className="grid grid-cols-12 gap-3">
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-8 lg:max-w-[50rem] z-4">
             <Headline />
