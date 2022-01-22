@@ -28,7 +28,7 @@ export default function AboutHeader() {
           <div className="col-span-12 md:col-span-8 self-end">
            
             <p className="font-display big-text opacity-0 animation-delay-200 animate-slide-in-fast">
-              I&apos;m Tuan - a software designer / design technologist based in Ho Chi Minh City. I currenly spend my days working on Design System at <ExternalLink>Aperia  ↗</ExternalLink> 
+              I&apos;m Tuan - a software designer / developer based in Ho Chi Minh City. I currenly spend my days working on Design System at <ExternalLink>Aperia  ↗</ExternalLink> 
             </p>
      
           </div>

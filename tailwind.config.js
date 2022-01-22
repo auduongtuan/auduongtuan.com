@@ -1,3 +1,4 @@
+const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -50,6 +51,35 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/typography'),
-    require("tailwindcss-animation-delay")
+    require("tailwindcss-animation-delay"),
+    plugin(({ addUtilities, e, theme, variants }) => {
+      Object.entries(theme("gap")).forEach(([key, value]) =>
+        addUtilities(
+          {
+            [`.flex-gap-${e(key)}`]: {
+              marginTop: `-${value}`,
+              marginLeft: `-${value}`,
+              '& > *': {
+                marginTop: value,
+                marginLeft: value
+              }
+            },
+            [`.flex-gap-x-${e(key)}`]: {
+              marginLeft: `-${value}`,
+              "& > *": {
+                marginLeft: value,
+              },
+            },
+            [`.flex-gap-y-${e(key)}`]: {
+              marginTop: `-${value}`,
+              "& > *": {
+                marginTop: value,
+              },
+            },
+          },
+          variants("gap"),
+        ),
+      );
+    }),
   ],
 }

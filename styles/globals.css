@@ -16,7 +16,7 @@
   }
   h1,
   .h1 {
-    @apply text-4xl md:text-5xl lg:text-7xl font-display font-bold tracking-tight leading-[1.11] md:leading-[1.11] lg:leading-[1.11];
+    @apply text-4xl md:text-5xl lg:text-7xl font-display font-semibold tracking-tight leading-[1.11] md:leading-[1.11] lg:leading-[1.11];
   }
   h2,
   .h2 {

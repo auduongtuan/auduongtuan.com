@@ -3,6 +3,7 @@ import Button from "../atoms/Button";
 import { useInView } from 'react-intersection-observer';
 import { useAppContext } from "../../lib/context/AppContext";
 import CustomVideo from "../atoms/CustomVideo";
+import ExternalLink from "../atoms/ExternalLink";
 import Link from "next/link";
 import { PhotoFrame } from "../atoms/Frame";
 const Headline = () => {
@@ -79,8 +80,9 @@ const Headline = () => {
 interface GifTextProps extends React.HTMLProps<HTMLAnchorElement> {
   link?: string;
   gif?: HTMLElement|null;
+  external?: boolean;
 }
-const GifText = ({children, gif, link, ...rest}: GifTextProps) => {
+const GifText = ({children, gif, link, external = false, ...rest}: GifTextProps) => {
   const showGif = () => {
     // console.log(gif);
     gif?.classList.add('animate-slide-in-fast');
@@ -89,10 +91,19 @@ const GifText = ({children, gif, link, ...rest}: GifTextProps) => {
     // console.log(gif);
     gif?.classList.remove('animate-slide-in-fast');
   }
-  const span = <a className="underline underline-offset-1 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 px-2 py-1 rounded-xl hover:bg-white/5" onMouseOver={showGif} onMouseLeave={hideGif} {...rest}>{children}</a>;
-  return (
-    link ? <Link href={link}>{span}</Link> : span
-  )
+  
+  const className = "underline underline-offset-1 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 px-2 py-1 rounded-xl hover:bg-white/5";
+  const span = <a className={className} onMouseOver={showGif} onMouseLeave={hideGif} {...rest}>{children}</a>;
+  if (link) {
+    if(external) {
+      return <ExternalLink href={link} className={className} onMouseOver={showGif} onMouseLeave={hideGif} {...rest}>{children}</ExternalLink>
+    }
+    else {
+      return <Link href={link}>{span}</Link>;
+    }
+  } else {
+    return span;
+  }
 }
 export default function Header() {
   const appContext = useAppContext();
@@ -111,11 +122,11 @@ export default function Header() {
   const gif3 = useRef<HTMLDivElement>(null);
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
-      <div className="main-container p-homepage-header">
+      <div className="main-container p-header">
         <div className="grid grid-cols-12 gap-3">
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-8 lg:max-w-[50rem] z-4">
             <Headline />
-            <p className="_font-display text-xl md:text-2xl mt-6 lg:mt-9 _tracking-tight opacity-0 animate-slide-in-fast animation-delay-200">I am a <GifText gif={gif1?.current}>designer</GifText> x <GifText gif={gif2?.current}>developer</GifText> hybrid (maybe a  <GifText link="/about" title="Read more about this term" gif={gif3?.current}>design technologist</GifText>?). Everyday I try to make good products with the human at the center</p>
+            <p className="_font-display text-xl md:text-2xl mt-6 lg:mt-9 _tracking-tight opacity-0 animate-slide-in-fast animation-delay-200">I am a <GifText gif={gif1?.current}>designer</GifText> x <GifText gif={gif2?.current}>developer</GifText> hybrid (maybe a  <GifText link="https://designtechnologist.club/book/who-is-a-design-technologist/" title="Read more about this term" gif={gif3?.current} external>design technologist</GifText>?). Everyday I try to make good products with the human at the center</p>
             <Button href="/about" className="mt-10 opacity-0 animate-slide-in-fast animation-delay-300" colorful arrow>
               Get to know me
             </Button>
