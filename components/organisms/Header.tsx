@@ -63,7 +63,7 @@ const Headline = () => {
       clearInterval(textAnimationInterval);
       clearInterval(underlineAnimationInterval);
     }
-  }, [startTextStyle.opacity, startTextStyle.transform, texts, windowWidth]);
+  }, [startTextStyle.opacity, startTextStyle.transform, texts, outerWidth]);
   return (
     <div className="h1 grid grid-cols-1">
     <div className="row-start-1 row-span-1 col-start-1 col-span-1 w-full opacity-0 animate-slide-in-fast animation-delay-100">Hi! I design and build</div>
