@@ -11,7 +11,7 @@ const Timeline = ({children}:{children?: React.ReactNode}) => (
 //   </h2>
 // );
 const Heading = ({children}:{children?: React.ReactNode}) => (
-  <h2 className="text-2xl tracking-wide uppercase text-gray-800">
+  <h2 className="text-xl tracking-wide uppercase text-gray-800">
     {children}
   </h2>
 );
@@ -138,46 +138,45 @@ export default function AboutContent() {
     <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-16 gap-y-8 md:gap-y-16  lg:gap-y-24">
     
       <section className="col-span-2 md:col-span-6 lg:col-span-8">
-      
-      <div className="grid grid-cols-6 gap-x-20 gap-y-16">
-        <div className="col-span-6 md:col-span-6">
-        <Heading>Experience</Heading>
-          <Timeline>
+        <div className="grid grid-cols-1 gap-16">
+          <div className="col-span-6 md:col-span-6">
+          <Heading>Experience</Heading>
+            <Timeline>
+            {
+              experience.map((item, i) => <Item key={i} {...item} />)
+            }
+            </Timeline>
+          </div>
+
+
+          <div className="col-span-6 md:col-span-6">
+          <Heading>Education</Heading>
+          <div className="grid grid-cols-1 gap-6 mt-8">
           {
-            experience.map((item, i) => <Item key={i} {...item} />)
+            education.map((item, i) => <Item key={i} {...item} />)
           }
-          </Timeline>
+          </div>
+          </div>
+          
+          {/* <section className="col-span-6 md:col-span-6">
+            <Heading>Current favorites</Heading>
+            <p className="font-sans body-text mt-8">
+                I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="-mx-2 px-2 py-1 rounded-xl hover:bg-black/5 ">hi@auduongtuan.com</a> or find me on 
+                {socialNetworks.map((item, i) =>
+                  <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="-mx-2 px-2 py-1 rounded-xl  hover:bg-black/5 inline-flex items-center gap-2">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
+                )}
+                </p>
+            </section> */}
+          <section className="col-span-6 md:col-span-6">
+            <Heading>Contact</Heading>
+            <p className="font-sans body-text mt-8">
+                I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="-mx-2 px-2 py-1 rounded-xl hover:bg-black/5 ">hi@auduongtuan.com</a> or find me on 
+                {socialNetworks.map((item, i) =>
+                  <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="-mx-2 px-2 py-1 rounded-xl  hover:bg-black/5 inline-flex items-center gap-2">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
+                )}
+                </p>
+            </section>
         </div>
-
-
-        <div className="col-span-6 md:col-span-6">
-        <Heading>Education</Heading>
-        <div className="grid grid-cols-1 gap-6 mt-8">
-        {
-          education.map((item, i) => <Item key={i} {...item} />)
-        }
-        </div>
-        </div>
-        
-        {/* <section className="col-span-6 md:col-span-6">
-          <Heading>Current favorites</Heading>
-          <p className="font-sans body-text mt-8">
-              I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="-mx-2 px-2 py-1 rounded-xl hover:bg-black/5 ">hi@auduongtuan.com</a> or find me on 
-              {socialNetworks.map((item, i) =>
-                <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="-mx-2 px-2 py-1 rounded-xl  hover:bg-black/5 inline-flex items-center gap-2">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
-              )}
-              </p>
-          </section> */}
-        <section className="col-span-6 md:col-span-6">
-          <Heading>Contact</Heading>
-          <p className="font-sans body-text mt-8">
-              I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="-mx-2 px-2 py-1 rounded-xl hover:bg-black/5 ">hi@auduongtuan.com</a> or find me on 
-              {socialNetworks.map((item, i) =>
-                <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="-mx-2 px-2 py-1 rounded-xl  hover:bg-black/5 inline-flex items-center gap-2">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
-              )}
-              </p>
-          </section>
-      </div>
       </section>
       <aside className="col-span-2 md:col-span-6 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-col gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-12">
         {
