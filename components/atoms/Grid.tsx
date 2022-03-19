@@ -4,7 +4,7 @@ export const Grid = ({cols = 12, className = '', children}:{
   children:React.ReactNode
 }) => {
   return (
-    <div className={`grid grid-cols-12 gap-4 full ${className}`}>{children}</div>
+    <div className={`content-grid-item grid grid-cols-12 gap-4 full ${className}`}>{children}</div>
   );
 };
 

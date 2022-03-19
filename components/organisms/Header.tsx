@@ -14,7 +14,7 @@ const Headline = () => {
   }
   const underline = useRef(null);
   const texts = [useRef(null), useRef(null), useRef(null)];
-  const {windowWidth} = useWindowSize();
+  const {outerWidth} = useWindowSize();
   useEffect(() => {
     let current = 0;
     let currentUnderline = 0;

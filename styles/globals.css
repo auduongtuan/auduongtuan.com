@@ -7,7 +7,7 @@
     transform: translateZ(0);
   }
 }
-@layer base {
+@layer components {
   /* html {
     scroll-behavior: smooth;
   } */
@@ -171,7 +171,7 @@
       @apply col-span-3 col-start-1;
     }
 
-    > .grid,
+    > .content-grid-item,
     > .full {
       @apply mt-6 md:mt-12;
     }
