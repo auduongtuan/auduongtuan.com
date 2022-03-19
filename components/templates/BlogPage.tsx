@@ -1,8 +1,10 @@
 import React, {useEffect, useState, useCallback} from "react";
 import { useAppContext } from "../../lib/context/AppContext";
 import { useInView } from 'react-intersection-observer';
+import { Post } from "../../lib/post";
 import ExternalLink from "../atoms/ExternalLink";
-export default function BlogPage() {
+import Link from "next/link";
+export default function BlogPage({posts}:{posts: Post[]}) {
   const appContext = useAppContext();
   const { ref, inView, entry } = useInView({
     /* Optional options */
@@ -32,8 +34,17 @@ export default function BlogPage() {
       </div>
     </header>
     <div>
-      <div className="main-container p-content">
-      <p className="text-xl">Coming soon...</p>
+      <div className="main-container p-content flex flex-col flex-gap-y-10">
+      {posts.map(post => 
+        <article key={post.slug}>
+          <h2><Link href={`blog/${post.slug}`}>{post.meta.title}</Link></h2>
+          <p className="mt-2 text-lg text-gray-500">{post.meta.date && (new Date(post.meta.date)).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  })}</p>
+        </article>
+        )}
       </div>
     </div>
     </>

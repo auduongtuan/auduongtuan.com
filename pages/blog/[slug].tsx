@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import DefaultErrorPage from 'next/error'
-import {Post, getPostBySlug, getPostSlugs} from '../../lib/post'
+import allPosts, {Post, postSlugs} from '../../lib/post'
 import { serialize } from 'next-mdx-remote/serialize'
 import PostSinglePage from '../../components/templates/PostSinglePage'
 
@@ -34,20 +34,21 @@ export default function Blog({post}: BlogProps) {
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const slug = params?.slug as string;
-  let post:Post|undefined = slug ? await getPostBySlug(slug) : undefined;
+
+  const post = allPosts.find(post => post.slug == slug);
   if (post) post.parsedContent = await serialize(post.content);
 
   return {
     props: {
-      post: post
+      post: post,
+      posts: allPosts
     }
   }
   
- 
 }
 export const getStaticPaths: GetStaticPaths = async () => {
 
-  const paths = getPostSlugs().map(slug => ({
+  const paths = postSlugs.map(slug => ({
     params: { slug: slug },
   }))
 

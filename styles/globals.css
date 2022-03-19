@@ -31,8 +31,12 @@
     @apply text-sm md:text-sm font-sans font-medium uppercase tracking-wide;
   }
   .big-text {
-    @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-display;
+    /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-display; */
+    @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-display;
   }
+  /* .big-text {
+    @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-sans;
+  } */
   .body-text {
     @apply text-base leading-7 md:text-xl md:leading-8;
   }
@@ -65,30 +69,76 @@
     @apply px-4 md:px-6 mx-auto;
     @apply max-w-full lg:w-[78rem];
   }
-  .project-grid {
-    @apply grid grid-cols-3 gap-x-4 text-gray-700;
-    
+  .content {
+    @apply text-gray-800;
     a {
       @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
-    }
-    > * {
-      @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
     }
     blockquote p {
       @apply text-xl md:text-2xl font-display font-semibold;
     }
-    .full {
-      @apply col-span-3 col-start-1;
-    }
-   
+    
     p, ul, ol {
       @apply body-text;
     }
-
+    
     [class^="text"] > p {
       font-size: unset;
     }
+   
+    
+    ul {
+      list-style-type: disc;
+      @apply mt-3 md:mt-4 pl-8;
+    }
 
+    li {
+      @apply mt-2 first:mt-0;
+    }
+    
+    h2 {
+      @apply mt-8 first:mt-0 text-slate-800;
+    }
+
+    h3 {
+      @apply mt-4 text-slate-800;
+    }
+
+    h4 {
+      @apply mt-4 text-gray-500;
+    }
+
+    h2 + p, h3 + p, p + p, p + ul {
+      @apply mt-content-node;
+    }
+
+    h4 + p, h4 + ul {
+      @apply mt-1;
+      @apply text-base leading-7;
+    }
+  }
+  .project-grid {
+    @apply grid grid-cols-3 gap-x-4 text-gray-800;
+    
+    > * {
+      @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
+    }
+    a {
+      @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
+    }
+    blockquote p {
+      @apply text-xl md:text-2xl font-display font-semibold;
+    }
+    
+    p, ul, ol {
+      @apply body-text;
+    }
+    
+    [class^="text"] > p {
+      font-size: unset;
+    }
+   
+    
     ul {
       list-style-type: disc;
       @apply mt-3 md:mt-4 pl-8;
@@ -115,6 +165,10 @@
     h4 + p, h4 + ul {
       @apply mt-1;
       @apply text-base leading-7;
+    }
+
+    .full {
+      @apply col-span-3 col-start-1;
     }
 
     > .grid,

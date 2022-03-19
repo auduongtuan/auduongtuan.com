@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
-import {getAllPosts} from '../lib/post'
 import allProjects from '../lib/project'
 import HomePage, {HomePageProps} from "../components/templates/HomePage";
 
@@ -19,7 +18,6 @@ export default function Index({posts, projects} : HomePageProps) {
 export async function getStaticProps() {
   return {
     props: {
-      posts: await getAllPosts(),
       projects: allProjects
     }
   }

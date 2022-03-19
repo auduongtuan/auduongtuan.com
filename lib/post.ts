@@ -12,28 +12,47 @@ export type Post = {
     content: string,
     parsedContent?: any
 }
-export function getPostSlugs(): string[] {
-    return fs.readdirSync(POSTS_PATH).filter(fn => fn.endsWith('.mdx')).map(fileName => fileName.replace(/\.mdx$/, ''));
-}
-export async function getPostBySlug(slug: string) {
-    // Remove ".mdx" from file name to get id
+export const postSlugs = fs.readdirSync(POSTS_PATH).filter(fn => fn.endsWith('.mdx')).map(fileName => fileName.replace(/\.mdx$/, ''));
+
+// export async function getPostBySlug(slug: string) {
+//     // Remove ".mdx" from file name to get id
+//     const fullPath = join(POSTS_PATH, `${slug}.mdx`);
+    
+//     // Read markdown file as string
+//     const fileContents = fs.readFileSync(fullPath, 'utf8')
+
+//     // Use gray-matter to parse the post metadata section
+//     const {content, data} = matter(fileContents)
+
+//     // Combine the data with the id
+//     return {
+//         slug: slug,
+//         meta: data,
+//         content: content
+//     }
+// }
+
+export const allPosts: Post[] = postSlugs.reduce((posts: Post[], slug) => {
     const fullPath = join(POSTS_PATH, `${slug}.mdx`);
     
     // Read markdown file as string
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
+    try {
+        if (fs.existsSync(fullPath)) {
+            const fileContents = fs.readFileSync(fullPath, 'utf8')
 
-    // Use gray-matter to parse the post metadata section
-    const {content, data} = matter(fileContents)
+            // Use gray-matter to parse the post metadata section
+            const {content, data}:{content: any, data: {[key:string]: any}} = matter(fileContents)
 
-    // Combine the data with the id
-    return {
-        slug: slug,
-        meta: data,
-        content: content
+            // Combine the data with the id
+            posts.push({
+                slug: slug,
+                meta: data as Post["meta"],
+                content: content
+            });
+        }
+    } catch(err) {
+        console.log(err);
     }
-}
-export async function getAllPosts() {
-    return await Promise.all(getPostSlugs().map(async slug => {
-        return await getPostBySlug(slug);
-    }))
-}
+    return posts;
+}, []);
+export default allPosts;

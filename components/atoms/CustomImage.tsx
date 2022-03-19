@@ -16,12 +16,12 @@ const CustomImage = ({src, alt, slug, width = undefined, height = undefined, ...
     <Image
         src={`/uploads/${slug}/${src}`}
         alt={alt}
-        placeholder={src.split(".").pop() != "svg" ? "blur" : undefined}
-        blurDataURL={src.split(".").pop() != "svg" ? `https://auduongtuan.imgix.net/${slug}/${src}?w=80` : undefined}
+        // placeholder={src.split(".").pop() != "svg" ? "blur" : undefined}
+        // blurDataURL={src.split(".").pop() != "svg" ? `https://auduongtuan.imgix.net/${slug}/${src}?w=80` : undefined}
         quality={100}
         width={width}
         height={height}
-        // layout='fill'
+      // layout='fill'
         // objectFit="contain"
         {...rest}
       />

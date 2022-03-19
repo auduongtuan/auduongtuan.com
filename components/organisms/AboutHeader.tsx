@@ -4,6 +4,7 @@ import { useInView } from 'react-intersection-observer';
 import BrowserFrame from "../atoms/Frame";
 import CustomImage from "../atoms/CustomImage";
 import ExternalLink from "../atoms/ExternalLink";
+import Link from "next/link";
 import {PhotoFrame} from "../atoms/Frame";
 export default function AboutHeader() {
   const appContext = useAppContext();
@@ -23,12 +24,15 @@ export default function AboutHeader() {
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
       <div className="main-container p-header">
-        <div className="grid grid-cols-12 gap-8">
+        <div className="grid grid-cols-12 gap-x-12 gap-y-8">
            <h1 className="col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">Xin chào!</h1>
           <div className="col-span-12 md:col-span-8 self-end">
            
-            <p className="font-display big-text opacity-0 animation-delay-200 animate-slide-in-fast">
-              I&apos;m Tuan - a software designer / developer based in Ho Chi Minh City. I currenly spend my days working on Design System at <ExternalLink>Aperia  ↗</ExternalLink> 
+            <p className="big-text opacity-0 animation-delay-200 animate-slide-in-fast">
+              I&apos;m Tuan - a software designer &amp; developer based in Ho Chi Minh City. I currenly spend my days working on Design System at <ExternalLink href="https://aperia.com" className="underline underline-offset-1 decoration-gray-600 hover:decoration-gray-100">Aperia  ↗</ExternalLink>. 
+            </p>
+            <p className="mt-8 big-text opacity-0 animation-delay-200 animate-slide-in-fast">
+              I have dived into design and code since 2009, you can read more at <Link href="/blog/my-digital-journey"><a className="underline underline-offset-1 decoration-gray-600 hover:decoration-gray-100">my digital journey</a></Link>. Currently, I focus on building design systems and ui frameworks.
             </p>
      
           </div>

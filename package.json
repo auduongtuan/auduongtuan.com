@@ -19,6 +19,7 @@
     "react-icons": "^4.3.1",
     "react-intersection-observer": "^8.33.1",
     "react-scroll-percentage": "^4.2.0",
+    "rooks": "^5.10.2",
     "sharp": "^0.29.3",
     "slugify": "^1.6.4",
     "smoothscroll-polyfill": "^0.4.4",

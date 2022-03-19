@@ -84,13 +84,13 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
               
                     }
                     {project.meta.cover && !project.meta.browser &&
-                    <div className='relative md:mx-4 transition-all ease-bounce thumbnail opacity-0'>
+                    <div className={`relative ${project.meta.cover2 && 'md:mx-4'} transition-all ease-bounce thumbnail opacity-0`}>
                         <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} />
 
                     </div>
                     }
                     {project.meta.cover2 && !project.meta.browser &&
-                    <div className='relative md:mx-4 transition-all ease-bounce thumbnail opacity-0'>
+                    <div className={`relative ${project.meta.cover2 && 'md:mx-4'} transition-all ease-bounce thumbnail opacity-0`}>
                         <CustomImage slug={project.slug} src={project.meta.cover2} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} />
 
                     </div>

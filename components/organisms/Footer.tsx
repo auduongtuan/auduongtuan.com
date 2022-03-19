@@ -15,25 +15,26 @@ export default function Footer() {
       <footer className="text-gray-900 sticky bottom-0 z-0">
         <div className="main-container pt-0 pb-12 md:pb-16 lg:pb-24 ">
           <section className="grid grid-cols-12 lg:grid-rows-2 gap-x-3 gap-y-8 border-t border-t-gray-200 pt-12">
-            <div className="col-span-12 lg:col-span-4 lg:row-span-1">
-              
-              {data?.isPlaying && <div className="flex items-center gap-4">
-                <img className="rounded-full animate-spin-slow flex-grow-0" width="64" height="64" src={data.albumImageUrl} alt={data.title} />
+            <div className="col-span-12 lg:col-span-4 lg:row-span-1 opacity-0 animate-slide-in-fast animation-delay-0">
+              {data &&
+              <div className="flex items-center gap-4">
+                <img className={`rounded-full ${data.isPlaying && 'animate-spin-slow'} flex-grow-0`} width="64" height="64" src={data.albumImageUrl} alt={data.title} />
                 <div className="flex-1">
-                  <p className="text-sm text-gray-600">Now playing 🎵</p>
+                  <p className="text-sm text-gray-600">{data.isPlaying ? 'Now playing 🎵' : 'Offline - Recently played'}</p>
                   <p className="font-medium">
                   {data.artist} <span className="text-gray-600">-</span> <a href={data.songUrl} target="_blank" rel="noreferrer">{data.title}</a>
                   </p>
                 </div>
-              </div>}
-              {!data?.isPlaying && <div className="flex items-center gap-4">
+              </div>
+              }
+              {/* {!data?.isPlaying && <div className="flex items-center gap-4">
                 <div className="rounded-full animate-spin-slow flex-grow-0 w-16 h-16 bg-gray-200"></div>
                 <p className="text-sm text-gray-600">Not playing 🎵</p>
-              </div>}
+              </div>} */}
             </div>
        
              <div className="col-span-12 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:justify-self-end lg:self-end">
-             <p className="font-display text-2xl md:text-3xl md:leading-tight tracking-tight font-semibold">
+             <p className="font-display text-2xl md:text-3xl md:leading-tight tracking-tight font-semibold opacity-0 animate-slide-in-fast animation-delay-200">
               I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="-mx-2 px-2 py-1 rounded-xl hover:bg-black/5 ">hi@auduongtuan.com</a> or find me on 
               {socialNetworks.map((item, i) =>
                 <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="-mx-2 px-2 py-1 rounded-xl  hover:bg-black/5 inline-flex items-center gap-2">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
@@ -41,7 +42,7 @@ export default function Footer() {
               </p>
             </div>
               
-            <div className="col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-8">
+            <div className="col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-8 opacity-0 animate-slide-in-fast animation-delay-100">
              Written, designed and built by Tuan<br />using <a href="">Next.js</a>, <a href="">Tailwind</a><br />
              © {new Date().getFullYear()}.
             </div>

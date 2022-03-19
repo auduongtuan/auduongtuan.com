@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from "react";
 import Button from "../atoms/Button";
 import { useInView } from 'react-intersection-observer';
 import { useAppContext } from "../../lib/context/AppContext";
+import { useWindowSize } from "rooks";
 import CustomVideo from "../atoms/CustomVideo";
 import ExternalLink from "../atoms/ExternalLink";
 import Link from "next/link";
@@ -13,6 +14,7 @@ const Headline = () => {
   }
   const underline = useRef(null);
   const texts = [useRef(null), useRef(null), useRef(null)];
+  const {windowWidth} = useWindowSize();
   useEffect(() => {
     let current = 0;
     let currentUnderline = 0;
@@ -61,7 +63,7 @@ const Headline = () => {
       clearInterval(textAnimationInterval);
       clearInterval(underlineAnimationInterval);
     }
-  }, []);
+  }, [startTextStyle.opacity, startTextStyle.transform, texts, windowWidth]);
   return (
     <div className="h1 grid grid-cols-1">
     <div className="row-start-1 row-span-1 col-start-1 col-span-1 w-full opacity-0 animate-slide-in-fast animation-delay-100">Hi! I design and build</div>
@@ -92,7 +94,7 @@ const GifText = ({children, gif, link, external = false, ...rest}: GifTextProps)
     gif?.classList.remove('animate-slide-in-fast');
   }
   
-  const className = "underline underline-offset-1 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 px-2 py-1 rounded-xl hover:bg-white/5";
+  const className = "underline decoration-2 underline-offset-4 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 px-2 py-1 rounded-xl hover:bg-white/5";
   const span = <a className={className} onMouseOver={showGif} onMouseLeave={hideGif} {...rest}>{children}</a>;
   if (link) {
     if(external) {
