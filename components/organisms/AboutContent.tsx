@@ -26,7 +26,7 @@ const Item = ({title, subtitle, time, description}:{title: string, subtitle?: st
 
       </div>
       <div className="col-span-5 lg:col-span-5 md:flex items-baseline md:flex-gap-2">
-      <h3 className="font-sans text-md font-medium body-text text-gray-800">{title}</h3>
+      <div className="text-md  body-text ">{title}</div>
       {subtitle && <p className="text-md body-text m-0 md:mt-0.5 text-gray-500 justify-self-end md:order-3">{subtitle}</p>}
       <div className="flex-1 border-gray-300 border-t border-dashed mt-3 md:mt-0 md:order-2 group-last:hidden md:group-last:block"></div>
       </div>

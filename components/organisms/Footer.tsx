@@ -1,6 +1,7 @@
 import React from "react";
 import useSWR from 'swr';
 import { FiFacebook, FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
+import ExternalLink from "../atoms/ExternalLink";
 
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
@@ -21,7 +22,7 @@ export default function Footer() {
                 <img className={`rounded-full ${data.isPlaying && 'animate-spin-slow'} flex-grow-0`} width="64" height="64" src={data.albumImageUrl} alt={data.title} />
                 <div className="flex-1">
                   <p className="text-sm text-gray-600">{data.isPlaying ? 'Now playing 🎵' : 'Offline - Recently played'}</p>
-                  <p className="font-medium">
+                  <p className="font-semibold">
                   {data.artist} <span className="text-gray-600">-</span> <a href={data.songUrl} target="_blank" rel="noreferrer">{data.title}</a>
                   </p>
                 </div>
@@ -34,7 +35,8 @@ export default function Footer() {
             </div>
        
              <div className="col-span-12 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:justify-self-end lg:self-end">
-             <p className="font-display text-2xl md:text-3xl md:leading-tight tracking-tight font-semibold opacity-0 animate-slide-in-fast animation-delay-200">
+             {/* tracking-tight */}
+             <p className="font-display text-2xl md:text-3xl md:leading-tight  font-semibold opacity-0 animate-slide-in-fast animation-delay-200">
               I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="-mx-2 px-2 py-1 rounded-xl hover:bg-black/5 ">hi@auduongtuan.com</a> or find me on 
               {socialNetworks.map((item, i) =>
                 <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="-mx-2 px-2 py-1 rounded-xl  hover:bg-black/5 inline-flex items-center gap-2">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
@@ -43,7 +45,7 @@ export default function Footer() {
             </div>
               
             <div className="col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-8 opacity-0 animate-slide-in-fast animation-delay-100">
-             Written, designed and built by Tuan<br />using <a href="">Next.js</a>, <a href="">Tailwind</a><br />
+             Written, designed and built by Tuan<br />using <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>, <ExternalLink href="https://tailwindcss.com/">Tailwind</ExternalLink><br />
              © {new Date().getFullYear()}.
             </div>
            
