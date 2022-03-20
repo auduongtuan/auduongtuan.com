@@ -17,6 +17,9 @@ const components = (slug: string) => ({
   //     </div>
   //   )
   // }
+  h2: ({children}) => {
+    return <h2 className="text-3xl">{children}</h2>
+  }
 });
 const PostSinglePage = ({ post }: PostSinglePageProps) => {
   const appContext = useAppContext();
@@ -37,14 +40,21 @@ const PostSinglePage = ({ post }: PostSinglePageProps) => {
       <div className="main-container p-header">
         <div className="grid grid-cols-12 gap-8">
            <h1 className="col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">{post.meta.title}</h1>
-        
+
         
         </div>
       </div>
     </header>
     <div>
-      <div className="main-container p-content content grid grid-cols-12">
-        <div className="col-span-12 lg:col-span-8 lg:col-end-12">
+      <div className="main-container p-content content grid grid-cols-3 gap-6 lg:gap-8">
+        <div className="col-span-3 lg:col-span-1">
+        <p className="text-lg text-gray-500">Posted on {post.meta.date && (new Date(post.meta.date)).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  })}</p>
+        </div>
+        <div className="col-span-3 lg:col-span-2 lg:col-end-4">
             <MDXRemote
             {...post.parsedContent}
             components={components(post.slug)}

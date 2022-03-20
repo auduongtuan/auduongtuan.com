@@ -34,7 +34,7 @@
   .big-text {
     /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-display; */
     /* tracking-tight */
-    @apply leading-normal md:leading-normal lg:leading-normal font-semibold text-2xl md:text-3xl font-display;
+    @apply leading-normal md:leading-normal lg:leading-normal font-medium text-2xl md:text-3xl font-display;
   }
   /* .big-text {
     @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-sans;
@@ -65,6 +65,12 @@
         @apply translate-y-0 translate-x-1;
       }
     }
+  }
+  .underline-link-light {
+    @apply transition-all duration-100 -mx-2 px-2 py-1 rounded-xl underline underline-offset-2 decoration-slate-200 hover:decoration-transparent hover:bg-black/5;
+  }
+  .underline-link-dark {
+    @apply transition-all duration-100 underline underline-offset-1 decoration-slate-600 hover:decoration-transparent hover:text-white hover:bg-white/10 -mx-2 px-2 -my-1 py-1 rounded-xl;
   }
 
   .main-container {
@@ -126,7 +132,7 @@
       @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
     }
     a {
-      @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
+      @apply underline-link-light;
     }
     blockquote p {
       @apply text-xl md:text-2xl font-display font-semibold;

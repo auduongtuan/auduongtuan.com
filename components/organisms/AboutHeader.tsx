@@ -29,10 +29,10 @@ export default function AboutHeader() {
           <div className="col-span-3 md:col-span-2 self-end">
            
             <p className="big-text opacity-0 animation-delay-200 animate-slide-in-fast">
-              I&apos;m Tuan - a software designer &amp; developer based in Ho Chi Minh City. I currenly spend my days working on Design System at <ExternalLink href="https://aperia.com" className="transition-all duration-100 underline underline-offset-1 decoration-gray-600 hover:decoration-transparent hover:text-white hover:bg-white/10 -mx-2 px-2 -my-1 py-1 rounded-lg">Aperia  ↗</ExternalLink>. 
+              I&apos;m Tuan - a software designer &amp; developer based in Ho Chi Minh City. I currenly spend my days working on Design System at <ExternalLink href="https://aperia.com" className="underline-link-dark">Aperia  ↗</ExternalLink>. 
             </p>
             <p className="mt-8 big-text opacity-0 animation-delay-200 animate-slide-in-fast">
-              I have dived into design and code since 2009, you can read more at <Link href="/blog/my-digital-journey"><a className="transition-all duration-100 underline underline-offset-1 decoration-gray-600 hover:decoration-transparent hover:text-white hover:bg-white/10 -mx-2 px-2 -my-1 py-1 rounded-lg">my digital journey</a></Link>. Currently, I focus on building design systems and ui frameworks.
+              I have dived into design and code since 2009, you can read more at <Link href="/blog/my-digital-journey"><a className="underline-link-dark">my digital journey</a></Link>. Currently, I focus on building design systems and ui frameworks.
             </p>
      
           </div>
