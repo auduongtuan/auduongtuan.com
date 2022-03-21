@@ -3,7 +3,7 @@ import { FiChevronLeft, FiChevronRight, FiPlus, FiGrid, FiZoomIn, FiZoomOut } fr
 
 const BrowserFrame = React.forwardRef<HTMLDivElement, {url?: string, inverted?: boolean} & React.HTMLProps<HTMLDivElement>>(({children, url, inverted = false, className = '', ...rest}, ref) => {
   return (
-    <div className={`flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`} {...rest}>
+    <div className={`w-full flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`} {...rest}>
       <header className={`flex items-center justify-between ${inverted ? 'bg-slate-100' : 'bg-slate-800'} px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)]`}>
         <div className="flex gap-2 flex-grow basis-0 items-center">
         <span className="w-2 h-2 bg-slate-400 rounded block"></span>
@@ -30,7 +30,7 @@ BrowserFrame.displayName = 'BrowserFrame';
 
 export const PhotoFrame = React.forwardRef<HTMLDivElement, {name?: string, inverted?: boolean} & React.HTMLProps<HTMLDivElement>>(({children, inverted = false, name, className = '', ...rest}, ref) => {
   return (
-    <div ref={ref} className={`flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`} {...rest}>
+    <div ref={ref} className={`w-full flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`} {...rest}>
       <header className={`flex items-center justify-between ${inverted ? 'bg-slate-100' : 'bg-slate-800'} px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)]`}>
         <div className="flex gap-2 flex-grow basis-0 items-center">
         <span className="w-2 h-2 bg-slate-400 rounded block"></span>
