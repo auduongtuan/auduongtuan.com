@@ -1,15 +1,10 @@
 import React from "react";
-import Button from "../atoms/Button";
+import socialNetworks from "../../lib/socialNetworks";
 const Timeline = ({children}:{children?: React.ReactNode}) => (
   <div className="grid grid-cols-1 gap-4 mt-8">
     {children}
   </div>
-)
-// const Heading = ({children}:{children?: React.ReactNode}) => (
-//   <h2 className="col-span-12 md:col-span-3 lg:col-span-4 relative mt-12 mb-6 first:mt-0 lg:mt-0 text-gray-800">
-//     <span className="sticky top-4">{children}</span>
-//   </h2>
-// );
+);
 const Heading = ({children}:{children?: React.ReactNode}) => (
   <h2 className="text-xl tracking-wide uppercase text-gray-800">
     {children}
@@ -125,12 +120,6 @@ const now = [
   {title:'Build Figma Plugin'},
 ]
 export default function AboutContent() {
-
-  const socialNetworks = [
-    {name: "Github", url: ""},
-    {name: "Instagram", url: ""},
-    {name: "Linkedin", url: ""}
-  ];
   return (
     <div className="p-content bg-slate-50 relative h-full">
     

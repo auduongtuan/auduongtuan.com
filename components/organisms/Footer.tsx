@@ -2,15 +2,11 @@ import React from "react";
 import useSWR from 'swr';
 import { FiFacebook, FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
 import ExternalLink from "../atoms/ExternalLink";
-
+import socialNetworks from "../../lib/socialNetworks";
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR('/api/spotify', fetcher);
-  const socialNetworks = [
-    {name: "Github", url: ""},
-    {name: "Instagram", url: ""},
-    {name: "Linkedin", url: ""}
-  ];
+
   return (
     <div id="contact" className="relative">
       <footer className="text-gray-900 sticky bottom-0 z-0">
@@ -39,7 +35,7 @@ export default function Footer() {
              <p className="font-display text-2xl md:text-3xl md:leading-normal  font-medium opacity-0 animate-slide-in-fast animation-delay-200">
               I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="underline-link-light">hi@auduongtuan.com</a> or find me on 
               {socialNetworks.map((item, i) =>
-                <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="underline-link-light">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
+                <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<ExternalLink href={item.url} className="underline-link-light">{item.name}</ExternalLink>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
               )}
               </p>
             </div>
