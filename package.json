@@ -18,6 +18,7 @@
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
     "react-intersection-observer": "^8.33.1",
+    "react-lazy-media": "^0.3.1",
     "react-scroll-percentage": "^4.2.0",
     "rooks": "^5.10.2",
     "sharp": "^0.29.3",
