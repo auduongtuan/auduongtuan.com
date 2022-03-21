@@ -20,7 +20,7 @@ const Headline = React.memo(() => {
       underlineEl.style.width = textEl.offsetWidth+'px';
       underlineEl.style.backgroundColor = textEl.getAttribute("data-color") as string;
       currentUnderline++;
-      if (currentUnderline == texts.length) currentUnderline = 0;
+      if (currentUnderline == texts.current.length) currentUnderline = 0;
 
     }
     const textAnimation = (firstTime = false) => {
