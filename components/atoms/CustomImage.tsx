@@ -23,6 +23,7 @@ const CustomImage = ({src, alt, slug, width = undefined, height = undefined, ...
         height={height}
       // layout='fill'
         // objectFit="contain"
+        priority={true}
         {...rest}
       />
   )
