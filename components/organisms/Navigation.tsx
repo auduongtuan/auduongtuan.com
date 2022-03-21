@@ -1,9 +1,6 @@
-import React, {FC, useEffect, useState, useRef, useCallback} from "react";
-import Link from "next/link";
+import React, {FC, useEffect, useState, useRef} from "react";
 import { useAppContext } from "../../lib/context/AppContext";
-import { useRouter } from "next/router";
-import { FiArrowLeft, FiMenu, FiX } from "react-icons/fi";
-import CustomLink from "../atoms/CustomLink";
+import { FiMenu, FiX } from "react-icons/fi";
 import NavigationLink from "../atoms/NavigationLink";
 interface NavigationProps {
   fixed?: boolean;
@@ -35,10 +32,9 @@ const MobileMenu = ({className = '', opened = false}:{className?: string, opened
     </div>
   );
 }
-export default function Navigation({fixed = true, hideOnScroll = false}: NavigationProps) {
+const Navigation = React.memo(({fixed = true, hideOnScroll = false}: NavigationProps) => {
   const appContext = useAppContext();
-  const [scrollUp, setScrollUp] = useState<Boolean>(true);
-  
+  const headerRef = useRef<HTMLElement>(null);
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
@@ -48,11 +44,10 @@ export default function Navigation({fixed = true, hideOnScroll = false}: Navigat
         if (st > lastScrollTop) {
             // downscroll code
             console.log('Scroll Down');
-            setScrollUp(false);
+            if(headerRef.current) headerRef.current.classList.add("-translate-y-full");
         } else {
             console.log('Scroll Up');
-            setScrollUp(true);
-
+            if(headerRef.current) headerRef.current.classList.remove("-translate-y-full");
             // upscroll code
         }
       }
@@ -64,10 +59,10 @@ export default function Navigation({fixed = true, hideOnScroll = false}: Navigat
     return () => {
       if (hideOnScroll) window.removeEventListener('scroll', handleScroll);
     }
-  }, [hideOnScroll]);
+  }, [hideOnScroll, headerRef]);
   return (
   <div>
-    <header className={`${fixed ? 'fixed' : 'absolute'} opacity-0 w-full top-0 z-40 transition-all duration-300 animate-fade-in-fast ${(hideOnScroll && !scrollUp) && '-translate-y-full'} ${(appContext.headerInView ? 'text-white' : 'bg-white-fade text-dark-blue-900')}`}>
+    <header ref={headerRef} className={`${fixed ? 'fixed' : 'absolute'} opacity-0 w-full top-0 z-40 transition-all duration-300 animate-fade-in-fast ${(appContext.headerInView ? 'text-white' : 'bg-white-fade text-dark-blue-900')}`}>
       <nav className="text-display text-base md:text-xl font-semibold main-container pt-4 pb-8 flex items-center justify-between">
      
         <NavigationLink href="/" activeClassName="" className={`uppercase`} inverted={appContext.headerInView}>Au Duong Tuan
@@ -84,4 +79,6 @@ export default function Navigation({fixed = true, hideOnScroll = false}: Navigat
     <MobileMenu  />
     </div>
   );
-}
+});
+Navigation.displayName = "Navigation";
+export default Navigation;

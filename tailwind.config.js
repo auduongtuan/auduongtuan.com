@@ -17,7 +17,8 @@ module.exports = {
       },
       backgroundImage: {
         "colorful": "linear-gradient(100.21deg, #E3EAF6 18.6%, #DDEFFF 31.32%, #E9F1FF 45.95%, #F7F5FF 60.25%, #E0F0E8 79.65%)",
-        "white-fade": "linear-gradient(180deg, #FFFFFF 47.4%, rgba(255, 255, 255, 0) 100%)"
+        "white-fade": "linear-gradient(180deg, #FFFFFF 47.4%, rgba(255, 255, 255, 0) 100%)",
+        "dark-fade": "linear-gradient(180deg, rgb(32, 32, 32) 47.4%, rgba(32, 32, 32, 0) 100%)"
       },
       colors: {
         "custom-neutral": {
