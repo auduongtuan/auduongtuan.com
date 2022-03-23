@@ -43,10 +43,10 @@ const Navigation = React.memo(({fixed = true, hideOnScroll = false}: NavigationP
       if (Math.abs(st - lastScrollTop) > threshold) {
         if (st > lastScrollTop) {
             // downscroll code
-            console.log('Scroll Down');
+            // console.log('Scroll Down');
             if(headerRef.current) headerRef.current.classList.add("-translate-y-full");
         } else {
-            console.log('Scroll Up');
+            // console.log('Scroll Up');
             if(headerRef.current) headerRef.current.classList.remove("-translate-y-full");
             // upscroll code
         }

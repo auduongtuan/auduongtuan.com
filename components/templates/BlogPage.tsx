@@ -36,9 +36,9 @@ export default function BlogPage({posts}:{posts: Post[]}) {
     <div>
       <div className="main-container p-content flex flex-col flex-gap-y-10">
       {posts.map(post => 
-        <article key={post.slug}>
+        <article className="bg-gray-100 rounded-lg p-4" key={post.slug}>
           <h2><Link href={`blog/${post.slug}`}>{post.meta.title}</Link></h2>
-          <p className="mt-2 text-lg text-gray-500">{post.meta.date && (new Date(post.meta.date)).toLocaleDateString("en-US", {
+          <p className="mt-2 text-lg text-gray-500">Posted on {post.meta.date && (new Date(post.meta.date)).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",

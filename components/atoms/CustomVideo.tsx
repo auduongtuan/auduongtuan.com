@@ -19,7 +19,6 @@ const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(({poste
     if ("IntersectionObserver" in window) {
       const lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
         entries.forEach(function(video) {
-          console.log(video);
           if (video.isIntersecting && video.target instanceof HTMLVideoElement && video.target.dataset.src && show) {
             // console.log(video.target);
             // for (const source in video.target.children) {
