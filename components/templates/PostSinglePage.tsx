@@ -18,7 +18,7 @@ const components = (slug: string) => ({
   //   )
   // }
   h2: ({children}) => {
-    return <h2 className="text-3xl">{children}</h2>
+    return <h2 className="text-2xl">{children}</h2>
   }
 });
 const PostSinglePage = ({ post }: PostSinglePageProps) => {
@@ -48,7 +48,7 @@ const PostSinglePage = ({ post }: PostSinglePageProps) => {
     <div>
       <div className="main-container p-content content grid grid-cols-3 gap-6 lg:gap-8">
         <div className="col-span-3 lg:col-span-1">
-        <p className="text-lg text-gray-500">Posted on {post.meta.date && (new Date(post.meta.date)).toLocaleDateString("en-US", {
+        <p className="text-base text-gray-500">Posted on {post.meta.date && (new Date(post.meta.date)).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",

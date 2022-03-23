@@ -22,7 +22,7 @@ const Item = ({title, subtitle, time, description}:{title: string, subtitle?: st
       </div>
       <div className="col-span-5 lg:col-span-5 md:flex items-baseline md:flex-gap-2">
       <div className="text-md font-medium body-text ">{title}</div>
-      {subtitle && <p className="text-md body-text m-0 md:mt-0.5 text-gray-500 justify-self-end md:order-3">{subtitle}</p>}
+      {subtitle && <p className="text-md  m-0 md:mt-0.5 text-gray-500 justify-self-end md:order-3">{subtitle}</p>}
       <div className="flex-1 border-gray-300 border-t border-dashed mt-3 md:mt-0 md:order-2 group-last:hidden md:group-last:block"></div>
       </div>
  
@@ -33,7 +33,7 @@ const experience = [
   {
     title: 'Aperia Vietnam',
     time: 'Apr 2020 - Current',
-    subtitle: 'UI/UX Designer',
+    subtitle: 'Senior UI/UX Designer',
     type: 'Full-time',
     description: 'Worked as a lead designer in a specialized team to create a design system that used in company CRM products.'
   },
