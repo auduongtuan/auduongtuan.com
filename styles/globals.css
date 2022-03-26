@@ -55,7 +55,7 @@
     @apply mt-3 md:mt-4 lg:mt-6;
   }
   .btn {
-    @apply py-2 px-4 rounded-lg font-display font-bold text-base tracking-wide text-white bg-dark-blue-900 hover:bg-blue-800 inline-block transition-all;
+    @apply py-2 px-4 rounded-lg font-display font-bold text-base tracking-wide text-white bg-dark-blue-900 hover:bg-blue-800 active:bg-blue-900 inline-block transition-all;
     @apply inline-flex items-center;
     svg {
       @apply ml-2 block  translate-y-0 translate-x-0 duration-300;

@@ -24,7 +24,7 @@ const IconButton = ({content, tooltip, href, external, children, className, ...r
       //   </div>
       // )}
     >
-      <Tag href={href} aria-label={content} {...attributes} className={`flex items-center transition-all ease justify-center w-10 h-10 text-xl rounded-full bg-black/10 hover:bg-blue-800 hover:text-white active:bg-blue-800 active:text-white cursor-pointer ${className}`} {...rest}>{children}</Tag>
+      <Tag href={href} aria-label={content} {...attributes} className={`flex items-center transition-all ease justify-center w-10 h-10 text-xl rounded-full bg-black/10 hover:bg-blue-800 hover:text-white active:bg-blue-900 active:text-white cursor-pointer ${className}`} {...rest}>{children}</Tag>
     </Tippy>
   )
 }
