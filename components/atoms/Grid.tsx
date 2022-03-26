@@ -1,10 +1,11 @@
-export const Grid = ({cols = 12, className = '', children}:{
+export const Grid = ({cols = 12, className = '', children, full = true}:{
   cols: number,
   className: string,
-  children:React.ReactNode
+  children:React.ReactNode,
+  full: boolean
 }) => {
   return (
-    <div className={`content-grid-item grid grid-cols-12 gap-4 full ${className}`}>{children}</div>
+    <div className={`content-grid-item grid grid-cols-12 gap-4 ${full && 'full'} ${className}`}>{children}</div>
   );
 };
 

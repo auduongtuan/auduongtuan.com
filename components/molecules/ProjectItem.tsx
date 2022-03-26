@@ -1,6 +1,8 @@
 import React, {useEffect, useState, useRef, useCallback, memo} from 'react'
 import { Project } from '../../lib/project'
 import Button from '../atoms/Button'
+import { FiEye } from 'react-icons/fi'
+import IconButton from '../atoms/IconButton'
 import Image from 'next/image'
 import Link from 'next/link'
 import BrowserFrame from '../atoms/Frame'
@@ -67,9 +69,11 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
                 <div className={`col-span-12 transition-all duration-200 ease-bounce opacity-0 intro ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`}>
                     <h2>{project.meta.type == "casestudy" ? <Link href={`/project/${project.slug}`}>{project.meta.title}</Link> : project.meta.title}</h2>
                     <p className='mt-2 text-base md:text-xl _tracking-tight _font-display'>{project.meta.tagline}</p>
-                    {project.meta.type == "casestudy" && <Button scroll={false} href={`/project/${project.slug}`} className='mt-5 md:mt-9' arrow>Case study</Button>}
-                    {project.meta.type == "link" && <Button scroll={false} href={project.meta.link ? project.meta.link : '#'} className='mt-5 md:mt-9' external>View website</Button>}
-                    
+                    <div className='mt-5 md:mt-9 flex gap-4'>
+                    {project.meta.type == "casestudy" && <Button scroll={false} href={`/project/${project.slug}`} arrow>Case study</Button>}
+                    {project.meta.type == "link" && <Button scroll={false} href={project.meta.link ? project.meta.link : '#'} external>View website</Button>}
+                    {project.meta.type == "casestudy" && project.meta.link && <IconButton content="View website" href={project.meta.link ? project.meta.link : '#'} external><FiEye /></IconButton>}
+                    </div>
                 </div>
                 <div className={`col-span-12 ${!project.meta.half ? 'md:col-start-6 md:col-span-7' : 'row-start-1' } flex justify-center gap-8 md:gap-4 lg:gap-8`}>
                     {project.meta.video && <BrowserFrame url={project.meta.link && project.meta.link} className='thumbnail opacity-0'>

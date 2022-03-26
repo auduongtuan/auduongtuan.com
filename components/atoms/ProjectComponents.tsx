@@ -6,6 +6,7 @@ import Box, {EmojiBox, VideoBox} from './Box';
 import {Grid, Col} from "./Grid";
 import CustomImage, {CustomImageProps} from './CustomImage';
 import CustomVideo, {CustomVideoProps} from './CustomVideo';
+import Code from './Code';
 const ProjectComponents = (slug: string) => ({
     h2: ({children}:{children:React.ReactNode}) => (
       <h2 className='lg:relative'><span className='relative lg:sticky lg:top-3'>{children}</span></h2>
@@ -25,8 +26,8 @@ const ProjectComponents = (slug: string) => ({
       </div>
     ),
     Video: (props: CustomVideoProps) => <CustomVideo {...props} slug={slug} />,
-    Figure: ({children, caption}:{children:React.ReactNode, caption:React.ReactNode}) => (
-      <figure>
+    Figure: ({children, caption, ...rest}:{children:React.ReactNode, caption:React.ReactNode}) => (
+      <figure {...rest}>
         <div className='rounded-xl overflow-hidden translate-z-0'>{children}</div>
       <figcaption className='mt-2 lg:mt-4 text-base'>{caption}</figcaption>
       </figure>
@@ -42,6 +43,7 @@ const ProjectComponents = (slug: string) => ({
     EmojiBox: EmojiBox,
     VideoBox: VideoBox,
     BrowserFrame: BrowserFrame,
+    // code: Code,
     Persona: ({children, name = '', image = '', layout = 1, imageWidth, imageHeight }:{children:React.ReactNode, name: string, image: string | React.ReactNode, layout: 1|2, imageWidth?: number , imageHeight?: number}) => {
       let imageTag;
       if (typeof image == 'string' && (image.split('.').pop() == 'png' || image.split('.').pop() == 'jpg')) {

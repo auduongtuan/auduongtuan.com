@@ -12,7 +12,7 @@ const BrowserFrame = React.forwardRef<HTMLDivElement, {url?: string, inverted?: 
         <FiChevronLeft className="hidden md:inline-block ml-3 text-slate-400" />
         <FiChevronRight className="hidden md:inline-block text-slate-600" />
         </div>
-        <div className='bg-white/20 text-xs text-white/80 text-center px-4 py-[2px] rounded-md inline-block justify-self-center w-[60%] md:w-1/2'>
+        <div className='bg-white/20 text-xs text-white/80 text-center min-h-[20px] px-4 py-[2px] rounded-md inline-block justify-self-center w-[60%] md:w-1/2'>
           {url && <a href={url} target="_blank" rel="noreferrer">{url.replace(/(^\w+:|^)\/\//, '')}</a>}
           </div>
         <div className='flex-grow gap-2 basis-0 justify-self-end flex items-center justify-end'>

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import DefaultErrorPage from 'next/error'
-import {Project, allProjects, projectSlugs} from '../../lib/project'
+import {Project, allProjects, projectSlugs, getProject} from '../../lib/project'
 import { serialize } from 'next-mdx-remote/serialize'
 import ProjectSinglePage, {ProjectSinglePageProps} from '../../components/templates/ProjectSinglePage'
 
@@ -31,8 +31,14 @@ export default function ProjectView({project, projects}: ProjectSinglePageProps)
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const slug = params?.slug as string;
-  const project = allProjects.find(project => project.slug == slug);
-  if (project) project.parsedContent = await serialize(project.content);
+  const project = getProject(slug);
+  if (project) project.parsedContent = await serialize(project.content, {
+    mdxOptions: {
+      remarkPlugins: [
+        require('remark-prism')
+      ]
+    }
+  });
 
   return {
     props: {
