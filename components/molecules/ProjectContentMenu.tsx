@@ -54,15 +54,13 @@ const ProjectContentMenu = React.memo(() => {
    
     const handleOnScroll = () => {
       const vh = document.documentElement.clientHeight;
-      console.log(vh);
       let currentActive = 0;
       for(let i = 0; i < headings.length; i++) {
         let heading = headings[i];
         const visible = visibleInfo[i];
         // console.log(heading);
-        let threshold = 100;
+        let threshold = 360;
         if (window.scrollY+vh-threshold >= visible.start) {
-          console.log(window.scrollY+vh);
           currentActive = i;
           // break;
         }
