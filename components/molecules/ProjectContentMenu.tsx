@@ -1,50 +1,29 @@
-import React, {useEffect, useState, useCallback} from 'react'
+import React, {useEffect, useState, useRef, useCallback} from 'react'
 import slugify from 'slugify';
 import { useAppContext } from '../../lib/context/AppContext';
-const ProjectContentMenu = () => {
+interface VisibleInfo {
+  start: number;
+  end: number;
+  length: number;
+}
+
+const ProjectContentMenu = React.memo(() => {
   const appContext = useAppContext();
   const [headings, setHeadings] = useState<HTMLElement[]>([]);
   const [active, setActive] = useState<number>(0);
   const [maxLength, setMaxLength] = useState<number>(0);
-  const [scrollY, setScrollY] = useState<number>(0)
-  const getVisible = useCallback((el: HTMLElement): {start: number, end: number, length: number} => {
-    if (el) {
-      const start = el.getAttribute('startVisible');
-      const end = el.getAttribute('endVisible');
-      const length = el.getAttribute('lengthVisible');
-      return {start: start ? parseInt(start):-1, end: end?parseInt(end): -1, length: length ? parseInt(length) : -1};
-    } else {
-      return {start: -1, end: -1, length: -1};
-    }
+  const [visibleInfo, setVisibleInfo] = useState<VisibleInfo[]>([]);
+  const trackers = useRef<HTMLDivElement[]>([]);
 
-  }, []);
   useEffect(() => {
-      headings.forEach((heading) => {
-        if(heading.textContent) heading.id = slugify(heading.textContent, {lower: true, strict: true});
-      });
-      const handleOnScroll = () => {
-        const vh = document.documentElement.clientHeight;
-        headings.some((heading, i) => {
-          const visible = getVisible(heading);
-          let threshold = 1;
-          if (i == 1) {
-            threshold = 100;
-          } else if (i == headings.length - 1) {
-            threshold = 100;
-          }
-          setScrollY(window.scrollY);
-          if (window.scrollY+threshold >= visible.start && window.scrollY+threshold < visible.end) {
-            console.log(heading.textContent + ' is visible');
-            setActive(i);
-            return true;
-          }
-        })
-      };
-      const setupHeadingVisible = () => {
-        headings.forEach((heading, i) => {
-          const start = heading.offsetTop;
+      const headingsTemp = Array.from(document.querySelectorAll('#project h2')) as HTMLElement[];
+      setHeadings(headingsTemp);
+      const setupHeading = () => {
+        let visibleInfoTemp: VisibleInfo[] = [];
+        headingsTemp.forEach((heading, i) => {
+          const start = heading.getBoundingClientRect().top + window.scrollY;
           const parentEl = heading.parentElement as HTMLElement;
-          const end = i != headings.length - 1 ? headings[i+1].offsetTop : parentEl.offsetTop + parentEl.clientHeight;
+          const end = i != headingsTemp.length - 1 ? headingsTemp[i+1].getBoundingClientRect().top + window.scrollY : parentEl.offsetTop + parentEl.clientHeight;
           let nextSibling = heading.nextElementSibling;
           let count = 0;
           while(nextSibling && (nextSibling.tagName != 'H2' && nextSibling.tagName != 'h2')) {
@@ -52,44 +31,74 @@ const ProjectContentMenu = () => {
               nextSibling = nextSibling.nextElementSibling;
           }
           heading.style.gridRow = `span ${count}`;
-          heading.setAttribute('startVisible', start.toString());
-          heading.setAttribute('endVisible', end.toString());
-          heading.setAttribute('lengthVisible', (end-start).toString());
+          visibleInfoTemp.push({start: start, end: end, length: end-start});
         });
-        setMaxLength(getVisible(headings.reduce((a,b) =>
-          (getVisible(a).length > getVisible(b).length) ? a : b
-        , headings[0])).length);
+        setVisibleInfo(visibleInfoTemp);
+        console.log(visibleInfoTemp);
       }
-      setupHeadingVisible();
-      window.addEventListener('resize', setupHeadingVisible);
-      window.addEventListener('scroll', handleOnScroll);
+      window.addEventListener('resize', setupHeading);
+      setupHeading();
       return () => {
-        window.removeEventListener('resize', setupHeadingVisible);
-        window.addEventListener('scroll', handleOnScroll);
+        window.removeEventListener('resize', setupHeading);
       }
-  }, [headings, getVisible])
+  }, []);
 
   useEffect(() => {
-      setHeadings(Array.from(document.querySelectorAll('#project h2')));
-  }, []);
+    headings.forEach((heading) => {
+      if(heading.textContent) heading.id = slugify(heading.textContent, {lower: true, strict: true});
+    });
+    visibleInfo.length > 0 && setMaxLength(visibleInfo.reduce((a,b) => a.length > b.length ? a : b ).length);
+    const calculateVisiblePercentage = (start, end) => {
+      window.scrollY
+    }
+   
+    const handleOnScroll = () => {
+      const vh = document.documentElement.clientHeight;
+      console.log(vh);
+      let currentActive = 0;
+      for(let i = 0; i < headings.length; i++) {
+        let heading = headings[i];
+        const visible = visibleInfo[i];
+        // console.log(heading);
+        let threshold = 100;
+        if (window.scrollY+vh-threshold >= visible.start) {
+          console.log(window.scrollY+vh);
+          currentActive = i;
+          // break;
+        }
+      }
+      setActive(currentActive);
+    };
+    window.addEventListener('scroll', handleOnScroll);
+    return () => {
+      // trackerList.forEach((tracker) => observer.unobserve(tracker));
+      window.addEventListener('scroll', handleOnScroll);
+    }
+}, [headings, visibleInfo]);
 
   return (
     <div className='absolute left-0 h-full py-28'>
       <aside className={`w-60 hidden 2xl:block sticky top-1/2`}>
           <ul className='flex flex-col gap-y-1  group'>
-          {headings && headings.map((heading, i) => 
+          {headings && headings.length > 2 && headings.map((heading, i) => 
           <li key={i} className='flex items-center'>
             <div className='w-8 ml-2 transition-all duration-350 ease-bounce group-hover:scale-x-[3] group-hover:opacity-0 origin-left'>
-              <span className={`block h-[2px] rounded ${i == active ? 'bg-gray-900' : 'bg-gray-300'}`} style={{width: getVisible(heading).length/maxLength*32+'px'}}></span>
+              <span className={`block h-[2px] rounded ${i == active ? 'bg-gray-900' : 'bg-gray-300'}`} style={{width: visibleInfo[i].length/maxLength*32+'px'}}></span>
               </div>
             <a onClick={(e) => {
               e.preventDefault();
-              heading.scrollIntoView({behavior: 'smooth'})
+              if (i!= 0) {
+                heading.scrollIntoView({behavior: 'smooth'});
+              }
+              else {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+              }
             }} className={`pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-4 text-sm font-semibold hover:text-gray-800 ${i == active ? 'text-gray-900' : 'text-gray-400'}`} href={`#${heading.id}`}>{heading.textContent}</a>
           </li>)}
           </ul>
       </aside>
     </div>
   );
-};
+});
+ProjectContentMenu.displayName = 'ProjectContentMenu';
 export default ProjectContentMenu;

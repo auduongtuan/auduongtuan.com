@@ -166,6 +166,10 @@
       @apply mt-4 text-gray-500;
     }
 
+    .content-node {
+      @apply mt-content-node;
+    }
+
     h3 + p, p + p, p + ul {
       @apply mt-content-node;
     }
@@ -187,7 +191,9 @@
     > blockquote,
     > p,
     > h3,
-    > .box {
+    > .box,
+    > .content-node
+    {
       @apply mt-6 md:mt-12;
     }
 

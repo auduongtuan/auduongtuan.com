@@ -37,6 +37,11 @@ const ProjectComponents = (slug: string) => ({
         <div className='full'>{children}</div>
       );
     },
+    ContentNode: ({children, className = ''}:{children:React.ReactNode, className: string}) => {
+      return (
+        <div className={`content-node ${className}`}>{children}</div>
+      );
+    },
     Box: Box,
     Grid: Grid,
     Col: Col,
