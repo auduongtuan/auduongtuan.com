@@ -3,6 +3,8 @@ import { Post } from "../../lib/post";
 import { MDXRemote } from "next-mdx-remote";
 import { useAppContext } from "../../lib/context/AppContext";
 import { useInView } from 'react-intersection-observer';
+import HeadMeta from "../atoms/HeadMeta";
+
 type PostSinglePageProps = {
   post: Post;
 };
@@ -36,6 +38,7 @@ const PostSinglePage = ({ post }: PostSinglePageProps) => {
  
   return (
     <>
+    <HeadMeta title={post.meta.title} />
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
       <div className="main-container p-header">
         <div className="grid grid-cols-12 gap-8">

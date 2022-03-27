@@ -9,7 +9,7 @@ type AppContextType = {
   [key: string]: any;
 };
 const defaultAppContextValues = {
-  webName: 'Tuan Portfolio',
+  webName: 'AU DUONG TUAN',
   titleSeparator: ' | '
 };
 const AppContext = React.createContext<AppContextType>(defaultAppContextValues);
