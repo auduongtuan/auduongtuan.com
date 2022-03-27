@@ -1,5 +1,7 @@
 import React from "react";
+import { FiDownload } from "react-icons/fi";
 import socialNetworks from "../../lib/socialNetworks";
+import Button from "../atoms/Button";
 const Timeline = ({children}:{children?: React.ReactNode}) => (
   <div className="grid grid-cols-1 gap-4 mt-8">
     {children}
@@ -180,7 +182,9 @@ export default function AboutContent() {
             </div>
           )
         }        
-        
+        <div className="col-span-6 md:col-span-3">
+           <Button href="/cv.pdf" icon={<FiDownload />} external>Download my CV</Button>
+        </div>
         {/* <div><Button href="#">Download CV</Button></div> */}
       </aside>
    

@@ -62,7 +62,7 @@
     }
     &:hover {
       svg {
-        @apply translate-y-0 translate-x-1;
+        /* @apply translate-y-0 translate-x-1; */
       }
     }
   }
