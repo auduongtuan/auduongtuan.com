@@ -15,7 +15,7 @@ const defaultAppContextValues = {
 const AppContext = React.createContext<AppContextType>(defaultAppContextValues);
 export function AppWrapper({ children }: { children: React.ReactNode }) {
 
-  const [headerInView, setHeaderInView] = useState(null);
+  const [headerInView, setHeaderInView] = useState(true);
   const [menuOpened, setMenuOpened] = useState(false);
   const sharedState = {
     ...defaultAppContextValues,
