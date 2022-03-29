@@ -51,20 +51,17 @@ const ProjectContentMenu = React.memo(() => {
     const calculateVisiblePercentage = (start, end) => {
       window.scrollY
     }
-   
+    const vh = document.documentElement.clientHeight;
+    const threshold = 110;
     const handleOnScroll = () => {
-      const vh = document.documentElement.clientHeight;
-      let currentActive = 0;
-      for(let i = 0; i < headings.length; i++) {
-        let heading = headings[i];
-        const visible = visibleInfo[i];
-        // console.log(heading);
-        let threshold = 360;
-        if (window.scrollY+vh-threshold >= visible.start) {
-          currentActive = i;
-          // break;
+      const currentActive = visibleInfo.reduce((prev, current, i) => {
+        const secondCondtion = (i == 0) || (i > 0 && window.scrollY-threshold > visibleInfo[i-1].start);
+        if (window.scrollY+vh-threshold >= visibleInfo[i].start && secondCondtion) {
+          return i;
+        } else {
+          return prev;
         }
-      }
+      }, 0);
       setActive(currentActive);
     };
     window.addEventListener('scroll', handleOnScroll);

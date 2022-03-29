@@ -17,6 +17,9 @@ const ProjectComponents = (slug: string) => ({
           (ext == 'png' || ext == 'jpg') ? <CustomImage alt={alt} src={src} slug={slug} /> : ''
       );
     },
+    Link: ({className = '', children, ...rest}) => {
+      return <a {...rest} className={`underline-link-light ${className}`}>{children}</a>
+    },
     Image: (props: CustomImageProps) => {
       return <CustomImage {...props} slug={slug} />;
     },

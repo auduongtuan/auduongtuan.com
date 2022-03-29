@@ -131,9 +131,6 @@
     > * {
       @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
     }
-    a {
-      @apply underline-link-light;
-    }
     blockquote p {
       @apply text-xl md:text-2xl font-display font-semibold;
     }
