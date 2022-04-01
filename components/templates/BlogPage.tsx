@@ -20,12 +20,12 @@ export default function BlogPage({posts}:{posts: Post[]}) {
   return (
     <>
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
-      <div className="main-container p-header">
+      <div className="content-container p-header">
         <div className="grid grid-cols-12 gap-8">
            <h1 className="col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">Blog</h1>
           <div className="col-span-12 md:col-span-8 self-end">
            
-            <p className="font-display big-text opacity-0 animation-delay-200 animate-slide-in-fast">
+            <p className="font-display text-2xl font-medium opacity-0 animation-delay-200 animate-slide-in-fast">
              A collection of my unorganized musings
             </p>
           </div>
@@ -34,7 +34,7 @@ export default function BlogPage({posts}:{posts: Post[]}) {
       </div>
     </header>
     <div>
-      <div className="main-container p-content flex flex-col flex-gap-y-10">
+      <div className="content-container p-content flex flex-col flex-gap-y-10">
       {posts.map(post => 
         <Link href={`blog/${post.slug}`} key={post.slug}>
         <a className="-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100" >

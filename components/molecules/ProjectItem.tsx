@@ -39,7 +39,10 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
                     // console.log(`show ${visibleRatio}`, project.meta.title);
                     if (visibleRatio == 1) {
                         el.querySelectorAll('.intro.opacity-0').forEach(node => node.classList.add("animate-slide-in-fast"));
-                        el.querySelectorAll('.thumbnail.opacity-0').forEach(node => node.classList.add("animation-delay-100", "animate-slide-in-fast"));
+                        el.querySelectorAll('.thumbnail.opacity-0').forEach(node => {
+                            node.classList.add("animation-delay-100", "animate-slide-in-fast");
+                            node.addEventListener("animationend", () => node.classList.remove('opacity-0'));
+                        });
                     }
                 } else {
                     // console.log('now show', project.meta.title)

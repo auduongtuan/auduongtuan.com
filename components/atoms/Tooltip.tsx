@@ -1,5 +1,6 @@
 
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import {useFloating, offset, shift} from '@floating-ui/react-dom';
 import { Transition } from '@headlessui/react';
 export interface TooltipProps {
@@ -15,11 +16,20 @@ const Tooltip = ({content, children}: TooltipProps) => {
   const handleMouseEnter = (e) => setShow(true);
   const handleMouseLeave = (e) => setShow(false);
 
+  const [mounted, setMounted] = useState(false)
+
+   useEffect(() => {
+      setMounted(true)
+
+      return () => setMounted(false)
+   }, []);
+
   const childrenWithProps = React.cloneElement(children as ReactElement, { ref: reference, onMouseEnter: handleMouseEnter, onMouseLeave: handleMouseLeave });
  
   return (
     <React.Fragment>
       {childrenWithProps}
+      {mounted ? ReactDOM.createPortal(
       <Transition show={show}>
         <div
           ref={floating}
@@ -43,6 +53,7 @@ const Tooltip = ({content, children}: TooltipProps) => {
 
         </div>
       </Transition>
+      , document.querySelector('body')) : null}
     </React.Fragment>
   );
 }

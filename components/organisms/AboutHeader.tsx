@@ -20,24 +20,28 @@ export default function AboutHeader() {
   }, [inView, appContext]);
   const images = ['tuan.jpg', 'tuan_haha.jpg'];
   const [image, setImage] = useState(0);
- 
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
-      <div className="main-container p-header">
-        <div className="grid grid-cols-3 gap-x-12 gap-y-8">
-           <h1 className="col-span-3 md:col-span-2 opacity-0 animate-slide-in-fast">Xin chào!</h1>
-          <div className="col-span-3 md:col-span-2 self-end">
+      <div className="content-container p-header">
+        <div className="grid grid-cols-12 gap-x-8 gap-y-8">
+           <h1 className="col-span-12 md:col-span-8 lg:mr-14 opacity-0 animate-slide-in-fast">Xin chào!</h1>
+          <div className="col-span-12 md:col-span-8 lg:mr-14 self-end">
            
-            <p className="big-text opacity-0 animation-delay-200 animate-slide-in-fast">
-              I&apos;m Tuan - a software designer &amp; developer based in Ho Chi Minh City. I currenly spend my days working on Design System at <ExternalLink href="https://aperia.com" className="underline-link-dark">Aperia  ↗</ExternalLink>. 
+            <p className="text-base md:text-2xl font-medium leading-normal opacity-0 animation-delay-150 animate-slide-in-fast">
+              I&apos;m Tuan - a software designer &amp; developer based in Ho Chi Minh City. With good technical background and strong visual design skills, I help close the gap
+between design and development. </p>
+            <p className="mt-4 md:mt-8 text-base md:text-2xl md:font-medium leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
+
+            I have been self-studying design &amp; code since 2009. Then, received a BFA in design and am getting my 2nd bachelor&apos;s degree in tech. You can read more at <Link href="/blog/my-digital-journey"><a className="underline-link-dark">my digital journey</a></Link>
+
             </p>
-            <p className="mt-8 big-text opacity-0 animation-delay-200 animate-slide-in-fast">
-              I have dived into design and code since 2009, you can read more at <Link href="/blog/my-digital-journey"><a className="underline-link-dark">my digital journey</a></Link>. Currently, I focus on building design systems and ui frameworks.
+            <p className="mt-4 md:mt-8 text-base md:text-2xl font-medium leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
+            I currently spend my days working on Design System at <ExternalLink href="https://aperia.com" className="underline-link-dark">Aperia  ↗</ExternalLink>. 
             </p>
      
           </div>
-          <div className="col-span-3 md:col-span-1 md:row-start-1 md:col-start-3 md:row-span-2" onMouseOver={() => setImage(1)} onMouseLeave={() => setImage(0)}>
-            <PhotoFrame name={images[image]} inverted className="opacity-0 animate-slide-in-fast animation-delay-400">
+          <div className="col-span-12 md:col-span-4 md:row-start-1 md:col-start-9 md:row-span-2 self-end opacity-0 animate-slide-in-fast animation-delay-400" onMouseOver={() => setImage(1)} onMouseLeave={() => setImage(0)}>
+            <PhotoFrame name={images[image]} inverted>
             <div className="grid grid-cols-1 grid-rows-1">
               <div className="col-start-1 row-start-1">
               <CustomImage src={images[0]} slug="about" width="1256" height="1570" />

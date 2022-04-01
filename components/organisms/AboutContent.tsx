@@ -17,17 +17,17 @@ const Content = ({children, className = ''}:React.HTMLAttributes<HTMLDivElement>
 )
 const Item = ({title, subtitle, time, description}:{title: string, subtitle?: string, time?: string, description?: string} & React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="grid grid-cols-5 items-center gap-x-4 gap-y-1 group">
-      <div className="col-span-5 lg:col-span-5">
-      {subtitle && <p className="text-sm mt-0.5 text-gray-500">{time}</p>}
-
-      </div>
+    <div className="grid grid-cols-5 items-center gap-x-4 gap-y-0 group">
+    
       <div className="col-span-5 lg:col-span-5 md:flex items-baseline md:flex-gap-2">
-      <div className="text-md font-medium body-text ">{title}</div>
-      {subtitle && <p className="text-md  m-0 md:mt-0.5 text-gray-500 justify-self-end md:order-3">{subtitle}</p>}
-      <div className="flex-1 border-gray-300 border-t border-dashed mt-3 md:mt-0 md:order-2 group-last:hidden md:group-last:block"></div>
+        <div className="text-md font-medium body-text ">{title}</div>
+        <div className="hidden md:block flex-1 border-gray-300 border-t border-dashed mt-3 md:mt-0"></div>
+        {time && <p className="text-sm  m-0 md:mt-0.5 text-gray-500 justify-self-end fonts-mono tabular-nums">{time}</p>}
       </div>
- 
+      <div className="col-span-5 lg:col-span-5">
+      {subtitle && <p className="text-sm mt-0.5 text-gray-500">{subtitle}</p>}
+      <div className="md:hidden flex-1 border-gray-300 border-t border-dashed mt-3 md:mt-0 md:order-2 group-last:hidden"></div>
+      </div>
     </div>
   )
 };
@@ -125,11 +125,11 @@ export default function AboutContent() {
   return (
     <div className="p-content bg-slate-50 relative h-full">
     
-    <main className="main-container opacity-0 animate-fade-in-fast animation-delay-300 text-gray-800">
-    <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-16 gap-y-8 md:gap-y-16  lg:gap-y-24">
+    <main className="content-container opacity-0 animate-fade-in-fast animation-delay-300 text-gray-800">
+    <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-8 gap-y-12 md:gap-y-16 lg:gap-y-24">
     
-      <section className="col-span-2 md:col-span-6 lg:col-span-8">
-        <div className="grid grid-cols-1 gap-16">
+      <section className="col-span-2 md:col-span-6 lg:col-span-8 lg:mr-8">
+        <div className="grid grid-cols-1 gap-y-12 gap-x-16">
           <div className="col-span-6 md:col-span-6">
           <Heading>Experience</Heading>
             <Timeline>
@@ -142,7 +142,7 @@ export default function AboutContent() {
 
           <div className="col-span-6 md:col-span-6">
           <Heading>Education</Heading>
-          <div className="grid grid-cols-1 gap-6 mt-8">
+          <div className="grid grid-cols-1 gap-6 mt-4 md:mt-8">
           {
             education.map((item, i) => <Item key={i} {...item} />)
           }
@@ -160,7 +160,7 @@ export default function AboutContent() {
             </section> */}
           <section className="col-span-6 md:col-span-6">
             <Heading>Contact</Heading>
-            <p className="font-sans body-text mt-8">
+            <p className="font-sans body-text mt-4 md:mt-8">
                 I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="underline-link-light">hi@auduongtuan.com</a> or find me on 
                 {socialNetworks.map((item, i) =>
                   <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="underline-link-light">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
@@ -169,12 +169,12 @@ export default function AboutContent() {
             </section>
         </div>
       </section>
-      <aside className="col-span-2 md:col-span-6 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 lg:flex lg:flex-col gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-12">
+      <aside className="col-span-2 md:col-span-6 lg:col-span-4 lg:col-start-9 grid grid-cols-1 md:grid-cols-3 lg:flex lg:flex-col gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-12">
         {
           Object.keys(skills).map((group, i) => 
-            <div key={i} className="col-span-6 md:col-span-3">
+            <div key={i} className="col-span-1 md:col-span-1">
             <Heading>{group}</Heading>
-            <ul className="mt-8">
+            <ul className="mt-4 md:mt-8">
             {
               skills[group].map((item, i) => <li className="mt-2 body-text" key={i}>{item}</li>)
             }
@@ -182,7 +182,7 @@ export default function AboutContent() {
             </div>
           )
         }        
-        <div className="col-span-6 md:col-span-3">
+        <div className="col-span-1 md:col-span-4">
            <Button href="/cv.pdf" icon={<FiDownload />} external>Download my CV</Button>
         </div>
         {/* <div><Button href="#">Download CV</Button></div> */}

@@ -35,18 +35,12 @@ const PostSinglePage = ({ post }: PostSinglePageProps) => {
         ref={ref}
         className="bg-custom-neutral-900 text-white w-full z-10"
       >
-        <div className="main-container p-header">
-          <div className="grid grid-cols-12 gap-8">
-            <h1 className="col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">
+        <div className="content-container p-header">
+          <div className="grid grid-cols-12 gap-4 max-w-[45rem] mx-auto">
+            <h1 className="text-5xl col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">
               {post.meta.title}
             </h1>
-          </div>
-        </div>
-      </header>
-      <div>
-        <div className="main-container p-content content grid grid-cols-3 gap-6 lg:gap-8">
-          <div className="col-span-3 lg:col-span-1">
-            <p className="text-base text-gray-500">
+            <p className="text-base text-gray-300 col-span-12">
               Posted on{" "}
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -56,12 +50,18 @@ const PostSinglePage = ({ post }: PostSinglePageProps) => {
                 })}
             </p>
           </div>
-          <div className="col-span-3 lg:col-span-2 lg:col-end-4">
+        </div>
+      </header>
+      <div>
+        <div className="content-container p-content content">
+          
+          <div className="max-w-[45rem] mx-auto">
             <MDXRemote
               {...post.parsedContent}
               components={components(post.slug)}
             />
           </div>
+         
         </div>
       </div>
     </>
