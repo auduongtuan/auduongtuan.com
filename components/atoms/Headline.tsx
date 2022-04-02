@@ -1,5 +1,4 @@
 import React, {useEffect, useRef, useMemo} from "react";
-import { useWindowSize } from "rooks";
 const Headline = React.memo(() => {
   const startTextStyle = {
     opacity: '0',

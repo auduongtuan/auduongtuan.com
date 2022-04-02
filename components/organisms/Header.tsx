@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from "react";
 import Button from "../atoms/Button";
 import { useInView } from 'react-intersection-observer';
 import { useAppContext } from "../../lib/context/AppContext";
-import { useWindowSize } from "rooks";
 import CustomVideo from "../atoms/CustomVideo";
 import ExternalLink from "../atoms/ExternalLink";
 import Headline from "../atoms/Headline";

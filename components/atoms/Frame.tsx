@@ -1,4 +1,5 @@
 import React, {MouseEventHandler, useImperativeHandle, useRef} from "react";
+import useBreakpoint from "../../hooks/useBreakpoint";
 import Draggable from "react-draggable";
 import {
   FiChevronLeft,
@@ -77,15 +78,15 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
         innerRef?.current.classList.add('invisible');
       }
     };
-    return (
-      <Draggable>
+    const bp = useBreakpoint();
+    const renderFrame = () => (
       <div
         ref={innerRef}
         className={`w-full flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`}
         {...rest}
       >
         <header
-          className={`cursor-move flex items-center justify-between ${
+          className={`md:cursor-move flex items-center justify-between ${
             inverted ? "bg-slate-100" : "bg-slate-800"
           } px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)]`}
         >
@@ -113,7 +114,9 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
         </header>
         <main className="flex-grow-0 leading-[0]">{children}</main>
       </div>
-      </Draggable>
+    );
+    return (
+      (bp == 'lg') ? <Draggable>{renderFrame()}</Draggable> : renderFrame()
     );
   }
 );
