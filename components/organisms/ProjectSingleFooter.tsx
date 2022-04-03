@@ -19,7 +19,7 @@ const ProjectSingleFooter = ({projects}:ProjectSingleFooterProps) => {
             <CustomImage src={project.meta.logo} slug={project.slug} width={48} height={48} alt={project.meta.title} />
             </div>}
           <div>
-            <h3>{project.meta.title}</h3>
+            <h3 className="text-xl">{project.meta.title}</h3>
             <p>{project.meta.tagline}</p>
 
           </div>
