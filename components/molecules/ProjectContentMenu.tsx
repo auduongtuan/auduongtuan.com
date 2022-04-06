@@ -79,7 +79,7 @@ const ProjectContentMenu = React.memo(() => {
           {headings && headings.length > 2 && headings.map((heading, i) => 
           <li key={i} className='flex items-center'>
             <div className='w-8 ml-2 transition-all duration-350 ease-bounce group-hover:scale-x-[3] group-hover:opacity-0 origin-left'>
-              <span className={`block h-[2px] rounded ${i == active ? 'bg-gray-900' : 'bg-gray-300'}`} style={{width: visibleInfo[i].length/maxLength*32+'px'}}></span>
+              <span className={`block h-[2px] rounded ${i == active ? 'bg-gray-900' : 'bg-gray-300'}`} style={visibleInfo[i] && maxLength ? {width: visibleInfo[i].length/maxLength*32+'px'} : {}}></span>
               </div>
             <a onClick={(e) => {
               e.preventDefault();
