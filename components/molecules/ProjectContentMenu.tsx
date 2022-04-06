@@ -37,7 +37,8 @@ const ProjectContentMenu = React.memo(() => {
         console.log(visibleInfoTemp);
       }
       window.addEventListener('resize', setupHeading);
-      setupHeading();
+      // Delay to make sure it calculate correctly
+      setTimeout(() => setupHeading(), 100);
       return () => {
         window.removeEventListener('resize', setupHeading);
       }
