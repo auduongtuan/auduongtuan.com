@@ -35,9 +35,9 @@ const experience = [
   {
     title: 'Aperia Vietnam',
     time: 'Apr 2020 - Current',
-    subtitle: 'Senior UI/UX Designer',
+    subtitle: 'UI/UX Designer',
     type: 'Full-time',
-    description: 'Worked as a lead designer in a specialized team to create a design system that used in company CRM products.'
+    description: 'Worked as a designer in a specialized team to create a design system that used in company CRM products.'
   },
   {
     title: 'Samsung Vietnam',

@@ -2,7 +2,10 @@ import React, {useEffect} from 'react'
 import { Project } from '../../lib/project'
 import { useInView } from 'react-intersection-observer';
 import { useAppContext } from "../../lib/context/AppContext";
+import { FiEye } from 'react-icons/fi';
+import IconButton from '../atoms/IconButton';
 import Badge from "../atoms/Badge";
+import Button from '../atoms/Button';
 interface ProjectSingleHeaderProps {
   project: Project
 }
@@ -27,6 +30,9 @@ export const ProjectSingleHeader = ({project}:ProjectSingleHeaderProps) => {
             <div className='col-span-12 md:col-span-6 md:row-span-1'>
               <h1 className='text-4xl md:text-5xl lg:text-6xl font-display tracking-tight opacity-0 animate-slide-in-fast'>{project.meta.title}</h1>
             </div>
+            {project.meta.link && <div className='col-span-12 md:col-span-6 md:row-span-1 md:justify-self-end relative'>
+                <IconButton size="medium" inverted content="View website" href={project.meta.link ? project.meta.link : '#'} external><FiEye /></IconButton>
+            </div>}
             {project.meta.achievements && <div className='col-span-12 md:col-span-6 md:row-span-1 md:justify-self-end relative'>
               <div className='flex gap-4 lg:absolute right-0'>
               {project.meta.achievements.map((achievement, i) => 
