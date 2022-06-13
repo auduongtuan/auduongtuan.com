@@ -48,8 +48,8 @@ export default function ProjectList({projects}:{projects:Project[]}) {
           <div className='flex items-center text-2xl font-medium text-gray-800 gap-1'>Select works</div>
           <div className=' flex items-center gap-1'>
               <button className={sortBy == 'coolness' ? activeFilterClass : filterClass} onClick={() => setSortBy('coolness')}>Featured <FiHeart /></button>
-              <button className={sortBy == 'time-desc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-desc')}>Time <FiArrowDown /></button>
-              <button className={sortBy == 'time-asc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-asc')}>Time <FiArrowUp /></button>
+              <button className={sortBy == 'time-desc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-desc')}>Lastest <FiArrowDown /></button>
+              <button className={sortBy == 'time-asc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-asc')}>Earliest <FiArrowUp /></button>
         
           </div>
           </div>
