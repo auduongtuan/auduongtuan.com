@@ -3,7 +3,6 @@ import path, {join} from 'path'
 import matter from 'gray-matter'
 
 export const PROJECTS_PATH = path.join(process.cwd(), 'content/projects') 
-console.log(PROJECTS_PATH);
 export type Project = {
     slug: string;
     meta: {
@@ -26,7 +25,8 @@ export type Project = {
         coverHeight?: number,
         coverWidth?: number,
         videoWidth?: number,
-        videoHeight?: number
+        videoHeight?: number,
+        coolness?: number,
         [key:string]: any
     };
     content: string;
