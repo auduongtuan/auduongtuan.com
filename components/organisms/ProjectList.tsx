@@ -45,7 +45,7 @@ export default function ProjectList({projects}:{projects:Project[]}) {
             </div>
           </aside> */}
           <div className='flex flex-col md:flex-row mb-8 flex-gap-4 md:justify-between md:items-center'>
-          <div className='flex items-center text-2xl font-medium text-gray-800 gap-1'>Select works</div>
+          <div className='flex items-center text-2xl font-medium text-gray-800 gap-1'>Selected works</div>
           <div className=' flex items-center gap-1'>
               <button className={sortBy == 'coolness' ? activeFilterClass : filterClass} onClick={() => setSortBy('coolness')}>Featured <FiHeart /></button>
               <button className={sortBy == 'time-desc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-desc')}>Lastest <FiArrowDown /></button>
