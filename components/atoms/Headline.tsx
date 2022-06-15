@@ -37,7 +37,7 @@ const Headline = React.memo(() => {
         textEl.addEventListener('transitionend', resetToOriginialState);
       }, 6000);
     };
-    setTimeout(() => textAnimation(true), 600);
+    setTimeout(() => textAnimation(true), 400);
     return () => {
     }
   }, [startTextStyle.opacity, startTextStyle.transform, texts]);
