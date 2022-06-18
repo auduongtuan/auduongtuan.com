@@ -72,7 +72,10 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
                 {/* <div className={`col-span-12 transition-all duration-200 ease-bounce ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`} style={index != 0 ? {opacity: 100 * visibleRatio, transform: `translateY(${100-100*visibleRatio}px)`} : {}}> */}
                 <div className={`col-span-12 transition-all duration-200 ease-bounce opacity-0 intro ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`}>
                     <h2>{project.meta.type == "casestudy" ? <Link href={`/project/${project.slug}`}>{project.meta.title}</Link> : project.meta.title}</h2>
-                    <p className='mt-2 text-base md:text-xl _tracking-tight _font-display'>{project.meta.tagline}</p>
+                    <p className='md:mt-1 text-sm md:text-base opacity-60'>{(new Date(project.meta.date)).toLocaleDateString("en-US", {year: 'numeric', month: 'long'})}</p>
+                    {//old mt-2 
+                    }
+                    <p className='mt-2 md:mt-4 text-base md:text-xl _tracking-tight _font-display'>{project.meta.tagline}</p>
                     <div className='mt-5 md:mt-9 flex gap-4'>
                     {project.meta.type == "casestudy" && <Button scroll={false} href={`/project/${project.slug}`} arrow>Case study</Button>}
                     {project.meta.type == "link" && <Button scroll={false} href={project.meta.link ? project.meta.link : '#'} external>View website</Button>}

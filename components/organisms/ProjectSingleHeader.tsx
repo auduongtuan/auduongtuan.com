@@ -29,6 +29,7 @@ export const ProjectSingleHeader = ({project}:ProjectSingleHeaderProps) => {
         <div className="grid grid-cols-12 gap-y-8 gap-4">
             <div className='col-span-12 md:col-span-6 md:row-span-1'>
               <h1 className='text-4xl md:text-5xl lg:text-6xl font-display tracking-tight opacity-0 animate-slide-in-fast'>{project.meta.title}</h1>
+              <p className='mt-1 text-sm md:text-base text-gray-500'>{(new Date(project.meta.date)).toLocaleDateString("en-US", {year: 'numeric', month: 'long'})}</p>
             </div>
             {project.meta.link && <div className='col-span-12 md:col-span-6 md:row-span-1 md:justify-self-end relative'>
                 <IconButton size="medium" inverted content="View website" href={project.meta.link ? project.meta.link : '#'} external><FiEye /></IconButton>
