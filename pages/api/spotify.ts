@@ -65,7 +65,7 @@ const spotifyAPI = async (_, res) => {
 
     return res.status(200).json({
       isPlaying: false,
-      ...extractTrackData(song.items[0].track)
+      ...extractTrackData(song.items[0]?.track)
     });
   }
 

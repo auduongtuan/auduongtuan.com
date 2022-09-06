@@ -1,0 +1,118 @@
+---
+title: Aperia ESG
+type: casestudy
+tagline: A tool to generate consistent email signatures for employees.
+date: "2021-10"
+logo: "logo.svg"
+browser: true
+cover: "cover.jpg"
+coverWidth: 1280
+coverHeight: 720
+background: "#e9edf2"
+link: "https://aperia.com/esg"
+description: This is an internal tool that I've designed and implemented. It is used to generate email signatures for Aperia’s employee.
+roles: ["UX Design", "Front-end development"]
+coolness: 10
+tools:
+  [
+    "Figma",
+    "React",
+    "styled-components",
+    "React Hook Form"
+  ]
+---
+
+## Problem
+
+Previously, new-onboarding Aperia member will copy other’s signatures and edit the texts. They don't know what information need to be included. Also, the text styles/ designs of signatures are different. This creates the inconsistent and unprofessional branding for Aperia.
+
+As a result, I received a request from my manager to create a tool to help mitigate this problem. The goal is to create an internal tool to make it easier to set consistent signatures that contain needed information.
+
+<Grid>
+  <Col spanLg="4">
+  <EmojiBox emoji="☑️">
+  ### Enhance signatures' consistency
+  </EmojiBox>
+  </Col>
+  <Col spanLg="4">
+  <EmojiBox emoji="ℹ">
+  ### Make sure signatures contain needed information
+  </EmojiBox>
+  </Col>
+  <Col spanLg="4">
+  <EmojiBox emoji="📜">
+  ### Instruct to setup signatures
+  </EmojiBox>
+  </Col>
+</Grid>
+
+## Ideating
+
+### The generator form
+
+The first step I’ve clarified with company departments and branding team that what kind of information they want to put in the signature. The summarized requirements included:
+
+- Name
+- Role
+- Email Address
+- Office Location:
+    - With USA Location ⇒ Add default office number and make mobile phone number optional.
+    - With VN Location ⇒ Make phone number the default and add optional office number.
+- Some options to show additional logo and disclaimer for specific teams.
+
+Using this outline, I defined the options in a form for the generator and how the signature will be changed reflecting the form. 
+
+### How to setup the signature?
+
+Because Outlook email system doesn’t provide an API to set the email signature automatically, the user has to copy the signature and paste it into the email signature editor in email clients.
+
+<FullWidth>
+<Box caption="Basic user flow">
+<Image src="user-flow.svg" alt="User Flow" width={1534} height={245} />
+</Box>
+</FullWidth>
+
+## Designing
+
+### User interface
+I create the user interface of the generator using Pixel Design System, including colors and components. Certainly, I have to make sure that layout is responsive well on mobile.
+
+<ContentNode>
+<BrowserFrame>
+<Image src="cover.jpg" alt="User inteface" width={1280} height={720} />
+</BrowserFrame>
+</ContentNode>
+
+<ContentNode>
+<Box caption="Mobile responsive">
+<Image src="mobile.jpg" alt="Mobile user interface" width={1600} height={1600} />
+</Box>
+</ContentNode>
+
+### Signature setup Instruction
+I also create the instruction to setup the email signature (with the help of Branding team) in Desktop, iOS and Android clients. These instruction is really simple with clear steps and images.
+
+<FullWidth>
+<BrowserFrame>
+<Image src="instruction.jpg" alt="Instruction user inteface" width={1600} height={900} />
+</BrowserFrame>
+</FullWidth>
+
+## Implementing
+
+I had implemented the app in Typescript using these toolchains:
+
+- [create-react-app](https://create-react-app.dev/)
+- [React Hook Form](https://react-hook-form.com/)
+- [styled-components](https://styled-components.com/)
+- [react-number-format](https://www.npmjs.com/package/react-number-format)
+
+The most difficult part is that I have to use old html for the signature part to make sure that it will display the same on different email clients.
+
+One more struggle thing is to make copy to clipboard function works on Safari, I have read many Stackoverflow threads to solve this issue.
+
+## Launching & results
+
+The HR manager send the announcement email to invite employee to use the tool and give feedback, bugs. It have some issues that I’m not aware in advanced. Like using retina size image is not working properly on email client in Windows. ([Reference](https://www.litmus.com/blog/understanding-retina-images-in-html-email/)). I had had some time to research and fix these issues.
+
+Finally, the tool helps the process to create email signature of Aperia’s employee easier with the consistent design. See it live at [https://aperia.com/esg](https://aperia.com/esg).

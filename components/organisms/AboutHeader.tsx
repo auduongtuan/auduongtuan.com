@@ -36,7 +36,7 @@ between design and development. </p>
 
             </p>
             <p className="mt-4 md:mt-8 text-base md:text-2xl font-medium leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
-            I currently spend my days working on Design System at <ExternalLink href="https://aperia.com" className="underline-link-dark">Aperia  ↗</ExternalLink>. 
+            Previously, I had worked in Design System team at <ExternalLink href="https://aperia.com" className="underline-link-dark">Aperia  ↗</ExternalLink>. 
             </p>
      
           </div>

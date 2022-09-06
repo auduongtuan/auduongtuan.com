@@ -21,7 +21,7 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
     useEffect(() => {
         if (!ref.current) return;
         const el = ref.current as HTMLElement;
-        console.log(index, project.meta.title);
+        // console.log(index, project.meta.title);
         if (index == 0) {
             el.querySelectorAll('.intro.opacity-0').forEach(node => node.classList.add("animation-delay-400", "animate-slide-in-fast"));
             el.querySelectorAll('.thumbnail.opacity-0').forEach(node => node.classList.add("animation-delay-500", "animate-slide-in-fast"));
@@ -90,7 +90,8 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
                     
                         <BrowserFrame url={project.meta.link && project.meta.link} className='thumbnail opacity-0'>
                             <div className='relative'>
-                            <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} /></div>
+                            <CustomImage slug={project.slug} src={project.meta.cover} alt={project.meta.title} width={project.meta.coverWidth} height={project.meta.coverHeight} />
+                            </div>
                         </BrowserFrame>
               
                     }
