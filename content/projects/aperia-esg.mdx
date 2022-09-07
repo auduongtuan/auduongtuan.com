@@ -1,7 +1,7 @@
 ---
 title: Aperia ESG
 type: casestudy
-tagline: A tool to generate consistent email signatures for employees.
+tagline: A tool to generate consistent email signatures for employees
 date: "2021-10"
 logo: "logo.svg"
 browser: true
@@ -10,7 +10,7 @@ coverWidth: 1280
 coverHeight: 720
 background: "#e9edf2"
 link: "https://aperia.com/esg"
-description: This is an internal tool that I've designed and implemented. It is used to generate email signatures for Aperia’s employee.
+description: This is an internal tool that I designed and implemented. It is used to generate email signatures for Aperia’s employees.
 roles: ["UX Design", "Front-end development"]
 coolness: 10
 tools:
@@ -52,6 +52,8 @@ As a result, I received a request from my manager to create a tool to help mitig
 
 The first step I’ve clarified with company departments and branding team that what kind of information they want to put in the signature. The summarized requirements included:
 
+<ContentNode>
+<Note>
 - Name
 - Role
 - Email Address
@@ -59,6 +61,8 @@ The first step I’ve clarified with company departments and branding team that 
     - With USA Location ⇒ Add default office number and make mobile phone number optional.
     - With VN Location ⇒ Make phone number the default and add optional office number.
 - Some options to show additional logo and disclaimer for specific teams.
+</Note>
+</ContentNode>
 
 Using this outline, I defined the options in a form for the generator and how the signature will be changed reflecting the form. 
 
@@ -75,7 +79,7 @@ Because Outlook email system doesn’t provide an API to set the email signature
 ## Designing
 
 ### User interface
-I create the user interface of the generator using Pixel Design System, including colors and components. Certainly, I have to make sure that layout is responsive well on mobile.
+I create the user interface of the generator using [Pixel Design System](https://auduongtuan.com/project/pixel-ds), including colors and components. Certainly, I have to make sure that layout is responsive well on mobile.
 
 <ContentNode>
 <BrowserFrame>
@@ -98,21 +102,41 @@ I also create the instruction to setup the email signature (with the help of Bra
 </BrowserFrame>
 </FullWidth>
 
+<FullWidth>
+<Grid>
+<Col spanMd="6">
+
+<Box caption="Instruction on iOS">
+
+<Image src="instruction-ios.jpg" alt="Instruction on iOS" width={1600} height={1600} />
+
+</Box>
+</Col>
+<Col spanMd="6">
+<Box caption="Instruction on Android">
+
+<Image src="instruction-android.jpg" alt="Instruction on Android" width={1600} height={1600} />
+
+</Box>
+</Col>
+</Grid>
+</FullWidth>
+
 ## Implementing
 
 I had implemented the app in Typescript using these toolchains:
 
 - [create-react-app](https://create-react-app.dev/)
-- [React Hook Form](https://react-hook-form.com/)
 - [styled-components](https://styled-components.com/)
 - [react-number-format](https://www.npmjs.com/package/react-number-format)
+- [React Hook Form](https://react-hook-form.com/)
 
-The most difficult part is that I have to use old html for the signature part to make sure that it will display the same on different email clients.
+Apart from things that I'd gotten used to like React and styled-components, through this project, I learned about validation using React Hook Form and how to solve some edge cases.
 
-One more struggle thing is to make copy to clipboard function works on Safari, I have read many Stackoverflow threads to solve this issue.
+Some struggling parts take me a lot of time but help me learn many things. The most difficult one is that I have to use old HTML for the signature part to make sure that it will display the same on different email clients. Another one is to make the "copy to clipboard" function works on Safari. I'd read tons of Stackoverflow threads to solve these issues.
 
 ## Launching & results
 
-The HR manager send the announcement email to invite employee to use the tool and give feedback, bugs. It have some issues that I’m not aware in advanced. Like using retina size image is not working properly on email client in Windows. ([Reference](https://www.litmus.com/blog/understanding-retina-images-in-html-email/)). I had had some time to research and fix these issues.
+The HR manager sent the announcement email to invite employees to use the tool and give feedback, bugs. It have some issues that I’m not aware in advanced. For examples, using retina size images are not working properly on email client in Windows. ([Reference](https://www.litmus.com/blog/understanding-retina-images-in-html-email/)). I had had some time to research and fix these issues.
 
-Finally, the tool helps the process to create email signature of Aperia’s employee easier with the consistent design. See it live at [https://aperia.com/esg](https://aperia.com/esg).
+In the end, the tool helps the process to create email signature of Aperia’s employee easier with the consistent design. See it live at [https://aperia.com/esg](https://aperia.com/esg).

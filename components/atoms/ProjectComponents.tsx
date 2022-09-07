@@ -25,7 +25,7 @@ const ProjectComponents = (slug: string) => ({
     },
     Vimeo: ({id, ratio = 56.25}: {id: string | number, ratio: number}) => (
       <div className="vimeo" style={{ padding: `${ratio}% 0 0 0`, position: "relative"}}>
-        <iframe title='Video' src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&sidedock=0`} style={{position: "absolute", top: 0, left:0, width: "100%", height: "100%"}} frameBorder="0" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen></iframe>
+        <iframe title='Video' src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0&sidedock=0`} style={{position: "absolute", top: 0, left:0, width: "100%", height: "100%"}} frameBorder="0" allow="autoplay; fullscreen; picture-in-picture"></iframe>
       </div>
     ),
     Video: (props: CustomVideoProps) => <CustomVideo {...props} slug={slug} />,
@@ -35,6 +35,12 @@ const ProjectComponents = (slug: string) => ({
       <figcaption className='mt-2 lg:mt-4 text-base'>{caption}</figcaption>
       </figure>
     ),
+    Note: ({children}:{children:React.ReactNode}) => {
+      return <aside className='bg-blue-300 no-first-child-mt p-4 lg:p-6 text-sm body relative shadow-md before:absolute
+      before:content-none before:border-t-[30px] before:border-t-transparent before:border-b-[30px] before:border-b-blue-400 before:border-l-[30px] before:border-l-transparent
+      before:rotate-90 before:block before:-top-[30px] before:-right-[30px] before:w-0 before:h-0
+      '>{children}</aside>;
+    },
     FullWidth: ({children}:{children:React.ReactNode}) => {
       return (
         <div className='full'>{children}</div>

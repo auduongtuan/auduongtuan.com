@@ -185,6 +185,12 @@
       @apply text-base leading-7;
     }
 
+    .no-first-child-mt {
+      > *:first-child {
+        @apply mt-0;
+      }
+    }
+
     .full {
       @apply col-span-3 col-start-1;
     }

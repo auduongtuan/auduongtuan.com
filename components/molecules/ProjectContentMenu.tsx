@@ -34,7 +34,6 @@ const ProjectContentMenu = React.memo(() => {
           visibleInfoTemp.push({start: start, end: end, length: end-start});
         });
         setVisibleInfo(visibleInfoTemp);
-        console.log(visibleInfoTemp);
       }
       window.addEventListener('resize', setupHeading);
       // Delay to make sure it calculate correctly

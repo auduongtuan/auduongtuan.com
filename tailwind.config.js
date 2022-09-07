@@ -14,6 +14,7 @@ module.exports = {
         // "display": ['Work Sans', 'Helvetica', 'Arial', 'sans-serif'],
         "display": ['IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif'],
         "sans": ['IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif'],
+        // "script": ['Nanum Pen Script', 'IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif']
       },
       fontSize: {
         // '6xl': '3.375rem',
