@@ -6,6 +6,9 @@
   .translate-z-0 {
     transform: translateZ(0);
   }
+  .clip-path-paper-fold {
+    clip-path: polygon(calc(100% - 2rem) 0, 100% 2rem, 100% 100%, 0 100%, 0 0);
+  }
 }
 @layer components {
   /* html {

@@ -34,6 +34,7 @@ export default function ProjectList({projects}:{projects:Project[]}) {
   const filterClass = 'inline-flex gap-x-1 items-center text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full px-2 py-1';
   return (
       <section id="works">
+      
         <div className="main-container p-content opacity-0 animate-fade-in-fast animation-delay-400">
           {/* <aside className="absolute tall:fixed transition-opacity ease-linear animate-bounce hidden lg:block" style={{bottom: `${scrollPosition/1.4}px`, opacity: (scrollPosition >= 300) ? 0 : (300-scrollPosition)/300}}>
             <div className='text-2xl text-dark-blue-900 tall:-translate-y-32 tall:-translate-x-40 tall:-rotate-90' >

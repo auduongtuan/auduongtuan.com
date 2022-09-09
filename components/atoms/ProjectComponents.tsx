@@ -3,6 +3,7 @@ import Image from 'next/image'
 import React from 'react';
 import BrowserFrame from './Frame';
 import Box, {EmojiBox, VideoBox} from './Box';
+import Note from './Note';
 import {Grid, Col} from "./Grid";
 import CustomImage, {CustomImageProps} from './CustomImage';
 import CustomVideo, {CustomVideoProps} from './CustomVideo';
@@ -35,12 +36,7 @@ const ProjectComponents = (slug: string) => ({
       <figcaption className='mt-2 lg:mt-4 text-base'>{caption}</figcaption>
       </figure>
     ),
-    Note: ({children}:{children:React.ReactNode}) => {
-      return <aside className='bg-blue-300 no-first-child-mt p-4 lg:p-6 text-sm body relative shadow-md before:absolute
-      before:content-none before:border-t-[30px] before:border-t-transparent before:border-b-[30px] before:border-b-blue-400 before:border-l-[30px] before:border-l-transparent
-      before:rotate-90 before:block before:-top-[30px] before:-right-[30px] before:w-0 before:h-0
-      '>{children}</aside>;
-    },
+    Note,
     FullWidth: ({children}:{children:React.ReactNode}) => {
       return (
         <div className='full'>{children}</div>
