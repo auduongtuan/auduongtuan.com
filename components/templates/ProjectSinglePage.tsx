@@ -11,7 +11,7 @@ export interface ProjectSinglePageProps {
 const ProjectSinglePage = ({ project, projects }: ProjectSinglePageProps) => {
   return (
     <div>
-      <HeadMeta title={project.meta.title} />
+      <HeadMeta title={project.meta.title} description={project.meta.description} />
       <ProjectSingleHeader project={project} />
       <ProjectSingleContent project={project} />
       <ProjectSingleFooter projects={projects} />
