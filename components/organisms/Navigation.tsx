@@ -21,7 +21,7 @@ const Navigation = React.memo(
       useAppContext();
     const headerRef = useRef<HTMLElement>(null);
     const bp = useBreakpoint();
-    console.log("re-render navigation");
+    // console.log('re-render navigation");
     useEffect(() => {
       let lastScrollTop = 0;
       const handleScroll = () => {

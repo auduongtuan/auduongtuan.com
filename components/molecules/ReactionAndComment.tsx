@@ -2,7 +2,7 @@ import CommentForm from "./CommentForm";
 import Reaction from "../molecules/Reaction";
 import { Fragment } from "react";
 const ReactionAndComment = ({ page, wording = {singular:'feedback', plural: 'feedback', title: 'Leave feedback', cta: 'Or wanna give some feedback?'} }: {page: string, wording?: {[key:string]: string}}) => {
-  console.log('re-render parent reaction and comment');
+  // console.log('re-render parent reaction and comment');
   return (
     <Fragment>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
