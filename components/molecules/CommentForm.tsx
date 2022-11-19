@@ -21,7 +21,7 @@ const CommentForm = ({ page, wording }) => {
   );
   const { register, handleSubmit, reset } = useForm();
 
-  console.log("re-render contact form");
+  // console.log('re-render contact form");
   const submitHandler = (data: FieldValues) => {
     const { name, email, content } = data;
     // e.preventDefault();
