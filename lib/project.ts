@@ -27,6 +27,7 @@ export type Project = {
         videoWidth?: number,
         videoHeight?: number,
         coolness?: number,
+        protected?: boolean,
         [key:string]: any
     };
     content: string;

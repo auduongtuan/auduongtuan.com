@@ -23,6 +23,7 @@ const ProjectContentMenu = React.memo(() => {
         headingsTemp.forEach((heading, i) => {
           const start = heading.getBoundingClientRect().top + window.scrollY;
           const parentEl = heading.parentElement as HTMLElement;
+          if (!parentEl) console.log(heading);
           const end = i != headingsTemp.length - 1 ? headingsTemp[i+1].getBoundingClientRect().top + window.scrollY : parentEl.offsetTop + parentEl.clientHeight;
           let nextSibling = heading.nextElementSibling;
           let count = 0;

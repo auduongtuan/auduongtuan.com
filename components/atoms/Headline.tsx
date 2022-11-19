@@ -1,14 +1,16 @@
-import React, {useEffect, useRef, useMemo} from "react";
+import React, { useEffect, useRef, useMemo, useState} from "react";
+import useWindowSize from "../../hooks/useWindowSize";
+const startTextStyle = {
+  opacity: '0',
+  transform: 'translateY(40px)'
+}
 const Headline = React.memo(() => {
-  const startTextStyle = {
-    opacity: '0',
-    transform: 'translateY(40px)'
-  }
   const underline = useRef(null);
   const texts = useRef<(HTMLElement | null)[]>([]);
+  const size = useWindowSize();
   // const {outerWidth} = useWindowSize();
+  let current = 0;
   useEffect(() => {
-    let current = 0;
     const textAnimation = (firstTime = false) => {
       const underlineEl = underline.current as HTMLElement|null;
       const textEl = texts.current[current] as HTMLElement|null;
@@ -41,6 +43,12 @@ const Headline = React.memo(() => {
     return () => {
     }
   }, [startTextStyle.opacity, startTextStyle.transform, texts]);
+  useEffect(() => {
+    const underlineEl = underline.current as HTMLElement|null;
+    const textEl = texts.current[current] as HTMLElement|null;
+    if (!textEl || !underlineEl) return;
+    underlineEl.style.width = textEl.offsetWidth+'px';
+  }, [current, size.width]);
   return (
     <div className="h1 grid grid-cols-1">
     <div className="row-start-1 row-span-1 col-start-1 col-span-1 w-full opacity-0 animate-slide-in-fast animation-delay-100">Hi! I design and build</div>

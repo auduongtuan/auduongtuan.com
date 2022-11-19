@@ -89,6 +89,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
       </>
       }
+      <div id="toast-root">
+        
+      </div>
       <Component {...pageProps} />
     </AppWrapper>
   );

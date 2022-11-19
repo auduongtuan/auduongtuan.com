@@ -7,6 +7,7 @@ console.log(POSTS_PATH);
 export type Post = {
     slug: string,
     meta: {
+        protected?: boolean,
         [key: string]: any,
     },
     content: string,
