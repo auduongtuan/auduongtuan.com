@@ -29,9 +29,11 @@ specifiers:
   react: 17.0.2
   react-dom: 17.0.2
   react-draggable: ^4.4.5
+  react-hook-form: ^7.39.4
   react-icons: ^4.6.0
   react-intersection-observer: ^8.34.0
   react-lazy-media: ^0.3.1
+  react-portal: ^4.2.2
   react-scroll-percentage: ^4.2.0
   remark-prism: ^1.3.6
   sharp: ^0.30.7
@@ -57,9 +59,11 @@ dependencies:
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-draggable: 4.4.5_sfoxds7t5ydpegc3knd667wn6m
+  react-hook-form: 7.39.4_react@17.0.2
   react-icons: 4.6.0_react@17.0.2
   react-intersection-observer: 8.34.0_react@17.0.2
   react-lazy-media: 0.3.1_sfoxds7t5ydpegc3knd667wn6m
+  react-portal: 4.2.2_sfoxds7t5ydpegc3knd667wn6m
   react-scroll-percentage: 4.2.0_react@17.0.2
   remark-prism: 1.3.6
   sharp: 0.30.7
@@ -3381,6 +3385,15 @@ packages:
       react-dom: 17.0.2_react@17.0.2
     dev: false
 
+  /react-hook-form/7.39.4_react@17.0.2:
+    resolution: {integrity: sha512-B0e78r9kR9L2M4A4AXGbHoA/vyv34sB/n8QWJAw33TFz8f5t9helBbYAeqnbvcQf1EYzJxKX/bGQQh9K+evCyQ==}
+    engines: {node: '>=12.22.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18
+    dependencies:
+      react: 17.0.2
+    dev: false
+
   /react-icons/4.6.0_react@17.0.2:
     resolution: {integrity: sha512-rR/L9m9340yO8yv1QT1QurxWQvWpbNHqVX0fzMln2HEb9TEIrQRGsqiNFQfiv9/JEUbyHmHPlNTB2LWm2Ttz0g==}
     peerDependencies:
@@ -3412,6 +3425,17 @@ packages:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       yall-js: 3.2.0
+    dev: false
+
+  /react-portal/4.2.2_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-vS18idTmevQxyQpnde0Td6ZcUlv+pD8GTyR42n3CHUQq9OHi1C4jDE4ZWEbEsrbrLRhSECYiao58cvocwMtP7Q==}
+    peerDependencies:
+      react: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
+      react-dom: ^16.0.0-0 || ^17.0.0-0 || ^18.0.0-0
+    dependencies:
+      prop-types: 15.8.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
     dev: false
 
   /react-scroll-percentage/4.2.0_react@17.0.2:

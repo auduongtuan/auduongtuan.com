@@ -1,8 +1,14 @@
-import { useState, Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Dialog as HDialog, Transition } from '@headlessui/react'
-
+import { useAppContext } from '../../lib/context/AppContext';
 function Dialog({children, open, onClose, title, ...rest}) {
-
+  const { setPauseScrollEvent } = useAppContext();
+  useEffect(() => {
+    if(open) setPauseScrollEvent(true);
+    return () => {
+      setPauseScrollEvent(false);
+    }
+  }, [open, setPauseScrollEvent]);
   return (
     <Transition 
       show={open}
@@ -10,7 +16,7 @@ function Dialog({children, open, onClose, title, ...rest}) {
     >
     <HDialog
       onClose={onClose}
-      className="relative z-50"
+      className="relative z-[45]"
       {...rest}
     >
       {/* The backdrop, rendered as a fixed sibling to the panel container */}
