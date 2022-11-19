@@ -1,7 +1,7 @@
 
 import React, { ReactElement, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import {useFloating, offset, shift} from '@floating-ui/react-dom';
+import {useFloating, autoUpdate, offset, shift} from '@floating-ui/react-dom';
 import { Transition } from '@headlessui/react';
 export interface TooltipProps {
   content?: string;
@@ -12,6 +12,7 @@ const Tooltip = ({content, children}: TooltipProps) => {
   const {x, y, reference, floating, strategy} = useFloating({
     placement: 'top',
     middleware: [shift(), offset(4)],
+    whileElementsMounted: autoUpdate
   });
   const handleMouseEnter = (e) => setShow(true);
   const handleMouseLeave = (e) => setShow(false);

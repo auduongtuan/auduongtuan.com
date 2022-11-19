@@ -14,7 +14,7 @@ const ProjectSinglePage = ({ project, projects }: ProjectSinglePageProps) => {
       <HeadMeta title={project.meta.title} description={project.meta.description} />
       <ProjectSingleHeader project={project} />
       <ProjectSingleContent project={project} />
-      <ProjectSingleFooter projects={projects} />
+      <ProjectSingleFooter project={project} projects={projects} />
     </div>
   );
 };
