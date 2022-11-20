@@ -20,15 +20,15 @@
   h1,
   .h1 {
     /* tracking-tight */
-    @apply text-4xl md:text-5xl lg:text-7xl font-display font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11];
+    @apply text-4xl md:text-5xl lg:text-7xl font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11];
   }
   h2,
   .h2 {
-    @apply text-3xl md:text-4xl font-display font-bold;
+    @apply text-3xl md:text-4xl font-semibold;
   }
   h3,
   .h3 {
-    @apply text-xl md:text-2xl font-display font-semibold tracking-tight;
+    @apply text-xl md:text-2xl font-semibold;
   }
   h4,
   .h4 {
@@ -64,7 +64,7 @@
     @apply mt-3 md:mt-4 lg:mt-6;
   }
   .btn {
-    @apply py-2 px-4 rounded-lg font-display font-bold text-base tracking-wide text-white bg-dark-blue-900 hover:bg-blue-800 active:bg-blue-900 inline-block transition-all focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40;
+    @apply py-2 px-4 rounded-lg font-semibold text-base tracking-wide text-white bg-dark-blue-900 hover:bg-blue-800 active:bg-blue-900 inline-block transition-all focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40;
     @apply inline-flex items-center;
     svg {
       @apply ml-2 block;
@@ -97,7 +97,7 @@
       @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
     }
     blockquote p {
-      @apply text-xl md:text-2xl font-display font-semibold;
+      @apply text-xl md:text-2xl font-semibold;
     }
     
     p, ul, ol {
@@ -151,7 +151,7 @@
       @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
     }
     blockquote p {
-      @apply text-xl md:text-2xl font-display font-semibold;
+      @apply text-xl md:text-2xl font-semibold;
     }
     
     p, ul, ol {
