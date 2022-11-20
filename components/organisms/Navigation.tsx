@@ -57,15 +57,14 @@ const Navigation = React.memo(
           className={`${
             fixed ? "fixed" : "absolute"
           } opacity-0 w-full top-0 z-[42] transition-all duration-300 animate-fade-in-fast ${
-            headerInView || menuOpened ? "bg-transparent text-white" : "bg-white-fade text-dark-blue-900"
+            headerInView || menuOpened ? "bg-custom-neutral-900 text-white" : "bg-white text-dark-blue-900"
           }`}
         >
-          <nav className="text-display text-base md:text-xl font-semibold main-container pt-4 pb-8 flex items-center justify-between">
+          <nav className="text-display text-base md:text-xl font-semibold main-container py-2 md:py-4 flex items-center justify-between">
             {/* logo */}
             <NavigationLink
               href="/"
-              activeClassName=""
-              className={`uppercase`}
+              logo
               inverted={headerInView || menuOpened}
               callback={() => setMenuOpened(false)}
             >
@@ -92,7 +91,7 @@ const Navigation = React.memo(
                   <FiMenu className="w-6 h-6" />
                 </button>
                 }
-                <ul className="md:flex gap-12 items-center hidden">
+                <ul className="md:flex flex-gap-8 items-center hidden">
                   {menuItems.map((item, i) => (
                     <li key={i}>
                       <NavigationLink
@@ -122,13 +121,13 @@ const Navigation = React.memo(
         >
           <div className={`fixed z-40 w-full h-full bg-custom-neutral-900`}>
             <div className="main-container">
-              <ul className="p-header flex flex-col gap-8 text-display">
+              <ul className="pt-16 flex flex-col flex-gap-y-2">
                 {menuItems.map((item, i) => (
                   <li key={i}>
                     <NavigationLink
                       pathname={item.pathname}
                       href={item.href}
-                      className="text-display text-2xl font-bold"
+                      className="block w-full py-4 text-center -m-0"
                       inverted
                       callback={() => setMenuOpened(false)}
                     >

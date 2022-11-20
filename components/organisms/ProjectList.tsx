@@ -30,8 +30,8 @@ export default function ProjectList({projects}:{projects:Project[]}) {
       };
   }, [sortBy]);
 
-  const activeFilterClass = 'inline-flex gap-x-1 items-center text-sm font-medium bg-blue-200 hover:bg-blue-300 text-gray-800 rounded-full px-2 py-1';
-  const filterClass = 'inline-flex gap-x-1 items-center text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full px-2 py-1';
+  const activeFilterClass = 'inline-flex flex-gap-x-1 items-center text-sm font-medium bg-blue-200 hover:bg-blue-300 text-gray-800 rounded-full px-2 py-1';
+  const filterClass = 'inline-flex flex-gap-x-1 items-center text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full px-2 py-1';
   return (
       <section id="works">
       
@@ -46,13 +46,14 @@ export default function ProjectList({projects}:{projects:Project[]}) {
             </div>
           </aside> */}
           <div className='flex flex-col md:flex-row mb-8 flex-gap-4 md:justify-between md:items-center'>
-          <div className='flex items-center text-2xl font-medium text-gray-800 gap-1'>Selected works</div>
-          <div className=' flex items-center gap-1'>
-              <button className={sortBy == 'coolness' ? activeFilterClass : filterClass} onClick={() => setSortBy('coolness')}>Featured <FiHeart /></button>
-              <button className={sortBy == 'time-desc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-desc')}>Lastest <FiArrowDown /></button>
-              <button className={sortBy == 'time-asc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-asc')}>Earliest <FiArrowUp /></button>
-        
-          </div>
+          {/* <div className='flex items-center text-2xl font-medium text-gray-800 gap-1'>Selected works</div> */}
+            <div className='flex items-center sub-heading'>Selected works</div>
+            <div className=' flex items-center space-x-2'>
+                <button className={sortBy == 'coolness' ? activeFilterClass : filterClass} onClick={() => setSortBy('coolness')}>Featured <FiHeart /></button>
+                <button className={sortBy == 'time-desc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-desc')}>Lastest <FiArrowDown /></button>
+                <button className={sortBy == 'time-asc' ? activeFilterClass : filterClass} onClick={() => setSortBy('time-asc')}>Earliest <FiArrowUp /></button>
+          
+            </div>
           </div>
         
           <main className="grid grid-cols-12 gap-6">

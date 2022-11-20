@@ -30,14 +30,14 @@ export const ProjectSingleHeader = ({project}:ProjectSingleHeaderProps) => {
             <div className='col-span-12 md:col-span-6 md:row-span-1'>
               <div className='opacity-0 animate-slide-in-fast'>
                 <h1 className='text-4xl md:text-5xl lg:text-6xl font-display tracking-tight'>{project.meta.title}</h1>
-                <p className='mt-1 text-sm md:text-base text-gray-500'>{(new Date(project.meta.date)).toLocaleDateString("en-US", {year: 'numeric', month: 'long'})}</p>
+                <p className='mt-1 muted-text opacity-100 text-gray-500'>{(new Date(project.meta.date)).toLocaleDateString("en-US", {year: 'numeric', month: 'long'})}</p>
               </div>
             </div>
             {project.meta.link && <div className='col-span-12 md:col-span-6 md:row-span-1 md:justify-self-end relative'>
                 <IconButton size="medium" inverted content="View website" href={project.meta.link ? project.meta.link : '#'} external><FiEye /></IconButton>
             </div>}
             {project.meta.achievements && <div className='col-span-12 md:col-span-6 md:row-span-1 md:justify-self-end relative'>
-              <div className='flex gap-4 lg:absolute right-0'>
+              <div className='flex flex-gap-4 lg:absolute right-0'>
               {project.meta.achievements.map((achievement, i) => 
                 <Badge key={i} index={i} content={achievement} />
               )}

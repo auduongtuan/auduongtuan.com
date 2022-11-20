@@ -2,13 +2,10 @@ import React from "react";
 import { FiDownload } from "react-icons/fi";
 import socialNetworks from "../../lib/socialNetworks";
 import Button from "../atoms/Button";
-const Timeline = ({children}:{children?: React.ReactNode}) => (
-  <div className="grid grid-cols-1 gap-4 mt-8">
-    {children}
-  </div>
-);
+
 const Heading = ({children}:{children?: React.ReactNode}) => (
-  <h2 className="text-xl tracking-wide uppercase text-gray-800">
+  <h2 className="sub-heading border-b border-gray-200 pb-2 -mb-1">
+  {/* <h2 className="text-xl tracking-wide uppercase text-gray-800"> */}
     {children}
   </h2>
 );
@@ -126,17 +123,19 @@ export default function AboutContent() {
     <div className="p-content bg-slate-50 relative h-full">
     
     <main className="content-container opacity-0 animate-fade-in-fast animation-delay-300 text-gray-800">
-    <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-8 gap-y-12 md:gap-y-16 lg:gap-y-24">
+    <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-12 lg:gap-y-24">
     
       <section className="col-span-2 md:col-span-6 lg:col-span-8 lg:mr-8">
-        <div className="grid grid-cols-1 gap-y-12 gap-x-16">
+        <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16">
           <div className="col-span-6 md:col-span-6">
           <Heading>Experience</Heading>
-            <Timeline>
+          <div className="grid grid-cols-1 gap-6 mt-4 md:mt-8">
+            {/* <Timeline> */}
             {
               experience.map((item, i) => <Item key={i} {...item} />)
             }
-            </Timeline>
+            {/* </Timeline> */}
+            </div>
           </div>
 
 
@@ -169,20 +168,20 @@ export default function AboutContent() {
             </section>
         </div>
       </section>
-      <aside className="col-span-2 md:col-span-6 lg:col-span-4 lg:col-start-9 grid grid-cols-1 md:grid-cols-3 lg:flex lg:flex-col gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-12">
+      <aside className="col-span-2 md:col-span-6 lg:col-span-4 lg:col-start-9 grid grid-cols-1 only-sm:gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-8 md:gap-y-12">
         {
           Object.keys(skills).map((group, i) => 
-            <div key={i} className="col-span-1 md:col-span-1">
+            <div key={i} className="col-span-1">
             <Heading>{group}</Heading>
             <ul className="mt-4 md:mt-8">
             {
-              skills[group].map((item, i) => <li className="mt-2 body-text" key={i}>{item}</li>)
+              skills[group].map((item, i) => <li className="mt-1 md:mt-2 body-text" key={i}>{item}</li>)
             }
             </ul>
             </div>
           )
         }        
-        <div className="col-span-1 md:col-span-4">
+        <div className="col-span-1">
            <Button href="/cv.pdf" icon={<FiDownload />} external>Download my CV</Button>
         </div>
         {/* <div><Button href="#">Download CV</Button></div> */}

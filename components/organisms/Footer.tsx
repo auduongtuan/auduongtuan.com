@@ -14,7 +14,7 @@ export default function Footer() {
           <section className="grid grid-cols-12 lg:grid-rows-2 gap-x-3 gap-y-8 border-t border-t-gray-200 pt-12">
             <div className="col-span-12 lg:col-span-4 lg:row-span-1 opacity-0 animate-slide-in-fast animation-delay-0">
               {data &&
-              <div className="flex items-center gap-4">
+              <div className="flex items-center flex-gap-4">
                 <img className={`rounded-full ${data.isPlaying && 'animate-spin-slow'} flex-grow-0`} width="64" height="64" src={data.albumImageUrl} alt={data.title} />
                 <div className="flex-1">
                   <p className="text-sm text-gray-600">{data.isPlaying ? 'Now playing 🎵' : 'Offline - Recently played'}</p>
@@ -24,15 +24,12 @@ export default function Footer() {
                 </div>
               </div>
               }
-              {/* {!data?.isPlaying && <div className="flex items-center gap-4">
-                <div className="rounded-full animate-spin-slow flex-grow-0 w-16 h-16 bg-gray-200"></div>
-                <p className="text-sm text-gray-600">Not playing 🎵</p>
-              </div>} */}
+          
             </div>
        
              <div className="col-span-12 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:justify-self-end lg:self-end">
              {/* tracking-tight */}
-             <p className="font-display text-2xl md:text-3xl md:leading-normal  font-medium opacity-0 animate-slide-in-fast animation-delay-200">
+             <p className="text-xl md:text-2xl lg:text-3xl leading-normal md:leading-normal lg:leading-normal  font-medium opacity-0 animate-slide-in-fast animation-delay-200">
               I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="underline-link-light">hi@auduongtuan.com</a> or find me on 
               {socialNetworks.map((item, i) =>
                 <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<ExternalLink href={item.url} className="underline-link-light">{item.name}</ExternalLink>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
@@ -40,7 +37,7 @@ export default function Footer() {
               </p>
             </div>
               
-            <div className="col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-8 opacity-0 animate-slide-in-fast animation-delay-100">
+            <div className="text-sm md:text-base col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-6 md:leading-8 opacity-0 animate-slide-in-fast animation-delay-100">
              Written, designed and built by Tuan<br />using <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>, <ExternalLink href="https://tailwindcss.com/">Tailwind</ExternalLink><br />
              © {new Date().getFullYear()}.
             </div>

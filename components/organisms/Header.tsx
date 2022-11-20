@@ -28,7 +28,7 @@ const GifText = ({children, gifs, gifIndex, link, external = false, setActiveGif
     if(setActiveGif) setActiveGif(null);
   }
   
-  const className = "underline decoration-2 underline-offset-4 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 px-2 py-1 rounded-xl hover:bg-white/5";
+  const className = "underline decoration-2 underline-offset-4 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 -my-1 px-2 py-1 rounded-xl hover:bg-white/5";
   const span = <a className={className} onMouseOver={showGif} onMouseLeave={hideGif} {...rest}>{children}</a>;
   if (link) {
     if(external) {
@@ -61,8 +61,9 @@ export default function Header() {
         <div className="grid grid-cols-12 gap-3">
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-8 lg:max-w-[50rem] z-4">
             <Headline />
-            <p className="_font-display text-xl md:text-2xl mt-6 lg:mt-9 _tracking-tight opacity-0 animate-slide-in-fast animation-delay-200">I am a hybrid <GifText gifs={gifs} gifIndex={0} setActiveGif={setActiveGif}>designer</GifText> x <GifText gifs={gifs} gifIndex={1} setActiveGif={setActiveGif}>developer</GifText> (maybe a <GifText link="https://www.google.com/search?q=unicorn+designer" title="Read more about this term" gifs={gifs} gifIndex={2} setActiveGif={setActiveGif} external>unicorn</GifText>?).<br />Everyday I try to make good products with the human at the center.</p>
-            <Button href="/about" className="mt-10 opacity-0 animate-slide-in-fast animation-delay-300" colorful arrow>
+            <p className="text-base md:text-2xl mt-6 lg:mt-9 _tracking-tight opacity-0 animate-slide-in-fast animation-delay-200">I am a hybrid <GifText gifs={gifs} gifIndex={0} setActiveGif={setActiveGif}>designer</GifText> x <GifText gifs={gifs} gifIndex={1} setActiveGif={setActiveGif}>developer</GifText> (maybe a <GifText link="https://www.google.com/search?q=unicorn+designer" title="Read more about this term" gifs={gifs} gifIndex={2} setActiveGif={setActiveGif} external>unicorn</GifText>?).</p>
+            <p className="text-base md:text-2xl mt-2 _tracking-tight opacity-0 animate-slide-in-fast animation-delay-300">Everyday I try to make good products with the human at the center.</p>
+            <Button href="/about" className="mt-6 md:mt-10 opacity-0 animate-slide-in-fast animation-delay-300" colorful arrow>
               Get to know me
             </Button>
           </div>

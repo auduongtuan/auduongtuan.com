@@ -23,19 +23,18 @@ export default function AboutHeader() {
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
       <div className="content-container p-header">
-        <div className="grid grid-cols-12 gap-x-8 gap-y-8">
+        <div className="grid grid-cols-12 gap-x-8 gap-y-6 md:gap-y-8">
            <h1 className="col-span-12 md:col-span-8 lg:mr-14 opacity-0 animate-slide-in-fast">Xin chào!</h1>
           <div className="col-span-12 md:col-span-8 lg:mr-14 self-end">
            
-            <p className="text-base md:text-2xl font-medium leading-normal md:leading-normal opacity-0 animation-delay-150 animate-slide-in-fast">
-              I&apos;m Tuan - a software designer &amp; developer based in Ho Chi Minh City. With good technical background and strong visual design skills, I help close the gap
-between design and development. </p>
-            <p className="mt-4 md:mt-8 text-base md:text-2xl md:font-medium leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
+            <p className="text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-150 animate-slide-in-fast">
+              I&apos;m Tuan - a hybrid software designer &amp; developer. Proudly having many skills that span across a spectrum of disciplines helps me to solve problems in creative, organized and programmatic ways.</p>
+            <p className="mt-4 md:mt-8 text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
 
             I have been self-studying design &amp; code since 2009. Then, received a BFA in design and am getting my 2nd bachelor&apos;s degree in tech. You can read more at <Link href="/blog/my-digital-journey"><a className="underline-link-dark">my digital journey</a></Link>.
 
             </p>
-            <p className="mt-4 md:mt-8 text-base md:text-2xl font-medium leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
+            <p className="mt-4 md:mt-8 text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
             Previously, I had worked in Design System team at <ExternalLink href="https://aperia.com" className="underline-link-dark">Aperia  ↗</ExternalLink>. 
             </p>
      

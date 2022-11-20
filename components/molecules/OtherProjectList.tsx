@@ -1,15 +1,15 @@
 import { Project } from "../../lib/project";
 import Link from "next/link";
 import CustomImage from "../atoms/CustomImage";
-const OtherProjectList = ({projects}: {projects:Project[]}) => {
+const OtherProjectList = ({ projects }: { projects: Project[] }) => {
   return (
-    <div className="mt-8 grid grid-cols-6 gap-6 group">
+    <div className="mt-6 grid grid-cols-6 gap-4 md:gap-6 group">
       {projects
         .filter((project) => project.meta.type == "casestudy")
         .map((project, i) => (
           <Link href={`/project/${project.slug}`} key={i}>
             <a
-              className="col-span-6 md:col-span-3 lg:col-span-2 text-gray-900 p-3 transition-all rounded-xl flex flex-row items-center gap-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2"
+              className="col-span-6 md:col-span-3 lg:col-span-2 text-gray-900 p-3 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2"
               style={{ backgroundColor: project.meta.background }}
             >
               {project.meta.logo && (
@@ -25,7 +25,7 @@ const OtherProjectList = ({projects}: {projects:Project[]}) => {
               )}
               <div>
                 <h3 className="text-xl">{project.meta.title}</h3>
-                <p className="text-gray-700">{project.meta.tagline}</p>
+                <p className="text-sm text-gray-700">{project.meta.tagline}</p>
               </div>
             </a>
           </Link>

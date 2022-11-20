@@ -12,6 +12,8 @@ export interface ButtonProps extends Omit<LinkProps, 'href'> {
     external?: boolean;
     icon?: React.ReactNode;
     loading?: boolean;
+    secondary?: boolean;
+    type?: 'submit' | 'button' | 'reset';
 }
 const Button = ({
     href,
@@ -24,10 +26,12 @@ const Button = ({
     external = false,
     icon,
     loading = false,
+    secondary = false,
     ...rest
 }:ButtonProps) => {
     // if (colorful) className += ' bg-colorful text-dark-blue-900';
     if (colorful) className += ' bg-white/80 text-gray-900 hover:text-white hover:bg-blue-900 ';
+    if (secondary) className += ' bg-slate-300 text-slate-800 hover:bg-slate-400 active:bg-slate-500';
     let defaultIcon;
     if (external) {
         defaultIcon = <FiLink2 />;

@@ -48,7 +48,7 @@ const CommentForm = ({ page, wording }) => {
     <Fragment>
       <button
         onClick={() => setState({ open: true })}
-        className="font-medium text-base lg:h3 hover:border-blue-600 text-gray-600 col-span-1 border-2 px-8 py-4 border-gray-300 rounded-full flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all duration-100"
+        className="font-medium text-base lg:text-xl hover:border-blue-600 text-gray-600 col-span-1 border-2 px-6 py-2 border-gray-300 rounded-full flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all duration-100"
       >
         <span className="block flex-grow text-left">{wording.cta}</span>
         <FiMessageCircle className="flex-grow-0"></FiMessageCircle>
@@ -123,9 +123,12 @@ const CommentForm = ({ page, wording }) => {
                 />
               </div>
             </section>
-            <footer>
-              <Button loading={state.loading} icon={<FiSend />}>
-                Send {wording.singular}
+            <footer className="flex flex-gap-x-2">
+              <Button type="submit" loading={state.loading} icon={<FiSend />}>
+                Send
+              </Button>
+              <Button type="button" secondary onClick={() => setState({ open: false })}>
+                Cancel
               </Button>
             </footer>
           </div>

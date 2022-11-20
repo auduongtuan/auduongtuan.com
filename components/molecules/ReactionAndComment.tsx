@@ -5,18 +5,22 @@ const ReactionAndComment = ({ page, wording = {singular:'feedback', plural: 'fee
   // console.log('re-render parent reaction and comment');
   return (
     <Fragment>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="col-span-1 space-y-3 ">
-          <h3>Give your reaction</h3>
-          <Reaction page={page} />
-        </div>
+        <h3>Give your reaction</h3>
 
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mt-6">
+
+        <div className="col-span-1 space-y-3 ">
+          <Reaction page={page} />
+         
+        </div>
         <CommentForm
           // open={open}
           // setOpen={setOpen}
           page={page}
           wording={wording}
         ></CommentForm>
+
+        
       </div>
      
     </Fragment>
