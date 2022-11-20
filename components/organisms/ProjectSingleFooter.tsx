@@ -21,9 +21,9 @@ const ProjectSingleFooter = ({
           ></ReactionAndComment>
         </div>
       </div>
-      <div className="p-content bg-custom-neutral-900 text-white relative">
+      <div className="p-content  relative">
         <section className="main-container">
-          <h2>Other projects</h2>
+          <h3>Other projects</h3>
           <OtherProjectList projects={projects} />
         </section>
       </div>

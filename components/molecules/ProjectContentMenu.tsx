@@ -75,7 +75,7 @@ const ProjectContentMenu = React.memo(() => {
   return (
     <div className='absolute left-0 h-full py-28'>
       <aside className={`w-60 hidden 2xl:block sticky top-1/2`}>
-          <ul className='flex flex-col gap-y-1  group'>
+          <ul className='flex flex-col flex-gap-y-1  group'>
           {headings && headings.length > 2 && headings.map((heading, i) => 
           <li key={i} className='flex items-center'>
             <div className='w-8 ml-2 transition-all duration-350 ease-bounce group-hover:scale-x-[3] group-hover:opacity-0 origin-left'>

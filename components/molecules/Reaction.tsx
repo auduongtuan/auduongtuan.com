@@ -43,10 +43,10 @@ const ReactButton = ({ name, emoji, counter, page }) => {
   return (
     <Tooltip content={reacted ? `Undo ${name}` : `${name}`}>
       <button
-        className="border-2 px-4 py-2 border-gray-300 hover:border-blue-600 rounded-full inline-flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all ease-out duration-100 group"
+        className="flex-shrink-1 border-2 px-3 py-2 md:px-4 md:py-2 border-gray-300 hover:border-blue-600 rounded-full inline-flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all ease-out duration-100 group"
         onClick={sendReaction}
       >
-        <span className="block transition-all duration-100 scale-100 group-hover:scale-125 text-2xl ">
+        <span className="block transition-all duration-100 scale-100 group-hover:scale-125 text-base md:text-2xl ">
           {emoji}
         </span>
         <span
@@ -73,7 +73,7 @@ const Reaction = ({ page }) => {
 
   const { data: counter } = useSWR("/api/reaction", fetcher);
   return (
-    <div className="w-full flex flex-wrap flex-gap-x-3 flex-gap-y-2 items-center">
+    <div className="w-full flex flex-gap-x-2 md:flex-gap-x-3 flex-gap-y-2 items-center">
       {Object.keys(reactionList).map((emoji, i) => (
         <ReactButton
           key={`emoji-${i}`}

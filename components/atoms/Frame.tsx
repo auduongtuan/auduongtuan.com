@@ -25,7 +25,7 @@ const BrowserFrame = React.forwardRef<
           inverted ? "bg-slate-100" : "bg-slate-800"
         } px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)]`}
       >
-        <div className="flex gap-2 flex-grow basis-0 items-center">
+        <div className="flex flex-gap-2 flex-grow basis-0 items-center">
           <span className="w-2 h-2 bg-slate-400 rounded block"></span>
           <span className="w-2 h-2 bg-slate-400 rounded block"></span>
           <span className="w-2 h-2 bg-slate-400 rounded block"></span>
@@ -39,7 +39,7 @@ const BrowserFrame = React.forwardRef<
             </a>
           )}
         </div>
-        <div className="flex-grow gap-2 basis-0 justify-self-end flex items-center justify-end">
+        <div className="flex-grow flex-gap-2 basis-0 justify-self-end flex items-center justify-end">
           <FiGrid className="hidden md:inline-block text-slate-400" />
           <FiPlus className="hidden md:inline-block text-slate-400" />
         </div>
@@ -90,7 +90,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
             inverted ? "bg-slate-100" : "bg-slate-800"
           } px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)]`}
         >
-          <div className="flex gap-2 flex-grow basis-0 items-center">
+          <div className="flex flex-gap-2 flex-grow basis-0 items-center">
             <Tooltip content="Hide my face 😢"><button aria-label="Close it"
               className="w-2 h-2 bg-slate-400 rounded block cursor-pointer hover:bg-red-500 active:bg-red-700"
               onClick={closeCallback}
@@ -107,7 +107,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
           >
             {name}
           </div>
-          <div className="flex-grow gap-2 basis-0 justify-self-end flex items-center justify-end">
+          <div className="flex-grow flex-gap-2 basis-0 justify-self-end flex items-center justify-end">
             <FiZoomOut className="text-slate-400" />
             <FiZoomIn className="text-slate-400" />
           </div>

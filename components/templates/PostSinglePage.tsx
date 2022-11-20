@@ -37,11 +37,11 @@ const PostSinglePage = ({ post }: PostSinglePageProps) => {
         className="bg-custom-neutral-900 text-white w-full z-10"
       >
         <div className="content-container p-header">
-          <div className="grid grid-cols-12 gap-4 max-w-[45rem] mx-auto">
-            <h1 className="text-5xl col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">
+          <div className="grid grid-cols-12 gap-2 md:gap-4 max-w-[45rem] mx-auto">
+            <h1 className="lg:text-5xl col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">
               {post.meta.title}
             </h1>
-            <p className="text-base text-gray-300 col-span-12">
+            <p className="muted-text opacity-100 text-gray-500 col-span-12">
               Posted on{" "}
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {

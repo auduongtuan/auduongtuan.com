@@ -28,12 +28,12 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
         className="bg-custom-neutral-900 text-white w-full z-10"
       >
         <div className="content-container p-header">
-          <div className="grid grid-cols-12 gap-8">
+          <div className="grid grid-cols-12 gap-4 md:gap-8">
             <h1 className="col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">
               Blog
             </h1>
             <div className="col-span-12 md:col-span-8 self-end">
-              <p className="font-display text-2xl font-medium opacity-0 animation-delay-200 animate-slide-in-fast">
+              <p className="text-base md:text-2xl opacity-0 animation-delay-200 animate-slide-in-fast">
                 A collection of my unorganized musings
               </p>
             </div>
@@ -55,7 +55,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
                     <FiLock className="text-gray-400"></FiLock>
                   )}
                 </h2>
-                <p className="mt-2 text-base text-gray-500">
+                <p className="mt-2 muted-text">
                   Posted on{" "}
                   {post.meta.date &&
                     new Date(post.meta.date).toLocaleDateString("en-US", {

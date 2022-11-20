@@ -51,6 +51,12 @@
   .p-homepage-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
   }
+  .sub-heading {
+    @apply text-sm md:text-base font-medium tracking-wide uppercase text-gray-500;
+  }
+  .muted-text {
+    @apply text-sm md:text-base opacity-60;
+  }
   .p-content {
     @apply py-12 md:py-16 lg:py-20;
   }
@@ -71,10 +77,10 @@
     }
   }
   .underline-link-light {
-    @apply whitespace-nowrap break-words transition-all duration-100 -mx-2 px-2 py-1 rounded-xl underline underline-offset-2 decoration-slate-200 hover:decoration-transparent hover:bg-black/5;
+    @apply whitespace-nowrap break-words transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl underline underline-offset-4 decoration-slate-200 hover:decoration-transparent hover:bg-black/5;
   }
   .underline-link-dark {
-    @apply whitespace-nowrap break-words transition-all duration-100 underline underline-offset-2 decoration-slate-600 hover:decoration-transparent hover:text-white hover:bg-white/10 -mx-2 px-2 -my-1 py-1 rounded-xl;
+    @apply whitespace-nowrap break-words transition-all duration-100 underline underline-offset-4 decoration-slate-600 hover:decoration-transparent hover:text-white hover:bg-white/10 -mx-2 px-2 -my-1 py-1 rounded-xl;
   }
 
   .main-container {

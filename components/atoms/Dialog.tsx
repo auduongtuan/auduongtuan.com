@@ -47,7 +47,7 @@ function Dialog({children, open, onClose, title, ...rest}) {
           <HDialog.Title as='header' className={` flex items-center justify-between bg-slate-100
           px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)] relative`}>
   
-            <div className="absolute flex gap-2 flex-grow basis-0 items-center">
+            <div className="absolute flex flex-gap-2 flex-grow basis-0 items-center">
                <button aria-label="Close it"
                   className="w-2 h-2 bg-slate-400 rounded block cursor-pointer hover:bg-red-500 active:bg-red-700"
                   onClick={onClose}
