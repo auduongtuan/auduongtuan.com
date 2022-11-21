@@ -56,4 +56,5 @@ export const allPosts: Post[] = postSlugs.reduce((posts: Post[], slug) => {
     }
     return posts;
 }, []);
+
 export default allPosts;
