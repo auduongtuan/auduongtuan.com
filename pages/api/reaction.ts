@@ -38,9 +38,9 @@ async function getReactions({ page, ip }) {
             } else {
               acc[reaction] = {quantity:1};
             }
-            if (saved_ip == ip) {
-              acc[reaction].reacted = true;
-            }
+            // if (saved_ip == ip) {
+              acc[reaction].reacted = saved_ip == ip;
+            // } 
           }
         }
       }
