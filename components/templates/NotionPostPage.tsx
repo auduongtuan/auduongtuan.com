@@ -6,7 +6,7 @@ import { useInView } from "react-intersection-observer";
 import HeadMeta from "../atoms/HeadMeta";
 import ReactionAndComment from "../molecules/ReactionAndComment";
 import NotionPostContent from "../organisms/NotionPostContent";
-
+import Tag from "../atoms/Tag";
 type PostSinglePageProps = {
   post: Post;
 };
@@ -38,11 +38,12 @@ const PostSinglePage = ({ post, postContent }) => {
         className="bg-custom-neutral-900 text-white w-full z-10"
       >
         <div className="content-container p-header">
-          <div className="grid grid-cols-12 gap-2 md:gap-4 max-w-[45rem] mx-auto">
-            <h1 className="lg:text-5xl col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 max-w-[56rem] mx-auto">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl col-span-1  opacity-0 animate-slide-in-fast">
               {post.meta.title}
             </h1>
-            <p className="muted-text opacity-100 text-gray-500 col-span-12">
+            <div className="flex space-x-2 mt-2 flex-wrap">{post.meta.tags.map((tag, i) => <Tag key={`tag-{$i}`} inverted>{tag}</Tag>)}</div>
+            <p className="muted-text mt-1 opacity-100 text-gray-500 ">
               Posted on{" "}
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -56,7 +57,7 @@ const PostSinglePage = ({ post, postContent }) => {
       </header>
       <div>
         <div className="content-container p-content content">
-          <div className="max-w-[45rem] mx-auto">
+          <div className="max-w-[56rem] mx-auto">
               <NotionPostContent postContent={postContent} />
           </div>
         </div>
