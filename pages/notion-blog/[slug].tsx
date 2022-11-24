@@ -26,8 +26,6 @@ export default function Blog({ post, postContent }) {
       <DefaultErrorPage statusCode={404} />
     </>
   }
-  console.log(post);
-  console.log(postContent);
   return (
     <NotionPostPage post={post} postContent={postContent} />
   );
