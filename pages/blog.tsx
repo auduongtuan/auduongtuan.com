@@ -20,6 +20,7 @@ export async function getStaticProps() {
   return {
     props: {
       posts: await getPosts(),
-    }
+    },
+    revalidate: 120,
   }
 }
