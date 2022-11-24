@@ -9,6 +9,7 @@ export interface Post {
     title: string;
     date: string;
     protected: boolean;
+    tags: string[];
   }
 }
 
@@ -48,7 +49,7 @@ function getProperty(
         returnValue = data;
         break;
       case "multi_select":
-        returnValue = data.options.map((option) => option.name);
+        returnValue = data.map((option) => option.name);
         break;
     }
     return returnValue;
@@ -84,6 +85,7 @@ export async function getPosts() {
         title: getProperty(page, "Title", "title"),
         date: getProperty(page, "Date", "date"),
         protected: getProperty(page, "Protected", "checkbox"),
+        tags: getProperty(page, "Tags", "multi_select"),
       },
     };
   });
