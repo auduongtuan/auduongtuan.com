@@ -11,8 +11,8 @@ type AppContextType = {
   [key: string]: any;
 };
 const defaultAppContextValues = {
-  webName: 'AU DUONG TUAN',
-  titleSeparator: ' | '
+  webName: `AU DUONG TUAN`,
+  titleSeparator: ` | `
 };
 const AppContext = React.createContext<AppContextType | undefined>(undefined);
 export function AppWrapper({ children }: { children: React.ReactNode }) {

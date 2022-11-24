@@ -31,7 +31,7 @@ export default function AboutHeader() {
               I&apos;m Tuan - a hybrid software designer &amp; developer. Proudly having many skills that span across a spectrum of disciplines helps me to solve problems in creative, organized and programmatic ways.</p>
             <p className="mt-4 md:mt-8 text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
 
-            I have been self-studying design &amp; code since 2009. Then, received a BFA in design and am getting my 2nd bachelor&apos;s degree in tech. You can read more at <Link href="/blog/my-digital-journey"><a className="underline-link-dark">my digital journey</a></Link>.
+            I have been self-studying design &amp; code since 2009. Then, received a BFA in design and am getting my 2nd bachelor&apos;s degree in tech. You can read more at <Link href="/blog/my-digital-journey" className="underline-link-dark">my digital journey</Link>.
 
             </p>
             <p className="mt-4 md:mt-8 text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">

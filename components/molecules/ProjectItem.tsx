@@ -3,7 +3,7 @@ import { Project } from '../../lib/project'
 import Button from '../atoms/Button'
 import { FiEye } from 'react-icons/fi'
 import IconButton from '../atoms/IconButton'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import Link from 'next/link'
 import BrowserFrame from '../atoms/Frame'
 import CustomImage from '../atoms/CustomImage'
@@ -57,7 +57,7 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [index]);
 
     // style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}
 
@@ -71,7 +71,7 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
             <div className="grid grid-cols-12 gap-4 gap-y-8 items-center justify-end">
                 {/* <div className={`col-span-12 transition-all duration-200 ease-bounce ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`} style={index != 0 ? {opacity: 100 * visibleRatio, transform: `translateY(${100-100*visibleRatio}px)`} : {}}> */}
                 <div className={`col-span-12 transition-all duration-200 ease-bounce opacity-0 intro ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`}>
-                    <h2>{project.meta.type == "casestudy" ? <Link href={`/project/${project.slug}`}>{project.meta.title}</Link> : project.meta.title}</h2>
+                    <h2>{project.meta.type == "casestudy" ? <Link href={`/project/${project.slug}`} legacyBehavior>{project.meta.title}</Link> : project.meta.title}</h2>
                     <p className='md:mt-1 muted-text'>{(new Date(project.meta.date)).toLocaleDateString("en-US", {year: 'numeric', month: 'long'})}</p>
                     {//old mt-2 
                     }
@@ -110,7 +110,7 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
                 </div>
             </div>
         </div>
-    )
+    );
 });
 ProjectItem.displayName = 'ProjectItem';
 export default ProjectItem

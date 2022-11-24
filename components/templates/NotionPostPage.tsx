@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { Post } from "../../lib/post";
+import { Post } from "../../lib/blog";
 import { MDXRemote } from "next-mdx-remote";
 import { useAppContext } from "../../lib/context/AppContext";
 import { useInView } from "react-intersection-observer";
 import HeadMeta from "../atoms/HeadMeta";
 import ReactionAndComment from "../molecules/ReactionAndComment";
+import NotionPostContent from "../organisms/NotionPostContent";
 
 type PostSinglePageProps = {
   post: Post;
@@ -14,7 +15,7 @@ const components = (slug: string) => ({
     return <h2 className="text-2xl">{children}</h2>;
   },
 });
-const PostSinglePage = ({ post }: PostSinglePageProps) => {
+const PostSinglePage = ({ post, postContent }) => {
   const appContext = useAppContext();
   const { ref, inView, entry } = useInView({
     /* Optional options */
@@ -56,10 +57,7 @@ const PostSinglePage = ({ post }: PostSinglePageProps) => {
       <div>
         <div className="content-container p-content content">
           <div className="max-w-[45rem] mx-auto">
-            <MDXRemote
-              {...post.parsedContent}
-              components={components(post.slug)}
-            />
+              <NotionPostContent postContent={postContent} />
           </div>
         </div>
         <div className=" bg-gray-200 p-content space-y-8">

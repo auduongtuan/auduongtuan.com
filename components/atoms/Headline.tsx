@@ -9,18 +9,18 @@ const Headline = React.memo(() => {
   const texts = useRef<(HTMLElement | null)[]>([]);
   const size = useWindowSize();
   // const {outerWidth} = useWindowSize();
-  let current = 0;
+  const activeTextIndex = useRef(0);
   useEffect(() => {
     const textAnimation = (firstTime = false) => {
       const underlineEl = underline.current as HTMLElement|null;
-      const textEl = texts.current[current] as HTMLElement|null;
+      const textEl = texts.current[activeTextIndex.current] as HTMLElement|null;
       if (!textEl || !underlineEl) return;
 
       // text
       textEl.style.transform = 'translateY(0)';
       textEl.style.opacity = '1';
-      current++;
-      if (current == texts.current.length) current = 0;
+      activeTextIndex.current++;
+      if (activeTextIndex.current == texts.current.length) activeTextIndex.current = 0;
 
       // underline
       if (!firstTime) underlineEl.style.transitionDuration = '300ms';
@@ -42,13 +42,13 @@ const Headline = React.memo(() => {
     setTimeout(() => textAnimation(true), 400);
     return () => {
     }
-  }, [startTextStyle.opacity, startTextStyle.transform, texts]);
+  }, [texts]);
   useEffect(() => {
     const underlineEl = underline.current as HTMLElement|null;
-    const textEl = texts.current[current] as HTMLElement|null;
+    const textEl = texts.current[activeTextIndex.current] as HTMLElement|null;
     if (!textEl || !underlineEl) return;
     underlineEl.style.width = textEl.offsetWidth+'px';
-  }, [current, size.width]);
+  }, [ size.width]);
   return (
     <div className="h1 grid grid-cols-1">
     <div className="row-start-1 row-span-1 col-start-1 col-span-1 w-full opacity-0 animate-slide-in-fast animation-delay-100">Hi! I design and build</div>

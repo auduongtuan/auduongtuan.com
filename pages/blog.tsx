@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import BlogPage from '../components/templates/BlogPage'
+import NotionBlogPage from '../components/templates/NotionBlogPage'
 import { useAppContext } from '../lib/context/AppContext'
-import allPosts, {Post} from '../lib/post'
+import { getPosts, Post } from '../lib/blog';
 
 export default function Blog({posts}:{posts: Post[]}) {
   const appContext = useAppContext();
@@ -11,7 +11,7 @@ export default function Blog({posts}:{posts: Post[]}) {
       <title>Blog {appContext.titleSeparator} {appContext.webName}</title>
       <meta name="description" content="This is a personal website of AU DUONG TUAN - a hybrid software designer/developer" />
     </Head>
-    <BlogPage posts={posts} />
+    <NotionBlogPage posts={posts} />
     </>
   )
 }
@@ -19,7 +19,7 @@ export default function Blog({posts}:{posts: Post[]}) {
 export async function getStaticProps() {
   return {
     props: {
-      posts: allPosts
+      posts: await getPosts(),
     }
   }
 }
