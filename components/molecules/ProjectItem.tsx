@@ -3,7 +3,7 @@ import { Project } from '../../lib/project'
 import Button from '../atoms/Button'
 import { FiEye } from 'react-icons/fi'
 import IconButton from '../atoms/IconButton'
-import Image from 'next/image'
+import Image from "next/legacy/image";
 import Link from 'next/link'
 import BrowserFrame from '../atoms/Frame'
 import CustomImage from '../atoms/CustomImage'
@@ -57,7 +57,7 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
-    }, []);
+    }, [index]);
 
     // style={index != 0 ? {transform: `translateY(${200-200*visibleRatio}px)`} : {}}
 

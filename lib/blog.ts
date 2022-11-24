@@ -1,7 +1,17 @@
 import { Client } from "@notionhq/client";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const BLOG_DATABASE_ID = "2f048ef5fe514384a8482b011546c138";
-import { compact } from "lodash";
+
+export interface Post {
+  id: string;
+  slug: string;
+  meta: {
+    title: string;
+    date: string;
+    protected: boolean;
+  }
+}
+
 function getProperty(
   page,
   prop: string,
@@ -79,9 +89,7 @@ export async function getPosts() {
   });
 }
 
-// export const getPost = async (id: string) => {
-//   return await notion.pages.retrieve({ page_id: id })
-// }
+
 export const getPostContent = async (id: string) => {
   const baseQuery = {
     block_id: id,

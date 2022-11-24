@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback, Fragment } from "react";
 import { useAppContext } from "../../lib/context/AppContext";
 import { useInView } from "react-intersection-observer";
-import { Post } from "../../lib/post";
 import ExternalLink from "../atoms/ExternalLink";
 import Link from "next/link";
 import { FiLock } from "react-icons/fi";
+import { Post } from "../../lib/blog";
 
 export default function BlogPage({ posts }: { posts: Post[] }) {
   const appContext = useAppContext();
@@ -69,7 +69,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
           return post.meta.protected ? (
             <Fragment key={post.slug}>{inner}</Fragment>
           ) : (
-            <Link href={`notion-blog/${post.slug}`} key={post.slug} legacyBehavior>
+            <Link href={`blog/${post.slug}`} key={post.slug} legacyBehavior>
               {inner}
             </Link>
           );
