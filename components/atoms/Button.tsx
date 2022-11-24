@@ -2,7 +2,7 @@ import Link, {LinkProps} from "next/link"
 import React from "react";
 import { FiArrowRight, FiDownload, FiLink2 } from "react-icons/fi";
 import {FaSpinner} from "react-icons/fa";
-export interface ButtonProps extends Omit<LinkProps, 'href'> {
+export interface ButtonProps  {
     href?: string;
     className?: string;
     colorful?: boolean;
@@ -13,7 +13,10 @@ export interface ButtonProps extends Omit<LinkProps, 'href'> {
     icon?: React.ReactNode;
     loading?: boolean;
     secondary?: boolean;
+    // scroll of Nextjs link
+    scroll?: boolean;
     type?: 'submit' | 'button' | 'reset';
+    onClick?: () => void;
 }
 const Button = ({
     href,
@@ -21,12 +24,13 @@ const Button = ({
     children,
     colorful = false,
     arrow = false,
-    scroll = false,
     disabled = false,
     external = false,
     icon,
     loading = false,
     secondary = false,
+    scroll,
+    type,
     ...rest
 }:ButtonProps) => {
     // if (colorful) className += ' bg-colorful text-dark-blue-900';
@@ -52,7 +56,7 @@ const Button = ({
             {...rest}>{children && children}{renderIcon}</Link>;
     } else {
         return (
-            <button className={`btn ${disabled ? 'disabled' : ''} ${className}`} {...rest}>{children && children}{renderIcon}</button>
+            <button type={type} className={`btn ${disabled ? 'disabled' : ''} ${className}`} {...rest}>{children && children}{renderIcon}</button>
         )
     }
 }

@@ -1,4 +1,4 @@
-import {Post} from '../../lib/post'
+import {Post} from '../../lib/blog'
 import Link from 'next/link'
 type PostItemProps = {
     post: Post

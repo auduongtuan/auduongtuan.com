@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Post } from "../../lib/post";
+import { Post } from "../../lib/blog";
 import { MDXRemote } from "next-mdx-remote";
 import { useAppContext } from "../../lib/context/AppContext";
 import { useInView } from "react-intersection-observer";
@@ -16,7 +16,6 @@ const components = (slug: string) => ({
   },
 });
 const PostSinglePage = ({ post, postContent }) => {
-  console.log(postContent);
   const appContext = useAppContext();
   const { ref, inView, entry } = useInView({
     /* Optional options */
