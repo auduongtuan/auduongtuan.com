@@ -35,7 +35,7 @@ const GifText = ({children, gifs, gifIndex, link, external = false, setActiveGif
       return <ExternalLink href={link} className={className} onMouseOver={showGif} onMouseLeave={hideGif} {...rest}>{children}</ExternalLink>
     }
     else {
-      return <Link href={link}>{span}</Link>;
+      return <Link href={link} legacyBehavior>{span}</Link>;
     }
   } else {
     return span;

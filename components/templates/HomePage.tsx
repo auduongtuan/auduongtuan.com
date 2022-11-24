@@ -1,4 +1,4 @@
-import { Post } from "../../lib/post";
+import { Post } from "../../lib/blog";
 import { Project } from "../../lib/project";
 import ProjectList from "../organisms/ProjectList";
 import PostList from "../organisms/PostList";

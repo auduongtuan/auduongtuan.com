@@ -1,5 +1,5 @@
 import React from 'react'
-import { Post } from "../../lib/post";
+import { Post } from "../../lib/blog";
 import PostItem from "../molecules/PostItem";
 export type PostListProps = {
   posts: Post[]
