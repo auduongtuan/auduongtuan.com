@@ -49,16 +49,16 @@ function getProperty(
 export async function getPosts() {
   const response = await notion.databases.query({
     database_id: BLOG_DATABASE_ID,
-    // filter: {
-    //   and: [
-    //     {
-    //       property: "Page",
-    //       rich_text: {
-    //         equals: page,
-    //       },
-    //     },
-    //   ],
-    // },
+    filter: {
+      and: [
+        {
+          property: "Published",
+          checkbox: {
+            equals: true,
+          },
+        },
+      ],
+    },
     sorts: [
       {
         property: "Date",

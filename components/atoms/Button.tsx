@@ -45,10 +45,11 @@ const Button = ({
         renderIcon = <FaSpinner className="animate-spin" />;
     }
     if (href) {
-        return (
-            external ? <a href={href} className={`btn ${disabled ? 'disabled' : ''} ${className}`} {...rest} target="_blank" rel="noreferrer">{children && children} {renderIcon}</a> : 
-            <Link href={href}><a className={`btn ${disabled && 'disabled'} ${className}`} {...rest}>{children && children}{renderIcon}</a></Link>
-        );
+        return external ? <a href={href} className={`btn ${disabled ? 'disabled' : ''} ${className}`} {...rest} target="_blank" rel="noreferrer">{children && children} {renderIcon}</a> : 
+        <Link
+            href={href}
+            className={`btn ${disabled && 'disabled'} ${className}`}
+            {...rest}>{children && children}{renderIcon}</Link>;
     } else {
         return (
             <button className={`btn ${disabled ? 'disabled' : ''} ${className}`} {...rest}>{children && children}{renderIcon}</button>

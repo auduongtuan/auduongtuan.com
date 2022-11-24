@@ -21,65 +21,60 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
     // console.log(entry);
   }, [inView, appContext]);
 
-  return (
-    <>
-      <header
-        ref={ref}
-        className="bg-custom-neutral-900 text-white w-full z-10"
-      >
-        <div className="content-container p-header">
-          <div className="grid grid-cols-12 gap-4 md:gap-8">
-            <h1 className="col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">
-              Blog
-            </h1>
-            <div className="col-span-12 md:col-span-8 self-end">
-              <p className="text-base md:text-2xl opacity-0 animation-delay-200 animate-slide-in-fast">
-                A collection of my unorganized musings
-              </p>
-            </div>
+  return <>
+    <header
+      ref={ref}
+      className="bg-custom-neutral-900 text-white w-full z-10"
+    >
+      <div className="content-container p-header">
+        <div className="grid grid-cols-12 gap-4 md:gap-8">
+          <h1 className="col-span-12 md:col-span-8 opacity-0 animate-slide-in-fast">
+            Blog
+          </h1>
+          <div className="col-span-12 md:col-span-8 self-end">
+            <p className="text-base md:text-2xl opacity-0 animation-delay-200 animate-slide-in-fast">
+              A collection of my unorganized musings
+            </p>
           </div>
         </div>
-      </header>
-      <div>
-        <div className="content-container p-content flex flex-col flex-gap-y-10">
-          {posts.map((post) => {
-            const inner = (
-              <a
-                className={`-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100 ${
-                  post.meta.protected && "cursor-not-allowed"
-                }`}
-              >
-                <h2 className="h3 flex items-center space-x-3">
-                  <span>{post.meta.title}</span>
-                  {post.meta.protected && (
-                    <FiLock className="text-gray-400"></FiLock>
-                  )}
-                </h2>
-                <p className="mt-2 muted-text">
-                  Posted on{" "}
-                  {post.meta.date &&
-                    new Date(post.meta.date).toLocaleDateString("en-US", {
-                      month: "long",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
-                </p>
-              </a>
-            );
-            const Tag = post.meta.protected ? Fragment : Link;
-            return post.meta.protected ? (
-              <Fragment key={post.slug}>{inner}</Fragment>
-            ) : (
-              <Link
-                href={`blog/${post.slug}`}
-                key={post.slug}
-              >
-                {inner}
-              </Link>
-            );
-          })}
-        </div>
       </div>
-    </>
-  );
+    </header>
+    <div>
+      <div className="content-container p-content flex flex-col flex-gap-y-10">
+        {posts.map((post) => {
+          const inner = (
+            <a
+              className={`-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100 ${
+                post.meta.protected && "cursor-not-allowed"
+              }`}
+            >
+              <h2 className="h3 flex items-center space-x-3">
+                <span>{post.meta.title}</span>
+                {post.meta.protected && (
+                  <FiLock className="text-gray-400"></FiLock>
+                )}
+              </h2>
+              <p className="mt-2 muted-text">
+                Posted on{" "}
+                {post.meta.date &&
+                  new Date(post.meta.date).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
+              </p>
+            </a>
+          );
+          const Tag = post.meta.protected ? Fragment : Link;
+          return post.meta.protected ? (
+            <Fragment key={post.slug}>{inner}</Fragment>
+          ) : (
+            <Link href={`blog/${post.slug}`} key={post.slug} legacyBehavior>
+              {inner}
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  </>;
 }

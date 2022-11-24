@@ -5,6 +5,7 @@ import { useAppContext } from "../../lib/context/AppContext";
 import { useInView } from "react-intersection-observer";
 import HeadMeta from "../atoms/HeadMeta";
 import ReactionAndComment from "../molecules/ReactionAndComment";
+import NotionPostContent from "../organisms/NotionPostContent";
 
 type PostSinglePageProps = {
   post: Post;
@@ -15,6 +16,7 @@ const components = (slug: string) => ({
   },
 });
 const PostSinglePage = ({ post, postContent }) => {
+  console.log(postContent);
   const appContext = useAppContext();
   const { ref, inView, entry } = useInView({
     /* Optional options */
@@ -56,7 +58,7 @@ const PostSinglePage = ({ post, postContent }) => {
       <div>
         <div className="content-container p-content content">
           <div className="max-w-[45rem] mx-auto">
-          
+              <NotionPostContent postContent={postContent} />
           </div>
         </div>
         <div className=" bg-gray-200 p-content space-y-8">
