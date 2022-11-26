@@ -6,10 +6,7 @@ export interface CodeHighlighterProps extends React.ComponentPropsWithRef<'pre'>
   language: string;
 }
 const Code = ({children, language, ...rest}: CodeHighlighterProps) => {
-  console.log(rest);
   useEffect(() => {
-    console.log('aa');
-    console.log(children, language);
     if (language in Prism.languages) {
       // Prism.highlight(children, Prism.languages[language], language);
     }

@@ -42,7 +42,7 @@ const PostSinglePage = ({ post, postContent }) => {
             <h1 className="text-2xl md:text-3xl lg:text-4xl col-span-1  opacity-0 animate-slide-in-fast">
               {post.meta.title}
             </h1>
-            <div className="flex space-x-2 mt-2 flex-wrap">{post.meta.tags.map((tag, i) => <Tag key={`tag-{$i}`} inverted>{tag}</Tag>)}</div>
+            <div className="flex space-x-2 mt-2 flex-wrap">{post.meta.tags.map((tag, i) => <Tag key={`tag-${i}`} inverted>{tag}</Tag>)}</div>
             <p className="muted-text mt-1 opacity-100 text-gray-500 ">
               Posted on{" "}
               {post.meta.date &&
