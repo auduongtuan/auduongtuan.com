@@ -1,7 +1,7 @@
 import { Client } from "@notionhq/client";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const BLOG_DATABASE_ID = "2f048ef5fe514384a8482b011546c138";
-
+import probe from "probe-image-size";
 export interface Post {
   id: string;
   slug: string;
@@ -107,5 +107,13 @@ export const getPostContent = async (id: string) => {
     });
     results = [...results, ...postContent.results];
   }
+  // handle image size
+  await Promise.all(results.map(async (block) => {
+    if (block.type == 'image') {
+      const {width, height} = await probe(block.image.file.url)
+      block.image.width = width;
+      block.image.height = height;
+    }
+  }));
   return results;
 };

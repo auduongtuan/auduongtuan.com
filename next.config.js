@@ -21,7 +21,16 @@ const withVideos = require("next-videos");
 //   //   disableStaticImages: true
 //   // }
 // }
-module.exports = withVideos(
+module.exports = withVideos({
+    images: {
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "*.amazonaws.com",
+        },
+      ],
+    }
+  }
   // withImages({
   //   images: {
   //     disableStaticImages: true,

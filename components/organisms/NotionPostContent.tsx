@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import ExternalLink from "../atoms/ExternalLink";
 const richText = (block) => {
@@ -37,12 +38,16 @@ const parseBlocks = (blocks: any[]) => {
             content.push(<p key={block.id}>{richText(block)}</p>);
             return content;
           case "image":
+            // console.log(block.id);
             content.push(
               <p key={block.id}>
-                <img
+                <Image
                   className="max-w-full text-center"
-                  src={block.image.file.url}
-                  alt={block.image.alt}
+                  // src={block.image.file.url}
+                  src={`/api/notion-asset/${block.id}`}
+                  alt={block.image.alt ? block.image.alt : 'Post Content Image'}
+                  width={block.image.width}
+                  height={block.image.height}
                 />
               </p>
             );

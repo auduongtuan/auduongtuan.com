@@ -21,7 +21,7 @@ const PostItem = ({post}:PostItemProps) => {
           <FiLock className="text-gray-400"></FiLock>
         )}
       </h2>
-      <div className="flex space-x-2 mt-2 flex-wrap">{post.meta.tags.map((tag, i) => <Tag key={`tag-{$i}`}>{tag}</Tag>)}</div>
+      <div className="flex space-x-2 mt-2 flex-wrap">{post.meta.tags.map((tag, i) => <Tag key={`tag-${i}`}>{tag}</Tag>)}</div>
       <p className="mt-2 muted-text">
         Posted on{" "}
         {post.meta.date &&

@@ -72,7 +72,6 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
     const innerRef = useRef<HTMLDivElement>(null  );
     useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
     const closeCallback = buttonCallbacks?.close ? buttonCallbacks?.close : (e) => {
-      console.log(innerRef?.current);
       if(innerRef?.current) {
         innerRef?.current.classList.add('opacity-0');
         innerRef?.current.classList.add('invisible');
