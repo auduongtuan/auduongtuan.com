@@ -79,7 +79,7 @@ const Navigation = React.memo(
               </button>
              : (
               <>
-                {bp != 'lg' &&
+                {(bp == 'md' || bp == 'sm') &&
                 <button
                   className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer ${
                     headerInView
