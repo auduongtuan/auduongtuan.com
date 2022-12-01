@@ -1,35 +1,11 @@
-import { useEffect } from "react";
 import { Post } from "../../lib/blog";
-import { MDXRemote } from "next-mdx-remote";
-import { useAppContext } from "../../lib/context/AppContext";
-import { useInView } from "react-intersection-observer";
 import HeadMeta from "../atoms/HeadMeta";
 import ReactionAndComment from "../molecules/ReactionAndComment";
 import NotionPostContent from "../organisms/NotionPostContent";
+import useHeaderInView from "../../hooks/useHeaderInView";
 import Tag from "../atoms/Tag";
-type PostSinglePageProps = {
-  post: Post;
-};
-const components = (slug: string) => ({
-  h2: ({ children }) => {
-    return <h2 className="text-2xl">{children}</h2>;
-  },
-});
 const PostSinglePage = ({ post, postContent }) => {
-  const appContext = useAppContext();
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    threshold: 0,
-    initialInView: true,
-    rootMargin: "-10px",
-  });
-  useEffect(() => {
-    appContext &&
-      appContext.setHeaderInView &&
-      appContext.setHeaderInView(inView);
-    // console.log(entry);
-  }, [inView, appContext]);
-
+  const {ref} = useHeaderInView();
   return (
     <>
       <HeadMeta title={post.meta.title} />

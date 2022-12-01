@@ -3,16 +3,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import allProjects from '../lib/project'
 import HomePage, {HomePageProps} from "../components/templates/HomePage";
-import { useAppContext } from '../lib/context/AppContext';
+import HeadMeta from '../components/atoms/HeadMeta';
 
 export default function Index({posts, projects} : HomePageProps) {
-  const appContext = useAppContext();
   return (
     <>
-    <Head>
-      <title>{appContext.webName}</title>
-      <meta name="description" content="This is a personal website of AU DUONG TUAN - a hybrid software designer/developer" />
-    </Head>
+    <HeadMeta description='This is a personal website of AU DUONG TUAN - a hybrid software designer/developer' />
     <HomePage projects={projects} posts={posts} />
     </>
   )

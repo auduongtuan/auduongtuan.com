@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react'
 import slugify from 'slugify';
-import { useAppContext } from '../../lib/context/AppContext';
 interface VisibleInfo {
   start: number;
   end: number;
@@ -8,12 +7,10 @@ interface VisibleInfo {
 }
 
 const ProjectContentMenu = React.memo(() => {
-  const appContext = useAppContext();
   const [headings, setHeadings] = useState<HTMLElement[]>([]);
   const [active, setActive] = useState<number>(0);
   const [maxLength, setMaxLength] = useState<number>(0);
   const [visibleInfo, setVisibleInfo] = useState<VisibleInfo[]>([]);
-  const trackers = useRef<HTMLDivElement[]>([]);
 
   useEffect(() => {
       const headingsTemp = Array.from(document.querySelectorAll('#project h2')) as HTMLElement[];

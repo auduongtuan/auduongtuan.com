@@ -1,14 +1,15 @@
 import { Fragment, useEffect } from 'react'
 import { Dialog as HDialog, Transition } from '@headlessui/react'
-import { useAppContext } from '../../lib/context/AppContext';
+import { useDispatch } from 'react-redux';
+import { setPauseScrollEvent } from '../../store/store';
 function Dialog({children, open, onClose, title, ...rest}) {
-  const { setPauseScrollEvent } = useAppContext();
+  const dispatch = useDispatch();
   useEffect(() => {
-    if(open) setPauseScrollEvent(true);
+    if(open) dispatch(setPauseScrollEvent(true));
     return () => {
-      setPauseScrollEvent(false);
+      dispatch(setPauseScrollEvent(false));
     }
-  }, [open, setPauseScrollEvent]);
+  }, [open, dispatch]);
   return (
     <Transition 
       show={open}

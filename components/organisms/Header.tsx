@@ -1,12 +1,11 @@
 import React, {useEffect, useRef, useState} from "react";
 import Button from "../atoms/Button";
-import { useInView } from 'react-intersection-observer';
-import { useAppContext } from "../../lib/context/AppContext";
 import CustomVideo from "../atoms/CustomVideo";
 import ExternalLink from "../atoms/ExternalLink";
 import Headline from "../atoms/Headline";
 import Link from "next/link";
 import { PhotoFrame } from "../atoms/Frame";
+import useHeaderInView from "../../hooks/useHeaderInView";
 
 interface GifTextProps extends React.HTMLProps<HTMLAnchorElement> {
   link?: string;
@@ -42,17 +41,9 @@ const GifText = ({children, gifs, gifIndex, link, external = false, setActiveGif
   }
 }
 export default function Header() {
-  const appContext = useAppContext();
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    threshold: 0,
-    initialInView: true,
-    rootMargin: '-10px'
-  });
-  useEffect(() => {
-    appContext && appContext.setHeaderInView && appContext.setHeaderInView(inView)    
-    // console.log(entry);
-  }, [inView, appContext]);
+
+  const { ref } = useHeaderInView();
+
   const gifs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeGif, setActiveGif] = useState<number | null>(null);
   return (

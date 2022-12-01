@@ -1,23 +1,16 @@
 import React, {useEffect, useState, useCallback} from "react";
-import { useAppContext } from "../../lib/context/AppContext";
+import { setHeaderInView } from "../../store/store";
 import { useInView } from 'react-intersection-observer';
 import BrowserFrame from "../atoms/Frame";
 import CustomImage from "../atoms/CustomImage";
 import ExternalLink from "../atoms/ExternalLink";
 import Link from "next/link";
 import {PhotoFrame} from "../atoms/Frame";
+import { useDispatch, useSelector } from "react-redux";
+import useHeaderInView from "../../hooks/useHeaderInView";
+
 export default function AboutHeader() {
-  const appContext = useAppContext();
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    threshold: 0,
-    initialInView: true,
-    rootMargin: '-10px'
-  });
-  useEffect(() => {
-    appContext && appContext.setHeaderInView && appContext.setHeaderInView(inView)    
-    // console.log(entry);
-  }, [inView, appContext]);
+  const { ref, inView } = useHeaderInView();
   const images = ['tuan.jpg', 'tuan_haha.jpg'];
   const [image, setImage] = useState(0);
   return (
