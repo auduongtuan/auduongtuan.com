@@ -1,16 +1,12 @@
 import Head from 'next/head'
 import NotionBlogPage from '../components/templates/NotionBlogPage'
-import { useAppContext } from '../lib/context/AppContext'
 import { getPosts, Post } from '../lib/blog';
+import HeadMeta from '../components/atoms/HeadMeta';
 
 export default function Blog({posts}:{posts: Post[]}) {
-  const appContext = useAppContext();
   return (
     <>
-    <Head>
-      <title>Blog {appContext.titleSeparator} {appContext.webName}</title>
-      <meta name="description" content="This is a personal website of AU DUONG TUAN - a hybrid software designer/developer" />
-    </Head>
+    <HeadMeta title='Blog' description='This is a personal website of AU DUONG TUAN - a hybrid software designer/developer' />
     <NotionBlogPage posts={posts} />
     </>
   )

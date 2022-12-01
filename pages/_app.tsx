@@ -3,11 +3,12 @@ import "../styles/prism.css";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import type { AppProps } from "next/app";
-import { AppWrapper } from "../lib/context/AppContext";
 import smoothscroll from "smoothscroll-polyfill";
 import Navigation from "../components/organisms/Navigation";
 import Script from "next/script";
 import * as gtag from "../lib/gtag";
+import { Provider } from "react-redux";
+import store from "../store/store";
 
 const isProduction = process.env.NODE_ENV === "production";
 function MyApp({ Component, pageProps }: AppProps) {
@@ -23,50 +24,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         router.events.off("routeChangeComplete", handleRouteChange);
       };
     }
-
-    //   const handleRouteChange = (url, { shallow }) => {
-    //     console.log(
-    //       `App is changing to ${url} ${
-    //         shallow ? 'with' : 'without'
-    //       } shallow routing`
-    //     )
-    //   }
-
-    //   router.events.on('routeChangeStart', handleRouteChange)
-    //   // const handleHashChangeStart
-    //   const handleHashChangeStart = () => {
-    //     window.scrollTo(0, 0);
-
-    //   }
-    //   const handleHashChangeComplete = (url) => {
-    //     console.log('hash changed');
-    //     const hash = url.split('#')[1];
-    //     const el = document.getElementById(hash) as HTMLElement|null;
-    //     if (el) {
-    //       console.log(el);
-    //       setTimeout(function() {
-
-    //         window.scrollTo(0, 0);
-    //       }, 1);
-    //       // el.scrollIntoView({
-    //       //   behavior: 'smooth'
-    //       // });
-    //       // window.scrollTo({ top: el.scrollTop, behavior: 'smooth' });
-    //     }
-    //   }
-    //   router.events.on('hashChangeStart', handleHashChangeStart);
-    //   router.events.on('hashChangeComplete', handleHashChangeComplete);
-    //   // If the component is unmounted, unsubscribe
-    //   // from the event with the `off` method:
-    //   return () => {
-    //     router.events.off('routeChangeStart', handleRouteChange);
-    //     router.events.off('hashChangeStart', handleHashChangeStart);
-    //     router.events.off('hashChangeComplete', handleHashChangeComplete);
-    //   }
   }, [router.events]);
 
   return (
-    <AppWrapper>
+    <Provider store={store}>
       <Navigation hideOnScroll={true} fixed={true} />
       {isProduction && <>
       <Script
@@ -93,7 +54,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         
       </div>
       <Component {...pageProps} />
-    </AppWrapper>
+    </Provider>
   );
 }
 

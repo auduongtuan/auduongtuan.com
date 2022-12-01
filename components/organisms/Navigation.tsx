@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, Fragment } from "react";
-import { useAppContext } from "../../lib/context/AppContext";
+import { useDispatch, useSelector } from "react-redux";
 import { FiMenu, FiX } from "react-icons/fi";
 import NavigationLink from "../atoms/NavigationLink";
 import useBreakpoint from "../../hooks/useBreakpoint";
 import { Transition } from "@headlessui/react";
+import { setMenuOpened, RootState } from "../../store/store";
 interface NavigationProps {
   fixed?: boolean;
   hideOnScroll?: boolean;
@@ -17,11 +18,10 @@ const menuItems = [
 
 const Navigation = React.memo(
   ({ fixed = true, hideOnScroll = false }: NavigationProps) => {
-    const { menuOpened, setMenuOpened, headerInView, pauseScrollEvent } =
-      useAppContext();
+    const {menuOpened, pauseScrollEvent, headerInView} = useSelector((state: RootState) => state.app);
+    const dispatch = useDispatch();
     const headerRef = useRef<HTMLElement>(null);
     const bp = useBreakpoint();
-    // console.log('re-render navigation");
     useEffect(() => {
       let lastScrollTop = 0;
       const handleScroll = () => {
@@ -66,14 +66,14 @@ const Navigation = React.memo(
               href="/"
               logo
               inverted={headerInView || menuOpened}
-              callback={() => setMenuOpened(false)}
+              callback={() => dispatch(setMenuOpened(false))}
             >
               Au Duong Tuan
             </NavigationLink>
             {menuOpened ?
               <button
                 className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer text-white hover:bg-white/10`}
-                onClick={() => setMenuOpened(false)}
+                onClick={() => dispatch(setMenuOpened(false))}
               >
                 <FiX className="w-6 h-6" />
               </button>
@@ -86,7 +86,7 @@ const Navigation = React.memo(
                       ? "text-white hover:bg-white/10"
                       : "text-dark-blue-900 hover:bg-black/5"
                   }`}
-                  onClick={() => setMenuOpened(true)}
+                  onClick={() => dispatch(setMenuOpened(true))}
                 >
                   <FiMenu className="w-6 h-6" />
                 </button>
@@ -129,7 +129,7 @@ const Navigation = React.memo(
                       href={item.href}
                       className="block w-full py-4 text-center -m-0"
                       inverted
-                      callback={() => setMenuOpened(false)}
+                      callback={() => dispatch(setMenuOpened(false))}
                     >
                       {item.name}
                     </NavigationLink>

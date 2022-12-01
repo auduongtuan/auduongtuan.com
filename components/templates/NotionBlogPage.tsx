@@ -1,24 +1,11 @@
-import React, { useEffect, useState, useCallback, Fragment } from "react";
-import { useAppContext } from "../../lib/context/AppContext";
-import { useInView } from "react-intersection-observer";
+import React from "react";
 
 import { Post } from "../../lib/blog";
 import PostItem from "../molecules/PostItem";
+import useHeaderInView from "../../hooks/useHeaderInView";
 
 export default function BlogPage({ posts }: { posts: Post[] }) {
-  const appContext = useAppContext();
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    threshold: 0,
-    initialInView: true,
-    rootMargin: "-10px",
-  });
-  useEffect(() => {
-    appContext &&
-      appContext.setHeaderInView &&
-      appContext.setHeaderInView(inView);
-    // console.log(entry);
-  }, [inView, appContext]);
+  const { ref } = useHeaderInView();
 
   return <>
     <header

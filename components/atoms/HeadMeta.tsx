@@ -1,8 +1,10 @@
 import Head from "next/head";
-import { useAppContext } from "../../lib/context/AppContext";
+export const titles = {
+  webName: `AU DUONG TUAN`,
+  titleSeparator: ` | `
+};
 const HeadMeta = ({title = '', description = ''}:{title?:string, description?: string}) => {
-  const appContext = useAppContext();
-  const finalTitle = title ? `${title}${appContext.titleSeparator}${appContext.webName}` : appContext.webName;
+  const finalTitle = title ? `${title}${titles.titleSeparator}${titles.webName}` : titles.webName;
   return (
       <Head>
           <title>{finalTitle}</title>

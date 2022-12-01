@@ -1,27 +1,15 @@
 import React, {useEffect} from 'react'
 import { Project } from '../../lib/project'
-import { useInView } from 'react-intersection-observer';
-import { useAppContext } from "../../lib/context/AppContext";
 import { FiEye } from 'react-icons/fi';
 import IconButton from '../atoms/IconButton';
 import Badge from "../atoms/Badge";
-import Button from '../atoms/Button';
+import useHeaderInView from '../../hooks/useHeaderInView';
 interface ProjectSingleHeaderProps {
   project: Project
 }
 
 export const ProjectSingleHeader = ({project}:ProjectSingleHeaderProps) => {
-  const appContext = useAppContext();
-  const { ref, inView, entry } = useInView({
-    /* Optional options */
-    threshold: 0,
-    initialInView: true,
-    rootMargin: '-10px'
-  });
-  useEffect(() => {
-    appContext && appContext.setHeaderInView && appContext.setHeaderInView(inView)    
-    // console.log(entry);
-  }, [inView, appContext]);
+  const { ref } = useHeaderInView();
 
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
