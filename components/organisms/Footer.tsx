@@ -3,6 +3,7 @@ import useSWR from 'swr';
 import { FiFacebook, FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
 import ExternalLink from "../atoms/ExternalLink";
 import socialNetworks from "../../lib/socialNetworks";
+import Link from "next/link";
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR('/api/spotify', fetcher);
@@ -38,7 +39,7 @@ export default function Footer() {
             </div>
               
             <div className="text-sm md:text-base col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-6 md:leading-8 opacity-0 animate-slide-in-fast animation-delay-100">
-             Written, designed and built by Tuan<br />using <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>, <ExternalLink href="https://tailwindcss.com/">Tailwind</ExternalLink><br />
+             Written, designed and built by Tuan<br />using <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>, <ExternalLink href="https://tailwindcss.com/">Tailwind</ExternalLink>, <Link className="hover:underline" href='/blog/enhance-skills-building-personal-websites'>...</Link><br />
              © {new Date().getFullYear()}.
             </div>
            
