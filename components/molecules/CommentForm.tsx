@@ -1,7 +1,4 @@
-import {
-  useReducer,
-  Fragment,
-} from "react";
+import { useReducer, useRef, Fragment } from "react";
 import Button from "../atoms/Button";
 import { FiSend } from "react-icons/fi";
 import Toast from "../atoms/Toast";
@@ -20,6 +17,9 @@ const CommentForm = ({ page, wording }) => {
     { open: false, loading: false, sent: false, error: false }
   );
   const { register, handleSubmit, reset } = useForm();
+  const messageRef = useRef<HTMLTextAreaElement | null>(null);
+  const { ref: formContentRef, ...formContentRest } = register('content');
+
 
   // console.log('re-render contact form");
   const submitHandler = (data: FieldValues) => {
@@ -53,17 +53,17 @@ const CommentForm = ({ page, wording }) => {
         <span className="block flex-grow text-left">{wording.cta}</span>
         <FiMessageCircle className="flex-grow-0"></FiMessageCircle>
       </button>
-      {state.sent && 
-          <Toast type="success" afterLeave={() => setState({sent: false})}>
-            Message sent. Thank for your {wording.singular}.
-          </Toast>
-}
+      {state.sent && (
+        <Toast type="success" afterLeave={() => setState({ sent: false })}>
+          Message sent. Thank for your {wording.singular}.
+        </Toast>
+      )}
       <Dialog
         open={state.open}
         onClose={() => setState({ open: false })}
         title={wording.title}
+        initialFocus={messageRef}
       >
-        
         <form onSubmit={handleSubmit(submitHandler)}>
           <div className="p-6 space-y-6">
             <header>
@@ -74,6 +74,26 @@ const CommentForm = ({ page, wording }) => {
               </p>
             </header>
             <section className="space-y-4">
+              <div>
+                <label
+                  htmlFor="content-input"
+                  className="text-base text-gray-800 block"
+                >
+                  Message:
+                </label>
+                <textarea
+                  id="content-input"
+                  required
+                  // placeholder="What do you want to share?"
+                  maxLength={500}
+                  {...formContentRest}
+                  ref={(e) => {
+                    formContentRef(e);
+                    messageRef.current = e;
+                  }}
+                  className="h-32 text-base leading-tight	block rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
+                />
+              </div>
               <div>
                 <label
                   htmlFor="name-input"
@@ -106,28 +126,16 @@ const CommentForm = ({ page, wording }) => {
                   className="text-base leading-tight rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
                 />
               </div>
-              <div>
-                <label
-                  htmlFor="content-input"
-                  className="text-base text-gray-800 block"
-                >
-                  Message:
-                </label>
-                <textarea
-                  id="content-input"
-                  required
-                  // placeholder="What do you want to share?"
-                  maxLength={500}
-                  {...register("content")}
-                  className="h-32 text-base leading-tight	block rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
-                />
-              </div>
             </section>
             <footer className="flex flex-gap-x-2">
               <Button type="submit" loading={state.loading} icon={<FiSend />}>
                 Send
               </Button>
-              <Button type="button" secondary onClick={() => setState({ open: false })}>
+              <Button
+                type="button"
+                secondary
+                onClick={() => setState({ open: false })}
+              >
                 Cancel
               </Button>
             </footer>
