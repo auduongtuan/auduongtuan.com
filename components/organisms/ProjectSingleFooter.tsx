@@ -24,7 +24,7 @@ const ProjectSingleFooter = ({
       <div className="p-content  relative">
         <section className="main-container">
           <h3>Other projects</h3>
-          <OtherProjectList projects={projects} />
+          <OtherProjectList projects={projects} project={project} />
         </section>
       </div>
     </Fragment>
