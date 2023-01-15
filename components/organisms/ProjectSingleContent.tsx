@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import ProjectContentMenu from "../molecules/ProjectContentMenu";
+import ContentMenu from "../molecules/ContentMenu";
 import { MDXRemote } from "next-mdx-remote";
 import ProjectComponents from "../atoms/ProjectComponents";
 import { Project } from "../../lib/project";
@@ -12,7 +12,7 @@ const ProjectSingleContent = ({ project }: { project: Project }) => {
           project.meta.contentBackground && project.meta.contentBackground,
       }}
     >
-      <ProjectContentMenu />
+      <ContentMenu />
       <article id="project" className="main-container">
         <div className="project-grid">
           <MDXRemote

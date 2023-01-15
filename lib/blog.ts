@@ -2,6 +2,8 @@ import { Client } from "@notionhq/client";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const BLOG_DATABASE_ID = "2f048ef5fe514384a8482b011546c138";
 import probe from "probe-image-size";
+import fetchMeta from 'fetch-meta-tags'
+
 export interface Post {
   id: string;
   slug: string;
@@ -37,16 +39,16 @@ function getProperty(
     let returnValue;
     switch (propType) {
       case "rich_text":
-        returnValue = data[0].plain_text;
+        returnValue = data[0].plain_text || '';
         break;
       case "title":
-        returnValue = data[0].plain_text;
+        returnValue = data[0].plain_text || '';
         break;
       case "date":
-        returnValue = data.start;
+        returnValue = 'start' in data ? data.start : '';
         break;
       case "checkbox":
-        returnValue = data;
+        returnValue = data as boolean;
         break;
       case "multi_select":
         returnValue = data.map((option) => option.name);
@@ -57,7 +59,7 @@ function getProperty(
     return null;
   }
 }
-export async function getPosts() {
+export async function getPosts(preview?: boolean) {
   const response = await notion.databases.query({
     database_id: BLOG_DATABASE_ID,
     filter: {
@@ -65,7 +67,7 @@ export async function getPosts() {
         {
           property: "Published",
           checkbox: {
-            equals: true,
+            equals: preview ? false : true,
           },
         },
       ],
@@ -91,8 +93,7 @@ export async function getPosts() {
   });
 }
 
-
-export const getPostContent = async (id: string) => {
+export const getBlockChildren = async (id: string) => {
   const baseQuery = {
     block_id: id,
     page_size: 100,
@@ -114,6 +115,28 @@ export const getPostContent = async (id: string) => {
       block.image.width = width;
       block.image.height = height;
     }
+    if (block.type == 'bookmark') {
+      let blockInfo;
+      try {
+        blockInfo = await fetchMeta(block.bookmark.url);
+      }
+      catch(e) {
+        blockInfo = {
+          title: null,
+          description: null
+        }
+      }
+      block.bookmark.meta = blockInfo;
+    }
+    // get children
+    if (block.has_children) {
+      block.children = await getBlockChildren(block.id);
+    }
   }));
+  return results;
+}
+
+export const getPostContent = async (id: string) => {
+  const results = await getBlockChildren(id);
   return results;
 };

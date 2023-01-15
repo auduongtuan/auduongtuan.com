@@ -9,6 +9,9 @@
   .clip-path-paper-fold {
     clip-path: polygon(calc(100% - 2rem) 0, 100% 2rem, 100% 100%, 0 100%, 0 0);
   }
+  .mt-content-node {
+    @apply mt-3 md:mt-4 lg:mt-6;
+  }
 }
 @layer components {
   /* html {
@@ -61,9 +64,7 @@
     /*@apply py-12 md:py-16 lg:py-20;*/
     @apply py-8 md:py-16 lg:py-20;
   }
-  .mt-content-node {
-    @apply mt-3 md:mt-4 lg:mt-6;
-  }
+
   .btn {
     @apply py-2 px-4 rounded-lg font-semibold text-base tracking-wide text-white bg-dark-blue-900 hover:bg-blue-800 active:bg-blue-900 inline-block transition-all focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40;
     @apply inline-flex items-center;
@@ -91,58 +92,6 @@
   .content-container {
     @apply px-4 md:px-6 mx-auto;
     @apply max-w-full lg:w-[76rem];
-  }
-  .content {
-    @apply text-gray-800;
-    a {
-      @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
-    }
-    blockquote p {
-      @apply text-xl md:text-2xl font-semibold;
-    }
-    
-    p, ul, ol {
-      @apply body-text;
-    }
-    
-    [class^="text"] > p {
-      font-size: unset;
-    }
-    
-   
-    
-    ul {
-      list-style-type: disc;
-      @apply mt-3 md:mt-4 pl-8;
-    }
-
-    li {
-      @apply mt-2 first:mt-0;
-    }
-    
-    h2 {
-      @apply mt-8 first:mt-0 text-slate-800;
-    }
-
-    h3 {
-      @apply mt-4 text-slate-800;
-    }
-
-    h4 {
-      @apply mt-4 text-gray-500;
-    }
-
-    h1, h2, h3, p, ul {
-      & + p {
-       @apply mt-content-node; 
-      }
-    }
-
-
-    h4 + p, h4 + ul {
-      @apply mt-1;
-      @apply text-base leading-7;
-    }
   }
   .project-grid {
     @apply grid grid-cols-3 gap-x-4 text-gray-800;

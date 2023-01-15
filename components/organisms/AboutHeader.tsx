@@ -8,7 +8,7 @@ import Link from "next/link";
 import {PhotoFrame} from "../atoms/Frame";
 import { useDispatch, useSelector } from "react-redux";
 import useHeaderInView from "../../hooks/useHeaderInView";
-
+import Balancer from 'react-wrap-balancer';
 export default function AboutHeader() {
   const { ref, inView } = useHeaderInView();
   const images = ['tuan.jpg', 'tuan_haha.jpg'];
@@ -19,7 +19,7 @@ export default function AboutHeader() {
         <div className="grid grid-cols-12 gap-x-8 gap-y-6 md:gap-y-8">
            <h1 className="col-span-12 md:col-span-8 lg:mr-14 opacity-0 animate-slide-in-fast">Xin chào!</h1>
           <div className="col-span-12 md:col-span-8 lg:mr-14 self-end">
-           
+            <Balancer>
             <p className="text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-150 animate-slide-in-fast">
               I&apos;m Tuan - a hybrid software designer &amp; developer. Proudly having many skills that span across a spectrum of disciplines helps me to solve problems in creative, organized and programmatic ways.</p>
             <p className="mt-4 md:mt-8 text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
@@ -30,7 +30,7 @@ export default function AboutHeader() {
             <p className="mt-4 md:mt-8 text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
             Previously, I had worked in Design System team at <ExternalLink href="https://aperia.com" className="underline-link-dark">Aperia  ↗</ExternalLink>. 
             </p>
-     
+            </Balancer>
           </div>
           <div className="col-span-12 md:col-span-4 md:row-start-1 md:col-start-9 md:row-span-2 self-end opacity-0 animate-slide-in-fast animation-delay-400" onMouseOver={() => setImage(1)} onMouseLeave={() => setImage(0)}>
             <PhotoFrame name={images[image]} inverted>
