@@ -4,6 +4,8 @@ import { FiEye } from 'react-icons/fi';
 import IconButton from '../atoms/IconButton';
 import Badge from "../atoms/Badge";
 import useHeaderInView from '../../hooks/useHeaderInView';
+import Balancer from "react-wrap-balancer";
+
 interface ProjectSingleHeaderProps {
   project: Project
 }
@@ -45,7 +47,13 @@ export const ProjectSingleHeader = ({project}:ProjectSingleHeaderProps) => {
                 </ul>
               </div>
             </div>
-            <p className={`opacity-0 animation-delay-200 animate-slide-in-fast col-span-12 ${project.meta.achievements ? 'md:mt-28' : 'md:mt-10'} md:col-start-5 md:col-span-8 md:row-span-3 md:self-end big-text`}>{project.meta.description}</p>
+            
+            <p className={`opacity-0 animation-delay-200 animate-slide-in-fast col-span-12 ${project.meta.achievements ? 'md:mt-28' : 'md:mt-10'} md:col-start-5 md:col-span-8 md:row-span-3 md:self-end big-text`}>
+            <Balancer ratio={0.36}>
+              {project.meta.description}
+            </Balancer> 
+            
+            </p>
         </div>
       </div>
     </header>

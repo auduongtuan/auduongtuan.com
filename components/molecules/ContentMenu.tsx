@@ -6,14 +6,14 @@ interface VisibleInfo {
   length: number;
 }
 
-const ProjectContentMenu = React.memo(() => {
+const ContentMenu = React.memo(() => {
   const [headings, setHeadings] = useState<HTMLElement[]>([]);
   const [active, setActive] = useState<number>(0);
   const [maxLength, setMaxLength] = useState<number>(0);
   const [visibleInfo, setVisibleInfo] = useState<VisibleInfo[]>([]);
 
   useEffect(() => {
-      const headingsTemp = Array.from(document.querySelectorAll('#project h2')) as HTMLElement[];
+      const headingsTemp = Array.from(document.querySelectorAll('h2')) as HTMLElement[];
       setHeadings(headingsTemp);
       const setupHeading = () => {
         let visibleInfoTemp: VisibleInfo[] = [];
@@ -93,5 +93,5 @@ const ProjectContentMenu = React.memo(() => {
     </div>
   );
 });
-ProjectContentMenu.displayName = 'ProjectContentMenu';
-export default ProjectContentMenu;
+ContentMenu.displayName = 'ContentMenu';
+export default ContentMenu;

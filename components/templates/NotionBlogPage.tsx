@@ -3,6 +3,7 @@ import React from "react";
 import { Post } from "../../lib/blog";
 import PostItem from "../molecules/PostItem";
 import useHeaderInView from "../../hooks/useHeaderInView";
+import ContentMenu from "../molecules/ContentMenu";
 
 export default function BlogPage({ posts }: { posts: Post[] }) {
   const { ref } = useHeaderInView();
