@@ -102,7 +102,7 @@ const parseBlocks = (blocks: any[]) => {
             );
             return content;
           case "heading_3":
-            content.push(
+            content.push( 
               <Balancer key={block.id} as={Fragment}>
               <h3
                 className="text-base md:text-2xl font-semibold mt-4 md:mt-8 text-slate-800"
@@ -158,6 +158,8 @@ const parseBlocks = (blocks: any[]) => {
               lastListItemBlockIndex = blockIndex;
               let listItemBlocks: any[] = [];
               while (
+                blocks[lastListItemBlockIndex] &&
+                'type' in blocks[lastListItemBlockIndex] &&
                 blocks[lastListItemBlockIndex].type == "bulleted_list_item" &&
                 lastListItemBlockIndex <= blocks.length - 1
               ) {
@@ -184,6 +186,8 @@ const parseBlocks = (blocks: any[]) => {
               lastListItemBlockIndex = blockIndex;
               let listItemBlocks: any[] = [];
               while (
+                blocks[lastListItemBlockIndex] &&
+                'type' in blocks[lastListItemBlockIndex] &&
                 blocks[lastListItemBlockIndex].type == "numbered_list_item" &&
                 lastListItemBlockIndex <= blocks.length - 1
               ) {
