@@ -70,6 +70,18 @@ export async function getPosts(preview?: boolean) {
             equals: preview ? false : true,
           },
         },
+        {
+          property: "Slug",
+          rich_text: {
+            is_not_empty: true
+          }
+        },
+        {
+          property: "Date",
+          date: {
+            is_not_empty: true
+          }
+        }
       ],
     },
     sorts: [

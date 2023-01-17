@@ -9,6 +9,7 @@ import Script from "next/script";
 import * as gtag from "../lib/gtag";
 import { Provider } from "react-redux";
 import store from "../store/store";
+import { Provider as BalancerProvider } from 'react-wrap-balancer'
 
 const isProduction = process.env.NODE_ENV === "production";
 function MyApp({ Component, pageProps }: AppProps) {
@@ -28,6 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
+      <BalancerProvider>
       <Navigation hideOnScroll={true} fixed={true} />
       {isProduction && <>
       <Script
@@ -54,6 +56,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         
       </div>
       <Component {...pageProps} />
+      </BalancerProvider>
     </Provider>
   );
 }

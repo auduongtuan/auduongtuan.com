@@ -43,7 +43,7 @@ const ContentMenu = React.memo(() => {
 
   useEffect(() => {
     headings.forEach((heading) => {
-      if(heading.textContent) heading.id = slugify(heading.textContent, {lower: true, strict: true});
+      if(heading.innerText) heading.id = slugify(heading.innerText, {lower: true, strict: true});
     });
     visibleInfo.length > 0 && setMaxLength(visibleInfo.reduce((a,b) => a.length > b.length ? a : b ).length);
     const calculateVisiblePercentage = (start, end) => {
@@ -86,7 +86,7 @@ const ContentMenu = React.memo(() => {
               else {
                 window.scrollTo({top: 0, behavior: 'smooth'});
               }
-            }} className={`pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-4 text-sm font-semibold hover:text-gray-800 ${i == active ? 'text-gray-900' : 'text-gray-400'}`} href={`#${heading.id}`}>{heading.textContent}</a>
+            }} className={`pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-4 text-sm font-semibold hover:text-gray-800 ${i == active ? 'text-gray-900' : 'text-gray-400'}`} href={`#${heading.id}`}>{heading.innerText}</a>
           </li>)}
           </ul>
       </aside>
