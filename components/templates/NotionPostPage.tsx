@@ -1,11 +1,11 @@
 import { Post } from "../../lib/blog";
 import HeadMeta from "../atoms/HeadMeta";
 import ReactionAndComment from "../molecules/ReactionAndComment";
-import NotionPostContent from "../organisms/NotionPostContent";
 import useHeaderInView from "../../hooks/useHeaderInView";
 import Balancer from "react-wrap-balancer";
 import ContentMenu from "../molecules/ContentMenu";
 import Tag from "../atoms/Tag";
+import parseBlocks from "../notion/parseBlocks";
 const PostSinglePage = ({ post, postContent }) => {
   const { ref } = useHeaderInView();
   return (
@@ -46,7 +46,7 @@ const PostSinglePage = ({ post, postContent }) => {
           <ContentMenu />
           <div className="content-container p-content blog-content">
             <div className="max-w-[56rem] mx-auto">
-              <NotionPostContent postContent={postContent} />
+              <div className="text-gray-800">{parseBlocks(postContent)}</div>
             </div>
           </div>
         </div>
