@@ -11,7 +11,7 @@ type PostItemProps = {
 const PostItem = ({post}:PostItemProps) => {
   const inner = (
     <a
-      className={`-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100 ${
+      className={`-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100 block  ${
         post.meta.protected && "cursor-not-allowed"
       }`}
     >
