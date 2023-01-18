@@ -27,8 +27,15 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
       </div>
     </header>
     <div className="">
-      <div className="content-container p-content flex flex-col flex-gap-y-6 md:flex-gap-y-12 ">
-        {posts.map((post) => <PostItem key={post.id} post={post} />)}
+      <div className="content-container p-content flex flex-col  ">
+        {posts.map((post, i) => {
+          return (
+            <div key={post.id}>
+            <PostItem post={post} />
+            {i != posts.length - 1 && <div className="my-6 md:my-8 border-b border-dashed border-gray-300"></div>}
+            </div>
+          )
+        })}
       </div>
     </div>
   </>;

@@ -96,9 +96,9 @@
   .project-grid {
     @apply grid grid-cols-3 gap-x-4 text-gray-800;
 
-    p a, ul a, ol a {
+    /* p a, ul a, ol a {
       @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
-    }
+    } */
     
     > * {
       @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;

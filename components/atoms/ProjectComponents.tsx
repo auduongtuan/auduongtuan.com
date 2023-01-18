@@ -8,6 +8,7 @@ import {Grid, Col} from "./Grid";
 import CustomImage, {CustomImageProps} from './CustomImage';
 import CustomVideo, {CustomVideoProps} from './CustomVideo';
 import Code from './Code';
+import InlineLink from './InlineLink';
 const ProjectComponents = (slug: string) => ({
     h2: ({children}:{children:React.ReactNode}) => (
       <h2 className='lg:relative'><span className='relative lg:sticky lg:top-3'>{children}</span></h2>
@@ -18,8 +19,8 @@ const ProjectComponents = (slug: string) => ({
           (ext == 'png' || ext == 'jpg') ? <CustomImage alt={alt} src={src} slug={slug} /> : ''
       );
     },
-    Link: ({className = '', children, ...rest}) => {
-      return <a {...rest} className={`underline-link-light ${className}`}>{children}</a>
+    a: ({href, children, ...rest}) => {
+      return <InlineLink href={href} {...rest}>{children}</InlineLink>
     },
     Image: (props: CustomImageProps) => {
       return <CustomImage {...props} slug={slug} />;

@@ -1,5 +1,4 @@
-import Link from "next/link";
-import ExternalLink from "../atoms/ExternalLink";
+import InlineLink from "../atoms/InlineLink";
 const escapedNewLineToLineBreakTag = (string) => {
   return string.split("\n").map((item, index) => {
     return index === 0 ? item : [<br key={index} />, item];
@@ -23,32 +22,7 @@ export const richTextObject = (richTextObject, blockId?: string) => {
         );
       }
     } else if (item.text.link) {
-      let checkInternal = item.text.link.url.match(/auduongtuan\.com\/(.*?)$/i);
-      if (checkInternal) {
-        return (
-          <Link
-            key={`${blockId}-${i}`}
-            href={`/${checkInternal[1]}/`}
-            className={`text-slate-600 underline underline-offset-4 decoration-gray-400 decoration-1 hover:text-blue-800 hover:decoration-blue-800 ${
-              item.annotations.bold ? "font-semibold" : ""
-            }`}
-          >
-            {item.text.content}
-          </Link>
-        );
-      } else {
-        return (
-          <ExternalLink
-            key={`${blockId}-${i}`}
-            href={item.text.link.url}
-            className={`text-slate-600 underline underline-offset-4 decoration-gray-400 decoration-1 hover:text-blue-800 hover:decoration-blue-800 ${
-              item.annotations.bold ? "font-medium" : ""
-            }`}
-          >
-            {item.text.content}
-          </ExternalLink>
-        );
-      }
+      return <InlineLink key={`${blockId}-${i}`} href={item.text.link.url} className={item.annotations.bold ? "font-semibold" : ""}>{item.text.content}</InlineLink>     
     }
   });
 };
