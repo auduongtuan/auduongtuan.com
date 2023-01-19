@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { GetServerSideProps, GetStaticPaths, GetStaticPropsContext } from "next";
+import { GetServerSideProps} from "next";
 import DefaultErrorPage from "next/error";
 import { getPosts, getPostContent, Post } from "../../lib/blog";
 import NotionPostPage from '../../components/templates/NotionPostPage';
@@ -8,11 +8,11 @@ import NotionPostPage from '../../components/templates/NotionPostPage';
 type BlogProps = {
   post: Post,
   postContent: any
+  posts: Post[],
 }
 
-export default function Blog({ post, postContent }: BlogProps) {
+export default function Blog({ post, postContent, posts }: BlogProps) {
   const router = useRouter();
-
   if (router.isFallback) {
     return <h1>Loading...</h1>;
   }
@@ -21,11 +21,11 @@ export default function Blog({ post, postContent }: BlogProps) {
       <Head>
         <meta name="robots" content="noindex" />
       </Head>
-      <DefaultErrorPage statusCode={404} />
+      <DefaultErrorPage statusCode={404} title="No things" />
     </>
   }
   return (
-    <NotionPostPage post={post} postContent={postContent} />
+    <NotionPostPage post={post} postContent={postContent} posts={posts} />
   );
 }
 
@@ -33,16 +33,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // Grab the slug from the post URL
   const slug = context.query && context.query.slug;
   const secret = context.query && context.query.secret;
+  console.log(slug);
   if (!secret || secret != 'eyJhbGciOiJIUzI1NiJ9') {
     return {
       props: {
         post: null,
-        postContent: null
+        postContent: null,
+        posts: null
       }
     }
   }
   // Get all posts from the Notion database
   const posts = await getPosts(true);
+  console.log(posts);  
   // Find the post with a matching slug property
   let post: Post | null = null;
   const filteredPosts = posts.filter((post) => post.slug === slug);
@@ -56,7 +59,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
     props: {
       post,
-      postContent
+      postContent,
+      posts
     }
   };
 }
