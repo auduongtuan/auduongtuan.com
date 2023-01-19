@@ -30,6 +30,13 @@ const Item = ({title, subtitle, time, description}:{title: string, subtitle?: st
 };
 const experience = [
   {
+    title: 'BAEMIN Vietnam',
+    time: 'Oct 2022 - Current',
+    subtitle: 'Product Designer',
+    type: 'Full-time',
+    description: 'Working in Internal Developer Platform squad, focusing on design systems and design ops. Sometimes works on other tasks like handling editorial content/design for the food trend report, drawing badge icons 😂, designing and coding marketing websites, …'
+  },
+  {
     title: 'Aperia Vietnam',
     time: 'Apr 2020 - Sep 2022',
     subtitle: 'UI/UX Designer / Front-end Developer',

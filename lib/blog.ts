@@ -60,30 +60,33 @@ function getProperty(
   }
 }
 export async function getPosts(preview?: boolean) {
+  let filterQuery: any = {
+    and: [
+      {
+        property: "Slug",
+        rich_text: {
+          is_not_empty: true
+        }
+      },
+      {
+        property: "Date",
+        date: {
+          is_not_empty: true
+        }
+      }
+    ]
+  };
+  if(!preview) {
+    filterQuery.and.push({
+      property: "Published",
+      checkbox: {
+        equals: true,
+      } 
+    });
+  }
   const response = await notion.databases.query({
     database_id: BLOG_DATABASE_ID,
-    filter: {
-      and: [
-        {
-          property: "Published",
-          checkbox: {
-            equals: preview ? false : true,
-          },
-        },
-        {
-          property: "Slug",
-          rich_text: {
-            is_not_empty: true
-          }
-        },
-        {
-          property: "Date",
-          date: {
-            is_not_empty: true
-          }
-        }
-      ],
-    },
+    filter: filterQuery,
     sorts: [
       {
         property: "Date",

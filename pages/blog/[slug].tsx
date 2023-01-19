@@ -7,10 +7,11 @@ import NotionPostPage from '../../components/templates/NotionPostPage';
 
 type BlogProps = {
   post: Post,
-  postContent: any
+  postContent: any,
+  posts: Post[]
 }
 
-export default function Blog({ post, postContent }: BlogProps) {
+export default function Blog({ post, postContent, posts }: BlogProps) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -25,7 +26,7 @@ export default function Blog({ post, postContent }: BlogProps) {
     </>
   }
   return (
-    <NotionPostPage post={post} postContent={postContent} />
+    <NotionPostPage post={post} postContent={postContent} posts={posts} />
   );
 }
 
@@ -62,8 +63,9 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   return {
     props: {
       post,
-      postContent
+      postContent,
+      posts: await getPosts()
     },
-    revalidate: 60,
+    revalidate: 120,
   };
 }

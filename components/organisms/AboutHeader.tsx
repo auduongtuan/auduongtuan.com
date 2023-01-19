@@ -28,7 +28,7 @@ export default function AboutHeader() {
 
             </p>
             <p className="mt-4 md:mt-8 text-base md:text-2xl leading-normal md:leading-normal opacity-0 animation-delay-200 animate-slide-in-fast">
-            Previously, I had worked in Design System team at <ExternalLink href="https://aperia.com" className="underline-link-dark">Aperia  ↗</ExternalLink>. 
+            Currently, I am working at <ExternalLink href="https://baemin.vn" className="underline-link-dark">BAEMIN ↗</ExternalLink> focusing on Design System and DesignOps. 
             </p>
             </Balancer>
           </div>

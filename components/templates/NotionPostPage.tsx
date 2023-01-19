@@ -6,7 +6,8 @@ import Balancer from "react-wrap-balancer";
 import ContentMenu from "../molecules/ContentMenu";
 import Tag from "../atoms/Tag";
 import parseBlocks from "../notion/parseBlocks";
-const PostSinglePage = ({ post, postContent }) => {
+import PostItem from "../molecules/PostItem";
+const PostSinglePage = ({ post, postContent, posts }) => {
   const { ref } = useHeaderInView();
   return (
     <>
@@ -22,14 +23,14 @@ const PostSinglePage = ({ post, postContent }) => {
                 {post.meta.title}
               </h1>
             </Balancer>
-            <div className="flex space-x-2 mt-2 flex-wrap">
+            <div className="flex space-x-2 mt-2 flex-wrap opacity-0 animate-slide-in-fast delay-100">
               {post.meta.tags.map((tag, i) => (
                 <Tag key={`tag-${i}`} inverted>
                   {tag}
                 </Tag>
               ))}
             </div>
-            <p className="muted-text mt-1 opacity-100 text-gray-500 ">
+            <p className="muted-text mt-1 text-gray-500 opacity-0 animate-slide-in-fast delay-100">
               Posted on{" "}
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -42,7 +43,7 @@ const PostSinglePage = ({ post, postContent }) => {
         </div>
       </header>
       <div>
-        <div className="relative">
+        <div className="relative opacity-0 animate-fade-in-fast delay-200">
           <ContentMenu />
           <div className="content-container p-content blog-content">
             <div className="max-w-[56rem] mx-auto">
@@ -62,6 +63,18 @@ const PostSinglePage = ({ post, postContent }) => {
               }}
             ></ReactionAndComment>
           </div>
+        </div>
+        <div className="p-content  relative">
+        <section className="main-container">
+          <h3>Other posts</h3>
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 group">
+            {posts
+              .filter((postItem) => postItem.slug != post.slug)
+              .map((postItem, i) => (
+                <PostItem post={postItem} key={postItem.id} small />
+              ))}
+          </div>
+        </section>
         </div>
       </div>
     </>
