@@ -105,7 +105,7 @@ const Reaction = ({ page }) => {
     });
   }, [dispatch, page]);
   return (
-    <div className="w-full flex flex-gap-x-2 md:flex-gap-x-3 flex-gap-y-2 items-center">
+    <div className="w-full flex flex-gap-x-2 md:flex-gap-x-3 flex-gap-y-2 items-center h-[60px]">
       {counter ? Object.keys(reactionList).map((emoji, i) => (
         <ReactButton
           key={`emoji-${i}`}
