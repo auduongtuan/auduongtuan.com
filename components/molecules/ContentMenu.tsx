@@ -21,7 +21,7 @@ const ContentMenu = React.memo(() => {
           const start = heading.getBoundingClientRect().top + window.scrollY;
           const parentEl = heading.parentElement as HTMLElement;
           if (!parentEl) console.log(heading);
-          const end = i != headingsTemp.length - 1 ? headingsTemp[i+1].getBoundingClientRect().top + window.scrollY : parentEl.offsetTop + parentEl.clientHeight;
+          const end = i != headingsTemp.length - 1 ? headingsTemp[i+1].getBoundingClientRect().top + window.scrollY : parentEl?.offsetTop + parentEl?.clientHeight;
           let nextSibling = heading.nextElementSibling;
           let count = 0;
           while(nextSibling && (nextSibling.tagName != 'H2' && nextSibling.tagName != 'h2')) {

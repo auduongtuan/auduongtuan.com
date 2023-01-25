@@ -8,6 +8,7 @@ import Link from 'next/link'
 import BrowserFrame from '../atoms/Frame'
 import CustomImage from '../atoms/CustomImage'
 import CustomVideo from '../atoms/CustomVideo'
+import Balancer from 'react-wrap-balancer'
 export type ProjectItemProps = {
     project: Project,
     index: number
@@ -71,11 +72,15 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
             <div className="grid grid-cols-12 gap-4 gap-y-8 items-center justify-end">
                 {/* <div className={`col-span-12 transition-all duration-200 ease-bounce ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`} style={index != 0 ? {opacity: 100 * visibleRatio, transform: `translateY(${100-100*visibleRatio}px)`} : {}}> */}
                 <div className={`col-span-12 transition-all duration-200 ease-bounce opacity-0 intro ${!project.meta.half ? 'row-start-2 md:row-start-1 md:col-span-4' : 'row-start-2' }`}>
-                    <h2>{project.meta.type == "casestudy" ? <Link href={`/project/${project.slug}`} legacyBehavior>{project.meta.title}</Link> : project.meta.title}</h2>
+                    <h2>
+                    <Balancer>
+                    {project.meta.type == "casestudy" ? <Link href={`/project/${project.slug}`} legacyBehavior>{project.meta.title}</Link> : project.meta.title}
+                    </Balancer>
+                    </h2>
                     <p className='md:mt-1 muted-text'>{(new Date(project.meta.date)).toLocaleDateString("en-US", {year: 'numeric', month: 'long'})}</p>
                     {//old mt-2 
                     }
-                    <p className='mt-2 md:mt-4 text-base md:text-xl _tracking-tight _font-display'>{project.meta.tagline}</p>
+                    <p className='mt-2 md:mt-4 text-base md:text-xl _tracking-tight _font-display'><Balancer ratio={0.67}>{project.meta.tagline}</Balancer></p>
                     <div className='mt-5 md:mt-9 flex space-x-4'>
                     {project.meta.type == "casestudy" && <Button scroll={false} href={`/project/${project.slug}`} arrow>Case study</Button>}
                     {project.meta.type == "link" && <Button scroll={false} href={project.meta.link ? project.meta.link : '#'} external>View website</Button>}
