@@ -67,11 +67,14 @@ const PostSinglePage = ({ post, postContent, posts }) => {
         <div className="p-content  relative">
         <section className="main-container">
           <h3>Other posts</h3>
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 group">
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-0 md:-mx-6 group">
             {posts
               .filter((postItem) => postItem.slug != post.slug)
               .map((postItem, i) => (
-                <PostItem post={postItem} key={postItem.id} small />
+                <div className="md:odd:border-r border-gray-300 flex flex-col md:px-6 " key={postItem.id}>
+                  <PostItem post={postItem} small className="flex-grow" />
+                  
+                </div>
               ))}
           </div>
         </section>

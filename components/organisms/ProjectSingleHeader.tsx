@@ -35,13 +35,13 @@ export const ProjectSingleHeader = ({project}:ProjectSingleHeaderProps) => {
             </div>}
             <div className='col-span-12 grid grid-cols-2 gap-x-4 gap-y-8 md:col-start-1 md:col-span-4 md:row-span-3 md:self-end'>
               <div className="col-span-1 md:col-span-2 opacity-0 animation-delay-200 animate-slide-in-fast">
-                <h5 className='text-sm leading-6 tracking-tighter font-display text-gray-500 uppercase font-semibold'>Tools used</h5>
+                <h5 className='sub-heading text-gray-500'>Tools used</h5>
                 <ul>
                 {project.meta.tools && project.meta.tools.map((tool, i) => <li className='mt-3' key={i}>{tool}</li>)}
                 </ul>
               </div>
               <div className='col-span-1 md:col-span-2 opacity-0 animation-delay-300 animate-slide-in-fast'>
-                <h5 className='text-sm leading-6 tracking-tighter font-display text-gray-500 uppercase font-semibold'>What I did</h5>
+                <h5 className='sub-heading text-gray-500'>What I did</h5>
                 <ul>
                 {project.meta.roles && project.meta.roles.map((role, i) => <li className='mt-3' key={i}>{role}</li>)}
                 </ul>

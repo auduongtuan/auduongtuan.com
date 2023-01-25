@@ -22,7 +22,7 @@ const PostItem = ({post, small, className = ''}:PostItemProps) => {
         }, className)
       }
     >
-      <TitleTag className={classNames('flex items-center space-x-3', {'h3': !small, 'text-base md:text-xl font-semibold': small, 'flex-grow': small})}>
+      <TitleTag className={classNames('flex items-start space-x-3', {'h3': !small, 'text-base md:text-xl font-semibold': small, 'flex-grow': small})}>
         <Balancer ratio={0.67}>
         {post.meta.title}
         </Balancer>
@@ -30,7 +30,7 @@ const PostItem = ({post, small, className = ''}:PostItemProps) => {
           <FiLock className="text-gray-400"></FiLock>
         )}
       </TitleTag>
-      <div className={classNames('flex space-x-2 mt-2 flex-wrap items-start')}>{post.meta.tags.map((tag, i) => <Tag key={`tag-${i}`}>{tag}</Tag>)}</div>
+      <div className={classNames('flex space-x-2 mt-3 flex-wrap items-start')}>{post.meta.tags.map((tag, i) => <Tag key={`tag-${i}`}>{tag}</Tag>)}</div>
       <p className={classNames('mt-2 muted-text')}>
         Posted on{" "}
         {post.meta.date &&

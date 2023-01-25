@@ -8,7 +8,7 @@ const Box = ({children, className = '', caption = null, ...rest}:{
         {caption ? 
         <div className="flex flex-col  justify-center h-full">
           <div className="flex-grow flex items-center justify-center">{children}</div>
-          <h4 className='text-center'>{caption}</h4>
+          <h4 className='text-center font-medium'>{caption}</h4>
         </div> : children}
        
     </div>
