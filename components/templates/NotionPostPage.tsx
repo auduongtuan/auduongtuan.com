@@ -23,14 +23,14 @@ const PostSinglePage = ({ post, postContent, posts }) => {
                 {post.meta.title}
               </h1>
             </Balancer>
-            <div className="flex space-x-2 mt-2 flex-wrap opacity-0 animate-slide-in-fast delay-100">
+            <div className="flex space-x-2 mt-2 flex-wrap opacity-0 animate-fade-in-fast delay-200">
               {post.meta.tags.map((tag, i) => (
                 <Tag key={`tag-${i}`} inverted>
                   {tag}
                 </Tag>
               ))}
             </div>
-            <p className="muted-text mt-1 text-gray-500 opacity-0 animate-slide-in-fast delay-100">
+            <p className="muted-text mt-1 text-gray-500 opacity-0 animate-fade-in-fast delay-200">
               Posted on{" "}
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -60,13 +60,14 @@ const PostSinglePage = ({ post, postContent, posts }) => {
                 plural: "thoughts",
                 title: "Share your thoughts",
                 cta: "Or wanna share your thoughts?",
+                placeholder: "Hmmm... I think..."
               }}
             ></ReactionAndComment>
           </div>
         </div>
         <div className="p-content  relative">
         <section className="main-container">
-          <h3>Other posts</h3>
+          <h3 className="sub-heading">Other posts</h3>
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-0 md:-mx-6 group">
             {posts
               .filter((postItem) => postItem.slug != post.slug)

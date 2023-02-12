@@ -56,6 +56,9 @@ module.exports = {
         'slide-in-fast': 'slide-in 200ms ease-in forwards',
         'fade-in-fast': 'fade-in 400ms ease-in-out forwards',
         'spin-slow': 'spin 3s linear infinite'
+      },
+      animationDelay: {
+        450: "450ms"
       }
     },
   },

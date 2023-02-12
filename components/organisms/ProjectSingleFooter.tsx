@@ -23,7 +23,7 @@ const ProjectSingleFooter = ({
       </div>
       <div className="p-content  relative">
         <section className="main-container">
-          <h3>Other projects</h3>
+          <h3 className="sub-heading">Other projects</h3>
           <OtherProjectList projects={projects} project={project} />
         </section>
       </div>
