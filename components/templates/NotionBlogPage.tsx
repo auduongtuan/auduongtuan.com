@@ -19,7 +19,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
             Blog
           </h1>
           <div className="col-span-12 md:col-span-8 self-end">
-            <p className="text-base md:text-2xl opacity-0 animation-delay-100 animate-slide-in-fast">
+            <p className="text-base md:text-2xl opacity-0 animation-delay-100 animate-fade-in-fast">
               A collection of my unorganized musings
             </p>
           </div>

@@ -2,6 +2,51 @@ import { Client } from "@notionhq/client";
 import { NextApiRequest, NextApiResponse } from 'next'
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 async function createComment({name, content, email, page, header}) {
+  let properties: any = {
+    Content: {
+      rich_text: [
+        {
+          text: {
+            content: content,
+          },
+        },
+      ],
+    },
+    Page: {
+      rich_text: [
+        {
+          text: {
+            content: page,
+          },
+        },
+      ],
+    },
+    Header: {
+      rich_text: [
+        {
+          text: {
+            content: header,
+          },
+        },
+      ],
+    },
+  };
+  if(name) {
+    properties.Name =  {
+      title: [
+        {
+          text: {
+            content: name,
+          },
+        },
+      ],
+    };
+  }
+  if(email) {
+    properties.Email = {
+      email: email,
+    }
+  }
   const response = await notion.pages.create({
     // cover: {
     //   type: "external",
@@ -17,47 +62,7 @@ async function createComment({name, content, email, page, header}) {
       type: "database_id",
       database_id: "b71a4c06cd7e4053a0d963a62e3f789b",
     },
-    properties: {
-      Name: {
-        title: [
-          {
-            text: {
-              content: name,
-            },
-          },
-        ],
-      },
-      Content: {
-        rich_text: [
-          {
-            text: {
-              content: content,
-            },
-          },
-        ],
-      },
-      Page: {
-        rich_text: [
-          {
-            text: {
-              content: page,
-            },
-          },
-        ],
-      },
-      Header: {
-        rich_text: [
-          {
-            text: {
-              content: header,
-            },
-          },
-        ],
-      },
-      Email: {
-        email: email,
-      },
-    },
+    properties: properties
     // children: [
     //   {
     //     object: "block",

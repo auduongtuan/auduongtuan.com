@@ -31,7 +31,7 @@ const PostItem = ({post, small, className = ''}:PostItemProps) => {
         )}
       </TitleTag>
       <div className={classNames('flex space-x-2 mt-3 flex-wrap items-start')}>{post.meta.tags.map((tag, i) => <Tag key={`tag-${i}`}>{tag}</Tag>)}</div>
-      <p className={classNames('mt-2 muted-text')}>
+      <p className={classNames('mt-2 muted-text', {'text-sm': small})}>
         Posted on{" "}
         {post.meta.date &&
           new Date(post.meta.date).toLocaleDateString("en-US", {

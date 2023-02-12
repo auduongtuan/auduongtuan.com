@@ -3,7 +3,7 @@ import parseBlocks from "./parseBlocks";
 import classNames from "classnames";
 const Heading = ({ block }) => {
   const textStyles = {
-    heading_2: "h3 md:text-4xl font-semibold text-slate-800",
+    heading_2: "h3 md:text-3xl font-semibold text-slate-800",
     heading_3: "text-base md:text-2xl font-semibold text-slate-800",
   };
   const gutterTop = {

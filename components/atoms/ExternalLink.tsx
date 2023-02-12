@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 export interface ExternalLinkProps extends React.HTMLAttributes<HTMLAnchorElement> {
   href?: string
 }
-const ExternalLink = ({href = '#', children, className, ...rest}: ExternalLinkProps) : JSX.Element => {
+const ExternalLink = forwardRef<HTMLAnchorElement, ExternalLinkProps>(({href = '#', children, className, ...rest}, ref) => {
   return (
-    <a href={href} className={className ? className : `hover:underline`} target="_blank" rel="noreferrer" {...rest}>{children}</a>
+    <a href={href} className={className ? className : `hover:underline`} target="_blank" rel="noreferrer" {...rest} ref={ref}>{children}</a>
   )
-}
-
+});
+ExternalLink.displayName = "ExternalLink";
 export default ExternalLink

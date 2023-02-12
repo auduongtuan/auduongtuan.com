@@ -71,7 +71,7 @@ const ContentMenu = React.memo(() => {
 
   return (
     <div className='absolute left-0 h-full py-28'>
-      <aside className={`w-60 hidden 2xl:block sticky top-1/2`}>
+      <aside className={`w-60 hidden 2xl:block sticky top-1/2 opacity-0 animate-fade-in-fast delay-100`}>
           <ul className='flex flex-col flex-gap-y-1  group'>
           {headings && headings.length > 2 && headings.map((heading, i) => 
           <li key={i} className='flex items-center'>
