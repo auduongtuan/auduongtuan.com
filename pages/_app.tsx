@@ -12,6 +12,10 @@ import store from "../store/store";
 import { Provider as BalancerProvider } from 'react-wrap-balancer'
 
 const isProduction = process.env.NODE_ENV === "production";
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addLocale(en);
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   useEffect(() => {

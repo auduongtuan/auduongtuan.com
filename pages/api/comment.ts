@@ -1,7 +1,8 @@
 import { Client } from "@notionhq/client";
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest, NextApiResponse } from "next";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
-async function createComment({name, content, email, page, header}) {
+const COMMENT_DATABASE_ID = "b71a4c06cd7e4053a0d963a62e3f789b";
+async function createComment({ name, content, email, page, header }) {
   let properties: any = {
     Content: {
       rich_text: [
@@ -31,8 +32,8 @@ async function createComment({name, content, email, page, header}) {
       ],
     },
   };
-  if(name) {
-    properties.Name =  {
+  if (name) {
+    properties.Name = {
       title: [
         {
           text: {
@@ -42,65 +43,68 @@ async function createComment({name, content, email, page, header}) {
       ],
     };
   }
-  if(email) {
+  if (email) {
     properties.Email = {
       email: email,
-    }
+    };
   }
   const response = await notion.pages.create({
-    // cover: {
-    //   type: "external",
-    //   external: {
-    //     url: "https://upload.wikimedia.org/wikipedia/commons/6/62/Tuscankale.jpg",
-    //   },
-    // },
-    // icon: {
-    //   type: "emoji",
-    //   emoji: "🥬",
-    // },
     parent: {
       type: "database_id",
       database_id: "b71a4c06cd7e4053a0d963a62e3f789b",
     },
-    properties: properties
-    // children: [
-    //   {
-    //     object: "block",
-    //     heading_2: {
-    //       rich_text: [
-    //         {
-    //           text: {
-    //             content: "Lacinato kale",
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   },
-    //   {
-    //     object: "block",
-    //     paragraph: {
-    //       rich_text: [
-    //         {
-    //           text: {
-    //             content:
-    //               "Lacinato kale is a variety of kale with a long tradition in Italian cuisine, especially that of Tuscany. It is also known as Tuscan kale, Italian kale, dinosaur kale, kale, flat back kale, palm tree kale, or black Tuscan palm.",
-    //             link: {
-    //               url: "https://en.wikipedia.org/wiki/Lacinato_kale",
-    //             },
-    //           },
-    //           href: "https://en.wikipedia.org/wiki/Lacinato_kale",
-    //         },
-    //       ],
-    //       color: "default",
-    //     },
-    //   },
-    // ],
+    properties: properties,
   });
 }
 
+async function getComments(page) {
+  if (!page) return {};
+  const response = await notion.databases.query({
+    database_id: COMMENT_DATABASE_ID,
+    filter: {
+      and: [
+        {
+          property: "Page",
+          rich_text: {
+            equals: page,
+          },
+        },
+      ],
+    },
+    sorts: [
+      {
+        property: "Created time",
+        direction: "descending",
+      },
+    ],
+  });
+  if (response.results.length > 0) {
+    // groupBy(response.results, )
+    return response.results.map((record) => {
+      // prevValue
+      if ("properties" in record) {
+        if (
+          "title" in record.properties.Name &&
+          "email" in record.properties.Email &&
+          "rich_text" in record.properties.Content &&
+          "created_time" in record.properties["Created time"]
+        ) {
+          return {
+            name: record.properties.Name.title,
+            email: record.properties.Email.email,
+            content: record.properties.Content.rich_text,
+            createdTime: record.properties["Created time"].created_time,
+          };
+        }
+      }
+    });
+  } else {
+    return [];
+  }
+}
 const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   // console.log(req);
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     try {
       const data = {
         name: req.body.name,
@@ -111,24 +115,25 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
       };
       await createComment(data);
       return res.status(200).json({
-        data: data
+        data: data,
       });
-    }
-    catch(err) {
+    } catch (err) {
       return res.status(500).json({
         error: {
           code: 500,
-          message: err
-        }
-      })
+          message: err,
+        },
+      });
     }
-  } else {
-    return res.status(404).json({
-      error: {
-        code: 404,
-        message: 'Only support POST method'
-      }
-    })
+  } else if (req.method === "GET") {
+    return res.status(200).json(await getComments(req.query.page));
+
+    // return res.status(404).json({
+    //   error: {
+    //     code: 404,
+    //     message: 'Only support POST method'
+    //   }
+    // })
   }
 };
 export default notionAPI;
