@@ -1,19 +1,26 @@
 import CommentForm from "./CommentForm";
 import Reaction from "../molecules/Reaction";
 import { Fragment } from "react";
+import CommentList from "./CommentList";
+import useSWR from "swr";
+import axios from "axios";
 const ReactionAndComment = ({
   page,
   wording = {
-    singular: "feedback",
-    plural: "feedback",
-    title: "Leave feedback",
-    cta: "Or wanna give some feedback?",
+    singular: "comment",
+    plural: "comment",
+    title: "Leave comment",
+    cta: "Or wanna leave a comment?",
     placeholder: "Noice! But I think ...",
   },
 }: {
   page: string;
   wording?: { [key: string]: string };
 }) => {
+  const fetcher = (url: string, page: string) =>
+  axios.get(url, { params: { page: page } }).then((r) => r.data);
+  const { data, mutate } = useSWR(["/api/comment", page], fetcher);
+
   return (
     <Fragment>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-6 md:gap-x-6 md:gap-y-8">
@@ -28,7 +35,11 @@ const ReactionAndComment = ({
           <CommentForm
             page={page}
             wording={wording}
+            onSubmit={mutate}
           ></CommentForm>
+          <div className="mt-6 md:mt-8">
+            <CommentList comments={data} wording={wording} />
+          </div>
         </div>
       </div>
     </Fragment>

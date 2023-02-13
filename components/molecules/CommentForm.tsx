@@ -11,7 +11,7 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-const CommentForm = ({ page, wording }) => {
+const CommentForm = ({ page, wording, onSubmit }) => {
   const [state, setState] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     { open: false, loading: false, sent: false, error: false, anonymous: false }
@@ -36,6 +36,7 @@ const CommentForm = ({ page, wording }) => {
           console.log(res);
           setState({ loading: false, sent: true, open: false });
           reset();
+          onSubmit && onSubmit();
         })
         .catch((err) => {
           console.log(err);

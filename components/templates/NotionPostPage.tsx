@@ -61,7 +61,8 @@ const PostSinglePage = ({ post, postContent, posts }) => {
                 title: "Share your thoughts",
                 cta: "Or wanna share your thoughts?",
                 placeholder: "Hmmm... I think..."
-              }}
+              }
+            }
             ></ReactionAndComment>
           </div>
         </div>
