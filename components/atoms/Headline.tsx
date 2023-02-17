@@ -89,7 +89,7 @@ const Headline = React.memo(() => {
         </span>
       </div>
       <div
-        className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-2 md:h-3 lg:h-4 bg-slate-700 bottom-0.5 lg:bottom-2 transition-all duration-[800ms] relative z-10"
+        className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-2 md:h-3 lg:h-4 bg-slate-700 bottom-0.5 lg:bottom-1 transition-all duration-[800ms] relative z-10"
         ref={underline}
         style={{ width: "0" }}
       ></div>

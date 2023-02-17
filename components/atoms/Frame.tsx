@@ -56,6 +56,7 @@ export interface PhotoFrameProps extends React.HTMLProps<HTMLDivElement> {
   buttonCallbacks?: {
     [key: string]: MouseEventHandler;
   };
+  closeTooltipContent?: string;
 }
 export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
   (
@@ -65,6 +66,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
       name,
       className = "",
       buttonCallbacks,
+      closeTooltipContent,
       ...rest
     },
     ref
@@ -90,10 +92,10 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
           } px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)]`}
         >
           <div className="flex flex-gap-2 flex-grow basis-0 items-center">
-            <Tooltip content="Hide my face 😢"><button aria-label="Close it"
+            {closeTooltipContent ? <Tooltip content={closeTooltipContent}><button aria-label="Close it"
               className="w-2 h-2 bg-slate-400 rounded block cursor-pointer hover:bg-red-500 active:bg-red-700"
               onClick={closeCallback}
-            ></button></Tooltip>
+            ></button></Tooltip> : <span className="w-2 h-2 bg-slate-400 rounded block"></span>}
             <span className="w-2 h-2 bg-slate-400 rounded block"></span>
             <span className="w-2 h-2 bg-slate-400 rounded block"></span>
             {/* <FiChevronLeft className="ml-3 text-slate-400" />

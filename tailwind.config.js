@@ -30,7 +30,8 @@ module.exports = {
       },
       colors: {
         "custom-neutral": {
-          900: "#202020"
+          // 900: "#202020"
+          900: "#1b1d22"
         },
         "dark-blue": {
           900: "#050F32"
