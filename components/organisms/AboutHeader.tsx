@@ -33,7 +33,7 @@ export default function AboutHeader() {
             </Balancer>
           </div>
           <div className="col-span-12 md:col-span-4 md:row-start-1 md:col-start-9 md:row-span-2 self-end opacity-0 animate-slide-in-fast animation-delay-450" onMouseOver={() => setImage(1)} onMouseLeave={() => setImage(0)}>
-            <PhotoFrame name={images[image]} inverted>
+            <PhotoFrame name={images[image]} closeTooltipContent="Hide my face 😢" inverted>
             <div className="grid grid-cols-1 grid-rows-1">
               <div className="col-start-1 row-start-1">
               <CustomImage src={images[0]} slug="about" width="1256" height="1570" />
