@@ -6,7 +6,7 @@ import Balancer from "react-wrap-balancer";
 import ContentMenu from "../molecules/ContentMenu";
 import Tag from "../atoms/Tag";
 import parseBlocks from "../notion/parseBlocks";
-import PostItem from "../molecules/PostItem";
+import OtherPostList from "../molecules/OtherPostList";
 const PostSinglePage = ({ post, postContent, posts }) => {
   const { ref } = useHeaderInView();
   return (
@@ -17,7 +17,7 @@ const PostSinglePage = ({ post, postContent, posts }) => {
         className="bg-custom-neutral-900 text-white w-full z-10"
       >
         <div className="content-container p-header">
-          <div className="grid grid-cols-1 gap-2 md:gap-4 max-w-[56rem] mx-auto">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 max-w-[50rem] mx-auto">
             <Balancer>
               <h1 className="text-2xl md:text-3xl leading-tight md:leading-tight lg:text-5xl lg:leading-tight col-span-1  opacity-0 animate-slide-in-fast">
                 {post.meta.title}
@@ -42,46 +42,32 @@ const PostSinglePage = ({ post, postContent, posts }) => {
           </div>
         </div>
       </header>
-      <div>
         <div className="relative opacity-0 animate-fade-in-fast delay-200">
           <ContentMenu />
           <div className="content-container p-content blog-content">
-            <div className="max-w-[56rem] mx-auto">
-              <div className="text-gray-800">{parseBlocks(postContent)}</div>
+            <div className="max-w-[50rem] mx-auto">
+              <div className="text-gray-800 [&>*:first-child]:mt-0">{parseBlocks(postContent)}</div>
             </div>
           </div>
         </div>
-        <div className=" bg-gray-200 p-content space-y-8">
+        <section className="bg-white border-gray-200 border-t p-content relative">
           <div className="main-container">
-            <ReactionAndComment
-              page={`blog/${post.slug}`}
-              wording={{
-                singular: "thought",
-                plural: "thoughts",
-                title: "Share your thoughts",
-                cta: "Or wanna share your thoughts?",
-                placeholder: "Hmmm... I think..."
+              <ReactionAndComment
+                page={`blog/${post.slug}`}
+                wording={{
+                  singular: "thought",
+                  plural: "thoughts",
+                  title: "Share your thoughts",
+                  cta: "Or wanna share your thoughts?",
+                  placeholder: "Hmmm... I think..."
+                }
               }
-            }
-            ></ReactionAndComment>
+              ></ReactionAndComment>
+            <div className="relative border-gray-200 border-t mt-10 md:mt-16 pt-10 md:pt-12">
+              <OtherPostList post={post} posts={posts}></OtherPostList>
+            </div>
           </div>
-        </div>
-        <div className="p-content  relative">
-        <section className="main-container">
-          <h3 className="sub-heading">Other posts</h3>
-          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-0 md:-mx-6 group">
-            {posts
-              .filter((postItem) => postItem.slug != post.slug)
-              .map((postItem, i) => (
-                <div className="md:odd:border-r border-gray-300 flex flex-col md:px-6 " key={postItem.id}>
-                  <PostItem post={postItem} small className="flex-grow" />
-                  
-                </div>
-              ))}
-          </div>
-        </section>
-        </div>
-      </div>
+      </section>
     </>
   );
 };

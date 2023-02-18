@@ -166,7 +166,7 @@ export default function AboutContent() {
             </section> */}
           <section className="col-span-6 md:col-span-6">
             <Heading>Contact</Heading>
-            <p className="font-sans body-text mt-4 md:mt-8">
+            <p className="font-sans text-base md:text-lg leading-relaxed md:leading-relaxed mt-4 md:mt-8">
                 I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="underline-link-light">hi@auduongtuan.com</a> or find me on 
                 {socialNetworks.map((item, i) =>
                   <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<a  href={item.url} className="underline-link-light">{item.name}</a>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
@@ -175,14 +175,14 @@ export default function AboutContent() {
             </section>
         </div>
       </section>
-      <aside className="col-span-2 md:col-span-6 lg:col-span-4 lg:col-start-9 grid grid-cols-1 only-sm:gap-x-4 md:gap-x-6 lg:gap-x-8 gap-y-8 md:gap-y-12">
+      <aside className="col-span-2 md:col-span-6 lg:col-span-4 lg:col-start-9 flex flex-col only-sm:flex-gap-x-4 md:flex-gap-x-6 lg:flex-gap-x-8 flex-gap-y-8 md:flex-gap-y-12">
         {
           Object.keys(skills).map((group, i) => 
             <div key={i} className="col-span-1">
             <Heading>{group}</Heading>
             <ul className="mt-4 md:mt-8">
             {
-              skills[group].map((item, i) => <li className="mt-1 md:mt-2 body-text" key={i}>{item}</li>)
+              skills[group].map((item, i) => <li className="mt-1 md:mt-2 text-base md:text-lg" key={i}>{item}</li>)
             }
             </ul>
             </div>

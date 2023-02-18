@@ -3,8 +3,7 @@ import React from "react";
 import { Post } from "../../lib/blog";
 import PostItem from "../molecules/PostItem";
 import useHeaderInView from "../../hooks/useHeaderInView";
-import ContentMenu from "../molecules/ContentMenu";
-
+import Footer from "../organisms/Footer";
 export default function BlogPage({ posts }: { posts: Post[] }) {
   const { ref } = useHeaderInView();
 
@@ -26,17 +25,19 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
         </div>
       </div>
     </header>
-    <div className="">
+    <section className="">
       <div className="content-container p-content flex flex-col opacity-0 animate-fade-in-fast delay-200">
         {posts.map((post, i) => {
           return (
             <div key={post.id}>
             <PostItem post={post} />
-            {i != posts.length - 1 && <div className="my-6 md:my-8 border-b border-dashed border-gray-300"></div>}
+            {i != posts.length - 1 && <div className="mt-10 md:mt-16" />}
+            {/* {i != posts.length - 1 && <div className="my-6 md:my-8 border-b border-dashed border-gray-300"></div>} */}
             </div>
           )
         })}
       </div>
-    </div>
+    </section>
+    <Footer />
   </>;
 }
