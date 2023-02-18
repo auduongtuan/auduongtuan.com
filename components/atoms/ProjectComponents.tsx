@@ -31,10 +31,10 @@ const ProjectComponents = (slug: string) => ({
       </div>
     ),
     Video: (props: CustomVideoProps) => <CustomVideo {...props} slug={slug} />,
-    Figure: ({children, caption, ...rest}:{children:React.ReactNode, caption:React.ReactNode}) => (
+    Figure: ({children, caption, ...rest}:{children:React.ReactNode, caption?:React.ReactNode}) => (
       <figure {...rest}>
-        <div className='rounded-xl overflow-hidden translate-z-0'>{children}</div>
-      <figcaption className='mt-2 lg:mt-4 text-base'>{caption}</figcaption>
+        <div className='rounded-xl overflow-hidden translate-z-0 leading-[0]'>{children}</div>
+        {caption && <figcaption className='mt-2 lg:mt-4 text-base'>{caption}</figcaption>}
       </figure>
     ),
     Note,

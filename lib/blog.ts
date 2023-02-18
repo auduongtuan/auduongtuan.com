@@ -12,6 +12,7 @@ export interface Post {
     date: string;
     protected: boolean;
     tags: string[];
+    excerpt?: string;
   }
 }
 
@@ -103,6 +104,7 @@ export async function getPosts(preview?: boolean) {
         date: getProperty(page, "Date", "date"),
         protected: getProperty(page, "Protected", "checkbox"),
         tags: getProperty(page, "Tags", "multi_select"),
+        excerpt: getProperty(page, "Excerpt", "rich_text"),
       },
     };
   });

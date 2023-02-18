@@ -80,7 +80,7 @@ const ProjectItem = memo(({project, index, ...rest}:ProjectItemProps) => {
                     <p className='md:mt-1 muted-text'>{(new Date(project.meta.date)).toLocaleDateString("en-US", {year: 'numeric', month: 'long'})}</p>
                     {//old mt-2 
                     }
-                    <p className='mt-2 md:mt-4 text-base md:text-xl _tracking-tight _font-display'><Balancer ratio={0.67}>{project.meta.tagline}</Balancer></p>
+                    <p className='mt-2 md:mt-4 text-base md:text-lg tracking-relaxed md:tracking-relaxed _md:text-xl _tracking-tight _font-display'><Balancer ratio={0.67}>{project.meta.tagline}</Balancer></p>
                     <div className='mt-5 md:mt-9 flex space-x-4'>
                     {project.meta.type == "casestudy" && <Button scroll={false} href={`/project/${project.slug}`} arrow>Case study</Button>}
                     {project.meta.type == "link" && <Button scroll={false} href={project.meta.link ? project.meta.link : '#'} external>View website</Button>}

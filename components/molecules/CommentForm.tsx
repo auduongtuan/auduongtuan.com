@@ -48,10 +48,10 @@ const CommentForm = ({ page, wording, onSubmit }) => {
     <Fragment>
       <button
         onClick={() => setState({ open: true })}
-        className="w-full font-medium text-lg hover:border-blue-600 text-gray-600 col-span-1 border-2 px-6 py-2 border-gray-300 rounded-full flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all duration-100"
+        className="w-full font-medium text-base hover:border-blue-600 text-gray-500 col-span-1 border-2 px-6 py-3 border-gray-300 rounded-full flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all duration-100"
       >
         <span className="block flex-grow text-left">{wording.placeholder}</span>
-        <FiMessageCircle className="flex-grow-0"></FiMessageCircle>
+        <FiMessageCircle className="text-xl flex-grow-0 text-gray-500"></FiMessageCircle>
       </button>
       {state.sent && (
         <Toast type="success" afterLeave={() => setState({ sent: false })}>

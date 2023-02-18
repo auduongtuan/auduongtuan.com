@@ -52,6 +52,8 @@ const OtherProjectList = ({
   projects: Project[];
 }) => {
   return (
+    <>
+    <h3 className="sub-heading">Other projects</h3>
     <div className="mt-6 grid grid-cols-6 gap-4 md:gap-6 group">
       {projects
         .filter((project) => project.slug != currentProject.slug)
@@ -64,6 +66,7 @@ const OtherProjectList = ({
           ></ProjectCard>
         ))}
     </div>
+    </>
   );
 };
 export default OtherProjectList;

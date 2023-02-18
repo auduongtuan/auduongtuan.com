@@ -4,16 +4,23 @@ import { FiFacebook, FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
 import ExternalLink from "../atoms/ExternalLink";
 import socialNetworks from "../../lib/socialNetworks";
 import Link from "next/link";
+import { useInView } from "react-intersection-observer";
+import Balancer from "react-wrap-balancer";
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR('/api/spotify', fetcher);
-
+  const { ref, inView } = useInView({
+    /* Optional options */
+    threshold: 0.5,
+    initialInView: false,
+    // rootMargin: '-10px'
+  });
   return (
     <div id="contact" className="relative">
       <footer className="text-gray-900 sticky bottom-0 z-0">
-        <div className="main-container pt-0 pb-12 md:pb-16 lg:pb-24 ">
+        <div className="main-container pt-0 pb-12 md:pb-16 lg:pb-24" ref={ref}>
           <section className="grid grid-cols-12 lg:grid-rows-2 gap-x-3 gap-y-8 border-t border-t-gray-200 pt-12">
-            <div className="col-span-12 lg:col-span-4 lg:row-span-1 opacity-0 animate-slide-in-fast animation-delay-0">
+            <div className={`col-span-12 lg:col-span-4 lg:row-span-1 opacity-0 animation-delay-0 ${inView && 'animate-slide-in-fast'}`}>
               {data &&
               <div className="flex items-center flex-gap-4">
                 <img className={`rounded-full ${data.isPlaying && 'animate-spin-slow'} flex-grow-0`} width="64" height="64" src={data.albumImageUrl} alt={data.title} />
@@ -30,7 +37,7 @@ export default function Footer() {
        
              <div className="col-span-12 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:justify-self-end lg:self-end">
              {/* tracking-tight */}
-             <p className="text-xl md:text-2xl lg:text-3xl leading-normal md:leading-normal lg:leading-normal  font-medium opacity-0 animate-slide-in-fast animation-delay-200">
+             <p className={`text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed  font-medium opacity-0 animation-delay-200 ${inView && 'animate-slide-in-fast'}`}>
               I&apos;d love to hear from you. Email me any time at <a href="mailto:hi@auduongtuan.com" className="underline-link-light">hi@auduongtuan.com</a> or find me on 
               {socialNetworks.map((item, i) =>
                 <React.Fragment key={i}> {i == socialNetworks.length - 1 && 'and '}<ExternalLink href={item.url} className="underline-link-light">{item.name}</ExternalLink>{i != socialNetworks.length-1 ? ',' : '.'}</React.Fragment>
@@ -38,7 +45,7 @@ export default function Footer() {
               </p>
             </div>
               
-            <div className="text-sm md:text-base col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-6 md:leading-8 opacity-0 animate-slide-in-fast animation-delay-100">
+            <div className={`text-sm md:text-base col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 self-end leading-6 md:leading-8 opacity-0 animation-delay-100 ${inView && 'animate-slide-in-fast'}`}>
              Written, designed and built by Tuan<br />using <ExternalLink href="https://nextjs.org/">Next.js</ExternalLink>, <ExternalLink href="https://tailwindcss.com/">Tailwind</ExternalLink>, <Link className="hover:underline" href='/blog/enhance-skills-building-personal-websites'>...</Link><br />
              © {new Date().getFullYear()}.
             </div>

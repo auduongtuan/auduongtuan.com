@@ -75,7 +75,7 @@ const ReactButton = ({ name, emoji, counter, dispatch, page }) => {
         </span>
         <span
           className={`block text-sm ${
-            counter[emoji].reacted ? "font-semibold text-blue-700" : ""
+            counter[emoji].reacted ? "font-semibold text-blue-700" : "font-medium text-gray-500"
           }`}
         >
           {counter[emoji].quantity}
