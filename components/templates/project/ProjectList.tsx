@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import ProjectItem from "../molecules/ProjectItem";
-import { Project } from "../../lib/project";
+import ProjectItem from "./ProjectItem";
+import { Project } from "../../../lib/project";
 import { FiArrowDown, FiArrowLeft, FiArrowUp, FiHeart } from 'react-icons/fi';
 export default function ProjectList({projects}:{projects:Project[]}) {
   const [scrollPosition, setScrollPosition] = useState(0);

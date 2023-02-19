@@ -1,8 +1,8 @@
-import { richTextObject } from "../notion/richText";
+import { richTextObject } from "../../notion/richText";
 import TimeAgo from "javascript-time-ago";
 import { GiPostStamp, GiDominoMask } from "react-icons/gi";
-import ExternalLink from "../atoms/ExternalLink";
-import Tooltip from "../atoms/Tooltip";
+import ExternalLink from "../../atoms/ExternalLink";
+import Tooltip from "../../atoms/Tooltip";
 // English.
 const getInitials = function (string) {
   var names = string.split(" "),

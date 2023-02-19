@@ -1,13 +1,13 @@
-import { Post } from "../../lib/blog";
-import HeadMeta from "../atoms/HeadMeta";
-import ReactionAndComment from "../molecules/ReactionAndComment";
-import useHeaderInView from "../../hooks/useHeaderInView";
+import { Post } from "../../../lib/blog";
 import Balancer from "react-wrap-balancer";
-import ContentMenu from "../molecules/ContentMenu";
-import Tag from "../atoms/Tag";
-import parseBlocks from "../notion/parseBlocks";
-import OtherPostList from "../molecules/OtherPostList";
-const PostSinglePage = ({ post, postContent, posts }) => {
+import HeadMeta from "../../atoms/HeadMeta";
+import ReactionAndComment from "../../molecules/comment/ReactionAndComment";
+import useHeaderInView from "../../../hooks/useHeaderInView";
+import ContentMenu from "../../molecules/ContentMenu";
+import Tag from "../../atoms/Tag";
+import parseBlocks from "../../notion/parseBlocks";
+import OtherPostList from "./OtherPostList";
+const PostSinglePage = ({ post, postContent, posts }: {post: Post, posts: Post[], postContent: any}) => {
   const { ref } = useHeaderInView();
   return (
     <>

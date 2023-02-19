@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
-import { Project } from "../../lib/project";
+import { Project } from "../../../lib/project";
 import { FiEye } from "react-icons/fi";
-import IconButton from "../atoms/IconButton";
-import Badge from "../atoms/Badge";
-import useHeaderInView from "../../hooks/useHeaderInView";
+import IconButton from "../../atoms/IconButton";
+import Badge from "../../atoms/Badge";
+import useHeaderInView from "../../../hooks/useHeaderInView";
 import Balancer from "react-wrap-balancer";
 
 interface ProjectSingleHeaderProps {

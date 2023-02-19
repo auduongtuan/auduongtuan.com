@@ -1,9 +1,10 @@
 import React from "react";
 
-import { Post } from "../../lib/blog";
-import PostItem from "../molecules/PostItem";
-import useHeaderInView from "../../hooks/useHeaderInView";
-import Footer from "../organisms/Footer";
+import { Post } from "../../../lib/blog";
+import PostItem from "./PostItem";
+import useHeaderInView from "../../../hooks/useHeaderInView";
+import Footer from "../../molecules/Footer";
+import Fade, {FadeProps} from "../../atoms/transition";
 export default function BlogPage({ posts }: { posts: Post[] }) {
   const { ref } = useHeaderInView();
 
@@ -18,7 +19,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
             Blog
           </h1>
           <div className="col-span-12 md:col-span-8 self-end">
-            <p className="text-base md:text-2xl opacity-0 animation-delay-100 animate-fade-in-fast">
+            <p className="text-base md:text-xl leading-relaxed opacity-0 animation-delay-100 animate-fade-in-fast">
               A collection of my unorganized musings
             </p>
           </div>
@@ -26,14 +27,14 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
       </div>
     </header>
     <section className="">
-      <div className="content-container p-content flex flex-col opacity-0 animate-fade-in-fast delay-200">
+      <div className="content-container p-content flex flex-col">
         {posts.map((post, i) => {
           return (
-            <div key={post.id}>
+            <Fade appear={true} unmount={true} delay={50*(i+1) as FadeProps['delay']} key={post.id}>
             <PostItem post={post} />
             {i != posts.length - 1 && <div className="mt-10 md:mt-16" />}
             {/* {i != posts.length - 1 && <div className="my-6 md:my-8 border-b border-dashed border-gray-300"></div>} */}
-            </div>
+            </Fade>
           )
         })}
       </div>

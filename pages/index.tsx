@@ -1,8 +1,5 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import Image from 'next/image'
 import allProjects from '../lib/project'
-import HomePage, {HomePageProps} from "../components/templates/HomePage";
+import HomePage, {HomePageProps} from "../components/templates/home/HomePage";
 import HeadMeta from '../components/atoms/HeadMeta';
 
 export default function Index({posts, projects} : HomePageProps) {
