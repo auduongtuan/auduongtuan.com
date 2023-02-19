@@ -1,14 +1,14 @@
 import Link from 'next/link'
 import Image from "next/legacy/image";
 import React from 'react';
-import BrowserFrame from './Frame';
-import Box, {EmojiBox, VideoBox} from './Box';
-import Note from './Note';
-import {Grid, Col} from "./Grid";
-import CustomImage, {CustomImageProps} from './CustomImage';
-import CustomVideo, {CustomVideoProps} from './CustomVideo';
-import Code from './Code';
-import InlineLink from './InlineLink';
+import BrowserFrame from '../../atoms/Frame';
+import Box, {EmojiBox, VideoBox} from '../../atoms/Box';
+import Note from '../../atoms/Note';
+import {Grid, Col} from "../../atoms/Grid";
+import CustomImage, {CustomImageProps} from '../../atoms/CustomImage';
+import CustomVideo, {CustomVideoProps} from '../../atoms/CustomVideo';
+import Code from '../../atoms/Code';
+import InlineLink from '../../atoms/InlineLink';
 const ProjectComponents = (slug: string) => ({
     h2: ({children}:{children:React.ReactNode}) => (
       <h2 className='lg:relative'><span className='relative lg:sticky lg:top-3'>{children}</span></h2>

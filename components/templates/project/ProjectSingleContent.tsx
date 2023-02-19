@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
-import ContentMenu from "../molecules/ContentMenu";
+import ContentMenu from "../../molecules/ContentMenu";
 import { MDXRemote } from "next-mdx-remote";
-import ProjectComponents from "../atoms/ProjectComponents";
-import { Project } from "../../lib/project";
+import ProjectComponents from "./ProjectComponents";
+import { Project } from "../../../lib/project";
 const ProjectSingleContent = ({ project }: { project: Project }) => {
   return (
     <div

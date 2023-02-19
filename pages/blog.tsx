@@ -1,5 +1,4 @@
-import Head from 'next/head'
-import NotionBlogPage from '../components/templates/NotionBlogPage'
+import NotionBlogPage from '../components/templates/post/NotionBlogPage'
 import { getPosts, Post } from '../lib/blog';
 import HeadMeta from '../components/atoms/HeadMeta';
 

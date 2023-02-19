@@ -4,7 +4,7 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import DefaultErrorPage from 'next/error'
 import {Project, allProjects, projectSlugs, getProject} from '../../lib/project'
 import { serialize } from 'next-mdx-remote/serialize'
-import ProjectSinglePage, {ProjectSinglePageProps} from '../../components/templates/ProjectSinglePage'
+import ProjectSinglePage, {ProjectSinglePageProps} from '../../components/templates/project/ProjectSinglePage'
 
 export default function ProjectView({project, projects}: ProjectSinglePageProps) {
   const router = useRouter()

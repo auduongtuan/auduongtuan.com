@@ -7,6 +7,7 @@ import Link from "next/link";
 import { PhotoFrame } from "../atoms/Frame";
 import useHeaderInView from "../../hooks/useHeaderInView";
 import Tooltip from "../atoms/Tooltip";
+import Fade from "../atoms/transition";
 
 interface GifTextProps extends React.HTMLProps<HTMLAnchorElement> {
   // gif?: HTMLElement|null;
@@ -74,7 +75,8 @@ export default function Header() {
         <div className="grid grid-cols-12 gap-3">
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-8 lg:max-w-[50rem] z-4">
             <Headline />
-            <p className="text-base md:text-2xl mt-6 lg:mt-9 _tracking-tight opacity-0 animate-fade-in-fast animation-delay-400">
+            <Fade appear={true} unmount={false} delay={200}>
+            <p className="text-base md:text-xl mt-6 lg:mt-9 _tracking-tight">
               I am a hybrid{" "}
               <GifText {...setupGif(0)}>
                 designer
@@ -95,17 +97,22 @@ export default function Header() {
               </Tooltip>
               ?).
             </p>
-            <p className="text-base md:text-2xl mt-2 _tracking-tight opacity-0 animate-fade-in-fast animation-delay-500">
+            </Fade>
+            <Fade appear={true} unmount={false} delay={300}>
+            <p className="text-base md:text-xl mt-2 _tracking-tight opacity-0 animate-fade-in-fast animation-delay-500">
               Everyday I try to make good products with the human at the center.
             </p>
+            </Fade>
+            <Fade appear={true} unmount={false} delay={350}>
             <Button
               href="/about"
-              className="mt-6 md:mt-10 opacity-0 animate-fade-in-fast animation-delay-500"
+              className="mt-6 md:mt-10"
               colorful
               arrow
             >
               Get to know me
             </Button>
+            </Fade>
           </div>
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-4 relative z-30 pointer-events-none md:block">
             <PhotoFrame

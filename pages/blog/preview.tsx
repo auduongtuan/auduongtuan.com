@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { GetServerSideProps} from "next";
 import DefaultErrorPage from "next/error";
 import { getPosts, getPostContent, Post } from "../../lib/blog";
-import NotionPostPage from '../../components/templates/NotionPostPage';
+import NotionPostPage from '../../components/templates/post/NotionPostPage';
 
 type BlogProps = {
   post: Post,

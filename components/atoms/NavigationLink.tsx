@@ -1,5 +1,5 @@
 import React from "react";
-import CustomLink from "../atoms/CustomLink";
+import CustomLink from "./CustomLink";
 import { useRouter } from "next/router";
 
 interface NavigationAnchorProps {

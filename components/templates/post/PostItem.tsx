@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
 
-import { Post } from "../../lib/blog";
+import { Post } from "../../../lib/blog";
 // import ExternalLink from "../atoms/ExternalLink";
 import Link from "next/link";
 import { FiLock } from "react-icons/fi";
-import Tag from "../atoms/Tag";
+import Tag from "../../atoms/Tag";
 import classNames from "classnames";
 import Balancer from "react-wrap-balancer";
 type PostItemProps = {
@@ -22,9 +22,9 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
         className
       )}
     >
-      <div className="grid grid-cols-1 gap-x-3 gap-y-4 md:grid-cols-12">
+      <div className="grid grid-cols-1 gap-x-3 gap-y-3 md:gap-y-4 md:grid-cols-12">
         <p
-          className={classNames("mt-1 muted-text col-span-3 row-start-2 md:row-start-auto")}
+          className={classNames("text-sm md:text-base mt-1 muted-text col-span-3 row-start-2 md:row-start-auto")}
         >
           {post.meta.date &&
             new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -33,7 +33,7 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
               year: "numeric",
             })}
         </p>
-        <div className="col-span-8">
+        <div className="col-span-9 md:pr-24">
           <div
             className={classNames("flex space-x-2 flex-wrap items-start")}
           >
@@ -49,7 +49,7 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
           </h2>
        
           
-          <Balancer ratio={0.3}><p className="mt-2 md:mt-3 text-base md:text-lg leading-relaxed md:leading-relaxed text-gray-700">{post.meta.excerpt}</p></Balancer>
+          <Balancer ratio={0.3}><p className="mt-2 md:mt-3 body-text text-gray-700">{post.meta.excerpt}</p></Balancer>
         </div>
       </div>
     </a>

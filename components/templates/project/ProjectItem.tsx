@@ -1,13 +1,13 @@
 import React, {useEffect, useState, useRef, useCallback, memo} from 'react'
-import { Project } from '../../lib/project'
-import Button from '../atoms/Button'
+import { Project } from '../../../lib/project'
+import Button from '../../atoms/Button'
 import { FiEye } from 'react-icons/fi'
-import IconButton from '../atoms/IconButton'
+import IconButton from '../../atoms/IconButton'
 import Image from "next/legacy/image";
 import Link from 'next/link'
-import BrowserFrame from '../atoms/Frame'
-import CustomImage from '../atoms/CustomImage'
-import CustomVideo from '../atoms/CustomVideo'
+import BrowserFrame from '../../atoms/Frame'
+import CustomImage from '../../atoms/CustomImage'
+import CustomVideo from '../../atoms/CustomVideo'
 import Balancer from 'react-wrap-balancer'
 export type ProjectItemProps = {
     project: Project,

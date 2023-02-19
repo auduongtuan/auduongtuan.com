@@ -1,10 +1,10 @@
 import React, {  Fragment } from "react";
 
-import {Post} from '../../lib/blog'
+import {Post} from '../../../lib/blog'
 // import ExternalLink from "../atoms/ExternalLink";
 import Link from "next/link";
 import { FiLock } from "react-icons/fi";
-import Tag from "../atoms/Tag";
+import Tag from "../../atoms/Tag";
 import classNames from "classnames";
 import Balancer from 'react-wrap-balancer';
 type SmallPostItemProps = {

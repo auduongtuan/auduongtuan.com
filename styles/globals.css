@@ -46,7 +46,7 @@
     @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-sans;
   } */
   .body-text {
-    @apply text-base leading-7 md:text-lg md:leading-8;
+    @apply text-base leading-relaxed md:text-lg md:leading-relaxed;
   }
   .p-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-32 lg:pb-28;
@@ -64,20 +64,7 @@
     /*@apply py-12 md:py-16 lg:py-20;*/
     @apply py-8 md:py-16 lg:py-20;
   }
-
-  .btn {
-    @apply py-2 px-4 rounded-lg font-semibold text-base tracking-wide text-white bg-dark-blue-900 hover:bg-blue-800 active:bg-blue-900 inline-block transition-all focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40;
-    @apply inline-flex items-center;
-    svg {
-      @apply ml-2 block;
-      /*translate-y-0 translate-x-0 duration-300 */
-    }
-    &:hover {
-      svg {
-        /* @apply translate-y-0 translate-x-1; */
-      }
-    }
-  }
+  
   .underline-link-light {
     @apply whitespace-nowrap break-words transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl underline underline-offset-4 decoration-slate-200 hover:decoration-transparent hover:bg-black/5;
   }
@@ -127,7 +114,7 @@
     }
 
     h3 {
-      @apply mt-8 md:mt-12 -mb-1 text-slate-800;;
+      @apply mt-8 md:mt-12 -mb-1 text-slate-800 first:mt-0;
     }
 
     h4 {
@@ -160,7 +147,7 @@
     .content-node
     > .box,
     {
-      @apply mt-content-node;
+      @apply mt-content-node first:mt-0;
     }
     
     .full {
@@ -176,10 +163,10 @@
     }
 
     h2 {
-      @apply mt-0 pt-12 md:pt-16 lg:pt-16;
+      @apply mt-0 pt-12 md:pt-16 lg:pt-20;
       @apply lg:col-span-1 lg:col-start-1 text-slate-900;
       & + *:not(.full) {
-        @apply lg:mt-0 lg:pt-16;
+        @apply lg:mt-0 pt-12 lg:pt-[5.4rem];
       }
       /* &:first-child + * {
         @apply lg:mt-0 lg:pt-0;

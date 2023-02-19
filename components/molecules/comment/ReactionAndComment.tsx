@@ -1,5 +1,5 @@
 import CommentForm from "./CommentForm";
-import Reaction from "../molecules/Reaction";
+import Reaction from "./Reaction";
 import { Fragment } from "react";
 import CommentList from "./CommentList";
 import useSWR from "swr";

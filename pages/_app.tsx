@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import type { AppProps } from "next/app";
 import smoothscroll from "smoothscroll-polyfill";
-import Navigation from "../components/organisms/Navigation";
+import Navigation from "../components/molecules/Navigation";
 import Script from "next/script";
 import * as gtag from "../lib/gtag";
 import { Provider } from "react-redux";

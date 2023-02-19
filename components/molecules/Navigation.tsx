@@ -5,6 +5,7 @@ import NavigationLink from "../atoms/NavigationLink";
 import useBreakpoint from "../../hooks/useBreakpoint";
 import { Transition } from "@headlessui/react";
 import { setMenuOpened, RootState } from "../../store/store";
+import classNames from "classnames";
 interface NavigationProps {
   fixed?: boolean;
   hideOnScroll?: boolean;
@@ -50,15 +51,21 @@ const Navigation = React.memo(
         if (hideOnScroll) window.removeEventListener("scroll", handleScroll);
       };
     }, [hideOnScroll, headerRef, pauseScrollEvent]);
+    const darkMenu = headerInView || menuOpened;
+    const headerStyles = classNames({
+      "opacity-0 w-full top-0 z-[42] transition-all duration-150 animate-fade-in-fast": true,
+      "fixed": fixed,
+      "absolute": !fixed,
+      "bg-custom-neutral-900 text-white": darkMenu,
+      "border-b border-gray-900/0": darkMenu && fixed,
+      "bg-white/60 backdrop-blur-md	text-dark-blue-900": !darkMenu,
+      "border-b border-gray-900/10": !darkMenu && fixed
+    });
     return (
       <div>
         <header
           ref={headerRef}
-          className={`${
-            fixed ? "fixed" : "absolute"
-          } opacity-0 w-full top-0 z-[42] transition-all duration-300 animate-fade-in-fast ${
-            headerInView || menuOpened ? "bg-custom-neutral-900 text-white" : "bg-white text-dark-blue-900"
-          }`}
+          className={headerStyles}
         >
           <nav className="text-display text-base md:text-xl font-semibold main-container py-2 md:py-4 flex items-center justify-between">
             {/* logo */}

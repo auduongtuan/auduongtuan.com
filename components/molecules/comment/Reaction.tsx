@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState, useReducer } from "react";
 import useSWR from "swr";
 import axios from "axios";
-import Tooltip from "../atoms/Tooltip";
+import Tooltip from "../../atoms/Tooltip";
 
 function counterReducer(counter, action) {
   if (!counter) counter = {};

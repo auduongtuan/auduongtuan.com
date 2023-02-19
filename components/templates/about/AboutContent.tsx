@@ -1,7 +1,7 @@
 import React from "react";
 import { FiDownload } from "react-icons/fi";
-import socialNetworks from "../../lib/socialNetworks";
-import Button from "../atoms/Button";
+import socialNetworks from "../../../lib/socialNetworks";
+import Button from "../../atoms/Button";
 
 const Heading = ({children}:{children?: React.ReactNode}) => (
   <h2 className="sub-heading border-b border-gray-200 pb-2 -mb-1">
