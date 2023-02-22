@@ -1,4 +1,5 @@
 const plugin = require('tailwindcss/plugin')
+
 module.exports = {
   future: {
     hoverOnlyWhenSupported: true,
@@ -14,9 +15,9 @@ module.exports = {
         'tall': { 'raw': '(min-height: 960px)' },
       },
       fontFamily: {
-        // "display": ['Work Sans', 'Helvetica', 'Arial', 'sans-serif'],
-        "display": ['IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif'],
-        "sans": ['IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif'],
+        // "display": ['Work Sans', ],
+        "display": ['var(--main-font)', 'Helvetica', 'Arial', 'sans-serif'],
+        "sans": ['var(--main-font)', 'Helvetica', 'Arial', 'sans-serif'],
         // "script": ['Nanum Pen Script', 'IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif']
       },
       fontSize: {

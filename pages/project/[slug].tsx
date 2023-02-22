@@ -36,8 +36,9 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     mdxOptions: {
       remarkPlugins: [
         require('remark-prism')
-      ]
-    }
+      ],
+      development: false
+    },
   });
 
   return {

@@ -10,8 +10,8 @@ const useBreakpoint = () => {
     const [breakpoint, setBreakpoint] = useState<Breakpoint>();
     const resize = () => {
       let bp = 'lg';
-      if (window.innerWidth <= 768) bp = 'md'
-      if (window.innerWidth <= 640) bp = 'sm';
+      if (window.innerWidth < 768) bp = 'md'
+      if (window.innerWidth < 640) bp = 'sm';
       setBreakpoint(bp as Breakpoint);
     }
     useEffect(() => {

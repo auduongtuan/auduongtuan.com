@@ -2,7 +2,7 @@ import Link, { LinkProps } from "next/link";
 import React from "react";
 import { FiArrowRight, FiDownload, FiArrowUpRight } from "react-icons/fi";
 import { FaSpinner } from "react-icons/fa";
-import classNames from "classnames";
+import clsx from "clsx";
 export interface ButtonProps {
   href?: string;
   className?: string;
@@ -35,7 +35,7 @@ const Button = ({
   ...rest
 }: ButtonProps) => {
   //   if (colorful) className += ;
-  const buttonStyles = classNames(
+  const buttonStyles = clsx(
     "py-2 px-4 rounded-lg font-semibold text-base tracking-wideinline-block transition-all",
     "focus:ring-2 ring-blue-600 outline-none",
     "inline-flex items-center",

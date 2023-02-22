@@ -9,11 +9,16 @@ import Script from "next/script";
 import * as gtag from "../lib/gtag";
 import { Provider } from "react-redux";
 import store from "../store/store";
-import { Provider as BalancerProvider } from 'react-wrap-balancer'
-
+import { Provider as BalancerProvider } from "react-wrap-balancer";
+import { IBM_Plex_Sans } from "@next/font/google";
+const ibm = IBM_Plex_Sans({
+  subsets: ["latin", "latin-ext", "vietnamese"],
+  weight: ["400", "500", "600", "700"],
+});
 const isProduction = process.env.NODE_ENV === "production";
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+import Head from "next/head";
 
 TimeAgo.addLocale(en);
 function MyApp({ Component, pageProps }: AppProps) {
@@ -34,17 +39,17 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
       <BalancerProvider>
-      <Navigation hideOnScroll={true} fixed={true} />
-      {isProduction && <>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
-      />
-      <Script
-        id="gtag-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
+        {isProduction && (
+          <>
+            <Script
+              strategy="afterInteractive"
+              src={`https://www.googletagmanager.com/gtag/js?id=${gtag.GA_TRACKING_ID}`}
+            />
+            <Script
+              id="gtag-init"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -52,14 +57,20 @@ function MyApp({ Component, pageProps }: AppProps) {
               page_path: window.location.pathname,
             });
           `,
-        }}
-      />
-      </>
-      }
-      <div id="toast-root">
-        
-      </div>
-      <Component {...pageProps} />
+              }}
+            />
+          </>
+        )}
+        <style jsx global>{`
+          :root {
+            --main-font: ${ibm.style.fontFamily};
+          }
+        `}</style>
+        <main>
+          <Navigation hideOnScroll={true} fixed={true} />
+          <div id="toast-root"></div>
+          <Component {...pageProps} />
+        </main>
       </BalancerProvider>
     </Provider>
   );

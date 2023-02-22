@@ -1,5 +1,5 @@
 import { Transition, TransitionClasses } from "@headlessui/react";
-import classNames from "classnames";
+import clsx from "clsx";
 import { useRef, useEffect, useState } from "react";
 
 const delayClass = {
@@ -53,24 +53,29 @@ const Fade = ({
   duration = 300,
   ...rest
 }: FadeProps) => {
+  const [styles, setStyles] = useState('');
+  useEffect(() => {
+    setStyles(clsx(className, {
+      "opacity-0": appear,
+      "translate-y-10": appear && slide,
+    }));
+  }, [className, appear, slide])
   return (
+  
     <Transition
       show={show}
       appear={appear}
-      enter={classNames("transition", "ease-in", durationClass[duration], {
+      enter={clsx("transition", "ease-in", durationClass[duration], {
         [delayClass[delay as number]]: delay && delay in delayClass,
       })}
-      enterFrom={classNames("opacity-0", { "translate-y-10": slide })}
-      enterTo={classNames("opacity-100", { "translate-y-0": slide })}
+      enterFrom={clsx("opacity-0", { "translate-y-10": slide })}
+      enterTo={clsx("opacity-100", { "translate-y-0": slide })}
       leave={`transition duration-200 ${
         delay && delay in delayClass ? delayClass[delay] : ""
       }`}
-      leaveFrom={classNames("opacity-100", { "translate-y-0": slide })}
-      leaveTo={classNames("opacity-0", { "translate-y-10": slide })}
-      className={classNames(className, {
-        "opacity-0": appear,
-        "translate-y-10": appear && slide,
-      })}
+      leaveFrom={clsx("opacity-100", { "translate-y-0": slide })}
+      leaveTo={clsx("opacity-0", { "translate-y-10": slide })}
+      className={styles}
       {...rest}
     >
       {children}

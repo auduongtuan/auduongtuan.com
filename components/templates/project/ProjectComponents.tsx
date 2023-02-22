@@ -1,5 +1,3 @@
-import Link from 'next/link'
-import Image from "next/legacy/image";
 import React from 'react';
 import BrowserFrame from '../../atoms/Frame';
 import Box, {EmojiBox, VideoBox} from '../../atoms/Box';
@@ -7,13 +5,12 @@ import Note from '../../atoms/Note';
 import {Grid, Col} from "../../atoms/Grid";
 import CustomImage, {CustomImageProps} from '../../atoms/CustomImage';
 import CustomVideo, {CustomVideoProps} from '../../atoms/CustomVideo';
-import Code from '../../atoms/Code';
 import InlineLink from '../../atoms/InlineLink';
 const ProjectComponents = (slug: string) => ({
     h2: ({children}:{children:React.ReactNode}) => (
       <h2 className='lg:relative'><span className='relative lg:sticky lg:top-3'>{children}</span></h2>
     ),
-    img: ({ src, alt }:{src: string, alt: string}) => {
+    img: ({ src, alt }) => {
       const ext = src.split('.').pop();
       return (
           (ext == 'png' || ext == 'jpg') ? <CustomImage alt={alt} src={src} slug={slug} /> : ''
@@ -59,9 +56,9 @@ const ProjectComponents = (slug: string) => ({
       let imageTag;
       if (typeof image == 'string' && (image.split('.').pop() == 'png' || image.split('.').pop() == 'jpg')) {
         if ( imageWidth && imageHeight) {
-          imageTag = <CustomImage src={image} slug={slug} alt={name} width={imageWidth} height={imageHeight} layout="responsive" />;
+          imageTag = <CustomImage src={image} slug={slug} alt={name} width={imageWidth} height={imageHeight} />;
         } else {
-          imageTag = <CustomImage src={image} slug={slug} alt={name} layout="fill" />;
+          imageTag = <CustomImage src={image} slug={slug} alt={name} fill />;
         }
       } else if (React.isValidElement(image)) {
         imageTag = image;

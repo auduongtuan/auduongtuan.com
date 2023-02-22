@@ -4,6 +4,7 @@ import Heading from "./Heading";
 import Bookmark from "./Bookmark";
 import Disclosure from "../atoms/Disclosure";
 import parseListItem from "./parseListItem";
+import CustomImage from "../atoms/CustomImage";
 const parseBlocks = (blocks: any[]) => {
   return blocks && blocks.length > 0
     ? blocks.reduce((content, block, blockIndex) => {
@@ -20,8 +21,8 @@ const parseBlocks = (blocks: any[]) => {
             // console.log(block.id);
             content.push(
               <p key={block.id} className="mt-content-node">
-                <Image
-                  className="max-w-full text-center"
+                <CustomImage
+                  className="max-w-full text-center rounded-md overflow-hidden"
                   // src={block.image.file.url}
                   src={`/api/notion-asset/${block.id}`}
                   alt={block.image.alt ? block.image.alt : "Post Content Image"}

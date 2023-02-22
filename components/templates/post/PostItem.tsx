@@ -5,7 +5,7 @@ import { Post } from "../../../lib/blog";
 import Link from "next/link";
 import { FiLock } from "react-icons/fi";
 import Tag from "../../atoms/Tag";
-import classNames from "classnames";
+import clsx from "clsx";
 import Balancer from "react-wrap-balancer";
 type PostItemProps = {
   post: Post;
@@ -14,7 +14,7 @@ type PostItemProps = {
 const PostItem = ({ post, className = "" }: PostItemProps) => {
   const inner = (
     <a
-      className={classNames(
+      className={clsx(
         "-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100 flex flex-col",
         {
           "cursor-not-allowed": post.meta.protected,
@@ -24,7 +24,7 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
     >
       <div className="grid grid-cols-1 gap-x-3 gap-y-3 md:gap-y-4 md:grid-cols-12">
         <p
-          className={classNames("text-sm md:text-base mt-1 muted-text col-span-3 row-start-2 md:row-start-auto")}
+          className={clsx("text-sm md:text-base mt-1 muted-text col-span-3 row-start-2 md:row-start-auto")}
         >
           {post.meta.date &&
             new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -35,14 +35,14 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
         </p>
         <div className="col-span-9 md:pr-24">
           <div
-            className={classNames("flex space-x-2 flex-wrap items-start")}
+            className={clsx("flex space-x-2 flex-wrap items-start")}
           >
             {post.meta.tags.map((tag, i) => (
               <Tag key={`tag-${i}`}>{tag}</Tag>
             ))}
           </div>
           <h2
-            className={classNames("flex items-start space-x-3 h3 mt-4")}
+            className={clsx("flex items-start space-x-3 h3 mt-4")}
           >
             <Balancer ratio={0.67}>{post.meta.title}</Balancer>
             {post.meta.protected && <FiLock className="text-gray-400"></FiLock>}
