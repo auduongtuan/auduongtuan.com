@@ -1,6 +1,6 @@
 import Disclosure from "../atoms/Disclosure";
 import parseBlocks from "./parseBlocks";
-import classNames from "classnames";
+import clsx from "clsx";
 const Heading = ({ block }) => {
   const textStyles = {
     heading_2: "text-xl md:text-3xl font-semibold text-slate-800",
@@ -13,7 +13,7 @@ const Heading = ({ block }) => {
   const Tag = block.type.replace("heading_", "h");
   const title = (
     <Tag
-      className={classNames(textStyles[block.type], {
+      className={clsx(textStyles[block.type], {
         [gutterTop[block.type]]: !block.has_children,
       })}
     >

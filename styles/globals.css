@@ -1,7 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@layer base {
+  @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+    img[loading="lazy"] {
+      clip-path: inset(0.6px);
+    }
+  }
+}
 @layer utilities {
   .translate-z-0 {
     transform: translateZ(0);
@@ -49,7 +55,7 @@
     @apply text-base leading-relaxed md:text-lg md:leading-relaxed;
   }
   .p-header {
-    @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-32 lg:pb-28;
+    @apply pt-[5.5rem] pb-14 md:pt-32 md:pb-24 lg:pt-36 lg:pb-28;
   }
   .p-homepage-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
@@ -64,7 +70,7 @@
     /*@apply py-12 md:py-16 lg:py-20;*/
     @apply py-8 md:py-16 lg:py-20;
   }
-  
+
   .underline-link-light {
     @apply whitespace-nowrap break-words transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl underline underline-offset-4 decoration-slate-200 hover:decoration-transparent hover:bg-black/5;
   }
@@ -86,23 +92,24 @@
     /* p a, ul a, ol a {
       @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
     } */
-    
+
     > * {
       @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
     }
     blockquote p {
       @apply text-xl md:text-2xl font-semibold;
     }
-    
-    p, ul, ol {
+
+    p,
+    ul,
+    ol {
       @apply body-text;
     }
-    
+
     [class^="text"] > p {
       font-size: unset;
     }
-   
-    
+
     ul {
       list-style-type: disc;
       /* @apply mt-3 md:mt-4 */
@@ -129,7 +136,8 @@
       @apply mt-content-node;
     } */
 
-    h4 + p, h4 + ul {
+    h4 + p,
+    h4 + ul {
       @apply mt-1;
       @apply text-base leading-7;
     }
@@ -140,16 +148,13 @@
       }
     }
 
-    
     ul,
     blockquote,
     p,
-    .content-node
-    > .box,
-    {
+    .content-node > .box {
       @apply mt-content-node first:mt-0;
     }
-    
+
     .full {
       @apply col-span-3 col-start-1;
     }
@@ -166,7 +171,7 @@
       @apply mt-0 pt-12 md:pt-16 lg:pt-20;
       @apply lg:col-span-1 lg:col-start-1 text-slate-900;
       & + *:not(.full) {
-        @apply lg:mt-0 pt-12 lg:pt-[5.4rem];
+        @apply pt-0 lg:mt-0  lg:pt-[5.4rem];
       }
       /* &:first-child + * {
         @apply lg:mt-0 lg:pt-0;
@@ -185,7 +190,9 @@
       &-2 {
         @apply relative;
         /* @apply grid grid-cols-3 gap-x-2 relative; */
-        p, ul, li {
+        p,
+        ul,
+        li {
           @apply text-base md:text-base leading-7;
         }
         li {
@@ -201,18 +208,15 @@
           @apply mt-0;
         }
         /* > *:not(.image) { */
-          /* &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5) { */
-            /* width: calc(100% - 160px); */
-            /* & + p {
+        /* &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5) { */
+        /* width: calc(100% - 160px); */
+        /* & + p {
               @apply col-span-2 col-start-1;
             } */
-          /* } */
+        /* } */
         /* } */
       }
     }
-   
-
- 
   }
 }
 

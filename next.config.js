@@ -29,7 +29,8 @@ module.exports = withVideos({
           hostname: "*.amazonaws.com",
         },
       ],
-    }
+    },
+    reactStrictMode: false,
   }
   // withImages({
   //   images: {

@@ -60,7 +60,7 @@ export default function AboutHeader() {
             </Balancer>
           </div>
           
-          <Fade slide duration={150} className="col-span-12 md:col-span-4 md:row-start-1 md:col-start-9 md:row-span-2 self-end" delay={400} unmount={false} appear={true}>
+          <Fade slide duration={150} className="col-span-12 md:col-span-4 md:row-start-1 md:col-start-9 md:row-span-2 self-end" delay={400}>
           <div
             onMouseOver={() => setImage(1)}
             onMouseLeave={() => setImage(0)}
