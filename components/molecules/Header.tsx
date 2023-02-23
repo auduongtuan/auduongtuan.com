@@ -7,7 +7,7 @@ import Link from "next/link";
 import { PhotoFrame } from "../atoms/Frame";
 import useHeaderInView from "../../hooks/useHeaderInView";
 import Tooltip from "../atoms/Tooltip";
-import Fade from "../atoms/transition";
+import Fade from "../atoms/Fade";
 
 interface GifTextProps extends React.HTMLProps<HTMLAnchorElement> {
   // gif?: HTMLElement|null;
@@ -75,7 +75,7 @@ export default function Header() {
         <div className="grid grid-cols-12 gap-3">
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-8 lg:max-w-[50rem] z-4">
             <Headline />
-            <Fade appear={true} unmount={false} delay={200}>
+            <Fade delay={200}>
             <p className="text-base md:text-xl mt-6 lg:mt-9 _tracking-tight">
               I am a hybrid{" "}
               <GifText {...setupGif(0)}>
@@ -98,12 +98,10 @@ export default function Header() {
               ?).
             </p>
             </Fade>
-            <Fade appear={true} unmount={false} delay={300}>
-            <p className="text-base md:text-xl mt-2 _tracking-tight opacity-0 animate-fade-in-fast animation-delay-500">
+            <Fade className="text-base md:text-xl mt-2 _tracking-tight" delay={500}>
               Everyday I try to make good products with the human at the center.
-            </p>
             </Fade>
-            <Fade appear={true} unmount={false} delay={350}>
+            <Fade delay={350}>
             <Button
               href="/about"
               className="mt-6 md:mt-10"

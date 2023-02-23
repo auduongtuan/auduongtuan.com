@@ -152,7 +152,7 @@
     blockquote,
     p,
     .content-node > .box {
-      @apply mt-content-node first:mt-0;
+      @apply mt-content-node;
     }
 
     .full {

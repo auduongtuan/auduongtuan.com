@@ -6,7 +6,7 @@ import socialNetworks from "../../lib/socialNetworks";
 import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import Balancer from "react-wrap-balancer";
-import Fade from "../atoms/transition";
+import Fade from "../atoms/Fade";
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR("/api/spotify", fetcher);
