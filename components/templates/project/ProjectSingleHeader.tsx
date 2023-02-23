@@ -5,7 +5,7 @@ import IconButton from "../../atoms/IconButton";
 import Badge from "../../atoms/Badge";
 import useHeaderInView from "../../../hooks/useHeaderInView";
 import Balancer from "react-wrap-balancer";
-
+import Fade from "../../atoms/Fade";
 interface ProjectSingleHeaderProps {
   project: Project;
 }
@@ -24,7 +24,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                 : "md:col-span-6"
             } md:row-span-1`}
           >
-            <div className="opacity-0 animate-slide-in-fast">
+            <Fade slide duration={100}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display tracking-tight">
                 {project.meta.title}
               </h1>
@@ -34,7 +34,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                   month: "long",
                 })}
               </p>
-            </div>
+            </Fade>
           </div>
           {project.meta.link && (
             <div className="col-span-12 md:col-span-6 md:row-span-1 md:justify-self-end relative">
@@ -59,7 +59,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
             </div>
           )}
           <div className="col-span-12 grid grid-cols-2 gap-x-4 gap-y-8 md:col-start-1 md:col-span-4 md:row-span-3 md:self-end">
-            <div className="col-span-1 md:col-span-2 opacity-0 animation-delay-200 animate-slide-in-fast">
+            <Fade className="col-span-1 md:col-span-2" delay={100}>
               <h5 className="sub-heading text-gray-500">Tools used</h5>
               <ul>
                 {project.meta.tools &&
@@ -69,8 +69,8 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                     </li>
                   ))}
               </ul>
-            </div>
-            <div className="col-span-1 md:col-span-2 opacity-0 animation-delay-300 animate-slide-in-fast">
+            </Fade>
+            <Fade className="col-span-1 md:col-span-2" delay={150}>
               <h5 className="sub-heading text-gray-500">What I did</h5>
               <ul>
                 {project.meta.roles &&
@@ -80,16 +80,18 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                     </li>
                   ))}
               </ul>
-            </div>
+            </Fade>
           </div>
 
-          <p
-            className={`opacity-0 animation-delay-200 animate-slide-in-fast col-span-12 ${
+          <Fade as="p"
+            slide
+            delay={150}
+            className={`col-span-12 ${
               project.meta.achievements ? "md:mt-28" : "md:mt-10"
             } md:col-start-5 md:col-span-8 md:row-span-3 md:self-end big-text`}
           >
             <Balancer ratio={0.36}>{project.meta.description}</Balancer>
-          </p>
+          </Fade>
         </div>
       </div>
     </header>

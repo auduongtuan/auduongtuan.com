@@ -2,6 +2,7 @@ import React from "react";
 import { FiDownload } from "react-icons/fi";
 import socialNetworks from "../../../lib/socialNetworks";
 import Button from "../../atoms/Button";
+import Fade from "../../atoms/Fade";
 
 const Heading = ({children}:{children?: React.ReactNode}) => (
   <h2 className="sub-heading border-b border-gray-200 pb-2 -mb-1">
@@ -129,7 +130,7 @@ export default function AboutContent() {
   return (
     <div className="p-content bg-slate-50 relative h-full">
     
-    <main className="content-container opacity-0 animate-fade-in-fast animation-delay-300 text-gray-800">
+    <Fade delay={300} className="content-container text-gray-800">
     <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-12 lg:gap-y-24">
     
       <section className="col-span-2 md:col-span-6 lg:col-span-8 lg:mr-8">
@@ -195,7 +196,7 @@ export default function AboutContent() {
       </aside>
    
     </div>
-    </main>
+    </Fade>
   </div>
   );
 }

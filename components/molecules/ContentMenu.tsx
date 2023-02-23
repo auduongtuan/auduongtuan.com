@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react'
 import slugify from 'slugify';
+import Fade from '../atoms/Fade';
 interface VisibleInfo {
   start: number;
   end: number;
@@ -71,7 +72,7 @@ const ContentMenu = React.memo(() => {
 
   return (
     <div className='absolute left-0 h-full py-28'>
-      <aside className={`w-60 hidden 2xl:block sticky top-1/2 opacity-0 animate-fade-in-fast delay-100`}>
+      <Fade as="aside" className={`w-60 hidden 2xl:block sticky top-1/2`} delay={100}>
           <ul className='flex flex-col flex-gap-y-1  group'>
           {headings && headings.length > 2 && headings.map((heading, i) => 
           <li key={i} className='flex items-center'>
@@ -89,7 +90,7 @@ const ContentMenu = React.memo(() => {
             }} className={`pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-4 text-sm font-semibold hover:text-gray-800 ${i == active ? 'text-gray-900' : 'text-gray-400'}`} href={`#${heading.id}`}>{heading.innerText}</a>
           </li>)}
           </ul>
-      </aside>
+      </Fade>
     </div>
   );
 });

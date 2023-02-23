@@ -3,6 +3,7 @@ import ContentMenu from "../../molecules/ContentMenu";
 import { MDXRemote } from "next-mdx-remote";
 import ProjectComponents from "./ProjectComponents";
 import { Project } from "../../../lib/project";
+import Fade from "../../atoms/Fade";
 const ProjectSingleContent = ({ project }: { project: Project }) => {
   return (
     <div
@@ -13,14 +14,14 @@ const ProjectSingleContent = ({ project }: { project: Project }) => {
       }}
     >
       <ContentMenu />
-      <article id="project" className="main-container">
+      <Fade as="article" id="project" className="main-container" delay={200}>
         <div className="project-grid">
           <MDXRemote
             {...project.parsedContent}
             components={ProjectComponents(project.slug)}
           />
         </div>
-      </article>
+      </Fade>
     </div>
   );
 };

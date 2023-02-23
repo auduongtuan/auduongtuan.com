@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useMemo, useState } from "react";
 import useWindowSize from "../../hooks/useWindowSize";
+import Fade from "./Fade";
 const startTextStyle = {
   opacity: "0",
   transform: "translateY(40px)",
@@ -55,9 +56,9 @@ const Headline = React.memo(() => {
   }, [size.width]);
   return (
     <div className="h1 grid grid-cols-1">
-      <div className="row-start-1 row-span-1 col-start-1 col-span-1 w-full opacity-0 animate-slide-in-fast">
+      <Fade className="row-start-1 row-span-1 col-start-1 col-span-1 w-full" slide>
         Hi! I design and build
-      </div>
+      </Fade>
       <div className="row-start-2 row-span-1 col-start-1 col-span-1 w-full  relative z-20">
         <span
           className="inline-block transition-all duration-300 ease-bounce"

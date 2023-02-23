@@ -6,6 +6,7 @@ import useHeaderInView from "../../../hooks/useHeaderInView";
 import ContentMenu from "../../molecules/ContentMenu";
 import Tag from "../../atoms/Tag";
 import parseBlocks from "../../notion/parseBlocks";
+import Fade from "../../atoms/Fade";
 import OtherPostList from "./OtherPostList";
 const PostSinglePage = ({ post, postContent, posts }: {post: Post, posts: Post[], postContent: any}) => {
   const { ref } = useHeaderInView();
@@ -19,18 +20,18 @@ const PostSinglePage = ({ post, postContent, posts }: {post: Post, posts: Post[]
         <div className="content-container p-header">
           <div className="grid grid-cols-1 gap-2 md:gap-4 max-w-[50rem] mx-auto">
             <Balancer>
-              <h1 className="text-2xl md:text-3xl leading-tight md:leading-tight lg:text-5xl lg:leading-tight col-span-1  opacity-0 animate-slide-in-fast">
+              <Fade as="h1" className="text-2xl md:text-3xl leading-tight md:leading-tight lg:text-5xl lg:leading-tight col-span-1" slide duration={100}>
                 {post.meta.title}
-              </h1>
+              </Fade>
             </Balancer>
-            <div className="flex space-x-2 mt-2 flex-wrap opacity-0 animate-fade-in-fast delay-200">
+            <Fade className="flex space-x-2 mt-2 flex-wrap" delay={200}>
               {post.meta.tags.map((tag, i) => (
                 <Tag key={`tag-${i}`} inverted>
                   {tag}
                 </Tag>
               ))}
-            </div>
-            <p className="muted-text mt-1 text-gray-500 opacity-0 animate-fade-in-fast delay-200">
+            </Fade>
+            <Fade className="muted-text mt-1 text-gray-500" delay={200}>
               Posted on{" "}
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -38,18 +39,18 @@ const PostSinglePage = ({ post, postContent, posts }: {post: Post, posts: Post[]
                   day: "numeric",
                   year: "numeric",
                 })}
-            </p>
+            </Fade>
           </div>
         </div>
       </header>
-        <div className="relative opacity-0 animate-fade-in-fast delay-200">
+        <Fade className="relative" delay={200}>
           <ContentMenu />
           <div className="content-container p-content blog-content">
             <div className="max-w-[50rem] mx-auto">
               <div className="text-gray-800 [&>*:first-child]:mt-0">{parseBlocks(postContent)}</div>
             </div>
           </div>
-        </div>
+        </Fade>
         <section className="bg-white border-gray-200 border-t p-content relative">
           <div className="main-container">
               <ReactionAndComment
