@@ -6,6 +6,14 @@ module.exports = {
         protocol: "https",
         hostname: "*.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "*.scdn.co",
+      },
+      {
+        protocol: "https",
+        hostname: "*.spotify.com",
+      },
     ],
   },
   reactStrictMode: false,
