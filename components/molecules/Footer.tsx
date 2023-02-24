@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useInView } from "react-intersection-observer";
 import Balancer from "react-wrap-balancer";
 import Fade from "../atoms/Fade";
+import CustomImage from "../atoms/CustomImage";
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR("/api/spotify", fetcher);
@@ -30,7 +31,7 @@ export default function Footer() {
             >
               {data && (
                 <div className="flex items-center flex-gap-4">
-                  <img
+                  <CustomImage
                     className={`rounded-full ${
                       data.isPlaying && "animate-spin-slow"
                     } flex-grow-0`}

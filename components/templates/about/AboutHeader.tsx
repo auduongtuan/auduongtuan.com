@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import useHeaderInView from "../../../hooks/useHeaderInView";
 import Fade from "../../atoms/Fade";
 import Balancer from "react-wrap-balancer";
+
 export default function AboutHeader() {
   const { ref, inView } = useHeaderInView();
   const images = ["tuan.jpg", "tuan_haha.jpg"];
