@@ -8,10 +8,27 @@ const SkeletonDisplay = ({ className = "", type }: {
     <span
     role="status"
     className={twMerge(
-      "animate-pulse flex items-center justify-center absolute top-0 left-0 w-full h-full z-10 bg-gray-200",
+      "flex items-center justify-center absolute top-0 left-0 w-full h-full z-10 bg-gray-200",
       className
       )}
       >
+        <div
+          className="
+          absolute
+          top-0
+          left-0 
+          z-5
+          before:absolute before:inset-0
+          before:-translate-x-full
+          before:animate-[shimmer_2s_infinite]
+          before:bg-gradient-to-r
+          before:from-transparent before:via-white/60 before:to-transparent
+          isolate
+          overflow-hidden
+          w-full
+          h-full
+          before:border-t before:border-white-100/40"
+        ></div>
       {type == "image" && <FiImage className="w-12 h-12 text-gray-400"></FiImage>}
       {type == "video" && <FiVideo className="w-12 h-12 text-gray-400"></FiVideo>}
     </span>
