@@ -5,6 +5,7 @@ import Button from "../../atoms/Button";
 import Fade from "../../atoms/Fade";
 import ExternalLink from "../../atoms/ExternalLink";
 import { experience, education, skills, now } from "./content";
+import InlineLink from "../../atoms/InlineLink";
 const Heading = ({ children }: { children?: React.ReactNode }) => (
   <h2 className="sub-heading border-b border-gray-200 pb-2 -mb-1">
     {/* <h2 className="text-xl tracking-wide uppercase text-gray-800"> */}
@@ -70,7 +71,7 @@ export default function AboutContent() {
                   <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                     {now.map((item, i) => (
                       <div
-                        className="p-3 md:p-4 bg-slate-100 rounded-md"
+                        className="px-3 md:px-4 py-2 bg-slate-100 rounded-md"
                         key={`now-${i}`}
                       >
                         <p className="text-sm mt-0.5 text-gray-500">
