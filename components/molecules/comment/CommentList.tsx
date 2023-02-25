@@ -1,7 +1,7 @@
 import { richTextObject } from "../../notion/richText";
 import TimeAgo from "javascript-time-ago";
 import { GiPostStamp, GiDominoMask } from "react-icons/gi";
-import ExternalLink from "../../atoms/ExternalLink";
+import InlineLink from "../../atoms/InlineLink";
 import Tooltip from "../../atoms/Tooltip";
 // English.
 const getInitials = function (string) {
@@ -86,7 +86,7 @@ const CommentList = ({ comments, wording }) => {
               </h5>
               <p className="text-sm md:text-base text-gray-800 mt-1">
                 {`Why don't you `}
-                <Tooltip content="A nostalgia trend of Yahoo 360 era"><ExternalLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</ExternalLink></Tooltip>
+                <Tooltip content="A nostalgia trend of Yahoo 360 era"><InlineLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</InlineLink></Tooltip>
                 {` this article?`}
               </p>
             </div>

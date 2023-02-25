@@ -5,7 +5,7 @@ import NavigationLink from "../atoms/NavigationLink";
 import useBreakpoint from "../../hooks/useBreakpoint";
 import { Transition } from "@headlessui/react";
 import { setMenuOpened, RootState } from "../../store/store";
-import clsx from "clsx";
+import { twMerge } from "tailwind-merge";
 interface NavigationProps {
   fixed?: boolean;
   hideOnScroll?: boolean;
@@ -19,7 +19,9 @@ const menuItems = [
 
 const Navigation = React.memo(
   ({ fixed = true, hideOnScroll = false }: NavigationProps) => {
-    const {menuOpened, pauseScrollEvent, headerInView} = useSelector((state: RootState) => state.app);
+    const { menuOpened, pauseScrollEvent, headerInView } = useSelector(
+      (state: RootState) => state.app
+    );
     const dispatch = useDispatch();
     const headerRef = useRef<HTMLElement>(null);
     const bp = useBreakpoint();
@@ -52,22 +54,19 @@ const Navigation = React.memo(
       };
     }, [hideOnScroll, headerRef, pauseScrollEvent]);
     const darkMenu = headerInView || menuOpened;
- 
-    const NavigationStyles = clsx({
-      "w-full top-0 z-[42] transition-all duration-150": true,
-      "fixed": fixed,
-      "absolute": !fixed,
-      "bg-custom-neutral-900/60 backdrop-blur-md text-white": darkMenu,
-      "border-b border-white/10": darkMenu && fixed,
-      "bg-white/60	backdrop-blur-md text-dark-blue-900": !darkMenu,
-      "border-b border-gray-900/10": !darkMenu && fixed
-    });
+    // may need to
+    // https://paco.me/writing/disable-theme-transitions
+
+    const NavigationStyles = twMerge(
+      "w-full top-0 z-[42] transition-transform duration-150",
+      fixed ? 'fixed' : 'absolute',
+      darkMenu ? "bg-custom-neutral-900/60 backdrop-blur-md text-white" : "bg-white/60	backdrop-blur-md text-dark-blue-900",
+      darkMenu && fixed && "border-b border-white/10",
+      !darkMenu && fixed && "border-b border-gray-900/10",
+    );
     return (
       <div>
-        <header
-          ref={headerRef}
-          className={NavigationStyles}
-        >
+        <header ref={headerRef} className={NavigationStyles}>
           <nav className="text-display text-base md:text-xl font-semibold main-container py-2 md:py-4 flex items-center justify-between">
             {/* logo */}
             <NavigationLink
@@ -78,27 +77,27 @@ const Navigation = React.memo(
             >
               Au Duong Tuan
             </NavigationLink>
-            {menuOpened ?
+            {menuOpened ? (
               <button
                 className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer text-white hover:bg-white/10`}
                 onClick={() => dispatch(setMenuOpened(false))}
               >
                 <FiX className="w-6 h-6" />
               </button>
-             : (
+            ) : (
               <>
-                {(bp == 'md' || bp == 'sm') &&
-                <button
-                  className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer ${
-                    headerInView
-                      ? "text-white hover:bg-white/10"
-                      : "text-dark-blue-900 hover:bg-black/5"
-                  }`}
-                  onClick={() => dispatch(setMenuOpened(true))}
-                >
-                  <FiMenu className="w-6 h-6" />
-                </button>
-                }
+                {(bp == "md" || bp == "sm") && (
+                  <button
+                    className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer ${
+                      headerInView
+                        ? "text-white hover:bg-white/10"
+                        : "text-dark-blue-900 hover:bg-black/5"
+                    }`}
+                    onClick={() => dispatch(setMenuOpened(true))}
+                  >
+                    <FiMenu className="w-6 h-6" />
+                  </button>
+                )}
                 <ul className="md:flex flex-gap-8 items-center hidden">
                   {menuItems.map((item, i) => (
                     <li key={i}>

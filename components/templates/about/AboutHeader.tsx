@@ -1,15 +1,10 @@
-import React, { useEffect, useState, useCallback, Fragment } from "react";
-import { setHeaderInView } from "../../../store/store";
-import { useInView } from "react-intersection-observer";
-import BrowserFrame from "../../atoms/Frame";
+import { useState } from "react";
 import CustomImage from "../../atoms/CustomImage";
-import ExternalLink from "../../atoms/ExternalLink";
-import Link from "next/link";
 import { PhotoFrame } from "../../atoms/Frame";
-import { useDispatch, useSelector } from "react-redux";
 import useHeaderInView from "../../../hooks/useHeaderInView";
 import Fade from "../../atoms/Fade";
 import Balancer from "react-wrap-balancer";
+import InlineLink from "../../atoms/InlineLink";
 
 export default function AboutHeader() {
   const { ref, inView } = useHeaderInView();
@@ -37,24 +32,24 @@ export default function AboutHeader() {
                   I have been self-studying design &amp; code since 2009. Then,
                   received a BFA in design and am getting my 2nd bachelor&apos;s
                   degree in tech. You can read more at{" "}
-                  <Link
+                  <InlineLink
                     href="/blog/my-digital-journey"
-                    className="underline-link-dark"
+                    dark
                   >
                     my digital journey
-                  </Link>
+                  </InlineLink>
                   .
                 </p>
               </Fade>
               <Fade delay={250}>
               <p className="mt-4 md:mt-8">
                 Currently, I am spending my week days at{" "}
-                <ExternalLink
+                <InlineLink
                   href="https://baemin.vn"
-                  className="underline-link-dark"
+                  dark
                 >
                   BAEMIN ↗
-                </ExternalLink>{" "}
+                </InlineLink>{" "}
                 focusing on Design System and DesignOps.
               </p>
               </Fade>

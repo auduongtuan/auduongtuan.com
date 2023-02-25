@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useImperativeHandle } from "react";
+import React, { useEffect, useRef, useImperativeHandle, useState } from "react";
+import Skeleton from "./Skeleton";
 export interface CustomVideoProps {
   poster?: string;
   src: string;
@@ -14,6 +15,7 @@ export interface CustomVideoProps {
 
 const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(({poster, src, width, height, slug, autoPlay = true, loop = true, className = '', preload = false, show = true}, ref) => {
   const innerRef = useRef<HTMLVideoElement>(null);
+  const [loaded, setLoaded] = useState(false);
   useImperativeHandle(ref, () => innerRef.current as HTMLVideoElement);
   useEffect(() => {
     if ("IntersectionObserver" in window) {
@@ -24,6 +26,9 @@ const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(({poste
             video.target.load();
             video.target.classList.remove("lazy");
             lazyVideoObserver.unobserve(video.target);
+            video.target.onloadeddata = () => {
+              setLoaded(true);
+            }
           }
         });
       });
@@ -33,9 +38,12 @@ const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(({poste
   }, [ref, show]);
   // return <video className='w-full h-auto' poster={poster && poster} src={require(`../../public/uploads/${slug}/${src}`)} width={width ? width : undefined} height={height ? height: undefined} loop={loop} muted={autoPlay} autoPlay={autoPlay} playsInline={autoPlay} preload="true"></video>
   return (
+    <Skeleton.Wrapper>
+    {!loaded && <Skeleton type="video"></Skeleton>}
     <div className='w-full relative h-0' style={(width && height) ? {paddingTop: `${height/width*100}%`} : {}}>
       <video ref={innerRef} className={`w-full h-full absolute left-0 top-0 ${className}`} poster={poster && `/uploads/${slug}/${poster}`} data-src={`/uploads/${slug}/${src}`} width={width ? width : undefined} height={height ? height: undefined} loop={loop} muted={autoPlay} autoPlay={autoPlay} playsInline={autoPlay} preload={preload ? "true" : "false"}></video>
     </div>
+    </Skeleton.Wrapper>
   );
 });
 CustomVideo.displayName = 'CustomVideo';

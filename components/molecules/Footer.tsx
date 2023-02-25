@@ -1,13 +1,10 @@
-import React, { Fragment } from "react";
+import React from "react";
 import useSWR from "swr";
-import { FiFacebook, FiGithub, FiInstagram, FiLinkedin } from "react-icons/fi";
-import ExternalLink from "../atoms/ExternalLink";
 import socialNetworks from "../../lib/socialNetworks";
-import Link from "next/link";
 import { useInView } from "react-intersection-observer";
-import Balancer from "react-wrap-balancer";
 import Fade from "../atoms/Fade";
 import CustomImage from "../atoms/CustomImage";
+import InlineLink from "../atoms/InlineLink";
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR("/api/spotify", fetcher);
@@ -32,7 +29,7 @@ export default function Footer() {
               {data && (
                 <div className="flex items-center flex-gap-4">
                   <CustomImage
-                    className={`rounded-full ${
+                    className={`rounded-full overflow-hidden ${
                       data.isPlaying && "animate-spin-slow"
                     } flex-grow-0`}
                     width="64"
@@ -66,23 +63,21 @@ export default function Footer() {
                 className={`text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed  font-medium`}
               >
                 I&apos;d love to hear from you. Email me any time at{" "}
-                <a
+                <InlineLink
                   href="mailto:hi@auduongtuan.com"
-                  className="underline-link-light"
                 >
                   hi@auduongtuan.com
-                </a>{" "}
+                </InlineLink>{" "}
                 or find me on
                 {socialNetworks.map((item, i) => (
                   <React.Fragment key={i}>
                     {" "}
                     {i == socialNetworks.length - 1 && "and "}
-                    <ExternalLink
+                    <InlineLink
                       href={item.url}
-                      className="underline-link-light"
                     >
                       {item.name}
-                    </ExternalLink>
+                    </InlineLink>
                     {i != socialNetworks.length - 1 ? "," : "."}
                   </React.Fragment>
                 ))}
@@ -98,19 +93,19 @@ export default function Footer() {
               Written, designed and built by Tuan
               <br />
               using{" "}
-              <ExternalLink href="https://nextjs.org/">
+              <InlineLink href="https://nextjs.org/" underline={false}>
                 Next.js
-              </ExternalLink>,{" "}
-              <ExternalLink href="https://tailwindcss.com/">
+              </InlineLink>,{" "}
+              <InlineLink href="https://tailwindcss.com/" underline={false}>
                 Tailwind
-              </ExternalLink>
+              </InlineLink>
               ,{" "}
-              <Link
-                className="hover:underline"
+              <InlineLink
                 href="/blog/enhance-skills-building-personal-websites"
+                underline={false}
               >
                 ...
-              </Link>
+              </InlineLink>
               <br />© {new Date().getFullYear()}.
             </Fade>
           </section>

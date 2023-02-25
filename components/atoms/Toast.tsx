@@ -1,8 +1,7 @@
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { Transition } from "@headlessui/react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
-import { Portal } from 'react-portal';
 
 interface ToastProps extends React.HTMLProps<HTMLDivElement> {
   type: "success" | "error";
