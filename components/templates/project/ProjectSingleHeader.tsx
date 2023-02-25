@@ -28,7 +28,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-display tracking-tight">
                 {project.meta.title}
               </h1>
-              <p className="mt-1 muted-text opacity-100 text-gray-500">
+              <p className="mt-2 muted-text opacity-100 text-gray-500">
                 {new Date(project.meta.date).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",

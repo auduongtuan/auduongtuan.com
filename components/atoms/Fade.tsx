@@ -1,6 +1,5 @@
-import { Transition, TransitionClasses } from "@headlessui/react";
 import clsx from "clsx";
-import { useRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const durationClass = {
   100: "duration-200",

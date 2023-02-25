@@ -18,10 +18,10 @@ const CommentForm = ({ page, wording, onSubmit }) => {
   );
   const { register, handleSubmit, reset } = useForm();
   const messageRef = useRef<HTMLTextAreaElement | null>(null);
-  const { ref: formContentRef, ...formContentRest } = register('content');
-  // const [anonymous, setAnonymous] 
+  const { ref: formContentRef, ...formContentRest } = register("content");
+  // const [anonymous, setAnonymous]
   const submitHandler = (data: FieldValues) => {
-    const { name = '', email = '', content } = data;
+    const { name = "", email = "", content } = data;
     console.log(name);
     if (content) {
       setState({ loading: true });
@@ -95,42 +95,48 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                 />
               </div>
               <div>
-                <Switch label="Anonymous" checked={state.anonymous} onChange={(b) => setState({anonymous: b})}></Switch>
+                <Switch
+                  label="Anonymous"
+                  checked={state.anonymous}
+                  onChange={(b) => setState({ anonymous: b })}
+                ></Switch>
               </div>
-              {!state.anonymous && <>
-              <div>
-                <label
-                  htmlFor="name-input"
-                  className="text-base text-gray-800 block"
-                >
-                  Your name:
-                </label>
-                <input
-                  type="text"
-                  id="name-input"
-                  required={!state.anonymous}
-                  // placeholder="Nguyen"
-                  {...register("name")}
-                  className="text-base text-gray-800 leading-tight rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="email-input"
-                  className="text-base text-gray-800 block"
-                >
-                  Your email:
-                </label>
-                <input
-                  type="email"
-                  id="email-input"
-                  // required={!state.anonymous}
-                  placeholder="example@gmail.com"
-                  {...register("email")}
-                  className="text-base text-gray-800 leading-tight rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
-                />
-              </div>
-              </>}
+              {!state.anonymous && (
+                <>
+                  <div>
+                    <label
+                      htmlFor="name-input"
+                      className="text-base text-gray-800 block"
+                    >
+                      Your name:
+                    </label>
+                    <input
+                      type="text"
+                      id="name-input"
+                      required={!state.anonymous}
+                      // placeholder="Nguyen"
+                      {...register("name")}
+                      className="text-base text-gray-800 leading-tight rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="email-input"
+                      className="text-base text-gray-800 block"
+                    >
+                      Your email:
+                    </label>
+                    <input
+                      type="email"
+                      id="email-input"
+                      // required={!state.anonymous}
+                      placeholder="example@gmail.com"
+                      {...register("email")}
+                      className="text-base text-gray-800 leading-tight rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
+                    />
+                  </div>
+                </>
+              )}
             </section>
             <footer className="flex items-end justify-end flex-gap-x-3 mt-12">
               <Button

@@ -1,53 +1,13 @@
-import React, { forwardRef, useEffect, useRef, useState, Ref } from "react";
-import Button from "../atoms/Button";
-import CustomVideo from "../atoms/CustomVideo";
-import ExternalLink from "../atoms/ExternalLink";
-import Headline from "../atoms/Headline";
-import Link from "next/link";
-import { PhotoFrame } from "../atoms/Frame";
-import useHeaderInView from "../../hooks/useHeaderInView";
-import Tooltip from "../atoms/Tooltip";
-import Fade from "../atoms/Fade";
+import { useRef, useState } from "react";
+import Button from "../../atoms/Button";
+import CustomVideo from "../../atoms/CustomVideo";
+import Headline from "./Headline";
+import { PhotoFrame } from "../../atoms/Frame";
+import useHeaderInView from "../../../hooks/useHeaderInView";
+import Tooltip from "../../atoms/Tooltip";
+import Fade from "../../atoms/Fade";
+import GifText from "./GifText";
 
-interface GifTextProps extends React.HTMLProps<HTMLAnchorElement> {
-  // gif?: HTMLElement|null;
-  external?: boolean;
-}
-const GifText = forwardRef<HTMLAnchorElement, GifTextProps>(
-  (
-    { children, href, external = false, ...rest },
-    ref
-  ) => {
-    const className =
-      "underline decoration-2 underline-offset-4 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 -my-1 px-2 py-1 rounded-xl hover:bg-white/5";
-    const Component = (href) ? ExternalLink : 'span';
-    if (external || !href) {
-      return (
-        <Component
-          href={href}
-          className={className}
-          {...rest}
-          ref={ref}
-        >
-          {children}
-        </Component>
-      );
-    } else {
-      return (
-        <Link href={href} legacyBehavior>
-          <a
-            className={className}
-            {...rest}
-            ref={ref}
-          >
-            {children}
-          </a>
-        </Link>
-      );
-    }
-  }
-);
-GifText.displayName = "GifText";
 export default function Header() {
   const { ref } = useHeaderInView();
 
@@ -98,18 +58,18 @@ export default function Header() {
               ?).
             </p>
             </Fade>
-            <Fade className="text-base md:text-xl mt-2 _tracking-tight" delay={500}>
+            <Fade className="text-base md:text-xl mt-2 _tracking-tight" delay={300}>
               Everyday I try to make good products with the human at the center.
             </Fade>
-            <Fade delay={350}>
-            <Button
-              href="/about"
-              className="mt-6 md:mt-10"
-              colorful
-              arrow
-            >
-              Get to know me
-            </Button>
+            <Fade delay={500}>
+              <Button
+                href="/about"
+                className="mt-6 md:mt-10"
+                colorful
+                arrow
+              >
+                Get to know me
+              </Button>
             </Fade>
           </div>
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-4 relative z-30 pointer-events-none md:block">
