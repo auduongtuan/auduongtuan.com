@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState, useReducer } from "react";
 import useSWR from "swr";
 import axios from "axios";
 import Tooltip from "../../atoms/Tooltip";
+import Skeleton from "../../atoms/Skeleton";
 
 function counterReducer(counter, action) {
   if (!counter) counter = {};
@@ -65,7 +66,9 @@ const ReactButton = ({ name, emoji, counter, dispatch, page }) => {
     [counter, dispatch, emoji, page]
   );
   return (
-    <Tooltip content={counter[emoji].reacted ? `Undo ${name}` : `${name}`}>
+    <Skeleton.Wrapper className="flex-shrink-1 flex">
+    {!counter && <Skeleton type="block" className="rounded-full"></Skeleton>}
+    <Tooltip content={counter && counter[emoji].reacted ? `Undo ${name}` : `${name}`}>
       <button
         className="flex-shrink-1 border-2 px-3 py-2 md:px-4 md:py-2 border-gray-300 hover:border-blue-600 rounded-full inline-flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all ease-out duration-100 group"
         onClick={sendReaction}
@@ -75,13 +78,14 @@ const ReactButton = ({ name, emoji, counter, dispatch, page }) => {
         </span>
         <span
           className={`block text-sm ${
-            counter[emoji].reacted ? "font-semibold text-blue-700" : "font-medium text-gray-500"
+            counter && counter[emoji].reacted ? "font-semibold text-blue-700" : "font-medium text-gray-500"
           }`}
         >
-          {counter[emoji].quantity}
+          {counter ? counter[emoji].quantity : 0}
         </span>
       </button>
     </Tooltip>
+    </Skeleton.Wrapper>
   );
 };
 
@@ -106,7 +110,7 @@ const Reaction = ({ page }) => {
   }, [dispatch, page]);
   return (
     <div className="w-full flex flex-gap-x-2 md:flex-gap-x-3 flex-gap-y-2 items-center h-[60px]">
-      {counter ? Object.keys(reactionList).map((emoji, i) => (
+      {Object.keys(reactionList).map((emoji, i) => (
         <ReactButton
           key={`emoji-${i}`}
           name={reactionList[emoji]}
@@ -115,7 +119,7 @@ const Reaction = ({ page }) => {
           counter={counter}
           dispatch={dispatch}
         ></ReactButton>
-      )): null}
+      ))}
     </div>
   );
 };

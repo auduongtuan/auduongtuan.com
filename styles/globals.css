@@ -16,7 +16,7 @@
     clip-path: polygon(calc(100% - 2rem) 0, 100% 2rem, 100% 100%, 0 100%, 0 0);
   }
   .mt-content-node {
-    @apply mt-3 md:mt-5 lg:mt-6 empty:mt-0;
+    @apply mt-3 md:mt-[1.25rem] lg:mt-6 empty:mt-0;
   }
 }
 @layer components {
