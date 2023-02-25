@@ -52,7 +52,12 @@ module.exports = {
         'fade-in': {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
-        }
+        },
+        "shimmer": {
+          "100%": {
+            "transform": "translateX(100%)",
+          },
+        },
       },
       animation: {
         'slide-in-fast': 'slide-in 200ms ease-in forwards',

@@ -23,7 +23,7 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
   ) => {
     // get the internal link (without /)
     let checkInternal = href.match(/^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i);
-    console.log(checkInternal);
+    // console.log(checkInternal);
     const Component = checkInternal ? Link : ExternalLink;
     const linkStyles = twMerge(
       underline && "underline underline-offset-4",
