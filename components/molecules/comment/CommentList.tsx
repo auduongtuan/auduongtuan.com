@@ -40,60 +40,63 @@ const CommentList = ({ comments, wording }) => {
     "bg-yellow-200 text-yellow-800/70",
   ];
   return (
-    <div className="grid grid-cols-1 gap-y-4 ">
-      {comments && (
-        <>
-          {comments.length > 0 ? (
-            comments.map((comment, i) => {
-              const hasName = comment.name && comment.name.length > 0;
-              const name = hasName ? comment.name[0].plain_text : "Anonymous";
-              const avatarColor = hasName
-                ? avatarColors[getHashOfString(name) % avatarColors.length]
-                : "bg-gray-300 text-gray-800/70";
-              return (
-                <div
-                  key={`comment-${i}`}
-                  className="rounded-xl bg-gray-100 pl-3 pr-4 py-3 flex space-x-4"
-                >
-                  <span
-                    className={`rounded-full w-8 h-8 text-sm flex items-center justify-center flex-shrink-0 ${avatarColor}`}
-                  >
-                    {hasName ? (
-                      getInitials(name)
-                    ) : (
-                      <GiDominoMask className="text-base" />
-                    )}
+    <section className="grid grid-cols-1 gap-y-4 ">
+      {comments &&
+        comments.length > 0 &&
+        comments.map((comment, i) => {
+          const hasName = comment.name && comment.name.length > 0;
+          const name = hasName ? comment.name[0].plain_text : "Anonymous";
+          const avatarColor = hasName
+            ? avatarColors[getHashOfString(name) % avatarColors.length]
+            : "bg-gray-300 text-gray-800/70";
+          return (
+            <div
+              key={`comment-${i}`}
+              className="rounded-xl bg-gray-100 pl-3 pr-4 py-3 flex space-x-4"
+            >
+              <span
+                className={`rounded-full w-8 h-8 text-sm flex items-center justify-center flex-shrink-0 ${avatarColor}`}
+              >
+                {hasName ? (
+                  getInitials(name)
+                ) : (
+                  <GiDominoMask className="text-base" />
+                )}
+              </span>
+              <div className="w-full">
+                <div className="flex justify-between">
+                  <h6 className="font-medium text-gray-800">
+                    {hasName ? richTextObject(comment.name) : "Someone"}
+                  </h6>
+                  <span className="text-sm muted-text">
+                    {timeAgo.format(new Date(comment.createdTime))}
                   </span>
-                  <div className="w-full">
-                    <div className="flex justify-between">
-                      <h6 className="font-medium text-gray-800">
-                        {hasName ? richTextObject(comment.name) : "Someone"}
-                      </h6>
-                      <span className="text-sm muted-text">
-                        {timeAgo.format(new Date(comment.createdTime))}
-                      </span>
-                    </div>
-                    <div className="text-gray-800">{richTextObject(comment.content)}</div>
-                  </div>
                 </div>
-              );
-            })
-          ) : (
-            <div className="text-center flex flex-col items-center py-3">
-              <GiPostStamp className="text-slate-400 text-6xl animate-pulse" />
-              <h5 className="text-base md:text-lg font-medium text-gray-600 mt-2">
-                No {wording.plural} yet.
-              </h5>
-              <p className="text-sm md:text-base text-gray-800 mt-1">
-                {`Why don't you `}
-                <Tooltip content="A nostalgia trend of Yahoo 360 era"><InlineLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</InlineLink></Tooltip>
-                {` this article?`}
-              </p>
+                <div className="text-gray-800">
+                  {richTextObject(comment.content)}
+                </div>
+              </div>
             </div>
-          )}
-        </>
+          );
+        })}
+      {(!comments || comments.length == 0) && (
+        <div
+          className={`text-center flex flex-col items-center py-3 ${!comments ? 'opacity-0' : 'opacity-100'}`}
+        >
+          <GiPostStamp className="text-slate-400 text-6xl" />
+          <h5 className="text-base md:text-lg font-medium text-gray-600 mt-2">
+            No {wording.plural} yet.
+          </h5>
+          <p className="text-sm md:text-base text-gray-800 mt-1">
+            {`Why don't you `}
+            <Tooltip content="A nostalgia trend of Yahoo 360 era">
+              <InlineLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</InlineLink>
+            </Tooltip>
+            {` this article?`}
+          </p>
+        </div>
       )}
-    </div>
+    </section>
   );
 };
 export default CommentList;
