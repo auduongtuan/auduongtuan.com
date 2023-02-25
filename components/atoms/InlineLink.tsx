@@ -21,7 +21,9 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
     },
     ref
   ) => {
-    let checkInternal = href.match(/auduongtuan\.com\/(.*?)$/i);
+    // get the internal link (without /)
+    let checkInternal = href.match(/^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i);
+    console.log(checkInternal);
     const Component = checkInternal ? Link : ExternalLink;
     const linkStyles = twMerge(
       underline && "underline underline-offset-4",
@@ -33,7 +35,7 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
     return (
       <Component
         ref={ref}
-        href={(checkInternal ? `/${checkInternal[1]}/` : href) as string}
+        href={(checkInternal ? `/${checkInternal[1]}` : href) as string}
         className={linkStyles}
         {...rest}
       >
