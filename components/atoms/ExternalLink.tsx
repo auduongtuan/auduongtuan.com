@@ -1,11 +1,12 @@
 import React, { forwardRef } from "react";
-import { FiArrowUpRight } from "react-icons/fi";
-import { twMerge } from "tailwind-merge";
 export interface ExternalLinkProps
   extends React.HTMLAttributes<HTMLAnchorElement> {
   href?: string;
   // icon?: boolean | React.ReactNode;
 }
+/*
+ * Component to display external link (no style)
+ */
 const ExternalLink = forwardRef<HTMLAnchorElement, ExternalLinkProps>(
   (
     {
@@ -23,14 +24,13 @@ const ExternalLink = forwardRef<HTMLAnchorElement, ExternalLinkProps>(
     return (
       <a
         href={href}
-        className={twMerge(`hover:underline`, className)}
+        className={className}
         target="_blank"
         rel="noreferrer"
         {...rest}
         ref={ref}
       >
         {children}
-        {/* {icon} */}
       </a>
     );
   }

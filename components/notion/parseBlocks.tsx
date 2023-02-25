@@ -22,7 +22,7 @@ const parseBlocks = (blocks: any[]) => {
             content.push(
               <p key={block.id} className="mt-content-node">
                 <CustomImage
-                  className="max-w-full text-center rounded-md overflow-hidden"
+                  className="max-w-full text-center rounded-lg overflow-hidden"
                   src={block.image.file.url}
                   // src={`/api/notion-asset/${block.id}`}
                   alt={block.image.alt ? block.image.alt : "Post Content Image"}

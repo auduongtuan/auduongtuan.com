@@ -16,7 +16,7 @@
     clip-path: polygon(calc(100% - 2rem) 0, 100% 2rem, 100% 100%, 0 100%, 0 0);
   }
   .mt-content-node {
-    @apply mt-3 md:mt-4 lg:mt-6 empty:mt-0;
+    @apply mt-3 md:mt-5 lg:mt-6 empty:mt-0;
   }
 }
 @layer components {
@@ -71,13 +71,6 @@
     @apply py-8 md:py-16 lg:py-20;
   }
 
-  .underline-link-light {
-    @apply whitespace-nowrap break-words transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl underline underline-offset-4 decoration-slate-200 hover:decoration-transparent hover:bg-black/5;
-  }
-  .underline-link-dark {
-    @apply whitespace-nowrap break-words transition-all duration-100 underline underline-offset-4 decoration-slate-600 hover:decoration-transparent hover:text-white hover:bg-white/10 -mx-2 px-2 -my-1 py-1 rounded-xl;
-  }
-
   .main-container {
     @apply px-4 md:px-6 mx-auto;
     @apply max-w-full lg:w-[76rem];
@@ -88,10 +81,6 @@
   }
   .project-grid {
     @apply grid grid-cols-3 gap-x-4 text-gray-800;
-
-    /* p a, ul a, ol a {
-      @apply text-dark-blue-900 underline underline-offset-4 decoration-blue-300 hover:text-blue-800;
-    } */
 
     > * {
       @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
@@ -151,7 +140,7 @@
     ul,
     blockquote,
     p,
-    .content-node > .box {
+    .content-node > .box:not(:first-child) {
       @apply mt-content-node;
     }
 

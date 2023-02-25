@@ -1,4 +1,5 @@
-import Balancer from "react-wrap-balancer"
+import Balancer from "react-wrap-balancer";
+import { twMerge } from "tailwind-merge";
 const Box = ({
   children,
   className = "",
@@ -11,7 +12,10 @@ const Box = ({
 }) => {
   return (
     <div
-      className={`box shadow-[0_4px_5px_-1px_rgb(0_0_0/0.04),_0_2px_3px_-2px_rgb(0_0_0/0.03)] bg-white p-4 h-full rounded-xl ${className}`}
+      className={twMerge(
+        "box shadow-[0_4px_5px_-1px_rgb(0_0_0/0.04),_0_2px_3px_-2px_rgb(0_0_0/0.03)] bg-white p-4 h-full rounded-xl",
+        className
+      )}
       {...rest}
     >
       {caption ? (
@@ -39,7 +43,11 @@ export const EmojiBox = ({
   return (
     <Box>
       <div className="text-6xl text-center mb-4">{emoji}</div>
-      {caption && <div className="body-text font-medium leading-normal text-center"><Balancer>{caption}</Balancer></div>}
+      {caption && (
+        <div className="body-text font-medium leading-normal text-center">
+          <Balancer>{caption}</Balancer>
+        </div>
+      )}
     </Box>
   );
 };

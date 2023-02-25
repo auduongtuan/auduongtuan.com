@@ -1,37 +1,22 @@
 import React from "react";
 import { FiDownload } from "react-icons/fi";
-import socialNetworks from "../../../lib/socialNetworks";
 import Button from "../../atoms/Button";
 import Fade from "../../atoms/Fade";
-import ExternalLink from "../../atoms/ExternalLink";
 import { experience, education, skills, now } from "./content";
 import InlineLink from "../../atoms/InlineLink";
 const Heading = ({ children }: { children?: React.ReactNode }) => (
   <h2 className="sub-heading border-b border-gray-200 pb-2 -mb-1">
-    {/* <h2 className="text-xl tracking-wide uppercase text-gray-800"> */}
     {children}
   </h2>
-);
-const Content = ({
-  children,
-  className = "",
-}: React.HTMLAttributes<HTMLDivElement>) => (
-  <div
-    className={`col-span-12 md:col-span-9 lg:col-span-8 text-gray-700 body-text ${className}`}
-  >
-    {children}
-  </div>
 );
 const Item = ({
   title,
   subtitle,
   time,
-  description,
 }: {
   title: string;
   subtitle?: string;
   time?: string;
-  description?: string;
 } & React.HTMLAttributes<HTMLDivElement>) => {
   return (
     <div className="grid grid-cols-5 items-center gap-x-4 gap-y-0 group">
@@ -51,7 +36,6 @@ const Item = ({
     </div>
   );
 };
-
 export default function AboutContent() {
   return (
     <div className="p-content relative h-full">
@@ -64,9 +48,9 @@ export default function AboutContent() {
                 <div className="grid grid-cols-1 gap-6 mt-4 md:mt-8">
                   <p className="col-span-1">
                     {`This section updates what I'm doing, as inspired by `}
-                    <ExternalLink href="https://sive.rs/nowff" className="underline-link-light">
+                    <InlineLink href="https://sive.rs/nowff">
                       Now page momment ↗
-                    </ExternalLink>.
+                    </InlineLink>.
                   </p>
                   <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                     {now.map((item, i) => (
@@ -79,9 +63,9 @@ export default function AboutContent() {
                         </p>
                         <div className="text-md font-medium body-text mt-1">
                           {item.link ? (
-                            <ExternalLink href={item.link}>
+                            <InlineLink href={item.link}>
                               {item.content}
-                            </ExternalLink>
+                            </InlineLink>
                           ) : (
                             item.content
                           )}
@@ -131,7 +115,6 @@ export default function AboutContent() {
                 Download my CV
               </Button>
             </div>
-            {/* <div><Button href="#">Download CV</Button></div> */}
           </aside>
         </div>
       </Fade>
