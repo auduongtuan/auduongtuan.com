@@ -22,7 +22,7 @@ export const richTextObject = (richTextObject, blockId?: string) => {
         );
       }
     } else if (item.text.link) {
-      return <InlineLink key={`${blockId}-${i}`} href={item.text.link.url} className={`${item.annotations.bold ? "font-semibold" : ""} text-slate-700`}>{item.text.content}</InlineLink>     
+      return <InlineLink key={`${blockId}-${i}`} href={item.text.link.url} className={`${item.annotations.bold ? "font-semibold" : ""} text-slate-700`} wrap>{item.text.content}</InlineLink>     
     }
   });
 };

@@ -3,8 +3,8 @@ import parseBlocks from "./parseBlocks";
 import clsx from "clsx";
 const Heading = ({ block }) => {
   const textStyles = {
-    heading_2: "text-xl md:text-3xl font-semibold text-slate-800",
-    heading_3: "text-base md:text-xl font-semibold text-slate-800",
+    heading_2: "h2",
+    heading_3: "h3",
   };
   const gutterTop = {
     heading_2: "mt-8 md:mt-12 first:mt-0",

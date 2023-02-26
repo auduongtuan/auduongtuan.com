@@ -54,7 +54,7 @@ const CommentList = ({ comments, wording }) => {
               return (
                 <div key={`comment-${i}`} className="flex space-x-3">
                   <span
-                    className={`rounded-full w-8 h-8 text-sm flex items-center justify-center flex-shrink-0 ${avatarColor}`}
+                    className={`rounded-full w-8 h-8 text-sm flex items-center justify-center flex-shrink-0 mt-2 ${avatarColor}`}
                   >
                     {hasName ? (
                       getInitials(name)
@@ -103,7 +103,7 @@ const CommentList = ({ comments, wording }) => {
           <div className="flex space-x-3">
             <Skeleton
               type="inline"
-              className={`rounded-full w-8 h-8 flex-shrink-0`}
+              className={`rounded-full w-8 h-8 flex-shrink-0 mt-2`}
             />
             <Skeleton className="rounded-xl w-full h-16" type="inline" />
           </div>

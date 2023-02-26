@@ -8,6 +8,7 @@ interface InlineLinkProps {
   children: React.ReactNode;
   underline?: boolean;
   dark?: boolean;
+  wrap?: boolean;
 }
 const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
   (
@@ -17,6 +18,7 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
       children,
       dark = false,
       underline = true,
+      wrap = false,
       ...rest
     },
     ref
@@ -27,9 +29,15 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
     const Component = checkInternal ? Link : ExternalLink;
     const linkStyles = twMerge(
       underline && "underline underline-offset-4",
+      !wrap && "whitespace-nowrap break-words hover:decoration-transparent",
+      wrap && "hover:decoration-blue-500",
+      "transition-all duration-100",
+      "-mx-2 px-2 -my-1 py-1 rounded-xl",
       dark
-        ? "whitespace-nowrap break-words transition-all duration-100  decoration-slate-600 hover:decoration-transparent hover:text-white hover:bg-white/10 -mx-2 px-2 -my-1 py-1 rounded-xl"
-        : "whitespace-nowrap break-words transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl decoration-slate-400/40 hover:decoration-transparent hover:bg-black/5",
+        ? "decoration-slate-600"
+        : "decoration-slate-400/40",
+      dark && !wrap && "hover:bg-white/10",
+      !dark && !wrap && "hover:bg-black/5",
       className
     );
     return (
