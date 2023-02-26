@@ -38,11 +38,13 @@ const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(({poste
   }, [ref, show]);
   // return <video className='w-full h-auto' poster={poster && poster} src={require(`../../public/uploads/${slug}/${src}`)} width={width ? width : undefined} height={height ? height: undefined} loop={loop} muted={autoPlay} autoPlay={autoPlay} playsInline={autoPlay} preload="true"></video>
   return (
-    <Skeleton.Wrapper>
-    {!loaded && <Skeleton type="video"></Skeleton>}
+    <Skeleton.Wrapper loaded={loaded} className="rounded-md overflow-hidden" block data-video>
+    <Skeleton type="video"></Skeleton>
+    <Skeleton.Content>
     <div className='w-full relative h-0' style={(width && height) ? {paddingTop: `${height/width*100}%`} : {}}>
       <video ref={innerRef} className={`w-full h-full absolute left-0 top-0 ${className}`} poster={poster && `/uploads/${slug}/${poster}`} data-src={`/uploads/${slug}/${src}`} width={width ? width : undefined} height={height ? height: undefined} loop={loop} muted={autoPlay} autoPlay={autoPlay} playsInline={autoPlay} preload={preload ? "true" : "false"}></video>
     </div>
+    </Skeleton.Content>
     </Skeleton.Wrapper>
   );
 });

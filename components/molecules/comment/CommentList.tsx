@@ -3,6 +3,7 @@ import TimeAgo from "javascript-time-ago";
 import { GiPostStamp, GiDominoMask } from "react-icons/gi";
 import InlineLink from "../../atoms/InlineLink";
 import Tooltip from "../../atoms/Tooltip";
+import Skeleton from "../../atoms/Skeleton";
 // English.
 const getInitials = function (string) {
   var names = string.split(" "),
@@ -41,60 +42,79 @@ const CommentList = ({ comments, wording }) => {
   ];
   return (
     <section className="grid grid-cols-1 gap-y-4 ">
-      {comments &&
-        comments.length > 0 &&
-        comments.map((comment, i) => {
-          const hasName = comment.name && comment.name.length > 0;
-          const name = hasName ? comment.name[0].plain_text : "Anonymous";
-          const avatarColor = hasName
-            ? avatarColors[getHashOfString(name) % avatarColors.length]
-            : "bg-gray-300 text-gray-800/70";
-          return (
-            <div
-              key={`comment-${i}`}
-              className="rounded-xl bg-gray-100 pl-3 pr-4 py-3 flex space-x-4"
-            >
-              <span
-                className={`rounded-full w-8 h-8 text-sm flex items-center justify-center flex-shrink-0 ${avatarColor}`}
-              >
-                {hasName ? (
-                  getInitials(name)
-                ) : (
-                  <GiDominoMask className="text-base" />
-                )}
-              </span>
-              <div className="w-full">
-                <div className="flex justify-between">
-                  <h6 className="font-medium text-gray-800">
-                    {hasName ? richTextObject(comment.name) : "Someone"}
-                  </h6>
-                  <span className="text-sm muted-text">
-                    {timeAgo.format(new Date(comment.createdTime))}
+      {comments ? (
+        <>
+          {comments.length > 0 &&
+            comments.map((comment, i) => {
+              const hasName = comment.name && comment.name.length > 0;
+              const name = hasName ? comment.name[0].plain_text : "Anonymous";
+              const avatarColor = hasName
+                ? avatarColors[getHashOfString(name) % avatarColors.length]
+                : "bg-gray-300 text-gray-800/70";
+              return (
+                <div key={`comment-${i}`} className="flex space-x-3">
+                  <span
+                    className={`rounded-full w-8 h-8 text-sm flex items-center justify-center flex-shrink-0 ${avatarColor}`}
+                  >
+                    {hasName ? (
+                      getInitials(name)
+                    ) : (
+                      <GiDominoMask className="text-base" />
+                    )}
                   </span>
+                  <div className="w-full rounded-xl bg-gray-100 px-4 py-3 ">
+                    <div className="flex justify-between">
+                      <h6 className="font-medium text-gray-800">
+                        {hasName ? richTextObject(comment.name) : "Someone"}
+                      </h6>
+                      <span className="text-sm muted-text">
+                        {timeAgo.format(new Date(comment.createdTime))}
+                      </span>
+                    </div>
+                    <div className="text-gray-800">
+                      {richTextObject(comment.content)}
+                    </div>
+                  </div>
                 </div>
-                <div className="text-gray-800">
-                  {richTextObject(comment.content)}
-                </div>
-              </div>
+              );
+            })}
+          {comments.length == 0 && (
+            <div
+              className={`text-center flex flex-col items-center py-3 ${
+                !comments ? "opacity-0" : "opacity-100"
+              }`}
+            >
+              <GiPostStamp className="text-slate-400 text-6xl" />
+              <h5 className="text-base md:text-lg font-medium text-gray-600 mt-2">
+                No {wording.plural} yet.
+              </h5>
+              <p className="text-sm md:text-base text-gray-800 mt-1">
+                {`Why don't you `}
+                <Tooltip content="A nostalgia trend of Yahoo 360 era">
+                  <InlineLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</InlineLink>
+                </Tooltip>
+                {` this article?`}
+              </p>
             </div>
-          );
-        })}
-      {(!comments || comments.length == 0) && (
-        <div
-          className={`text-center flex flex-col items-center py-3 ${!comments ? 'opacity-0' : 'opacity-100'}`}
-        >
-          <GiPostStamp className="text-slate-400 text-6xl" />
-          <h5 className="text-base md:text-lg font-medium text-gray-600 mt-2">
-            No {wording.plural} yet.
-          </h5>
-          <p className="text-sm md:text-base text-gray-800 mt-1">
-            {`Why don't you `}
-            <Tooltip content="A nostalgia trend of Yahoo 360 era">
-              <InlineLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</InlineLink>
-            </Tooltip>
-            {` this article?`}
-          </p>
-        </div>
+          )}
+        </>
+      ) : (
+        <Skeleton.Wrapper block className="flex flex-col space-y-3 md:space-y-5">
+          <div className="flex space-x-3">
+            <Skeleton
+              type="inline"
+              className={`rounded-full w-8 h-8 flex-shrink-0`}
+            />
+            <Skeleton className="rounded-xl w-full h-16" type="inline" />
+          </div>
+          <div className="flex space-x-3">
+            <Skeleton
+              type="inline"
+              className={`rounded-full w-8 h-8 flex-shrink-0`}
+            />
+            <Skeleton className="rounded-xl w-full h-16" type="inline" />
+          </div>
+        </Skeleton.Wrapper>
       )}
     </section>
   );

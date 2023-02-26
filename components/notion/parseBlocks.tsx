@@ -20,16 +20,16 @@ const parseBlocks = (blocks: any[]) => {
           case "image":
             // console.log(block.id);
             content.push(
-              <p key={block.id} className="mt-content-node">
+              <div key={block.id} className="mt-content-node">
                 <CustomImage
-                  className="max-w-full text-center rounded-lg overflow-hidden"
+                  className="max-w-full text-center"
                   src={block.image.file.url}
                   // src={`/api/notion-asset/${block.id}`}
                   alt={block.image.alt ? block.image.alt : "Post Content Image"}
                   width={block.image.width}
                   height={block.image.height}
                 />
-              </p>
+              </div>
             );
             return content;
           case "quote":

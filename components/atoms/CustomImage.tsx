@@ -18,18 +18,20 @@ const CustomImage = ({
 }: CustomImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
-    <Skeleton.Wrapper className={className}>
-      {!isLoaded ? <Skeleton type="image" /> : ""}
-      <Image
-        src={slug ? `/uploads/${slug}/${src}` : src}
-        alt={alt ? alt : "Image of Tuan Website"}
-        quality={100}
-        width={width}
-        height={height}
-        priority={true}
-        onLoadingComplete={() => setIsLoaded(true)}
-        {...rest}
-      />
+    <Skeleton.Wrapper className={twMerge("rounded-md overflow-hidden", className)} loaded={isLoaded} data-image>
+      <Skeleton type="image" />
+      <Skeleton.Content>
+        <Image
+          src={slug ? `/uploads/${slug}/${src}` : src}
+          alt={alt ? alt : "Image of Tuan Website"}
+          quality={100}
+          width={width}
+          height={height}
+          priority={true}
+          onLoadingComplete={() => setIsLoaded(true)}
+          {...rest}
+        />
+      </Skeleton.Content>
     </Skeleton.Wrapper>
   );
 };
