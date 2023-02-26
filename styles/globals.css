@@ -33,11 +33,11 @@
   }
   h2,
   .h2 {
-    @apply text-3xl md:text-4xl leading-[1.25] md:leading-[1.25] font-semibold;
+    @apply text-2xl md:text-3xl leading-tight md:leading-tight font-semibold text-slate-800;
   }
   h3,
   .h3 {
-    @apply text-xl md:text-2xl font-semibold;
+    @apply text-lg md:text-xl leading-tight md:leading-tight font-semibold text-slate-800;
   }
   h4,
   .h4 {
@@ -46,7 +46,7 @@
   .big-text {
     /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-display; */
     /* tracking-tight */
-    @apply leading-normal md:leading-normal lg:leading-normal font-medium text-2xl md:text-3xl font-display;
+    @apply leading-relaxed md:leading-relaxed lg:leading-relaxed font-medium text-lg md:text-2xl;
   }
   /* .big-text {
     @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-sans;
@@ -110,7 +110,7 @@
     }
 
     h3 {
-      @apply mt-8 md:mt-12 -mb-1 text-slate-800 first:mt-0;
+      @apply mt-8 md:mt-12 -mb-1 first:mt-0;
     }
 
     h4 {
@@ -166,7 +166,7 @@
     }
 
     h2 {
-      @apply mt-0 pt-12 md:pt-16 lg:pt-20;
+      @apply mt-0 pt-12 md:pt-16 lg:pt-20 md:pr-2;
       @apply lg:col-span-1 lg:col-start-1 text-slate-900;
       & + *:not(.full) {
         @apply pt-0 lg:mt-0  lg:pt-[5.4rem];
