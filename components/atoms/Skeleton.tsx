@@ -1,21 +1,27 @@
 import { twMerge } from "tailwind-merge";
 import { FiImage, FiVideo } from "react-icons/fi";
+import { createContext, useContext } from "react";
+const SkeletonContext = createContext({loaded: false, block: false});
 const SkeletonDisplay = ({
   className = "",
-  type,
+  type = "block",
 }: {
   className?: string;
-  type: "image" | "video" | "block";
+  type: "image" | "video" | "block" | "inline";
 }) => {
+  const skeletonSTyles = twMerge(
+    "flex items-center justify-center",
+    "bg-gray-200",
+    type != "inline" ? "absolute top-0 left-0 w-full h-full z-10" : "relative",
+    className
+  )
+  const context = useContext(SkeletonContext);
   return (
-    <span
+    !context.loaded ? <span
       role="status"
-      className={twMerge(
-        "flex items-center justify-center absolute top-0 left-0 w-full h-full z-10 bg-gray-200 rounded-md overflow-hidden",
-        className
-      )}
+      className={skeletonSTyles}
     >
-      <div
+      <span
         className="
           absolute
           top-0
@@ -31,25 +37,61 @@ const SkeletonDisplay = ({
           w-full
           h-full
         "
-      ></div>
+      ></span>
       {type == "image" && (
         <FiImage className="w-12 h-12 text-gray-300"></FiImage>
       )}
       {type == "video" && (
         <FiVideo className="w-12 h-12 text-gray-300"></FiVideo>
       )}
-    </span>
+    </span> : null
   );
 };
-const SkeletonWrapper = ({
+interface SkeletonWrapperProps<T extends React.ElementType> {
+  children?: React.ReactNode;
+  loaded?: boolean;
+  as?: T;
+  block?: boolean;
+}
+
+const SkeletonContent = ({
   className,
   children,
+  unmount = false,
+  // loaded,
   ...rest
-}: React.HTMLAttributes<HTMLSpanElement>) => {
+}: {unmount?: boolean} & React.HTMLAttributes<HTMLSpanElement>) => {
+  const context = useContext(SkeletonContext);
+  const Component = context.block ? 'div' : 'span';
+  const skeletonContentStyles = twMerge(
+    "block transition-opacity duration-100 ease-in",
+    context.loaded ? "opacity-100" : "opacity-0",
+    className
+  );
   return (
-    <span className={twMerge("relative block", className)}>{children}</span>
+    context.loaded || (!context.loaded && !unmount) ? <Component className={skeletonContentStyles} {...rest}>
+      {children}
+    </Component> : null
+  )
+};
+
+const SkeletonWrapper = <T extends React.ElementType = "div">({
+  className,
+  children,
+  loaded = false,
+  as,
+  block = false,
+  ...rest
+}: SkeletonWrapperProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof SkeletonWrapperProps<T>>) => {
+  const Component = as || "span";
+  return (
+    <Component className={twMerge("relative block", className)} {...rest} data-skeleton>
+      <SkeletonContext.Provider value={{loaded, block}}>
+      {children}
+      </SkeletonContext.Provider>  
+    </Component>
   );
 };
 // ref: https://github.com/tailwindlabs/headlessui/blob/main/packages/%40headlessui-react/src/components/transitions/transition.tsx
-const Skeleton = Object.assign(SkeletonDisplay, { Wrapper: SkeletonWrapper });
+const Skeleton = Object.assign(SkeletonDisplay, { Wrapper: SkeletonWrapper, Content: SkeletonContent });
 export default Skeleton;

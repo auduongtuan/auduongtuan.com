@@ -66,25 +66,27 @@ const ReactButton = ({ name, emoji, counter, dispatch, page }) => {
     [counter, dispatch, emoji, page]
   );
   return (
-    <Skeleton.Wrapper className="flex-shrink-1 flex">
-    {!counter && <Skeleton type="block" className="rounded-full"></Skeleton>}
-    <Tooltip content={counter && counter[emoji].reacted ? `Undo ${name}` : `${name}`}>
-      <button
-        className="flex-shrink-1 border-2 px-3 py-2 md:px-4 md:py-2 border-gray-300 hover:border-blue-600 rounded-full inline-flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all ease-out duration-100 group"
-        onClick={sendReaction}
-      >
-        <span className="block transition-all duration-100 scale-100 group-hover:scale-125 text-base md:text-2xl ">
-          {emoji}
-        </span>
-        <span
-          className={`block text-sm ${
-            counter && counter[emoji].reacted ? "font-semibold text-blue-700" : "font-medium text-gray-500"
-          }`}
-        >
-          {counter ? counter[emoji].quantity : 0}
-        </span>
-      </button>
-    </Tooltip>
+    <Skeleton.Wrapper className="flex-shrink-1 flex" loaded={typeof counter != 'undefined' && counter}>
+      <Skeleton type="block" className="rounded-full"></Skeleton>
+      <Skeleton.Content>
+        <Tooltip content={counter && counter[emoji].reacted ? `Undo ${name}` : `${name}`}>
+          <button
+            className="flex-shrink-1 border-2 px-3 py-2 md:px-4 md:py-2 border-gray-300 hover:border-blue-600 rounded-full inline-flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all ease-out duration-100 group"
+            onClick={sendReaction}
+          >
+            <span className="block transition-all duration-100 scale-100 group-hover:scale-125 text-base md:text-2xl ">
+              {emoji}
+            </span>
+            <span
+              className={`block text-sm ${
+                counter && counter[emoji].reacted ? "font-semibold text-blue-700" : "font-medium text-gray-500"
+              }`}
+            >
+              {counter ? counter[emoji].quantity : 0}
+            </span>
+          </button>
+        </Tooltip>
+      </Skeleton.Content>
     </Skeleton.Wrapper>
   );
 };

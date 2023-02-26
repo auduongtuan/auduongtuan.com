@@ -44,7 +44,7 @@ const BrowserFrame = React.forwardRef<
           <FiPlus className="hidden md:inline-block text-slate-400" />
         </div>
       </header>
-      <main className="flex-grow-0 leading-[0]">{children}</main>
+      <main className="flex-grow-0 leading-[0] [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none">{children}</main>
     </div>
   );
 });
@@ -113,7 +113,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
             <FiZoomIn className="text-slate-400" />
           </div>
         </header>
-        <main className="flex-grow-0 leading-[0]">{children}</main>
+        <main className="flex-grow-0 leading-[0] [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none">{children}</main>
       </div>
     );
     return (

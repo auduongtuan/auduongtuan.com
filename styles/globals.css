@@ -126,6 +126,8 @@
     } */
 
     h4 + p,
+    h4 + blockquote,
+    h4 + ol,
     h4 + ul {
       @apply mt-1;
       @apply text-base leading-7;
@@ -137,11 +139,18 @@
       }
     }
 
+    ol,
     ul,
     blockquote,
     p,
     .content-node > .box:not(:first-child) {
       @apply mt-content-node;
+    }
+
+    blockquote, .box {
+      & > ul:first-child, & > p:first-child, & > .content-node:first-child {
+        @apply mt-0;
+      }
     }
 
     .full {

@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import Fade from "../atoms/Fade";
 import CustomImage from "../atoms/CustomImage";
 import InlineLink from "../atoms/InlineLink";
+import Skeleton from "../atoms/Skeleton";
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR("/api/spotify", fetcher);
@@ -26,7 +27,7 @@ export default function Footer() {
               delay={0}
               className={`col-span-12 lg:col-span-4 lg:row-span-1`}
             >
-              {data && (
+              {data ? (
                 <div className="flex items-center flex-gap-4">
                   <CustomImage
                     className={`rounded-full overflow-hidden ${
@@ -51,7 +52,13 @@ export default function Footer() {
                     </p>
                   </div>
                 </div>
-              )}
+              ) : <Skeleton.Wrapper loaded={false} className="flex items-center flex-gap-4">
+                <Skeleton className="w-16 h-16 rounded-full" type="inline"></Skeleton>
+                <div className="flex-1">
+                  <Skeleton className="w-[80%] h-4 rounded-full" type="inline"></Skeleton>
+                  <Skeleton className="w-[50%] h-4 rounded-full mt-2" type="inline"></Skeleton>
+                </div>
+              </Skeleton.Wrapper>}
             </Fade>
 
             <div className="col-span-12 lg:col-span-7 lg:col-start-6 lg:row-span-2 lg:justify-self-end lg:self-end">
