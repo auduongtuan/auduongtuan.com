@@ -28,6 +28,7 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
     // console.log(checkInternal);
     const Component = checkInternal ? Link : ExternalLink;
     const linkStyles = twMerge(
+      "inline-flex gap-2 items-center",
       underline && "underline underline-offset-4",
       !wrap && "whitespace-nowrap break-words hover:decoration-transparent",
       wrap && "hover:decoration-blue-500",

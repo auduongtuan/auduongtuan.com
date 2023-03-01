@@ -128,13 +128,13 @@ const Navigation = React.memo(
         >
           <div className={`fixed z-40 w-full h-full bg-custom-neutral-900`}>
             <div className="main-container">
-              <ul className="pt-16 flex flex-col flex-gap-y-2">
+              <ul className="w-full pt-16 flex flex-col flex-gap-y-2">
                 {menuItems.map((item, i) => (
-                  <li key={i}>
+                  <li key={i} className="w-full">
                     <NavigationLink
                       pathname={item.pathname}
                       href={item.href}
-                      className="block w-full py-4 text-center -m-0"
+                      className="block w-full py-4 text-left px-4 "
                       inverted
                       callback={() => dispatch(setMenuOpened(false))}
                     >

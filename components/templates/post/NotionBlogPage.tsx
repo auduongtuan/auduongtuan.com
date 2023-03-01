@@ -19,7 +19,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
             Blog
           </Fade>
           <div className="col-span-12 md:col-span-8 self-end">
-            <Fade as="p" className="text-base md:text-xl leading-relaxed" slide duration={200} delay={100}>
+            <Fade as="p" className="big-body-text" slide duration={200} delay={100}>
               A collection of my unorganized musings
             </Fade>
           </div>

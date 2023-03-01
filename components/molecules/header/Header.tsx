@@ -36,7 +36,7 @@ export default function Header() {
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-8 lg:max-w-[50rem] z-4">
             <Headline />
             <Fade delay={200}>
-            <p className="text-base md:text-xl mt-6 lg:mt-9 _tracking-tight">
+            <p className="big-body-text mt-6 lg:mt-9">
               I am a hybrid{" "}
               <GifText {...setupGif(0)}>
                 designer
@@ -58,7 +58,7 @@ export default function Header() {
               ?).
             </p>
             </Fade>
-            <Fade className="text-base md:text-xl mt-2 _tracking-tight" delay={300}>
+            <Fade className="big-body-text mt-2" delay={300}>
               Everyday I try to make good products with the human at the center.
             </Fade>
             <Fade delay={500}>

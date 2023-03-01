@@ -17,7 +17,7 @@ export default function AboutHeader() {
           <Fade as="h1" className="col-span-12 md:col-span-8 lg:mr-14" slide duration={100}>
             Xin chào!
           </Fade>
-          <div className="col-span-12 md:col-span-8 lg:mr-14 self-end text-base md:text-xl leading-relaxed md:leading-relaxed">
+          <div className="col-span-12 md:col-span-8 lg:mr-14 self-end big-body-text leading-relaxed">
             <Balancer ratio={0.5}>
               <Fade delay={150}>
                 <p className="">
