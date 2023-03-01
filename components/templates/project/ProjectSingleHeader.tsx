@@ -19,11 +19,11 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
       <div className="main-container p-header">
-        <div className="grid grid-cols-12 gap-x-4">
-          <div className="hidden md:block col-span-4 self-center group row-span-full">
+        <div className="grid grid-cols-12 gap-x-4 content-container p-0">
+          {/* <div className="hidden md:block col-span-4 self-center group row-span-full">
             <InlineLink href="/" underline={false} dark={true} className="opacity-0 group-hover:opacity-100"><FiArrowLeft />All projects</InlineLink>
-          </div>
-          <div className="col-span-12 md:col-span-8 md:col-start-5 flex flex-gap-x-4 items-center flex-wrap">
+          </div> */}
+          <div className="col-span-12 flex flex-gap-x-4 items-center flex-wrap">
             <Fade duration={200} slide className="flex-grow">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-display tracking-tight">
                 {project.meta.title}
@@ -61,13 +61,12 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
           <Fade
             as="p"
             delay={200}
-            className={`col-span-12 
-            md:col-start-5 md:col-span-8 mt-4 big-body-text`}
+            className={`col-span-12 mt-4 big-body-text`}
           >
             <Balancer ratio={0.36}>{project.meta.description}</Balancer>
           </Fade>
 
-          <div className="col-span-12 md:col-start-5 md:col-span-8 flex space-4 mt-6 md:mt-8">
+          <div className="col-span-12 flex space-4 mt-6 md:mt-8">
             <Fade className="flex-grow" delay={300}>
               <h5 className="sub-heading text-sm">Tools used</h5>
               <ul className="leading-tight">

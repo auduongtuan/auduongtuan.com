@@ -75,15 +75,23 @@
     @apply px-4 md:px-6 mx-auto;
     @apply max-w-full lg:w-[76rem];
   }
+  .max-w-content {
+    @apply max-w-[50rem];
+  }
   .content-container {
-    @apply px-4 md:px-6 mx-auto;
-    @apply max-w-full lg:w-[76rem];
+    @apply max-w-content px-4 md:px-6 mx-auto;
   }
   .project-grid {
-    @apply grid grid-cols-3 gap-x-4 text-gray-800;
+    /*@apply grid grid-cols-3 gap-x-4 text-gray-800;*/
+    @apply  text-gray-800;
+    @apply flex flex-col items-center;
+    .full {
+      width: 100%;
+    }
+    > *:not(.full) {
+      /*@apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2; */
+      @apply w-full max-w-content;
 
-    > * {
-      @apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2;
     }
     blockquote p {
       @apply text-xl md:text-2xl font-semibold;
@@ -152,10 +160,10 @@
         @apply mt-0;
       }
     }
-
-    .full {
+    
+    /* .full {
       @apply col-span-3 col-start-1;
-    }
+    } */
 
     > .full {
       @apply mt-content-node pt-3;
@@ -166,14 +174,13 @@
     }
 
     h2 {
-      @apply mt-0 pt-12 md:pt-16 lg:pt-20 md:pr-2;
-      @apply lg:col-span-1 lg:col-start-1 text-slate-900;
-      & + *:not(.full) {
+      /* @apply mt-0 pt-12 md:pt-16 lg:pt-20 md:pr-2; */
+      /* @apply lg:col-span-1 lg:col-start-1 text-slate-900; */
+      @apply mt-10 md:mt-16 lg:mt-20 first:mt-0;
+      /* & + *:not(.full) {
         @apply pt-0 lg:mt-0  lg:pt-[5.4rem];
-      }
-      /* &:first-child + * {
-        @apply lg:mt-0 lg:pt-0;
       } */
+     
     }
     .persona-1 {
       .image {
