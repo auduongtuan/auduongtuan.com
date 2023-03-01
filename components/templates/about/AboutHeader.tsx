@@ -12,7 +12,7 @@ export default function AboutHeader() {
   const [image, setImage] = useState(0);
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
-      <div className="content-container p-header">
+      <div className="main-container p-header">
         <div className="grid grid-cols-12 gap-x-8 gap-y-6 md:gap-y-8">
           <Fade as="h1" className="col-span-12 md:col-span-8 lg:mr-14" slide duration={100}>
             Xin chào!

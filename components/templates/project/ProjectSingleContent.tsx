@@ -7,7 +7,7 @@ import Fade from "../../atoms/Fade";
 const ProjectSingleContent = ({ project }: { project: Project }) => {
   return (
     <div
-      className="p-content pt-0 bg-gray-100 relative"
+      className="p-content bg-gray-100 relative"
       style={{
         background:
           project.meta.contentBackground && project.meta.contentBackground,

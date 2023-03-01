@@ -13,7 +13,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
       ref={ref}
       className="bg-custom-neutral-900 text-white w-full z-10"
     >
-      <div className="content-container p-header">
+      <div className="main-container p-header">
         <div className="grid grid-cols-12 gap-4 md:gap-8">
           <Fade as="h1" className="col-span-12 md:col-span-8" slide duration={100}>
             Blog
@@ -27,7 +27,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
       </div>
     </header>
     <section className="">
-      <div className="content-container p-content flex flex-col">
+      <div className="main-container p-content flex flex-col">
         {posts.map((post, i) => {
           return (
             <Fade delay={70*(i+1)} key={post.id}>

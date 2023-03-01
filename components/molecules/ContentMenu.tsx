@@ -71,7 +71,7 @@ const ContentMenu = React.memo(() => {
 }, [headings, visibleInfo]);
 
   return (
-    <div className='absolute left-0 h-full py-28'>
+    <div className='absolute left-0 top-0 bottom-0 h-full p-content'>
       <Fade as="aside" className={`w-60 hidden 2xl:block sticky top-1/2`} delay={100}>
           <ul className='flex flex-col flex-gap-y-1  group'>
           {headings && headings.length > 2 && headings.map((heading, i) => 

@@ -18,7 +18,7 @@ const PostSinglePage = ({ post, postContent, posts }: {post: Post, posts: Post[]
         className="bg-custom-neutral-900 text-white w-full z-10"
       >
         <div className="content-container p-header">
-          <div className="grid grid-cols-1 gap-2 md:gap-4 max-w-[50rem] mx-auto">
+          <div className="grid grid-cols-1 gap-2 md:gap-4 ">
             <Balancer>
               <Fade as="h1" className="text-2xl md:text-3xl leading-tight md:leading-tight lg:text-5xl lg:leading-tight col-span-1" slide duration={100}>
                 {post.meta.title}
@@ -46,9 +46,7 @@ const PostSinglePage = ({ post, postContent, posts }: {post: Post, posts: Post[]
         <Fade className="relative" delay={200}>
           <ContentMenu />
           <div className="content-container p-content blog-content">
-            <div className="max-w-[50rem] mx-auto">
-              <div className="text-gray-800 [&>*:first-child]:mt-0">{parseBlocks(postContent)}</div>
-            </div>
+            <div className="text-gray-800 [&>*:first-child]:mt-0">{parseBlocks(postContent)}</div>
           </div>
         </Fade>
         <section className="bg-white border-gray-200 border-t p-content relative">
