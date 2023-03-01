@@ -1,18 +1,16 @@
 import Fade from "./Fade";
-
 export interface BadgeProps {
   content: string;
   index: number;
 }
 const Badge = ({content, index}:BadgeProps) => {
   return (
-    <Fade className='w-40 h-40 text-center relative inline-flex mt-[0.4rem] flex-col items-center justify-center'>
-      <div className='absolute flex flex-col items-center justify-center p-6 rounded'>
-     
-        <strong className='block text-base mb-2'>{content.split(':')[0]}</strong>
-        <span className='text-xs uppercase font-semibold leading-tight text-gray-400 px-1'>{content.split(':')[1]}</span>
+    <Fade className='w-[8.5rem] h-[8.5rem] text-center relative inline-flex mt-[0.4rem] flex-col items-center justify-center'>
+      <div className='absolute flex flex-col w-full h-full items-center justify-center text-center py-3 px-5 rounded-full'>
+        <span className='font-semibold block text-sm leading-tight mb-1 px-1'>{content.split(':')[0]}</span>
+        <span className='text-[0.6875rem] text-center uppercase font-medium leading-tight text-gray-400'>{content.split(':')[1]}</span>
       </div>
-      <svg className='absolute w-full fill-white'
+      <svg className='absolute left-0 w-full h-full top-0 fill-white'
       xmlns="http://www.w3.org/2000/svg"
       x="0"
       y="0"
