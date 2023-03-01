@@ -24,7 +24,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
             <InlineLink href="/" underline={false} dark={true} className="opacity-0 group-hover:opacity-100"><FiArrowLeft />All projects</InlineLink>
           </div>
           <div className="col-span-12 md:col-span-8 md:col-start-5 flex flex-gap-x-4 items-center flex-wrap">
-            <Fade slide duration={100} className="flex-grow">
+            <Fade duration={200} slide className="flex-grow">
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-display tracking-tight">
                 {project.meta.title}
               </h1>
@@ -36,7 +36,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
               </p>
             </Fade>
             {(project.meta.link || project.meta.achievements) && (
-              <div className={twMerge("flex-shrink-0 flex-grow-0", project.meta.achievements && bp == 'sm' && "mt-2 w-full")}>
+              <Fade className={twMerge("flex-shrink-0 flex-grow-0", project.meta.achievements && bp == 'sm' && "mt-2 w-full")} duration={300} delay={400}>
                 {project.meta.link && (
                   <IconButton
                     size={bp == 'sm' ? "small" : "medium"}
@@ -55,13 +55,12 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                     ))}
                   </div>
                 )}
-              </div>
+              </Fade>
             )}
           </div>
           <Fade
             as="p"
-            slide
-            delay={150}
+            delay={200}
             className={`col-span-12 
             md:col-start-5 md:col-span-8 mt-4 big-body-text`}
           >
@@ -69,7 +68,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
           </Fade>
 
           <div className="col-span-12 md:col-start-5 md:col-span-8 flex space-4 mt-6 md:mt-8">
-            <Fade className="flex-grow" delay={100}>
+            <Fade className="flex-grow" delay={300}>
               <h5 className="sub-heading text-sm">Tools used</h5>
               <ul className="leading-tight">
                 {project.meta.tools &&
@@ -80,7 +79,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                   ))}
               </ul>
             </Fade>
-            <Fade className="flex-grow" delay={150}>
+            <Fade className="flex-grow" delay={350}>
               <h5 className="sub-heading text-sm">What I did</h5>
               <ul className="leading-tight">
                 {project.meta.roles &&
