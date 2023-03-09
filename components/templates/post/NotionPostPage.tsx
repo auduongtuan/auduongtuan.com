@@ -16,6 +16,7 @@ const PostSinglePage = ({ post, postContent, posts }: {post: Post, posts: Post[]
       <header
         ref={ref}
         className="bg-custom-neutral-900 text-white w-full z-10"
+        key={post.slug+'_header'}
       >
         <div className="content-container p-header">
           <div className="grid grid-cols-1 gap-2 md:gap-4 ">
@@ -43,7 +44,7 @@ const PostSinglePage = ({ post, postContent, posts }: {post: Post, posts: Post[]
           </div>
         </div>
       </header>
-        <Fade className="relative" delay={200}>
+        <Fade className="relative" delay={200} key={post.slug+'_content'}>
           <ContentMenu />
           <div className="content-container p-content blog-content">
             <div className="text-gray-800 [&>*:first-child]:mt-0">{parseBlocks(postContent)}</div>

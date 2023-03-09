@@ -7,7 +7,7 @@ interface VisibleInfo {
   length: number;
 }
 
-const ContentMenu = React.memo(() => {
+const ContentMenu = () => {
   const [headings, setHeadings] = useState<HTMLElement[]>([]);
   const [active, setActive] = useState<number>(0);
   const [maxLength, setMaxLength] = useState<number>(0);
@@ -93,6 +93,6 @@ const ContentMenu = React.memo(() => {
       </Fade>
     </div>
   );
-});
+};
 ContentMenu.displayName = 'ContentMenu';
 export default ContentMenu;
