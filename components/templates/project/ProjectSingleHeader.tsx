@@ -19,7 +19,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
       <div className="main-container p-header">
-        <div className="grid grid-cols-12 gap-x-4 content-container p-0">
+        <div className="grid grid-cols-12 gap-x-4 content-container p-0" key={project.slug+'_header'}>
           {/* <div className="hidden md:block col-span-4 self-center group row-span-full">
             <InlineLink href="/" underline={false} dark={true} className="opacity-0 group-hover:opacity-100"><FiArrowLeft />All projects</InlineLink>
           </div> */}

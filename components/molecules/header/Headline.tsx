@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useWindowSize from "../../../hooks/useWindowSize";
 import Fade from "../../atoms/Fade";
 const startTextStyle = {
   opacity: "0",
   transform: "translateY(40px)",
 };
-const Headline = React.memo(() => {
+const Headline = () => {
   const underline = useRef(null);
   const texts = useRef<(HTMLElement | null)[]>([]);
   const size = useWindowSize();
@@ -96,6 +96,6 @@ const Headline = React.memo(() => {
       ></div>
     </div>
   );
-});
+};
 Headline.displayName = "Headline";
 export default Headline;
