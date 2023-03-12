@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const durationClass = {
   100: "duration-200",
@@ -37,11 +37,12 @@ function Fade<T extends React.ElementType = "div">({
     "transition-[opacity,transform] ease-in",
     duration && duration in durationClass && [durationClass[duration as number]]
   );
+  const stateStyles = useMemo(() => ({
+    show: ["opacity-100", { "translate-y-0": slide }],
+    hide: ["opacity-0", { "translate-y-10": slide }]
+  }), [slide]);
   const [styles, setStyles] = useState(
-    clsx(originStyles, {
-      "opacity-0": true,
-      "translate-y-10": slide,
-    })
+    clsx(originStyles, ...stateStyles.hide)
   );
   const Component = as || "div";
   useEffect(() => {
@@ -49,15 +50,19 @@ function Fade<T extends React.ElementType = "div">({
       const timeout = setTimeout(
         () =>
           setStyles(
-            clsx(originStyles, "opacity-100", { "translate-y-0": slide })
+            clsx(originStyles, ...stateStyles.show)
           ),
         delay
       );
       return () => {
         clearTimeout(timeout);
       };
+    } else {
+      setStyles(
+        clsx(originStyles, ...stateStyles.hide)
+      )
     }
-  }, [slide, originStyles, show, delay]);
+  }, [slide, originStyles, stateStyles, show, delay]);
   return (
     <Component className={styles} {...rest}>
       {children}

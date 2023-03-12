@@ -8,7 +8,7 @@ import InlineLink from "../../atoms/InlineLink";
 
 export default function AboutHeader() {
   const { ref, inView } = useHeaderInView();
-  const images = ["tuan.jpg", "tuan_haha.jpg"];
+  const images = ["tuan_smile.jpg", "tuan_grin.jpg"];
   const [image, setImage] = useState(0);
   return (
     <header ref={ref} className="bg-custom-neutral-900 text-white w-full z-10">
