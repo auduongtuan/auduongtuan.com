@@ -1,4 +1,4 @@
-import React, {MouseEventHandler, useImperativeHandle, useRef} from "react";
+import React, {MouseEventHandler, useImperativeHandle, useRef, useState} from "react";
 import useBreakpoint from "../../hooks/useBreakpoint";
 import Draggable from "react-draggable";
 import {
@@ -10,6 +10,7 @@ import {
   FiZoomOut,
 } from "react-icons/fi";
 import Tooltip from "./Tooltip";
+import { twMerge } from "tailwind-merge";
 
 const BrowserFrame = React.forwardRef<
   HTMLDivElement,
@@ -71,19 +72,13 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
     },
     ref
   ) => {
-    const innerRef = useRef<HTMLDivElement>(null  );
-    useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
-    const closeCallback = buttonCallbacks?.close ? buttonCallbacks?.close : (e) => {
-      if(innerRef?.current) {
-        innerRef?.current.classList.add('opacity-0');
-        innerRef?.current.classList.add('invisible');
-      }
-    };
+    const [visible, setVisible] = useState(true);
+    const closeCallback = buttonCallbacks?.close ? buttonCallbacks?.close : (e) => setVisible(false);
     const bp = useBreakpoint();
     const renderFrame = () => (
       <div
-        ref={innerRef}
-        className={`w-full flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg ${className}`}
+        // ref={innerRef}
+        className={twMerge(`w-full flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg`, className, !visible && 'opacity-0 invisible')}
         {...rest}
       >
         <header

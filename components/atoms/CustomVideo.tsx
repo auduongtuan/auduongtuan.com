@@ -34,6 +34,7 @@ const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(({poste
       });
       // console.log(innerRef);
       if (innerRef.current instanceof HTMLVideoElement) lazyVideoObserver.observe(innerRef.current);
+      return () => lazyVideoObserver.disconnect();
     }
   }, [ref, show]);
   // return <video className='w-full h-auto' poster={poster && poster} src={require(`../../public/uploads/${slug}/${src}`)} width={width ? width : undefined} height={height ? height: undefined} loop={loop} muted={autoPlay} autoPlay={autoPlay} playsInline={autoPlay} preload="true"></video>

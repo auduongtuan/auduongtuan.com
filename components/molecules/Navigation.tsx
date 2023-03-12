@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Fragment } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FiMenu, FiX } from "react-icons/fi";
 import NavigationLink from "../atoms/NavigationLink";
@@ -23,7 +23,7 @@ const Navigation = React.memo(
       (state: RootState) => state.app
     );
     const dispatch = useDispatch();
-    const headerRef = useRef<HTMLElement>(null);
+    const [hidden, setHidden] = useState(false);
     const bp = useBreakpoint();
     useEffect(() => {
       let lastScrollTop = 0;
@@ -32,17 +32,7 @@ const Navigation = React.memo(
         const st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
         const threshold = 10;
         if (Math.abs(st - lastScrollTop) > threshold) {
-          if (st > lastScrollTop) {
-            // downscroll code
-            // console.log("Scroll Down");
-            if (headerRef.current)
-              headerRef.current.classList.add("-translate-y-full");
-          } else {
-            // console.log("Scroll Up");
-            if (headerRef.current)
-              headerRef.current.classList.remove("-translate-y-full");
-            // upscroll code
-          }
+          setHidden(st > lastScrollTop)
         }
         lastScrollTop = st;
       };
@@ -52,7 +42,7 @@ const Navigation = React.memo(
       return () => {
         if (hideOnScroll) window.removeEventListener("scroll", handleScroll);
       };
-    }, [hideOnScroll, headerRef, pauseScrollEvent]);
+    }, [hideOnScroll,  pauseScrollEvent]);
     const darkMenu = headerInView || menuOpened;
     // may need to
     // https://paco.me/writing/disable-theme-transitions
@@ -63,10 +53,11 @@ const Navigation = React.memo(
       darkMenu ? "bg-custom-neutral-900/60 backdrop-blur-md text-white" : "bg-white/60	backdrop-blur-md text-dark-blue-900",
       darkMenu && fixed && "border-b border-white/10",
       !darkMenu && fixed && "border-b border-gray-900/10",
+      hidden && '-translate-y-full' 
     );
     return (
       <div>
-        <header ref={headerRef} className={NavigationStyles}>
+        <header className={NavigationStyles}>
           <nav className="text-display text-base md:text-xl font-semibold main-container py-2 md:py-4 flex items-center justify-between">
             {/* logo */}
             <NavigationLink

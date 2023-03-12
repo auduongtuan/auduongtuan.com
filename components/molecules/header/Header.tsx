@@ -10,23 +10,11 @@ import GifText from "./GifText";
 
 export default function Header() {
   const { ref } = useHeaderInView();
-
-  const gifs = useRef<(HTMLDivElement | null)[]>([]);
   const [activeGif, setActiveGif] = useState<number | null>(null);
-  
-  const showGif = (gifIndex) => {
-    gifs.current[gifIndex]?.classList.add("animate-slide-in-fast");
-    if (setActiveGif) setActiveGif(gifIndex);
-  };
-  const hideGif = (gifIndex) => {
-    gifs.current[gifIndex]?.classList.remove("animate-slide-in-fast");
-    if (setActiveGif) setActiveGif(null);
-  };
-
-  const setupGif = (gifIndex) => {
+  const setupGif = (gifIndex: number) => {
     return {
-      onMouseEnter: (e) => showGif(gifIndex),
-      onMouseLeave: (e) => hideGif(gifIndex),
+      onMouseEnter: () => setActiveGif(gifIndex),
+      onMouseLeave: () => setActiveGif(null),
     }
   }
   return (
@@ -73,51 +61,51 @@ export default function Header() {
             </Fade>
           </div>
           <div className="col-span-12 col-start-1 row-start-1 row-end-2 lg:col-span-4 relative z-30 pointer-events-none md:block">
-            <PhotoFrame
-              ref={(el) => (gifs.current[0] = el)}
-              className="absolute md:top-0 opacity-0"
-              name="lam-dau-tram-ho.gif"
-              inverted
-            >
-              <CustomVideo
-                className="w-full h-auto"
-                slug="gif"
-                src="designer.mp4"
-                width={480}
-                height={264}
-                show={activeGif == 0}
-              />
-            </PhotoFrame>
-            <PhotoFrame
-              ref={(el) => (gifs.current[1] = el)}
-              className="absolute md:bottom-0 opacity-0"
-              name="muon-bung-chay.gif"
-              inverted
-            >
-              <CustomVideo
-                className="w-full h-auto"
-                slug="gif"
-                src="codes.mp4"
-                width={480}
-                height={270}
-                show={activeGif == 1}
-              />
-            </PhotoFrame>
-            <PhotoFrame
-              ref={(el) => (gifs.current[2] = el)}
-              className="absolute md:-bottom-8 opacity-0"
-              name="unicorn-designer.gif"
-              inverted
-            >
-              <CustomVideo
-                className="w-full h-auto"
-                slug="gif"
-                src="unicorn.mp4"
-                width={480}
-                height={480}
-                show={activeGif == 2}
-              />
-            </PhotoFrame>
+            <Fade duration={100} show={activeGif == 0} slide className="w-full absolute md:top-0">
+              <PhotoFrame
+                name="lam-dau-tram-ho.gif"
+                inverted
+              >
+                <CustomVideo
+                  className="w-full h-auto"
+                  slug="gif"
+                  src="designer.mp4"
+                  width={480}
+                  height={264}
+                  show={activeGif == 0}
+                />
+              </PhotoFrame>
+            </Fade>
+            <Fade duration={100} show={activeGif == 1} slide className="w-full absolute md:bottom-0">
+              <PhotoFrame
+                name="muon-bung-chay.gif"
+                inverted
+              >
+                <CustomVideo
+                  className="w-full h-auto"
+                  slug="gif"
+                  src="codes.mp4"
+                  width={480}
+                  height={270}
+                  show={activeGif == 1}
+                />
+              </PhotoFrame>
+            </Fade>
+            <Fade duration={100} show={activeGif == 2} slide className="w-full absolute md:-bottom-8">
+              <PhotoFrame
+                name="unicorn-designer.gif"
+                inverted
+              >
+                <CustomVideo
+                  className="w-full h-auto"
+                  slug="gif"
+                  src="unicorn.mp4"
+                  width={480}
+                  height={480}
+                  show={activeGif == 2}
+                />
+              </PhotoFrame>
+            </Fade>
           </div>
         </div>
       </div>
