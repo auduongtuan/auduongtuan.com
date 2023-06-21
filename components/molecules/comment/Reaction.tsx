@@ -58,7 +58,7 @@ const ReactButton = ({ name, emoji, counter, dispatch, page }) => {
             // console.log(res);
           })
           .catch((err) => {
-            // console.log(err);
+            console.log(err);
           });
       }
     },

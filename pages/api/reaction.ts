@@ -117,6 +117,7 @@ async function addReaction({ react, page, header, ip }) {
       Header: {
         rich_text: [
           {
+            type: "text",
             text: {
               content: header,
             },
@@ -190,6 +191,7 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
             code: 500,
             message: err,
           },
+          header: JSON.stringify(req.headers),
         });
       }
     }
