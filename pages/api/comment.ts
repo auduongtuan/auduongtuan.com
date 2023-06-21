@@ -1,7 +1,7 @@
 import { Client } from "@notionhq/client";
 import { NextApiRequest, NextApiResponse } from "next";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const COMMENT_DATABASE_ID = "b71a4c06cd7e4053a0d963a62e3f789b";
+const COMMENT_DATABASE_ID = process.env.COMMENT_DATABASE_ID as string;
 async function createComment({ name, content, email, page, header }) {
   let properties: any = {
     Content: {

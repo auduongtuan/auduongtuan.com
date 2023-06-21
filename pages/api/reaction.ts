@@ -1,7 +1,7 @@
 import { Client } from "@notionhq/client";
 import { NextApiRequest, NextApiResponse } from "next";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const REACTION_DATABASE_ID = "a60782cd17c247adb48f0fa15b3a6082";
+const REACTION_DATABASE_ID = process.env.REACTION_DATABASE_ID as string;
 
 async function getReactions({ page, ip }) {
   if (!page) return {};
@@ -29,18 +29,26 @@ async function getReactions({ page, ip }) {
     return response.results.reduce((acc, current) => {
       // prevValue
       if ("properties" in current) {
-        if ("title" in current.properties.React && "rich_text" in current.properties.Ip) {
-          if (current.properties.React.title.length > 0 && current.properties.Ip.rich_text.length > 0) {
-            const saved_ip = current.properties.Ip.rich_text[0].plain_text as string;
-            const reaction = current.properties.React.title[0].plain_text as string;
+        if (
+          "title" in current.properties.React &&
+          "rich_text" in current.properties.Ip
+        ) {
+          if (
+            current.properties.React.title.length > 0 &&
+            current.properties.Ip.rich_text.length > 0
+          ) {
+            const saved_ip = current.properties.Ip.rich_text[0]
+              .plain_text as string;
+            const reaction = current.properties.React.title[0]
+              .plain_text as string;
             if (reaction in acc) {
               acc[reaction].quantity++;
             } else {
-              acc[reaction] = {quantity:1};
+              acc[reaction] = { quantity: 1 };
             }
             // if (saved_ip == ip) {
-              acc[reaction].reacted = saved_ip == ip;
-            // } 
+            acc[reaction].reacted = saved_ip == ip;
+            // }
           }
         }
       }
@@ -50,7 +58,7 @@ async function getReactions({ page, ip }) {
     return {};
   }
 }
-async function findReaction({react, page, ip}) {
+async function findReaction({ react, page, ip }) {
   return await notion.databases.query({
     database_id: REACTION_DATABASE_ID,
     filter: {
@@ -74,12 +82,12 @@ async function findReaction({react, page, ip}) {
           },
         },
       ],
-    }
+    },
   });
 }
 async function removeReaction({ react, page, ip }) {
-  const reactionFound = await findReaction({react, page, ip});
-  if(reactionFound.results.length > 0) {
+  const reactionFound = await findReaction({ react, page, ip });
+  if (reactionFound.results.length > 0) {
     const deleteResponse = await notion.blocks.delete({
       block_id: reactionFound.results[0].id,
     });
@@ -87,8 +95,8 @@ async function removeReaction({ react, page, ip }) {
   }
 }
 async function addReaction({ react, page, header, ip }) {
-  const reactionFound = await findReaction({react, page, ip});
-  if(reactionFound.results.length > 0) {
+  const reactionFound = await findReaction({ react, page, ip });
+  if (reactionFound.results.length > 0) {
     return reactionFound;
   }
   return await notion.pages.create({
@@ -146,7 +154,7 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
       ? forwarded.split(/, /)[0]
       : req.socket.remoteAddress;
   if (req.method === "POST") {
-    if (req.body.type == 'REMOVE') {
+    if (req.body.type == "REMOVE") {
       try {
         const data = {
           react: req.body.react,
@@ -164,7 +172,7 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     }
     // ADD REACTION
-    else if (req.body.type == 'ADD') {
+    else if (req.body.type == "ADD") {
       try {
         const data = {
           react: req.body.react,
@@ -185,7 +193,6 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
         });
       }
     }
-   
   } else {
     const data = await getReactions({ page: req.query.page, ip: ip });
     return res.status(200).json(data);
