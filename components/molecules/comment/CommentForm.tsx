@@ -22,7 +22,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
   // const [anonymous, setAnonymous]
   const submitHandler = (data: FieldValues) => {
     const { name = "", email = "", content } = data;
-    console.log(name);
+    // console.log(name);
     if (content) {
       setState({ loading: true });
       axios
@@ -33,13 +33,13 @@ const CommentForm = ({ page, wording, onSubmit }) => {
           page,
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           setState({ loading: false, sent: true, open: false });
           reset();
           onSubmit && onSubmit();
         })
         .catch((err) => {
-          console.log(err);
+          // console.log(err);
           setState({ loading: false, sent: false, error: true });
         });
     }
@@ -48,10 +48,10 @@ const CommentForm = ({ page, wording, onSubmit }) => {
     <Fragment>
       <button
         onClick={() => setState({ open: true })}
-        className="w-full font-medium text-base hover:border-blue-600 text-gray-500 col-span-1 border-2 px-6 py-3 border-gray-300 rounded-full flex items-center justify-items-center space-x-2 hover:bg-white/40  transition-all duration-100"
+        className="flex items-center w-full col-span-1 px-6 py-3 space-x-2 text-base font-medium text-gray-500 transition-all duration-100 border-2 border-gray-300 rounded-full hover:border-blue-600 justify-items-center hover:bg-white/40"
       >
-        <span className="block flex-grow text-left">{wording.placeholder}</span>
-        <FiMessageCircle className="text-xl flex-grow-0 text-gray-500"></FiMessageCircle>
+        <span className="flex-grow block text-left">{wording.placeholder}</span>
+        <FiMessageCircle className="flex-grow-0 text-xl text-gray-500"></FiMessageCircle>
       </button>
       {state.sent && (
         <Toast type="success" afterLeave={() => setState({ sent: false })}>
@@ -77,7 +77,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
               <div>
                 <label
                   htmlFor="content-input"
-                  className="text-base text-gray-800 block"
+                  className="block text-base text-gray-800"
                 >
                   Message:
                 </label>
@@ -91,7 +91,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                     formContentRef(e);
                     messageRef.current = e;
                   }}
-                  className="h-32 text-base text-gray-800 leading-tight	block rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
+                  className="block w-full h-32 px-3 py-2 text-base leading-tight text-gray-800 transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40"
                 />
               </div>
               <div>
@@ -106,7 +106,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                   <div>
                     <label
                       htmlFor="name-input"
-                      className="text-base text-gray-800 block"
+                      className="block text-base text-gray-800"
                     >
                       Your name:
                     </label>
@@ -116,13 +116,13 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                       required={!state.anonymous}
                       // placeholder="Nguyen"
                       {...register("name")}
-                      className="text-base text-gray-800 leading-tight rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
+                      className="w-full px-3 py-2 text-base leading-tight text-gray-800 transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40"
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="email-input"
-                      className="text-base text-gray-800 block"
+                      className="block text-base text-gray-800"
                     >
                       Your email:
                     </label>
@@ -132,13 +132,13 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                       // required={!state.anonymous}
                       placeholder="example@gmail.com"
                       {...register("email")}
-                      className="text-base text-gray-800 leading-tight rounded-lg border-2 border-gray-300 focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 outline-none transition-all duration-200 px-3 py-2 w-full"
+                      className="w-full px-3 py-2 text-base leading-tight text-gray-800 transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40"
                     />
                   </div>
                 </>
               )}
             </section>
-            <footer className="flex items-end justify-end flex-gap-x-3 mt-12">
+            <footer className="flex items-end justify-end mt-12 flex-gap-x-3">
               <Button
                 type="button"
                 secondary

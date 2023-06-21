@@ -51,7 +51,7 @@ async function createComment({ name, content, email, page, header }) {
   const response = await notion.pages.create({
     parent: {
       type: "database_id",
-      database_id: "b71a4c06cd7e4053a0d963a62e3f789b",
+      database_id: COMMENT_DATABASE_ID,
     },
     properties: properties,
   });
