@@ -1,8 +1,12 @@
 import { Client } from "@notionhq/client";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const BLOG_DATABASE_ID = "2f048ef5fe514384a8482b011546c138";
+const BLOG_DATABASE_ID = process.env.BLOG_DATABASE_ID as string;
 import probe from "probe-image-size";
-import fetchMeta from 'fetch-meta-tags'
+import fetchMeta from "fetch-meta-tags";
+import {
+  PageObjectResponse,
+  PartialPageObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 
 export interface Post {
   id: string;
@@ -13,7 +17,7 @@ export interface Post {
     protected: boolean;
     tags: string[];
     excerpt?: string;
-  }
+  };
 }
 
 function getProperty(
@@ -21,13 +25,25 @@ function getProperty(
   prop: string,
   propType: "rich_text" | "title"
 ): string;
-function getProperty(page, prop: string, propType: "checkbox"): boolean;
-function getProperty(page, prop: string, propType: "date"): string;
-function getProperty(page, prop: string, propType: "multi_select"): string[];
+function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
+  propType: "checkbox"
+): boolean;
+function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
+  propType: "date"
+): string;
+function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
+  propType: "multi_select"
+): string[];
 
 function getProperty(
-  page,
-  prop,
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
   propType: "checkbox" | "date" | "multi_select" | "rich_text" | "title"
 ) {
   if (
@@ -40,13 +56,13 @@ function getProperty(
     let returnValue;
     switch (propType) {
       case "rich_text":
-        returnValue = data[0].plain_text || '';
+        returnValue = data[0]?.plain_text || "";
         break;
       case "title":
-        returnValue = data[0].plain_text || '';
+        returnValue = data[0]?.plain_text || "";
         break;
       case "date":
-        returnValue = 'start' in data ? data.start : '';
+        returnValue = "start" in data ? data?.start : "";
         break;
       case "checkbox":
         returnValue = data as boolean;
@@ -66,23 +82,23 @@ export async function getPosts(preview?: boolean) {
       {
         property: "Slug",
         rich_text: {
-          is_not_empty: true
-        }
+          is_not_empty: true,
+        },
       },
       {
         property: "Date",
         date: {
-          is_not_empty: true
-        }
-      }
-    ]
+          is_not_empty: true,
+        },
+      },
+    ],
   };
-  if(!preview) {
+  if (!preview) {
     filterQuery.and.push({
       property: "Published",
       checkbox: {
         equals: true,
-      } 
+      },
     });
   }
   const response = await notion.databases.query({
@@ -126,32 +142,33 @@ export const getBlockChildren = async (id: string) => {
     results = [...results, ...postContent.results];
   }
   // handle image size
-  await Promise.all(results.map(async (block) => {
-    if (block.type == 'image') {
-      const {width, height} = await probe(block.image.file.url)
-      block.image.width = width;
-      block.image.height = height;
-    }
-    if (block.type == 'bookmark') {
-      let blockInfo;
-      try {
-        blockInfo = await fetchMeta(block.bookmark.url);
+  await Promise.all(
+    results.map(async (block) => {
+      if (block.type == "image") {
+        const { width, height } = await probe(block.image.file.url);
+        block.image.width = width;
+        block.image.height = height;
       }
-      catch(e) {
-        blockInfo = {
-          title: null,
-          description: null
+      if (block.type == "bookmark") {
+        let blockInfo;
+        try {
+          blockInfo = await fetchMeta(block.bookmark.url);
+        } catch (e) {
+          blockInfo = {
+            title: null,
+            description: null,
+          };
         }
+        block.bookmark.meta = blockInfo;
       }
-      block.bookmark.meta = blockInfo;
-    }
-    // get children
-    if (block.has_children) {
-      block.children = await getBlockChildren(block.id);
-    }
-  }));
+      // get children
+      if (block.has_children) {
+        block.children = await getBlockChildren(block.id);
+      }
+    })
+  );
   return results;
-}
+};
 
 export const getPostContent = async (id: string) => {
   const results = await getBlockChildren(id);
