@@ -39,23 +39,23 @@ const Button = ({
     "py-2 px-4 rounded-lg font-semibold text-base tracking-wideinline-block transition-all",
     "focus:ring-2 ring-blue-600 outline-none",
     "inline-flex items-center",
-    "[&_svg]:ml-2 [&_svg]:translate-y-0 [&_svg]:translate-x-0 [&_svg]:duration-300 [&_svg]:transition-transform [&_svg]:block [&:hover_svg]:translate-y-0 [&:hover_svg]:translate-x-1",
-    colorful ? 
-      "bg-white/80 text-gray-900 hover:text-white hover:bg-blue-900 active:bg-blue-900 focus:shadow-blue-400"
+    // "[&_svg]:ml-2 [&_svg]:translate-y-0 [&_svg]:translate-x-0 [&_svg]:duration-300 [&_svg]:transition-transform [&_svg]:block [&:hover_svg]:translate-y-0 [&:hover_svg]:translate-x-1",
+    colorful
+      ? "bg-white/80 text-gray-900 hover:text-white hover:bg-blue-900 active:bg-blue-900 focus:shadow-blue-400"
       : "text-white bg-dark-blue-900 hover:bg-blue-800 active:bg-blue-900",
     secondary &&
       "bg-slate-300 text-slate-800 hover:bg-slate-400 active:bg-slate-500",
-    disabled && 'disabled',
+    disabled && "disabled",
     className
   );
-  let defaultIcon;
+  let defaultIcon: React.ReactNode;
   if (external) {
     defaultIcon = <FiArrowUpRight />;
   } else if (arrow) {
     defaultIcon = <FiArrowRight />;
   }
 
-  let renderIcon = icon ? icon : defaultIcon;
+  let renderIcon: React.ReactNode = icon ? icon : defaultIcon;
   if (loading) {
     renderIcon = <FaSpinner className="animate-spin" />;
   }
@@ -73,14 +73,14 @@ const Button = ({
     ) : (
       <Link href={href} className={buttonStyles} {...rest}>
         {children && children}
-        {renderIcon}
+        {renderIcon ? <span className="ml-2">{renderIcon}</span> : null}
       </Link>
     );
   } else {
     return (
       <button type={type} className={buttonStyles} {...rest}>
         {children && children}
-        {renderIcon}
+        {renderIcon ? <span className="ml-2">{renderIcon}</span> : null}
       </button>
     );
   }

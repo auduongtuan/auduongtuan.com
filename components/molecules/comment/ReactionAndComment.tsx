@@ -17,21 +17,21 @@ const ReactionAndComment = ({
   page: string;
   wording?: { [key: string]: string };
 }) => {
-  const fetcher = (url: string, page: string) =>
-  axios.get(url, { params: { page: page } }).then((r) => r.data);
+  const fetcher = ([url, page]) =>
+    axios.get(url, { params: { page: page } }).then((r) => r.data);
   const { data, mutate } = useSWR(["/api/comment", page], fetcher);
 
   return (
     <Fragment>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-6 md:gap-x-6 md:gap-y-8">
         <div className="col-span-1">
-          <h3 className="sub-heading mb-4">Give your reaction</h3>
+          <h3 className="mb-4 sub-heading">Give your reaction</h3>
           <div>
             <Reaction page={page} />
           </div>
         </div>
         <div className="col-span-1">
-          <h3 className="sub-heading mb-4">{wording.cta}</h3>
+          <h3 className="mb-4 sub-heading">{wording.cta}</h3>
           <CommentForm
             page={page}
             wording={wording}
