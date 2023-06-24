@@ -55,11 +55,14 @@ const Headline = () => {
     underlineEl.style.width = textEl.offsetWidth + "px";
   }, [size.width]);
   return (
-    <div className="h1 grid grid-cols-1">
-      <Fade className="row-start-1 row-span-1 col-start-1 col-span-1 w-full" slide>
+    <div className="grid grid-cols-1 text-center place-items-center h1">
+      <Fade
+        className="w-full col-span-1 col-start-1 row-span-1 row-start-1 text-center place-items-center"
+        slide
+      >
         Hi! I design and build
       </Fade>
-      <div className="row-start-2 row-span-1 col-start-1 col-span-1 w-full  relative z-20">
+      <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
           className="inline-block transition-all duration-300 ease-bounce"
           style={startTextStyle}
@@ -69,7 +72,7 @@ const Headline = () => {
           digital products.
         </span>
       </div>
-      <div className="row-start-2 row-span-1 col-start-1 col-span-1 w-full relative z-20">
+      <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
           className="inline-block transition-all duration-300 ease-bounce "
           style={startTextStyle}
@@ -79,7 +82,7 @@ const Headline = () => {
           web applications.
         </span>
       </div>
-      <div className="row-start-2 row-span-1 col-start-1 col-span-1 w-full relative z-20">
+      <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
           className="inline-block transition-all duration-300 ease-bounce "
           style={startTextStyle}
