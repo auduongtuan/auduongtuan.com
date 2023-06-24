@@ -19,6 +19,7 @@ export interface FadeProps<T extends React.ElementType> {
   duration?: keyof typeof durationClass;
   className?: string;
   slide?: boolean;
+  unmount?: boolean;
 }
 
 function Fade<T extends React.ElementType = "div">({
@@ -30,6 +31,7 @@ function Fade<T extends React.ElementType = "div">({
   className,
   slide,
   duration = 300,
+  unmount = true,
   ...rest
 }: FadeProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof FadeProps<T>>) {
   const originStyles = clsx(
@@ -37,37 +39,54 @@ function Fade<T extends React.ElementType = "div">({
     "transition-[opacity,transform] ease-in",
     duration && duration in durationClass && [durationClass[duration as number]]
   );
-  const stateStyles = useMemo(() => ({
-    show: ["opacity-100", { "translate-y-0": slide }],
-    hide: ["opacity-0", { "translate-y-10": slide }]
-  }), [slide]);
-  const [styles, setStyles] = useState(
-    clsx(originStyles, ...stateStyles.hide)
+  const stateStyles = useMemo(
+    () => ({
+      show: ["opacity-100", { "translate-y-0": slide }],
+      hide: ["opacity-0", { "translate-y-10": slide }],
+    }),
+    [slide]
   );
+  const [ref, setRef] = useState<HTMLElement | null>(null);
+  const [mounted, setMounted] = useState(show);
+  const [styles, setStyles] = useState(clsx(originStyles, ...stateStyles.hide));
   const Component = as || "div";
+
   useEffect(() => {
+    if (!ref) return;
     if (show) {
+      setMounted(true);
       const timeout = setTimeout(
-        () =>
-          setStyles(
-            clsx(originStyles, ...stateStyles.show)
-          ),
+        () => setStyles(clsx(originStyles, ...stateStyles.show)),
         delay
       );
       return () => {
         clearTimeout(timeout);
       };
     } else {
-      setStyles(
-        clsx(originStyles, ...stateStyles.hide)
-      )
+      const transitionProp =
+        window.getComputedStyle(ref, null)["transition-property"] || "";
+
+      // We just need to know how many transitions there are
+      const numTransitionProps = transitionProp.split(",").length;
+      let transitionCounter = 0;
+      const unMountElement = () => {
+        transitionCounter++;
+        if (transitionCounter === numTransitionProps) {
+          setMounted(false);
+        }
+      };
+      ref.addEventListener("transitionend", unMountElement);
+      setStyles(clsx(originStyles, ...stateStyles.hide));
+      return () => {
+        ref.removeEventListener("transitionend", unMountElement);
+      };
     }
-  }, [slide, originStyles, stateStyles, show, delay]);
+  }, [ref, show, slide, originStyles, stateStyles, delay]);
   return (
-    <Component className={styles} {...rest}>
-      {children}
+    <Component className={styles} {...rest} ref={setRef}>
+      {mounted ? children : null}
     </Component>
   );
-};
+}
 
 export default Fade;
