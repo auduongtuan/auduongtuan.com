@@ -47,8 +47,8 @@ export default function Header() {
                   <span className="text-white/40">/</span>{" "}
                   <GifText {...setupGif(1)}>developer</GifText>{" "}
                   <span className="text-white/40">/</span>{" "}
-                  <GifText {...setupGif(2)}>whatever</GifText> who tries to make
-                  good stuff with the human at the center
+                  <GifText {...setupGif(2)}>whatever</GifText> who strives to
+                  make good things with the human at the center
                 </Balancer>
                 {/* (maybe a{" "}
                 <Tooltip content="Read more about this term">
