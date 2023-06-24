@@ -60,6 +60,10 @@
   .p-homepage-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
   }
+  .page-description {
+    @apply text-base font-normal leading-normal lg:leading-normal md:leading-normal md:text-xl lg:text-2xl;
+  }
+
   .sub-heading {
     @apply text-sm md:text-base font-medium tracking-wide uppercase text-gray-500;
   }
@@ -83,7 +87,7 @@
   }
   .project-grid {
     /*@apply grid grid-cols-3 gap-x-4 text-gray-800;*/
-    @apply  text-gray-800;
+    @apply text-gray-800;
     @apply flex flex-col items-center;
     .full {
       width: 100%;
@@ -91,7 +95,6 @@
     > *:not(.full) {
       /*@apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2; */
       @apply w-full max-w-content;
-
     }
     blockquote p {
       @apply text-xl md:text-2xl font-semibold;
@@ -155,12 +158,15 @@
       @apply mt-content-node;
     }
 
-    blockquote, .box {
-      & > ul:first-child, & > p:first-child, & > .content-node:first-child {
+    blockquote,
+    .box {
+      & > ul:first-child,
+      & > p:first-child,
+      & > .content-node:first-child {
         @apply mt-0;
       }
     }
-    
+
     /* .full {
       @apply col-span-3 col-start-1;
     } */
@@ -180,7 +186,6 @@
       /* & + *:not(.full) {
         @apply pt-0 lg:mt-0  lg:pt-[5.4rem];
       } */
-     
     }
     .persona-1 {
       .image {
