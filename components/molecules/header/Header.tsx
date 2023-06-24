@@ -1,21 +1,13 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Button from "../../atoms/Button";
 import CustomVideo from "../../atoms/CustomVideo";
 import Headline from "./Headline";
 import { PhotoFrame } from "../../atoms/Frame";
 import useHeaderInView from "../../../hooks/useHeaderInView";
-import Tooltip from "../../atoms/Tooltip";
 import Fade from "../../atoms/Fade";
 import GifText from "./GifText";
 import Balancer from "react-wrap-balancer";
-import * as HoverCard from "@radix-ui/react-hover-card";
-import {
-  autoUpdate,
-  flip,
-  offset,
-  shift,
-  useFloating,
-} from "@floating-ui/react";
+import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react";
 
 export default function Header() {
   const { ref } = useHeaderInView();
@@ -24,7 +16,6 @@ export default function Header() {
     placement: "bottom",
     middleware: [
       offset(8),
-      flip(),
       shift({
         padding: 8,
       }),
@@ -81,8 +72,8 @@ export default function Header() {
           </div>
           {/* <div className="relative z-30 col-span-12 col-start-1 row-start-1 row-end-2 pointer-events-none lg:col-span-4 md:block"> */}
 
-          <div ref={refs.setFloating} style={floatingStyles}>
-            <div className="max-w-[480px] w-full grid grid-cols-1 grid-rows-1">
+          <div ref={refs.setFloating} className="z-10" style={floatingStyles}>
+            <div className="w-[360px] max-w-full grid grid-cols-1 grid-rows-1">
               <Fade
                 duration={100}
                 show={activeGif === 0}
