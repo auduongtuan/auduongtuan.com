@@ -1,14 +1,15 @@
 import { ImageResponse } from "@vercel/og";
+import { NextApiRequest } from "next";
 import { NextRequest } from "next/server";
 export const config = {
   runtime: "edge",
 };
 const boldfontUrl = new URL(
-  "../../assets/IBM_Plex_Sans/IBMPlexSans-Bold.ttf",
+  "../../../assets/IBM_Plex_Sans/IBMPlexSans-Bold.ttf",
   import.meta.url
 );
 const regularFontUrl = new URL(
-  "../../assets/IBM_Plex_Sans/IBMPlexSans-Regular.ttf",
+  "../../../assets/IBM_Plex_Sans/IBMPlexSans-Regular.ttf",
   import.meta.url
 );
 const boldFont = fetch(boldfontUrl.toString()).then((res) => res.arrayBuffer());
@@ -16,24 +17,27 @@ const regularFont = fetch(regularFontUrl.toString()).then((res) =>
   res.arrayBuffer()
 );
 const OGImage = async function (req: NextRequest) {
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = req.nextUrl;
   const boldFontData = await boldFont;
   const regularFontData = await regularFont;
-  const title = searchParams.get("title") || "Hello World";
-  const tagline = searchParams.get("tagline");
-  const backgroundColor = searchParams.get("background");
-  const background =
-    backgroundColor && /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(backgroundColor)
-      ? backgroundColor
+  const encoded = Buffer.from(
+    searchParams.get("data") || "",
+    "base64"
+  ).toString();
+  const data = JSON.parse(encoded) || {};
+  const { title = "Hello World", tagline, background, logo, emoji } = data;
+  // const {title, tagline, logo, emoji, background};
+  // const backgroundColor = searchParams.get("background");
+  const backgroundColor =
+    background && /^#(?:[0-9a-fA-F]{3}){1,2}$/.test(background)
+      ? background
       : "#ededed";
-  const logoUrl = searchParams.get("logo");
-  const emoji = searchParams.get("emoji");
-  const fullLogoUrl = req.nextUrl.origin + logoUrl;
+  const logoUrl = logo ? req.nextUrl.origin + logo : undefined;
   return new ImageResponse(
     (
       <div
         style={{
-          background: background,
+          background: backgroundColor,
           width: "100%",
           height: "100%",
           paddingTop: 48,
@@ -63,7 +67,7 @@ const OGImage = async function (req: NextRequest) {
                 display: "flex",
               }}
             >
-              <img src={fullLogoUrl} style={{ width: 100, height: 100 }} />
+              <img src={logoUrl} style={{ width: 100, height: 100 }} />
             </div>
           )}
           {!logoUrl && emoji && (
