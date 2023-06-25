@@ -1,14 +1,17 @@
-import NotionBlogPage from '../components/templates/post/NotionBlogPage'
-import { getPosts, Post } from '../lib/blog';
-import HeadMeta from '../components/atoms/HeadMeta';
+import NotionBlogPage from "../components/templates/post/NotionBlogPage";
+import { getPosts, Post } from "../lib/blog";
+import HeadMeta from "../components/atoms/HeadMeta";
 
-export default function Blog({posts}:{posts: Post[]}) {
+export default function Blog({ posts }: { posts: Post[] }) {
   return (
     <>
-    <HeadMeta title='Blog' description='This is a personal website of AU DUONG TUAN - a hybrid software designer/developer' />
-    <NotionBlogPage posts={posts} />
+      <HeadMeta
+        title="Blog"
+        description="This is a blog of AU DUONG TUAN - a software designer/developer"
+      />
+      <NotionBlogPage posts={posts} />
     </>
-  )
+  );
 }
 
 export async function getStaticProps() {
@@ -17,5 +20,5 @@ export async function getStaticProps() {
       posts: await getPosts(),
     },
     revalidate: 120,
-  }
+  };
 }

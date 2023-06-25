@@ -1,11 +1,16 @@
-import HeadMeta from '../components/atoms/HeadMeta';
+import HeadMeta from "../components/atoms/HeadMeta";
 import AboutPage from "../components/templates/about/AboutPage";
 
 export default function About() {
   return (
     <>
-    <HeadMeta title="About" />
-    <AboutPage />
+      <HeadMeta
+        title="About"
+        description="I'm a versatile software professional, seamlessly
+                  transitioning between the roles of a designer, developer, or
+                  any other hat required to bring my creative visions to life."
+      />
+      <AboutPage />
     </>
-  )
+  );
 }
