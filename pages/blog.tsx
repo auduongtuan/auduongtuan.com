@@ -7,7 +7,7 @@ export default function Blog({ posts }: { posts: Post[] }) {
     <>
       <HeadMeta
         title="Blog"
-        description="This is a blog of AU DUONG TUAN - a software designer/developer"
+        description="This is a blog of AU DUONG TUAN - A software designer / developer / whatever who strives to make good things with the human at the center"
       />
       <NotionBlogPage posts={posts} />
     </>
