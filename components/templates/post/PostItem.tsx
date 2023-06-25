@@ -22,8 +22,8 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
     >
       <div className="grid grid-cols-1 gap-x-3 gap-y-3 md:gap-y-4 md:grid-cols-12">
         <div className="col-span-3 row-start-2 md:row-start-auto">
-          <aside className="flex flex-col mt-12 text-xl flex-gap-2">
-            <p className={clsx("text-sm md:text-base mt-1 muted-text ")}>
+          <aside className="flex flex-col pl-10 mt-12 text-xl md:pl-0 flex-gap-2">
+            <p className={clsx(" text-sm md:text-base mt-1 muted-text ")}>
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {
                   month: "long",
@@ -33,7 +33,7 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
             </p>
           </aside>
         </div>
-        <div className="flex col-span-9 md:pr-24">
+        <div className="flex col-span-9 lg:pr-24">
           <span className="mr-4 -mt-1 text-2xl md:mr-6 md:text-3xl grow-0 shrink-0">
             {post.meta.icon && post.meta.icon.type == "emoji"
               ? post.meta.icon.emoji
