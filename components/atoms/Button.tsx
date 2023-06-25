@@ -68,7 +68,8 @@ const Button = ({
         target="_blank"
         rel="noreferrer"
       >
-        {children && children} {renderIcon}
+        {children && children}
+        {renderIcon ? <span className="ml-2">{renderIcon}</span> : null}
       </a>
     ) : (
       <Link href={href} className={buttonStyles} {...rest}>
