@@ -15,6 +15,7 @@ const ProjectSinglePage = ({ project, projects }: ProjectSinglePageProps) => {
         description={project.meta.description}
         logo={`/uploads/${project.slug}/${project.meta.logo}`}
         background={project.meta.background}
+        tagline={project.meta.tagline}
       />
       <ProjectSingleHeader project={project} />
       <ProjectSingleContent project={project} />

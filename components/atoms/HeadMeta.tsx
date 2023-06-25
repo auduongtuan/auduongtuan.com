@@ -6,14 +6,18 @@ export const titles = {
 };
 const HeadMeta = ({
   title = "",
+  tagline,
   description = "",
   background,
   logo,
+  emoji,
 }: {
   title?: string;
+  tagline?: string;
   description?: string;
   background?: string;
   logo?: string;
+  emoji?: string;
 }) => {
   const finalTitle = title
     ? `${title}${titles.titleSeparator}${titles.webName}`
@@ -21,7 +25,10 @@ const HeadMeta = ({
   const imageUrl =
     `/api/og?title=${encodeURIComponent(title)}` +
     (background ? `&background=${encodeURIComponent(background)}` : "") +
-    (logo ? `&logo=${encodeURIComponent(logo)}` : "");
+    (logo ? `&logo=${encodeURIComponent(logo)}` : "") +
+    (tagline ? `&tagline=${encodeURIComponent(tagline)}` : "") +
+    (emoji ? `&emoji=${encodeURIComponent(emoji)}` : "");
+
   return (
     // <Head>
     //     <title>{finalTitle}</title>
