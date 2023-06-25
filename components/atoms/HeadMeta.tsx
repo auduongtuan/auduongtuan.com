@@ -1,5 +1,6 @@
 import { NextSeo } from "next-seo";
 import Head from "next/head";
+import { encode } from "../../lib/base64";
 export const titles = {
   webName: `AU DUONG TUAN`,
   titleSeparator: ` | `,
@@ -22,7 +23,7 @@ const HeadMeta = ({
   const finalTitle = title
     ? `${title}${titles.titleSeparator}${titles.webName}`
     : titles.webName;
-  const imageData = Buffer.from(
+  const imageData = encode(
     JSON.stringify({
       title,
       background,
@@ -30,7 +31,7 @@ const HeadMeta = ({
       tagline,
       emoji,
     })
-  ).toString("base64");
+  );
   const imageUrl =
     (process.env.NEXT_PUBLIC_WEB_URL || "") + `/api/og/${imageData}.png`;
 

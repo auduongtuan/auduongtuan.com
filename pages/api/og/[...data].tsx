@@ -1,6 +1,7 @@
 import { ImageResponse } from "@vercel/og";
 import { NextApiRequest } from "next";
 import { NextRequest } from "next/server";
+import { decode } from "../../../lib/base64";
 export const config = {
   runtime: "edge",
 };
@@ -21,11 +22,9 @@ const OGImage = async function (req: NextRequest) {
   const boldFontData = await boldFont;
   const regularFontData = await regularFont;
   const dataParams = searchParams.get("data");
-  const encoded = Buffer.from(
-    dataParams ? dataParams.slice(0, -4) : "",
-    "base64"
-  ).toString();
-  const data = JSON.parse(encoded) || {};
+  console.log(dataParams);
+  const decoded = decode(dataParams ? dataParams.slice(0, -4) : "");
+  const data = JSON.parse(decoded) || {};
   const { title = "Hello World", tagline, background, logo, emoji } = data;
   // const {title, tagline, logo, emoji, background};
   // const backgroundColor = searchParams.get("background");
