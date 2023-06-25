@@ -15,7 +15,6 @@ export type HomePageProps = {
 export default function HomePage({ posts, projects }: HomePageProps) {
   return (
     <div>
-      <HeadMeta />
       <Header />
       <ProjectList projects={projects} />
       {/* <PostList posts={posts} /> */}

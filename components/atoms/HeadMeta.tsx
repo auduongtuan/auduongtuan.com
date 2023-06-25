@@ -1,6 +1,8 @@
 import { NextSeo } from "next-seo";
 import Head from "next/head";
 import { encode } from "../../lib/base64";
+import { useRouter } from "next/router";
+
 export const titles = {
   webName: `AU DUONG TUAN`,
   titleSeparator: ` | `,
@@ -20,9 +22,11 @@ const HeadMeta = ({
   logo?: string;
   emoji?: string;
 }) => {
+  const router = useRouter();
   const finalTitle = title
     ? `${title}${titles.titleSeparator}${titles.webName}`
     : titles.webName;
+
   const imageData = encode(
     JSON.stringify({
       title: title || titles.webName,
@@ -45,9 +49,13 @@ const HeadMeta = ({
       description={description}
       // canonical="https://www.canonical.ie/"
       openGraph={{
-        // url: "https://auduongtuan.com",
+        url:
+          process.env.NEXT_PUBLIC_WEB_URL + router.asPath !== "/"
+            ? router.asPath
+            : "",
         title: finalTitle,
         description: description,
+        type: "website",
         images: [
           {
             url: imageUrl,
