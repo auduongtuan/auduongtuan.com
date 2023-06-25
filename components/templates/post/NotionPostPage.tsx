@@ -11,6 +11,7 @@ import OtherPostList from "./OtherPostList";
 import IconButton from "../../atoms/IconButton";
 import { FiArrowLeft } from "react-icons/fi";
 import Link from "next/link";
+import Tooltip from "../../atoms/Tooltip";
 const PostSinglePage = ({
   post,
   postContent,
@@ -38,9 +39,11 @@ const PostSinglePage = ({
             className="hidden w-8 lg:block p-header grow-0 shrink"
           >
             <Link href="/blog" legacyBehavior>
-              <IconButton href="/blog" content="Back to Blog">
-                <FiArrowLeft />
-              </IconButton>
+              <Tooltip content="Back to blog">
+                <IconButton href="/blog">
+                  <FiArrowLeft />
+                </IconButton>
+              </Tooltip>
             </Link>
           </Fade>
           <div className="pb-0 grow content-container p-header">
