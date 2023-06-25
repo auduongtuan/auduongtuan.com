@@ -23,7 +23,14 @@ const PostSinglePage = ({
   const { ref } = useHeaderInView(true);
   return (
     <>
-      <HeadMeta title={post.meta.title} />
+      <HeadMeta
+        title={post.meta.title}
+        description={post.meta.excerpt}
+        tagline={post.meta.tags.map((tag) => "#" + tag).join("  ")}
+        emoji={
+          post.meta.icon?.type == "emoji" ? post.meta.icon.emoji : undefined
+        }
+      />
       <header ref={ref} className="z-10 w-full " key={post.slug + "_header"}>
         <div className="flex justify-center p-0 lg:px-container main-container">
           <Fade
@@ -38,16 +45,30 @@ const PostSinglePage = ({
           </Fade>
           <div className="pb-0 grow content-container p-header">
             <div className="grid grid-cols-1 gap-2 md:gap-4 ">
-              <Balancer>
-                <Fade
-                  as="h1"
-                  className="col-span-1 text-2xl leading-tight text-gray-800 md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
-                  slide
-                  duration={100}
-                >
-                  {post.meta.title}
-                </Fade>
-              </Balancer>
+              <div className="flex items-center flex-gap-4">
+                <div className="grow">
+                  <Balancer>
+                    <Fade
+                      as="h1"
+                      className="col-span-1 text-2xl leading-tight text-gray-800 grow md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
+                      slide
+                      duration={100}
+                    >
+                      {post.meta.title}
+                    </Fade>
+                  </Balancer>
+                </div>
+                {post.meta.icon && post.meta.icon.type == "emoji" ? (
+                  <Fade
+                    as="span"
+                    delay={100}
+                    duration={100}
+                    className="text-3xl md:text-4xl"
+                  >
+                    {post.meta.icon.emoji}
+                  </Fade>
+                ) : null}
+              </div>
               <Fade className="flex flex-wrap mt-2 space-x-2" delay={200}>
                 {post.meta.tags.map((tag, i) => (
                   <Tag key={`tag-${i}`}>{tag}</Tag>

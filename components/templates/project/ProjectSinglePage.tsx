@@ -10,7 +10,13 @@ export interface ProjectSinglePageProps {
 const ProjectSinglePage = ({ project, projects }: ProjectSinglePageProps) => {
   return (
     <div>
-      <HeadMeta title={project.meta.title} description={project.meta.description} />
+      <HeadMeta
+        title={project.meta.title}
+        description={project.meta.description}
+        logo={`/uploads/${project.slug}/${project.meta.logo}`}
+        background={project.meta.background}
+        tagline={project.meta.tagline}
+      />
       <ProjectSingleHeader project={project} />
       <ProjectSingleContent project={project} />
       <ProjectSingleFooter project={project} projects={projects} />
