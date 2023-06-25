@@ -59,8 +59,10 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
           if (forwardedRef) forwardedRef.current = el;
         }
       },
+      // ...getReferenceProps(),
       ...getReferenceProps(allChildEvents),
       "aria-label": content,
+      ...props,
     });
 
     return (
