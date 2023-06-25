@@ -20,8 +20,9 @@ const OGImage = async function (req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const boldFontData = await boldFont;
   const regularFontData = await regularFont;
+  const dataParams = searchParams.get("data");
   const encoded = Buffer.from(
-    searchParams.get("data") || "",
+    dataParams ? dataParams.slice(0, -4) : "",
     "base64"
   ).toString();
   const data = JSON.parse(encoded) || {};

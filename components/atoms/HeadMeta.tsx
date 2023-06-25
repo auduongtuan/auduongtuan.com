@@ -31,7 +31,8 @@ const HeadMeta = ({
       emoji,
     })
   ).toString("base64");
-  const imageUrl = `/api/og/${imageData}`;
+  const imageUrl =
+    (process.env.NEXT_PUBLIC_WEB_URL || "") + `/api/og/${imageData}.png`;
 
   return (
     // <Head>
