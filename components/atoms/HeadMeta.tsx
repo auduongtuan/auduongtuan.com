@@ -22,12 +22,16 @@ const HeadMeta = ({
   const finalTitle = title
     ? `${title}${titles.titleSeparator}${titles.webName}`
     : titles.webName;
-  const imageUrl =
-    `/api/og?title=${encodeURIComponent(title)}` +
-    (background ? `&background=${encodeURIComponent(background)}` : "") +
-    (logo ? `&logo=${encodeURIComponent(logo)}` : "") +
-    (tagline ? `&tagline=${encodeURIComponent(tagline)}` : "") +
-    (emoji ? `&emoji=${encodeURIComponent(emoji)}` : "");
+  const imageData = Buffer.from(
+    JSON.stringify({
+      title,
+      background,
+      logo,
+      tagline,
+      emoji,
+    })
+  ).toString("base64");
+  const imageUrl = `/api/og/${imageData}`;
 
   return (
     // <Head>
@@ -45,13 +49,13 @@ const HeadMeta = ({
         images: [
           {
             url: imageUrl,
-            width: 800,
-            height: 600,
+            width: 1200,
+            height: 630,
             alt: finalTitle,
             type: "image/png",
           },
         ],
-        siteName: "SiteName",
+        siteName: titles.webName,
       }}
       twitter={{
         handle: "@auduongtuan",
