@@ -36,7 +36,10 @@ const OGImage = async function (req: NextRequest) {
           background: background,
           width: "100%",
           height: "100%",
-          padding: 48,
+          paddingTop: 48,
+          paddingBottom: 48,
+          paddingLeft: 56,
+          paddingRight: 56,
           display: "flex",
           flexDirection: "column",
           gap: 32,
@@ -78,7 +81,7 @@ const OGImage = async function (req: NextRequest) {
           )}
           <div
             style={{
-              fontSize: title.length > 30 ? 82 : 100,
+              fontSize: title.length > 24 ? 76 : 100,
               lineHeight: 1.1,
               fontWeight: 700,
             }}
