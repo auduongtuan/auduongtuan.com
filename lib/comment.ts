@@ -1,7 +1,5 @@
-import { Client } from "@notionhq/client";
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
+import { notion, breakRichTextChunks } from "./notionHelpers";
 const COMMENT_DATABASE_ID = process.env.COMMENT_DATABASE_ID as string;
-import { breakRichTextChunks } from "./notionHelpers";
 export async function createComment({ name, content, email, page, header }) {
   let properties: any = {
     Content: {
