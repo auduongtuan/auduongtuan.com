@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import slugify from "slugify";
 import Fade from "../atoms/Fade";
+import Balancer from "react-wrap-balancer";
 interface VisibleInfo {
   start: number;
   end: number;
@@ -99,8 +100,8 @@ const ContentMenu = () => {
           {headings &&
             headings.length > 2 &&
             headings.map((heading, i) => (
-              <li key={i} className="flex items-center">
-                <div className="w-8 ml-2 transition-all duration-350 ease-bounce group-hover:scale-x-[3] group-hover:opacity-0 origin-left">
+              <li key={i} className="grid items-center grid-cols-1">
+                <div className="col-start-1 row-start-1 w-8 ml-2 transition-all duration-350 ease-bounce group-hover:scale-x-[3] group-hover:opacity-0 origin-left">
                   <span
                     className={`block h-[2px] rounded ${
                       i == active ? "bg-gray-900" : "bg-gray-300"
@@ -124,7 +125,7 @@ const ContentMenu = () => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }
                   }}
-                  className={`pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-4 text-sm font-semibold hover:text-gray-800 ${
+                  className={`col-start-1 row-start-1 pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-0 ml-3 text-sm font-semibold hover:text-gray-800 truncate ${
                     i == active ? "text-gray-900" : "text-gray-400"
                   }`}
                   href={`#${heading.id}`}

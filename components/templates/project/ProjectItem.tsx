@@ -10,6 +10,7 @@ import CustomVideo from "../../atoms/CustomVideo";
 import Balancer from "react-wrap-balancer";
 import Fade from "../../atoms/Fade";
 import useVisibleRatio from "../../../hooks/useVisiblePercentage";
+import Tooltip from "../../atoms/Tooltip";
 export type ProjectItemProps = {
   project: Project;
   index: number;
@@ -29,7 +30,7 @@ const ProjectItem = memo(({ project, index, ...rest }: ProjectItemProps) => {
       }}
       {...rest}
     >
-      <div className="grid grid-cols-12 gap-4 gap-y-8 items-center justify-end">
+      <div className="grid items-center justify-end grid-cols-12 gap-4 gap-y-8">
         <Fade
           duration={200}
           show={visibleRatio > 0.4}
@@ -57,10 +58,10 @@ const ProjectItem = memo(({ project, index, ...rest }: ProjectItemProps) => {
               month: "long",
             })}
           </p>
-          <p className="mt-2 md:mt-4 text-base md:text-lg tracking-relaxed md:tracking-relaxed _md:text-xl _tracking-tight _font-display">
+          <p className="mt-2 text-base md:mt-4 md:text-lg tracking-relaxed md:tracking-relaxed _md:text-xl _tracking-tight _font-display">
             <Balancer ratio={0.67}>{project.meta.tagline}</Balancer>
           </p>
-          <div className="mt-5 md:mt-9 flex space-x-4">
+          <div className="flex mt-5 space-x-4 md:mt-9">
             {project.meta.type == "casestudy" && (
               <Button scroll={false} href={`/project/${project.slug}`} arrow>
                 Case study
@@ -76,13 +77,14 @@ const ProjectItem = memo(({ project, index, ...rest }: ProjectItemProps) => {
               </Button>
             )}
             {project.meta.type == "casestudy" && project.meta.link && (
-              <IconButton
-                content="View website"
-                href={project.meta.link ? project.meta.link : "#"}
-                external
-              >
-                <FiEye />
-              </IconButton>
+              <Tooltip content="View website">
+                <IconButton
+                  href={project.meta.link ? project.meta.link : "#"}
+                  external
+                >
+                  <FiEye />
+                </IconButton>
+              </Tooltip>
             )}
           </div>
         </Fade>
