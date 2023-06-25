@@ -25,7 +25,7 @@ const HeadMeta = ({
     : titles.webName;
   const imageData = encode(
     JSON.stringify({
-      title,
+      title: title || titles.webName,
       background,
       logo,
       tagline,
@@ -45,7 +45,7 @@ const HeadMeta = ({
       description={description}
       // canonical="https://www.canonical.ie/"
       openGraph={{
-        url: "https://auduongtuan.com",
+        // url: "https://auduongtuan.com",
         title: finalTitle,
         description: description,
         images: [
