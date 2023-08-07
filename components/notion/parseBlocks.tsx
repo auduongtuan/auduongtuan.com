@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { richTextBlock } from "./richText";
+import { richTextBlock, richTextObject } from "./richText";
 import Heading from "./Heading";
 import Bookmark from "./Bookmark";
 import Disclosure from "../atoms/Disclosure";
@@ -8,7 +8,7 @@ import CustomImage from "../atoms/CustomImage";
 const parseBlocks = (blocks: any[]) => {
   return blocks && blocks.length > 0
     ? blocks.reduce((content, block, blockIndex) => {
-        let lastListItemBlockIndex: {value: null|number} = {value: null};
+        let lastListItemBlockIndex: { value: null | number } = { value: null };
         switch (block.type) {
           case "paragraph":
             content.push(
@@ -18,7 +18,6 @@ const parseBlocks = (blocks: any[]) => {
             );
             return content;
           case "image":
-            // console.log(block.id);
             content.push(
               <div key={block.id} className="mt-content-node">
                 <CustomImage
@@ -29,6 +28,11 @@ const parseBlocks = (blocks: any[]) => {
                   width={block.image.width}
                   height={block.image.height}
                 />
+                {block.image?.caption && (
+                  <p className="mt-2 text-sm">
+                    {richTextObject(block.image.caption, block.id)}
+                  </p>
+                )}
               </div>
             );
             return content;
@@ -52,9 +56,7 @@ const parseBlocks = (blocks: any[]) => {
             content.push(<Heading block={block} key={block.id} />);
             return content;
           case "bookmark":
-            content.push(
-             <Bookmark block={block} key={block.id} />
-            );
+            content.push(<Bookmark block={block} key={block.id} />);
             return content;
           case "toggle":
             content.push(
@@ -68,12 +70,24 @@ const parseBlocks = (blocks: any[]) => {
             );
             return content;
           case "bulleted_list_item":
-            const bulletedList = parseListItem("bulleted_list_item", block, blockIndex, blocks, lastListItemBlockIndex);
-            if(bulletedList) content.push(bulletedList);
+            const bulletedList = parseListItem(
+              "bulleted_list_item",
+              block,
+              blockIndex,
+              blocks,
+              lastListItemBlockIndex
+            );
+            if (bulletedList) content.push(bulletedList);
             return content;
           case "numbered_list_item":
-            const numberedList = parseListItem("numbered_list_item", block, blockIndex, blocks, lastListItemBlockIndex);
-            if(numberedList) content.push(numberedList);
+            const numberedList = parseListItem(
+              "numbered_list_item",
+              block,
+              blockIndex,
+              blocks,
+              lastListItemBlockIndex
+            );
+            if (numberedList) content.push(numberedList);
             return content;
           default:
             return content;
