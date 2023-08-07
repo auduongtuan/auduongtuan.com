@@ -69,10 +69,10 @@ export function getProperty(
     let returnValue;
     switch (propType) {
       case "rich_text":
-        returnValue = data[0]?.plain_text || "";
+        returnValue = data.map((item) => item?.plain_text || "").join("");
         break;
       case "title":
-        returnValue = data[0]?.plain_text || "";
+        returnValue = data.map((item) => item?.plain_text || "").join("");
         break;
       case "date":
         returnValue = "start" in data ? data?.start : "";
