@@ -1,4 +1,4 @@
-import { useEffect, useRef, memo } from "react";
+import { memo } from "react";
 import { Project } from "../../../lib/project";
 import Button from "../../atoms/Button";
 import { FiEye } from "react-icons/fi";
@@ -67,17 +67,26 @@ const ProjectItem = memo(({ project, index, ...rest }: ProjectItemProps) => {
                 Case study
               </Button>
             )}
+            {project.meta.type == "post" && (
+              <Button
+                scroll={false}
+                href={`/blog/${project.meta.postSlug}`}
+                arrow
+              >
+                Read post
+              </Button>
+            )}
             {project.meta.type == "link" && (
               <Button
                 scroll={false}
                 href={project.meta.link ? project.meta.link : "#"}
-                external
+                external={true}
               >
                 View website
               </Button>
             )}
-            {project.meta.type == "casestudy" && project.meta.link && (
-              <Tooltip content="View website">
+            {project.meta.type != "link" && project.meta.link && (
+              <Tooltip content={project.meta.linkCta || "View website"}>
                 <IconButton
                   href={project.meta.link ? project.meta.link : "#"}
                   external
@@ -119,11 +128,7 @@ const ProjectItem = memo(({ project, index, ...rest }: ProjectItemProps) => {
             </BrowserFrame>
           )}
           {project.meta.cover && !project.meta.browser && (
-            <div
-              className={`relative ${
-                project.meta.cover2 && "md:mx-4"
-              } transition-all ease-bounce`}
-            >
+            <div className={`relative transition-all ease-bounce`}>
               <CustomImage
                 slug={project.slug}
                 src={project.meta.cover}
@@ -134,11 +139,7 @@ const ProjectItem = memo(({ project, index, ...rest }: ProjectItemProps) => {
             </div>
           )}
           {project.meta.cover2 && !project.meta.browser && (
-            <div
-              className={`relative ${
-                project.meta.cover2 && "md:mx-4"
-              } transition-all ease-bounce`}
-            >
+            <div className={`relative transition-all ease-bounce`}>
               <CustomImage
                 slug={project.slug}
                 src={project.meta.cover2}
@@ -153,5 +154,6 @@ const ProjectItem = memo(({ project, index, ...rest }: ProjectItemProps) => {
     </div>
   );
 });
+
 ProjectItem.displayName = "ProjectItem";
 export default ProjectItem;
