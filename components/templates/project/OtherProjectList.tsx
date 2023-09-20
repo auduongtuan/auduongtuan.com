@@ -24,9 +24,13 @@ const ProjectCard = ({ project }: { project: Project }) => {
   );
   const classname =
     "col-span-6 md:col-span-3 lg:col-span-2 text-gray-900 p-3 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2";
-  return project.meta.type == "casestudy" ? (
+  return ["casestudy", "post"].includes(project.meta.type) ? (
     <Link
-      href={`/project/${project.slug}`}
+      href={
+        project.meta.type == "casestudy"
+          ? `/project/${project.slug}`
+          : `/blog/${project.meta.postSlug}`
+      }
       className={classname}
       style={{ backgroundColor: project.meta.background }}
     >
@@ -53,19 +57,19 @@ const OtherProjectList = ({
 }) => {
   return (
     <>
-    <h3 className="sub-heading">Other projects</h3>
-    <div className="mt-6 grid grid-cols-6 gap-4 md:gap-6 group">
-      {projects
-        .filter((project) => project.slug != currentProject.slug)
-        .sort((a, b) => (b.meta.coolness || 0) - (a.meta.coolness || 0))
-        .slice(0, 6)
-        .map((project, i) => (
-          <ProjectCard
-            project={project}
-            key={`project-card-${project.slug}`}
-          ></ProjectCard>
-        ))}
-    </div>
+      <h3 className="sub-heading">Other projects</h3>
+      <div className="grid grid-cols-6 gap-4 mt-6 md:gap-6 group">
+        {projects
+          .filter((project) => project.slug != currentProject.slug)
+          .sort((a, b) => (b.meta.coolness || 0) - (a.meta.coolness || 0))
+          .slice(0, 6)
+          .map((project, i) => (
+            <ProjectCard
+              project={project}
+              key={`project-card-${project.slug}`}
+            ></ProjectCard>
+          ))}
+      </div>
     </>
   );
 };
