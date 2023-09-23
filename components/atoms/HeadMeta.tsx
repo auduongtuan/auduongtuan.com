@@ -1,6 +1,6 @@
 import { NextSeo } from "next-seo";
 import Head from "next/head";
-import { encode } from "../../lib/base64";
+import { encode } from "@lib/base64";
 import { useRouter } from "next/router";
 
 export const titles = {

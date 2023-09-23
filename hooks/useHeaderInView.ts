@@ -1,9 +1,9 @@
 import { useInView } from "react-intersection-observer";
-import { setHeaderInView } from "../store/store";
-import { useDispatch } from "react-redux";
 import { useEffect } from "react";
+import useAppStore from "@store/useAppStore";
+
 const useHeaderInView = (disabled: boolean = false) => {
-  const dispatch = useDispatch();
+  const { setHeaderInView } = useAppStore();
   const { ref, inView, entry } = useInView({
     /* Optional options */
     threshold: 0,
@@ -12,11 +12,12 @@ const useHeaderInView = (disabled: boolean = false) => {
   });
   useEffect(() => {
     if (!disabled) {
-      dispatch(setHeaderInView(inView));
+      setHeaderInView(inView);
     } else {
-      dispatch(setHeaderInView(false));
+      setHeaderInView(false);
     }
-  }, [inView, dispatch, disabled]);
+  }, [inView, setHeaderInView, disabled]);
   return { ref, inView, entry };
 };
+
 export default useHeaderInView;

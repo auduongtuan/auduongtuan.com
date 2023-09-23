@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
-import { Project } from "../../../lib/project";
+import { Project } from "@lib/project";
 
-import ReactionAndComment from "../../molecules/comment/ReactionAndComment";
+import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import OtherProjectList from "./OtherProjectList";
 interface ProjectSingleFooterProps {
   projects: Project[];

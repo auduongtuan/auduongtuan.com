@@ -2,16 +2,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetStaticProps, GetStaticPaths } from "next";
 import DefaultErrorPage from "next/error";
-import {
-  Project,
-  allProjects,
-  projectSlugs,
-  getProject,
-} from "../../lib/project";
+import { Project, allProjects, projectSlugs, getProject } from "@lib/project";
 import { serialize } from "next-mdx-remote/serialize";
 import ProjectSinglePage, {
   ProjectSinglePageProps,
-} from "../../components/templates/project/ProjectSinglePage";
+} from "@templates/project/ProjectSinglePage";
 
 export default function ProjectView({
   project,

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import useWindowSize from "../../../hooks/useWindowSize";
-import Fade from "../../atoms/Fade";
+import useWindowSize from "@hooks/useWindowSize";
+import Fade from "@atoms/Fade";
 const startTextStyle = {
   opacity: "0",
   transform: "translateY(40px)",

@@ -2,10 +2,10 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import DefaultErrorPage from "next/error";
-import { getPosts, getPostContent, Post } from "../../lib/blog";
-import NotionPostPage from "../../components/templates/post/NotionPostPage";
+import { getPosts, getPostContent, Post } from "@lib/blog";
+import NotionPostPage from "@templates/post/NotionPostPage";
 import CryptoJS from "crypto-js";
-import PASSWORD, { isDevEnvironment } from "../../lib/password";
+import PASSWORD, { isDevEnvironment } from "@lib/password";
 
 type BlogProps = {
   post: Post;

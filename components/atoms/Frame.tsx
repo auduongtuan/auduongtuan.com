@@ -4,7 +4,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import useBreakpoint from "../../hooks/useBreakpoint";
+import useBreakpoint from "@hooks/useBreakpoint";
 import Draggable from "react-draggable";
 import {
   FiChevronLeft,

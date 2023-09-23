@@ -1,16 +1,16 @@
 import { memo } from "react";
-import { Project } from "../../../lib/project";
-import Button from "../../atoms/Button";
+import { Project } from "@lib/project";
+import Button from "@atoms/Button";
 import { FiEye } from "react-icons/fi";
-import IconButton from "../../atoms/IconButton";
+import IconButton from "@atoms/IconButton";
 import Link from "next/link";
-import BrowserFrame from "../../atoms/Frame";
-import CustomImage from "../../atoms/CustomImage";
-import CustomVideo from "../../atoms/CustomVideo";
+import BrowserFrame from "@atoms/Frame";
+import CustomImage from "@atoms/CustomImage";
+import CustomVideo from "@atoms/CustomVideo";
 import Balancer from "react-wrap-balancer";
-import Fade from "../../atoms/Fade";
-import useVisibleRatio from "../../../hooks/useVisiblePercentage";
-import Tooltip from "../../atoms/Tooltip";
+import Fade from "@atoms/Fade";
+import useVisibleRatio from "@hooks/useVisiblePercentage";
+import Tooltip from "@atoms/Tooltip";
 export type ProjectItemProps = {
   project: Project;
   index: number;

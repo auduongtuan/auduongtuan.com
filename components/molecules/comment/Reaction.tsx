@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState, useReducer, Dispatch } from "react";
 import useSWR from "swr";
 import axios from "axios";
-import Tooltip from "../../atoms/Tooltip";
-import Skeleton from "../../atoms/Skeleton";
+import Tooltip from "@atoms/Tooltip";
+import Skeleton from "@atoms/Skeleton";
 
 type Emoji = string;
 interface CounterValue {

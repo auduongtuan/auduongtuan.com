@@ -1,8 +1,8 @@
 import React, { Fragment } from "react";
-import { Post } from "../../../lib/blog";
+import { Post } from "@lib/blog";
 import Link from "next/link";
 import { FiLock } from "react-icons/fi";
-import Tag from "../../atoms/Tag";
+import Tag from "@atoms/Tag";
 import clsx from "clsx";
 import Balancer from "react-wrap-balancer";
 type SmallPostItemProps = {

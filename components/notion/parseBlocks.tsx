@@ -1,10 +1,10 @@
-import Image from "next/image";
 import { richTextBlock, richTextObject } from "./richText";
 import Heading from "./Heading";
 import Bookmark from "./Bookmark";
-import Disclosure from "../atoms/Disclosure";
+import Disclosure from "@atoms/Disclosure";
 import parseListItem from "./parseListItem";
-import CustomImage from "../atoms/CustomImage";
+import CustomImage from "@atoms/CustomImage";
+
 const parseBlocks = (blocks: any[]) => {
   return blocks && blocks.length > 0
     ? blocks.reduce((content, block, blockIndex) => {
@@ -95,4 +95,5 @@ const parseBlocks = (blocks: any[]) => {
       }, [])
     : null;
 };
+
 export default parseBlocks;
