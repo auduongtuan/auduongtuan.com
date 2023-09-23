@@ -6,6 +6,7 @@ import axios from "axios";
 import { FieldValues, useForm } from "react-hook-form";
 import { FiMessageCircle, FiSend } from "react-icons/fi";
 import Switch from "../../atoms/Switch";
+import TextField from "../../atoms/TextField";
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
@@ -104,35 +105,21 @@ const CommentForm = ({ page, wording, onSubmit }) => {
               {!state.anonymous && (
                 <>
                   <div>
-                    <label
-                      htmlFor="name-input"
-                      className="block text-base text-gray-800"
-                    >
-                      Your name:
-                    </label>
-                    <input
+                    <TextField
                       type="text"
-                      id="name-input"
+                      label="Your name:"
                       required={!state.anonymous}
                       // placeholder="Nguyen"
                       {...register("name")}
-                      className="w-full px-3 py-2 text-base leading-tight text-gray-800 transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40"
                     />
                   </div>
                   <div>
-                    <label
-                      htmlFor="email-input"
-                      className="block text-base text-gray-800"
-                    >
-                      Your email:
-                    </label>
-                    <input
+                    <TextField
                       type="email"
-                      id="email-input"
+                      label="Your email:"
                       // required={!state.anonymous}
                       placeholder="example@gmail.com"
                       {...register("email")}
-                      className="w-full px-3 py-2 text-base leading-tight text-gray-800 transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40"
                     />
                   </div>
                 </>

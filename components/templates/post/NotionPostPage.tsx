@@ -1,17 +1,22 @@
-import { Post } from "../../../lib/blog";
-import Balancer from "react-wrap-balancer";
-import HeadMeta from "../../atoms/HeadMeta";
-import ReactionAndComment from "../../molecules/comment/ReactionAndComment";
-import useHeaderInView from "../../../hooks/useHeaderInView";
-import ContentMenu from "../../molecules/ContentMenu";
-import Tag from "../../atoms/Tag";
-import parseBlocks from "../../notion/parseBlocks";
-import Fade from "../../atoms/Fade";
-import OtherPostList from "./OtherPostList";
-import IconButton from "../../atoms/IconButton";
-import { FiArrowLeft } from "react-icons/fi";
 import Link from "next/link";
+import { useEffect } from "react";
+import { FiArrowLeft } from "react-icons/fi";
+import Balancer from "react-wrap-balancer";
+import { twMerge } from "tailwind-merge";
+import useHeaderInView from "../../../hooks/useHeaderInView";
+import { Post } from "../../../lib/blog";
+import usePostStore from "../../../store/usePostStore";
+import Fade from "../../atoms/Fade";
+import HeadMeta from "../../atoms/HeadMeta";
+import IconButton from "../../atoms/IconButton";
+import Tag from "../../atoms/Tag";
 import Tooltip from "../../atoms/Tooltip";
+import ContentMenu from "../../molecules/ContentMenu";
+import PasswordProtect from "../../molecules/PasswordProtect";
+import ReactionAndComment from "../../molecules/comment/ReactionAndComment";
+import parseBlocks from "../../notion/parseBlocks";
+import OtherPostList from "./OtherPostList";
+
 const PostSinglePage = ({
   post,
   postContent,
@@ -22,6 +27,19 @@ const PostSinglePage = ({
   postContent: any;
 }) => {
   const { ref } = useHeaderInView(true);
+  const {
+    protect: { decryptedPostContent },
+    setPost,
+    setPostContent,
+    setPosts,
+  } = usePostStore();
+  const isShown = !post.meta.protected || decryptedPostContent != null;
+  useEffect(() => {
+    setPost(post);
+    setPostContent(postContent);
+    setPosts(posts);
+  }, [setPost, setPostContent, setPosts, post, postContent, posts]);
+
   return (
     <>
       <HeadMeta
@@ -95,23 +113,39 @@ const PostSinglePage = ({
         <ContentMenu />
         <div className="pt-8 md:pt-12 content-container p-content blog-content">
           <div className="text-gray-800 [&>*:first-child]:mt-0">
-            {parseBlocks(postContent)}
+            {post.meta.protected ? (
+              decryptedPostContent ? (
+                parseBlocks(decryptedPostContent)
+              ) : (
+                <PasswordProtect />
+              )
+            ) : (
+              parseBlocks(postContent)
+            )}
           </div>
         </div>
       </Fade>
       <section className="relative bg-white border-t border-gray-200 p-content">
         <div className="main-container">
-          <ReactionAndComment
-            page={`blog/${post.slug}`}
-            wording={{
-              singular: "thought",
-              plural: "thoughts",
-              title: "Share your thoughts",
-              cta: "Or wanna share your thoughts?",
-              placeholder: "Hmmm... I think...",
-            }}
-          ></ReactionAndComment>
-          <div className="relative pt-10 mt-10 border-t border-gray-200 md:mt-16 md:pt-12">
+          {isShown && (
+            <ReactionAndComment
+              page={`blog/${post.slug}`}
+              wording={{
+                singular: "thought",
+                plural: "thoughts",
+                title: "Share your thoughts",
+                cta: "Or wanna share your thoughts?",
+                placeholder: "Hmmm... I think...",
+              }}
+            ></ReactionAndComment>
+          )}
+          <div
+            className={twMerge(
+              "relative",
+              isShown &&
+                "pt-10 mt-10 border-t border-gray-200 md:mt-16 md:pt-12"
+            )}
+          >
             <OtherPostList post={post} posts={posts}></OtherPostList>
           </div>
         </div>
