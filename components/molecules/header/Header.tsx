@@ -1,10 +1,10 @@
 import { useState } from "react";
-import Button from "../../atoms/Button";
-import CustomVideo from "../../atoms/CustomVideo";
+import Button from "@atoms/Button";
+import CustomVideo from "@atoms/CustomVideo";
 import Headline from "./Headline";
-import { PhotoFrame } from "../../atoms/Frame";
-import useHeaderInView from "../../../hooks/useHeaderInView";
-import Fade from "../../atoms/Fade";
+import { PhotoFrame } from "@atoms/Frame";
+import useHeaderInView from "@hooks/useHeaderInView";
+import Fade from "@atoms/Fade";
 import GifText from "./GifText";
 import Balancer from "react-wrap-balancer";
 import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react";

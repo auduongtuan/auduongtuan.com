@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createComment, getComments } from "../../lib/comment";
+import { createComment, getComments } from "@lib/comment";
 const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   // Create comment
   if (req.method === "POST") {

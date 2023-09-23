@@ -1,7 +1,7 @@
 import CryptoJS from "crypto-js";
 import { useEffect } from "react";
-import TextField from "../atoms/TextField";
-import usePostStore, { PasswordProtectError } from "../../store/usePostStore";
+import TextField from "@atoms/TextField";
+import usePostStore, { PasswordProtectError } from "@store/usePostStore";
 
 const PasswordProtect = () => {
   const {

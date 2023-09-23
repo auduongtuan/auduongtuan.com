@@ -1,10 +1,4 @@
-import React, {
-  ReactElement,
-  useState,
-  useEffect,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import React, { ReactElement, useState, useEffect, forwardRef } from "react";
 import ReactDOM from "react-dom";
 import {
   useFloating,

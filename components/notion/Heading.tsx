@@ -1,4 +1,4 @@
-import Disclosure from "../atoms/Disclosure";
+import Disclosure from "@atoms/Disclosure";
 import parseBlocks from "./parseBlocks";
 import clsx from "clsx";
 const Heading = ({ block }) => {
@@ -21,12 +21,11 @@ const Heading = ({ block }) => {
     </Tag>
   );
   return block.has_children ? (
-    <Disclosure
-      title={title}
-      className={gutterTop[block.type]}
-    >
+    <Disclosure title={title} className={gutterTop[block.type]}>
       {block.children && parseBlocks(block.children)}
     </Disclosure>
-  ) : title;
+  ) : (
+    title
+  );
 };
 export default Heading;

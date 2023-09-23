@@ -1,15 +1,13 @@
-import React, { useEffect } from "react";
-import { Project } from "../../../lib/project";
-import { FiArrowLeft, FiChevronLeft, FiEye } from "react-icons/fi";
-import IconButton from "../../atoms/IconButton";
-import Badge from "../../atoms/Badge";
-import useHeaderInView from "../../../hooks/useHeaderInView";
+import { Project } from "@lib/project";
+import { FiEye } from "react-icons/fi";
+import IconButton from "@atoms/IconButton";
+import Badge from "@atoms/Badge";
+import useHeaderInView from "@hooks/useHeaderInView";
 import Balancer from "react-wrap-balancer";
-import Fade from "../../atoms/Fade";
-import InlineLink from "../../atoms/InlineLink";
-import useBreakpoint from "../../../hooks/useBreakpoint";
+import Fade from "@atoms/Fade";
+import useBreakpoint from "@hooks/useBreakpoint";
 import { twMerge } from "tailwind-merge";
-import Tooltip from "../../atoms/Tooltip";
+import Tooltip from "@atoms/Tooltip";
 interface ProjectSingleHeaderProps {
   project: Project;
 }

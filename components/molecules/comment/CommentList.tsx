@@ -1,9 +1,9 @@
-import { richTextObject } from "../../notion/richText";
+import { richTextObject } from "@notion/richText";
 import TimeAgo from "javascript-time-ago";
 import { GiPostStamp, GiDominoMask } from "react-icons/gi";
-import InlineLink from "../../atoms/InlineLink";
-import Tooltip from "../../atoms/Tooltip";
-import Skeleton from "../../atoms/Skeleton";
+import InlineLink from "@atoms/InlineLink";
+import Tooltip from "@atoms/Tooltip";
+import Skeleton from "@atoms/Skeleton";
 // English.
 const getInitials = function (string) {
   var names = string.split(" "),
@@ -99,7 +99,10 @@ const CommentList = ({ comments, wording }) => {
           )}
         </>
       ) : (
-        <Skeleton.Wrapper block className="flex flex-col space-y-3 md:space-y-5">
+        <Skeleton.Wrapper
+          block
+          className="flex flex-col space-y-3 md:space-y-5"
+        >
           <div className="flex space-x-3">
             <Skeleton
               type="inline"
