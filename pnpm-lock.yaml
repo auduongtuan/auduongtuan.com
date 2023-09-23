@@ -20,6 +20,9 @@ dependencies:
   '@reduxjs/toolkit':
     specifier: ^1.9.3
     version: 1.9.3(react-redux@8.0.5)(react@18.2.0)
+  '@types/crypto-js':
+    specifier: ^4.1.2
+    version: 4.1.2
   '@vercel/og':
     specifier: ^0.5.8
     version: 0.5.8
@@ -29,6 +32,9 @@ dependencies:
   clsx:
     specifier: ^1.2.1
     version: 1.2.1
+  crypto-js:
+    specifier: ^4.1.1
+    version: 4.1.1
   fetch-meta-tags:
     specifier: ^1.0.12
     version: 1.0.12
@@ -113,6 +119,9 @@ dependencies:
   tailwindcss-animation-delay:
     specifier: ^1.0.7
     version: 1.0.7(tailwindcss@3.3.3)
+  zustand:
+    specifier: ^4.4.1
+    version: 4.4.1(@types/react@17.0.43)(react@18.2.0)
 
 devDependencies:
   '@tailwindcss/typography':
@@ -817,6 +826,10 @@ packages:
       '@types/estree': 1.0.0
     dev: false
 
+  /@types/crypto-js@4.1.2:
+    resolution: {integrity: sha512-t33RNmTu5ufG/sorROIafiCVJMx3jz95bXUMoPAZcUD14fxMXnuTzqzXZoxpR0tNx2xpw11Dlmem9vGCsrSOfA==}
+    dev: false
+
   /@types/debug@4.1.7:
     resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
     dependencies:
@@ -1497,6 +1510,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js@4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /css-background-parser@0.1.0:
     resolution: {integrity: sha512-2EZLisiZQ+7m4wwur/qiYJRniHX4K5Tc9w93MT3AS0WS1u5kaZ4FKXlOTBhOjc+CgEgPiGY+fX1yWD8UwpEqUA==}
@@ -5775,6 +5792,26 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+
+  /zustand@4.4.1(@types/react@17.0.43)(react@18.2.0):
+    resolution: {integrity: sha512-QCPfstAS4EBiTQzlaGP1gmorkh/UL1Leaj2tdj+zZCZ/9bm0WS7sI2wnfD5lpOszFqWJ1DcPnGoY8RDL61uokw==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@types/react': '>=16.8'
+      immer: '>=9.0'
+      react: '>=16.8'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      '@types/react': 17.0.43
+      react: 18.2.0
+      use-sync-external-store: 1.2.0(react@18.2.0)
+    dev: false
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
