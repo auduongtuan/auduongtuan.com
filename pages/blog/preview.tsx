@@ -1,32 +1,32 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { GetServerSideProps} from "next";
+import { GetServerSideProps } from "next";
 import DefaultErrorPage from "next/error";
 import { getPosts, getPostContent, Post } from "../../lib/blog";
-import NotionPostPage from '../../components/templates/post/NotionPostPage';
+import NotionPostPage from "../../components/templates/post/NotionPostPage";
 
 type BlogProps = {
-  post: Post,
-  postContent: any
-  posts: Post[],
-}
+  post: Post;
+  postContent: any;
+  posts: Post[];
+};
 
 export default function Blog({ post, postContent, posts }: BlogProps) {
   const router = useRouter();
   if (router.isFallback) {
     return <h1>Loading...</h1>;
   }
-  if(!post) {
-    return <>
-      <Head>
-        <meta name="robots" content="noindex" />
-      </Head>
-      <DefaultErrorPage statusCode={404} title="No things" />
-    </>
+  if (!post) {
+    return (
+      <>
+        <Head>
+          <meta name="robots" content="noindex" />
+        </Head>
+        <DefaultErrorPage statusCode={404} title="No things" />
+      </>
+    );
   }
-  return (
-    <NotionPostPage post={post} postContent={postContent} posts={posts} />
-  );
+  return <NotionPostPage post={post} postContent={postContent} posts={posts} />;
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -34,22 +34,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const slug = context.query && context.query.slug;
   const secret = context.query && context.query.secret;
   console.log(slug);
-  if (!secret || secret != 'eyJhbGciOiJIUzI1NiJ9') {
+  if (!secret || secret != "eyJhbGciOiJIUzI1NiJ9") {
     return {
       props: {
         post: null,
         postContent: null,
-        posts: null
-      }
-    }
+        posts: null,
+      },
+    };
   }
   // Get all posts from the Notion database
   const posts = await getPosts(true);
-  console.log(posts);  
   // Find the post with a matching slug property
   let post: Post | null = null;
   const filteredPosts = posts.filter((post) => post.slug === slug);
-  if(filteredPosts.length > 0) {
+  if (filteredPosts.length > 0) {
     post = filteredPosts[0];
   }
   // Get the Notion page data and all child block data
@@ -60,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     props: {
       post,
       postContent,
-      posts
-    }
+      posts,
+    },
   };
-}
+};

@@ -18,7 +18,7 @@ export interface Post {
   };
 }
 
-export async function getPosts(preview?: boolean) {
+export async function getPosts(includeUnpublished?: boolean) {
   let filterQuery: any = {
     and: [
       {
@@ -35,7 +35,7 @@ export async function getPosts(preview?: boolean) {
       },
     ],
   };
-  if (!preview) {
+  if (!includeUnpublished) {
     filterQuery.and.push({
       property: "Published",
       checkbox: {
