@@ -31,13 +31,12 @@ const ReactionAndComment = ({
           </div>
         </div>
         <div className="col-span-1">
-          <h3 className="mb-4 sub-heading">{wording.cta}</h3>
           <CommentForm
             page={page}
             wording={wording}
             onSubmit={mutate}
           ></CommentForm>
-          <div className="mt-6 md:mt-8">
+          <div className="mt-6 md:mt-9">
             <CommentList comments={data} wording={wording} />
           </div>
         </div>

@@ -16,6 +16,7 @@ import PasswordProtect from "@molecules/PasswordProtect";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import parseBlocks from "@notion/parseBlocks";
 import OtherPostList from "./OtherPostList";
+import { Transition } from "@headlessui/react";
 
 const PostSinglePage = ({
   post,
@@ -111,14 +112,27 @@ const PostSinglePage = ({
       </header>
       <Fade className="relative" delay={200} key={post.slug + "_content"}>
         <ContentMenu />
-        <div className="pt-8 md:pt-12 content-container p-content blog-content">
+        <div className="pt-8 md:pt-9 content-container p-content blog-content">
           <div className="text-gray-800 [&>*:first-child]:mt-0">
             {post.meta.protected ? (
-              decryptedPostContent ? (
-                parseBlocks(decryptedPostContent)
-              ) : (
-                <PasswordProtect />
-              )
+              <>
+                <Transition
+                  show={decryptedPostContent != null}
+                  enter="transition-all duration-1000"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                >
+                  {parseBlocks(decryptedPostContent)}
+                </Transition>
+                <Transition
+                  show={decryptedPostContent == null}
+                  leave="transition-opacity duration-300"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <PasswordProtect />
+                </Transition>
+              </>
             ) : (
               parseBlocks(postContent)
             )}
@@ -127,7 +141,12 @@ const PostSinglePage = ({
       </Fade>
       <section className="relative bg-white border-t border-gray-200 p-content">
         <div className="main-container">
-          {isShown && (
+          <Transition
+            show={isShown}
+            enter="transition-all duration-1000"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+          >
             <ReactionAndComment
               page={`blog/${post.slug}`}
               wording={{
@@ -138,7 +157,7 @@ const PostSinglePage = ({
                 placeholder: "Hmmm... I think...",
               }}
             ></ReactionAndComment>
-          )}
+          </Transition>
           <div
             className={twMerge(
               "relative",
