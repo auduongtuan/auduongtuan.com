@@ -1,10 +1,10 @@
 import { useState } from "react";
-import CustomImage from "../../atoms/CustomImage";
-import { PhotoFrame } from "../../atoms/Frame";
-import useHeaderInView from "../../../hooks/useHeaderInView";
-import Fade from "../../atoms/Fade";
+import CustomImage from "@atoms/CustomImage";
+import { PhotoFrame } from "@atoms/Frame";
+import useHeaderInView from "@hooks/useHeaderInView";
+import Fade from "@atoms/Fade";
 import Balancer from "react-wrap-balancer";
-import InlineLink from "../../atoms/InlineLink";
+import InlineLink from "@atoms/InlineLink";
 
 export default function AboutHeader() {
   const { ref, inView } = useHeaderInView();

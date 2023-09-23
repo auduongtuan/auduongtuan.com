@@ -1,10 +1,11 @@
 import { FiDownload } from "react-icons/fi";
-import Button from "../atoms/Button";
-import InlineLink from "../atoms/InlineLink";
+import Button from "@atoms/Button";
+import InlineLink from "@atoms/InlineLink";
 import {
   RichTextItemResponse,
   TextRichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+
 const escapedNewLineToLineBreakTag = (string) => {
   return string.split("\n").map((item, index) => {
     return index === 0 ? item : [<br key={index} />, item];
@@ -71,6 +72,7 @@ export const richTextObject = (
     }
   });
 };
+
 export const richTextBlock = (block) => {
   if (block[block.type] && block[block.type].rich_text) {
     return richTextObject(block[block.type].rich_text, block.id);
