@@ -14,9 +14,6 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
     <a
       className={clsx(
         "-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100 flex flex-col",
-        {
-          "cursor-not-allowed": post.meta.protected,
-        },
         className
       )}
     >
@@ -62,9 +59,7 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
       </div>
     </a>
   );
-  return post.meta.protected ? (
-    <Fragment key={post.slug}>{inner}</Fragment>
-  ) : (
+  return (
     <Link href={`/blog/${post.slug}`} key={post.slug} legacyBehavior>
       {inner}
     </Link>
