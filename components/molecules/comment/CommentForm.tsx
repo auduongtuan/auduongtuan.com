@@ -1,12 +1,12 @@
 import { useReducer, useRef, Fragment } from "react";
-import Button from "../../atoms/Button";
-import Toast from "../../atoms/Toast";
-import Dialog from "../../atoms/Dialog";
+import Button from "@atoms/Button";
+import Toast from "@atoms/Toast";
+import Dialog from "@atoms/Dialog";
 import axios from "axios";
 import { FieldValues, useForm } from "react-hook-form";
 import { FiMessageCircle, FiSend } from "react-icons/fi";
-import Switch from "../../atoms/Switch";
-import TextField from "../../atoms/TextField";
+import Switch from "@atoms/Switch";
+import TextField from "@atoms/TextField";
 
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);

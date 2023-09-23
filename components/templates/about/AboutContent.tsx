@@ -1,9 +1,9 @@
 import React from "react";
 import { FiDownload } from "react-icons/fi";
-import Button from "../../atoms/Button";
-import Fade from "../../atoms/Fade";
+import Button from "@atoms/Button";
+import Fade from "@atoms/Fade";
 import { experience, education, skills, now } from "./content";
-import InlineLink from "../../atoms/InlineLink";
+import InlineLink from "@atoms/InlineLink";
 const Heading = ({ children }: { children?: React.ReactNode }) => (
   <h2 className="sub-heading border-b border-gray-200 pb-2 -mb-1">
     {children}
@@ -50,7 +50,8 @@ export default function AboutContent() {
                     {`This section updates what I'm doing, as inspired by `}
                     <InlineLink href="https://sive.rs/nowff">
                       Now page momment ↗
-                    </InlineLink>.
+                    </InlineLink>
+                    .
                   </p>
                   <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
                     {now.map((item, i) => (

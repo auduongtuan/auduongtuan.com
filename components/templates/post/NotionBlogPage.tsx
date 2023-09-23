@@ -1,10 +1,10 @@
 import React from "react";
 
-import { Post } from "../../../lib/blog";
+import { Post } from "@lib/blog";
 import PostItem from "./PostItem";
-import useHeaderInView from "../../../hooks/useHeaderInView";
-import Footer from "../../molecules/Footer";
-import Fade, { FadeProps } from "../../atoms/Fade";
+import useHeaderInView from "@hooks/useHeaderInView";
+import Footer from "@molecules/Footer";
+import Fade, { FadeProps } from "@atoms/Fade";
 export default function BlogPage({ posts }: { posts: Post[] }) {
   const { ref } = useHeaderInView();
 

@@ -1,6 +1,6 @@
-import { Project } from "../../../lib/project";
+import { Project } from "@lib/project";
 import Link from "next/link";
-import CustomImage from "../../atoms/CustomImage";
+import CustomImage from "@atoms/CustomImage";
 import { Fragment } from "react";
 const ProjectCard = ({ project }: { project: Project }) => {
   const content = (

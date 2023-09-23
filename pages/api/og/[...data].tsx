@@ -1,7 +1,7 @@
 import { ImageResponse } from "@vercel/og";
 import { NextApiRequest } from "next";
 import { NextRequest } from "next/server";
-import { decode } from "../../../lib/base64";
+import { decode } from "@lib/base64";
 export const config = {
   runtime: "edge",
 };

@@ -1,6 +1,7 @@
 import parseBlocks from "./parseBlocks";
 import { richTextBlock } from "./richText";
 type ListItemType = "bulleted_list_item" | "numbered_list_item";
+
 const parseListItem = (
   listItemType: ListItemType,
   block,
@@ -41,4 +42,5 @@ const parseListItem = (
     return null;
   }
 };
+
 export default parseListItem;

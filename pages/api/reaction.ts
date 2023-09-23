@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { removeReaction, addReaction, getReactions } from "../../lib/reaction";
+import { removeReaction, addReaction, getReactions } from "@lib/reaction";
 
 const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   const forwarded = req.headers["x-forwarded-for"];

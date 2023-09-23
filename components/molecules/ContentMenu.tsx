@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from "react";
 import slugify from "slugify";
-import Fade from "../atoms/Fade";
+import Fade from "@atoms/Fade";
 import Balancer from "react-wrap-balancer";
 interface VisibleInfo {
   start: number;

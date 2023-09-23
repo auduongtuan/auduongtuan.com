@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ProjectItem from "./ProjectItem";
-import { Project } from "../../../lib/project";
+import { Project } from "@lib/project";
 import { FiArrowDown, FiArrowLeft, FiArrowUp, FiHeart } from "react-icons/fi";
-import Fade from "../../atoms/Fade";
+import Fade from "@atoms/Fade";
 export default function ProjectList({ projects }: { projects: Project[] }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [sortBy, setSortBy] = useState("coolness");
@@ -39,11 +39,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
     "inline-flex flex-gap-x-1 items-center text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full px-2 py-1";
   return (
     <section id="works">
-      <Fade
-        className="main-container p-content"
-        delay={500}
-        duration={200}
-      >
+      <Fade className="main-container p-content" delay={500} duration={200}>
         <div className="flex flex-col md:flex-row mb-8 flex-gap-4 md:justify-between md:items-center">
           <div className="flex items-center sub-heading">Selected works</div>
           <div className=" flex items-center space-x-2">

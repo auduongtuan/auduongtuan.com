@@ -1,8 +1,8 @@
-import { Project } from "../../../lib/project";
+import { Project } from "@lib/project";
 import { ProjectSingleHeader } from "./ProjectSingleHeader";
 import ProjectSingleFooter from "./ProjectSingleFooter";
 import ProjectSingleContent from "./ProjectSingleContent";
-import HeadMeta from "../../atoms/HeadMeta";
+import HeadMeta from "@atoms/HeadMeta";
 export interface ProjectSinglePageProps {
   project: Project;
   projects: Project[];
