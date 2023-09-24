@@ -48,7 +48,10 @@ const Select = <TType, TActualType>({
     onChange
   );
   const selectedOption = !multiple
-    ? options.find((option) => option.value == selected)
+    ? options.find(
+        (option) =>
+          option.value === (selected as unknown as TActualType | undefined)
+      )
     : undefined;
   const { x, y, refs, strategy, context } = useFloating({
     placement: "bottom-start",
@@ -122,9 +125,13 @@ const Select = <TType, TActualType>({
                   left: x ?? "",
                 }}
               >
-                {options.map((option) => (
+                {options.map((option, i) => (
                   <Listbox.Option
-                    key={option.value as string}
+                    key={
+                      typeof option.value == "string"
+                        ? option.value
+                        : `option-${i}`
+                    }
                     value={option.value}
                     className={twMerge(
                       "flex w-full cursor-default select-none items-center rounded-md py-1.5 pl-2 pr-2 text-base outline-none",
