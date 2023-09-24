@@ -11,32 +11,26 @@ videoHeight: 720
 background: "#DDEFFF"
 link: "https://aperia.com"
 description: This is the redesign of the Aperia company website. I worked as a lead developer collaborating with Branding team to establish well-polished designs.
-roles: ["WordPress development", "Front-end development", "Web design (support)"]
+roles:
+  ["WordPress Development", "Front-end Development", "Web Design (support)"]
 coolness: 15
-tools:
-  [
-    "Sketch",
-    "Gulp, Rollup, SWC",
-    "WordPress",
-    "Tailwind CSS",
-    "jQuery"
-  ]
+tools: ["Sketch", "Gulp, Rollup, SWC", "WordPress", "TailwindCSS", "jQuery"]
 team: ["Me", "Huy Nguyen", "Nhan Do"]
-# protected: true 
+# protected: true
 ---
 
-
 ## Problem
-Previously, Aperia uses Squarespace to create websites, which has a many limits to publish content (especially managing job hiring posts and career applications). Also, after a rebranding of Aperia, the old website doesn’t match the current brand guideline. 
+
+Previously, Aperia uses Squarespace to create websites, which has a many limits to publish content (especially managing job hiring posts and career applications). Also, after a rebranding of Aperia, the old website doesn’t match the current brand guideline.
 
 As a result, we decided to create a new version of the Aperia website with the goal:
 
 <Grid>
   <Col spanLg="6">
-  <EmojiBox emoji="✍️" caption="Easier to manage content."></EmojiBox>
+    <EmojiBox emoji="✍️" caption="Easier to manage content."></EmojiBox>
   </Col>
   <Col spanLg="6">
-  <EmojiBox emoji="🎨" caption="Better content and design."></EmojiBox>
+    <EmojiBox emoji="🎨" caption="Better content and design."></EmojiBox>
   </Col>
 </Grid>
 
@@ -45,9 +39,9 @@ As a result, we decided to create a new version of the Aperia website with the g
 I help the Branding team with website style library setup and overall website structure & layout. Also, I provide responsive treatments for pages.
 
 <ContentNode>
-<BrowserFrame url="https://aperia.com">
-    <Video src="aperia-website.mp4"  width={1280} height={720}></Video>
-</BrowserFrame>
+  <BrowserFrame url="https://aperia.com">
+    <Video src="aperia-website.mp4" width={1280} height={720}></Video>
+  </BrowserFrame>
 </ContentNode>
 
 ## Implementing
@@ -57,9 +51,9 @@ I help the Branding team with website style library setup and overall website st
 We decided to use WordPress CMS for its easy-to-use admin panel and make use of its plugins. I create a WordPress theme from scratch with custom post types like Career, Product, Service, and Insight,… with custom taxonomies like Location, Department (used for Career).
 
 <ContentNode>
-<Box caption="WordPress Admin">
-<Image src="admin.jpg" alt="WordPress Admin" width={1600} height={1240} />
-</Box>
+  <Box caption="WordPress Admin">
+    <Image src="admin.jpg" alt="WordPress Admin" width={1600} height={1240} />
+  </Box>
 </ContentNode>
 
 ### Frontend
@@ -71,15 +65,15 @@ The website uses Tailwind CSS for CSS framework. Also, Gulp, Rollup, and SWC are
 I worked with Admin team to set up Google Tag Manager and Google Analytics for the website.
 
 <ContentNode>
-<Box caption="Google Tag Manager">
-<Image src="gtm.jpg" alt="Google Tag Manager" width={1600} height={900} />
-</Box>
+  <Box caption="Google Tag Manager">
+    <Image src="gtm.jpg" alt="Google Tag Manager" width={1600} height={900} />
+  </Box>
 </ContentNode>
-
 
 ## Launching & results
 
 ### Deploy and optimize
+
 I worked with IT team to deploy the website into production. I installed some plugins like Rank Math for SEO, and BackWPup for backing up data. To optimize website performance, I set up:
 
 - Cache optimization (using [Cache Enabler](https://wordpress.org/plugins/cache-enabler/) plugin)

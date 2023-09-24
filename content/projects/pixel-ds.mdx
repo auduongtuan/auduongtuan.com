@@ -6,38 +6,41 @@ date: "2021-01"
 logo: "logo.svg"
 cover: "cover.svg"
 coverWidth: 640
-coverHeight: 460  
+coverHeight: 460
 background: "#E3EAF6"
 description: This is the design system created for internal Aperia products, which forms an end-to-end design language to create simple, intuitive and beautiful experiences.
-roles: ["UI/UX Design", "Design & Storybook documentation", "Prototyping", "Front-end development"]
-tools:
+roles:
   [
-    "Figma & Sketch",
-    "React JS",
-    "Storybook",
-    "Invision DSM",
+    "UI/UX Design",
+    "Storybook Documentation",
+    "Prototyping",
+    "Front-end Development",
   ]
+half: true
+tools: ["Figma & Sketch", "ReactJS", "Storybook", "Invision DSM"]
 coolness: 10
 ---
 
 ## What and why
 
 Pixel Design System consists of below parts:
+
 - UI Design and UI Kit in Figma and Sketch.
 - DSM Documentation for Behavior and Interaction.
 - Storybook documentation.
 - ReactJS components.
 
 The goal is to enhance the consistency between designs through products and between design and implementation. Also, mitigate the time for implementing the user interface and have one source of truth for design and development documentation.
+
 <Grid>
   <Col spanLg="4">
-  <EmojiBox emoji="☑️" caption="Enhance consistency"></EmojiBox>
+    <EmojiBox emoji="☑️" caption="Enhance consistency"></EmojiBox>
   </Col>
   <Col spanLg="4">
-  <EmojiBox emoji="⏰" caption="Mitigate implement time"></EmojiBox>
+    <EmojiBox emoji="⏰" caption="Mitigate implement time"></EmojiBox>
   </Col>
   <Col spanLg="4">
-  <EmojiBox emoji="📜" caption="Clear documentation"></EmojiBox>
+    <EmojiBox emoji="📜" caption="Clear documentation"></EmojiBox>
   </Col>
 </Grid>
 
@@ -70,7 +73,7 @@ Define a color pallete and color using guide to use consistently within componen
 
 ### Typography
 
-Define responsive typography styles (for design-tool UI kit and CSS utilities) for consistency between design and development 
+Define responsive typography styles (for design-tool UI kit and CSS utilities) for consistency between design and development
 
 <Grid>
 <Col spanLg="6" spanMd="12" className="row-span-2">
@@ -94,19 +97,20 @@ h1, .h1 {
 }
 
 h2, .h2 {
-  @include TextStyle(24, 36, -0.25);
-  @include Breakpoint('md') {
-    @include TextStyle(20, 32, -0.2);
-  }
+@include TextStyle(24, 36, -0.25);
+@include Breakpoint('md') {
+@include TextStyle(20, 32, -0.2);
+}
 }
 
 h3, .h3 {
-  @include TextStyle(20, 32, -0.2);
-  @include Breakpoint('md') {
-    @include TextStyle(18, 28, -0.1);  
-  } 
+@include TextStyle(20, 32, -0.2);
+@include Breakpoint('md') {
+@include TextStyle(18, 28, -0.1);  
+ }
 }
-```
+
+````
 {/* <Image src="typography-classes.png" alt="Typography classes" width={1328} height={1066} /> */}
 </Box>
 </Col>
@@ -143,7 +147,7 @@ During this process, I make rapid prototypes in HTML/CSS/JS to explain complex c
    ></iframe>
 </Figure>
 
-### Documentation 
+### Documentation
 In the main documentation, we document all UI specs and behaviors of components to make sure all members will understand and on the same page.
 
 In the Storybook documentation, we document the component APIs and list out some common use cases, what should developers notice and what props to use in each case.
@@ -183,10 +187,12 @@ interface ToastProps {
   action: React.ReactNode;
   //...
 }
-```
+````
+
 </Box>
 </Col>
 </Grid>
 
 ## Note
+
 Case study is being updated and some private materials could not be shared publicly. In the meantime, you could contact me via [hi@auduongtuan.com](mailto:hi@auduongtuan.com) for more information.

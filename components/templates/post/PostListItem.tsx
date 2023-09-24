@@ -5,11 +5,13 @@ import { FiLock } from "react-icons/fi";
 import Tag from "@atoms/Tag";
 import clsx from "clsx";
 import Balancer from "react-wrap-balancer";
-type PostItemProps = {
+
+type PostListItemProps = {
   post: Post;
   className?: string;
 };
-const PostItem = ({ post, className = "" }: PostItemProps) => {
+
+const PostListItem = ({ post, className = "" }: PostListItemProps) => {
   const inner = (
     <a
       className={clsx(
@@ -65,4 +67,5 @@ const PostItem = ({ post, className = "" }: PostItemProps) => {
     </Link>
   );
 };
-export default PostItem;
+
+export default PostListItem;
