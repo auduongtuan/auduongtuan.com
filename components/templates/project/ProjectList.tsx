@@ -1,21 +1,32 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProjectItem from "./ProjectItem";
 import { Project } from "@lib/project";
-import { FiArrowDown, FiArrowLeft, FiArrowUp, FiHeart } from "react-icons/fi";
 import Fade from "@atoms/Fade";
+import Select from "@atoms/Select";
+
 export default function ProjectList({ projects }: { projects: Project[] }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [sortBy, setSortBy] = useState("coolness");
+  const [roleFilter, setRoleFilter] = useState<string[]>([]);
+
   const handleScroll = () => {
     const position = window.pageYOffset;
     setScrollPosition(position);
   };
 
-  const sortingFunction = (a, b) => {
+  const filteringFunction = (project: Project) => {
+    if (roleFilter.length == 0) return true;
+    if (project.meta.roles == null) return false;
+    return project.meta.roles.some((role) => roleFilter.includes(role));
+  };
+
+  const sortingFunction = (a: Project, b: Project) => {
     if (sortBy == "coolness") {
-      return b.meta?.coolness > a.meta?.coolness
+      const aCoolness = a.meta?.coolness ?? 0;
+      const bCoolness = b.meta?.coolness ?? 0;
+      return bCoolness > aCoolness
         ? 1
-        : b.meta?.coolness < a.meta?.coolness
+        : bCoolness < aCoolness
         ? -1
         : b.meta.date?.localeCompare(a.meta.date);
     } else if (sortBy == "time-asc") {
@@ -25,6 +36,20 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
     }
   };
 
+  const roles = useMemo(
+    () =>
+      projects.reduce<string[]>((acc, project) => {
+        if (project.meta.roles == null) return acc;
+        project.meta.roles.forEach((role) => {
+          if (!acc.includes(role)) {
+            acc.push(role);
+          }
+        });
+        return acc;
+      }, []),
+    [projects]
+  );
+
   useEffect(() => {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -33,17 +58,59 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
     };
   }, [sortBy]);
 
-  const activeFilterClass =
-    "inline-flex flex-gap-x-1 items-center text-sm font-medium bg-blue-200 hover:bg-blue-300 text-gray-800 rounded-full px-2 py-1";
-  const filterClass =
-    "inline-flex flex-gap-x-1 items-center text-sm font-medium bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-full px-2 py-1";
+  const shownProjects = projects
+    .filter(filteringFunction)
+    .sort(sortingFunction);
+
   return (
     <section id="works">
       <Fade className="main-container p-content" delay={500} duration={200}>
-        <div className="flex flex-col md:flex-row mb-8 flex-gap-4 md:justify-between md:items-center">
+        <div className="flex flex-col mb-8 md:flex-row flex-gap-4 md:justify-between md:items-center">
           <div className="flex items-center sub-heading">Selected works</div>
-          <div className=" flex items-center space-x-2">
-            <button
+          <div>
+            <div className="flex flex-wrap items-center flex-gap-x-4 flex-gap-y-2 ">
+              <Select
+                label="Sort by"
+                value={sortBy}
+                buttonClassName={"w-[120px]"}
+                onChange={setSortBy}
+                options={[
+                  {
+                    value: "coolness",
+                    name: "Featured",
+                  },
+                  {
+                    value: "time-desc",
+                    name: "Lastest",
+                  },
+                  {
+                    value: "time-asc",
+                    name: "Earliest",
+                  },
+                ]}
+              />
+              <Select
+                label="Filter by"
+                value={roleFilter}
+                buttonClassName={"w-[120px]"}
+                renderValue={(selected) => {
+                  if (
+                    !selected ||
+                    selected?.length == 0 ||
+                    selected.length == roles.length
+                  )
+                    return "All roles";
+                  if (selected.length == 1) return selected[0];
+                  return selected.length + " roles";
+                }}
+                multiple
+                onChange={setRoleFilter}
+                options={roles.sort().map((tool) => ({
+                  value: tool,
+                  name: tool,
+                }))}
+              />
+              {/* <button
               className={sortBy == "coolness" ? activeFilterClass : filterClass}
               onClick={() => setSortBy("coolness")}
             >
@@ -62,16 +129,18 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
               onClick={() => setSortBy("time-asc")}
             >
               Earliest <FiArrowUp />
-            </button>
+            </button> */}
+            </div>
           </div>
         </div>
 
         <main className="grid grid-cols-12 gap-6">
-          {projects.sort(sortingFunction).map((project, i) => (
+          {shownProjects.map((project, i) => (
             <ProjectItem
               key={`${project.slug}-${i}`}
               index={i}
               project={project}
+              projects={shownProjects}
             />
           ))}
         </main>

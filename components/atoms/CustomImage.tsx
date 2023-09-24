@@ -18,7 +18,11 @@ const CustomImage = ({
 }: CustomImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
-    <Skeleton.Wrapper className={twMerge("rounded-md overflow-hidden", className)} loaded={isLoaded} data-image>
+    <Skeleton.Wrapper
+      className={twMerge("rounded-md overflow-hidden", className)}
+      loaded={isLoaded}
+      data-image
+    >
       <Skeleton type="image" />
       <Skeleton.Content>
         <Image
