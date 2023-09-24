@@ -40,7 +40,7 @@ const PasswordProtect = () => {
             Please input the password below to view this post.
           </p>
           <p className="mt-2 text-base">
-            Password hint: 4 digits of my birthday + 4 last digits of my phone
+            Password hint: 4 digits of my birthday + 3 last digits of my phone
             number.
           </p>
         </div>
