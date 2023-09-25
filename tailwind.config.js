@@ -42,6 +42,9 @@ module.exports = {
         primary: theme.colors.gray[800],
         secondary: theme.colors.gray[600],
       }),
+      borderColor: ({ theme }) => ({
+        control: theme.colors.gray[200],
+      }),
       colors: ({ theme }) => ({
         accent: theme.colors.blue[500],
         "custom-neutral": {
