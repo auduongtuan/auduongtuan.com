@@ -88,7 +88,7 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
                   </Transition.Child>
                 </div>
               </Transition>,
-              document.querySelector("body")
+              document.querySelector("body") as HTMLElement
             )
           : null}
       </React.Fragment>

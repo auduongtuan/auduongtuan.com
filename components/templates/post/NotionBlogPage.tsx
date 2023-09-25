@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Post } from "@lib/blog";
-import PostItem from "./PostItem";
+import PostListItem from "./PostListItem";
 import useHeaderInView from "@hooks/useHeaderInView";
 import Footer from "@molecules/Footer";
 import Fade, { FadeProps } from "@atoms/Fade";
@@ -43,7 +43,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
           {posts.map((post, i) => {
             return (
               <Fade delay={70 * (i + 1)} key={post.id}>
-                <PostItem post={post} />
+                <PostListItem post={post} />
                 {i != posts.length - 1 && <div className="mt-10 md:mt-16" />}
                 {/* {i != posts.length - 1 && <div className="my-6 border-b border-gray-300 border-dashed md:my-8"></div>} */}
               </Fade>
