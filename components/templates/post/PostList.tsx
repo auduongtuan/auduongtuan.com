@@ -1,6 +1,6 @@
 import React from "react";
 import { Post } from "@lib/blog";
-import PostItem from "./PostItem";
+import PostListItem from "./PostListItem";
 export type PostListProps = {
   posts: Post[];
 };
@@ -10,7 +10,7 @@ export default function PostList({ posts }: PostListProps) {
       <div className="main-container">
         <h2>Blog</h2>
         {posts.map((post, i) => (
-          <PostItem post={post} key={i} />
+          <PostListItem post={post} key={i} />
         ))}
       </div>
     </section>

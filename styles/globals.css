@@ -18,6 +18,16 @@
   .mt-content-node {
     @apply mt-4 md:mt-[1.25rem] lg:mt-6 empty:mt-0;
   }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-hidden {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }
 @layer components {
   /* html {
