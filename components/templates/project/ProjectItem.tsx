@@ -12,6 +12,8 @@ import Fade from "@atoms/Fade";
 import useVisibleRatio from "@hooks/useVisiblePercentage";
 import Tooltip from "@atoms/Tooltip";
 import { twMerge } from "tailwind-merge";
+import ScrollableTagList from "@molecules/ScrollableTagList";
+
 export type ProjectItemProps = {
   project: Project;
   projects: Project[];
@@ -73,7 +75,13 @@ const ProjectItem = memo(
             <p className="mt-2 text-base md:mt-4 md:text-lg tracking-relaxed md:tracking-relaxed _md:text-xl _tracking-tight _font-display">
               <Balancer ratio={0.67}>{project.meta.tagline}</Balancer>
             </p>
-            <div className="flex mt-5 space-x-4 md:mt-7">
+            <ScrollableTagList
+              tags={project.meta.roles || []}
+              background={project.meta.background || "#EEEEEE"}
+              className="mt-4"
+            />
+
+            <div className="flex mt-6 space-x-4 md:mt-8">
               {project.meta.type == "casestudy" && (
                 <Button scroll={false} href={`/project/${project.slug}`} arrow>
                   Case study

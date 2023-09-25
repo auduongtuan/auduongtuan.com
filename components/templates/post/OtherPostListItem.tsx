@@ -1,14 +1,14 @@
-import { Fragment } from "react";
 import { Post } from "@lib/blog";
 import Link from "next/link";
 import { FiLock } from "react-icons/fi";
 import Tag from "@atoms/Tag";
 import clsx from "clsx";
-import Balancer from "react-wrap-balancer";
+
 type OtherPostListItemProps = {
   post: Post;
   className?: string;
 };
+
 const OtherPostListItem = ({
   post,
   className = "",
