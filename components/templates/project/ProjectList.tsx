@@ -81,7 +81,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
                   },
                   {
                     value: "time-desc",
-                    name: "Lastest",
+                    name: "Latest",
                   },
                   {
                     value: "time-asc",
