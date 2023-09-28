@@ -1,4 +1,10 @@
-import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react";
+import {
+  autoUpdate,
+  flip,
+  offset,
+  shift,
+  useFloating,
+} from "@floating-ui/react";
 import { Listbox, ListboxProps } from "@headlessui/react";
 import { useControlledState } from "@hooks/useControlledState";
 import ReactDOM from "react-dom";
@@ -50,6 +56,7 @@ const Select = <TType, TActualType>({
     middleware: [
       shift(),
       offset(4),
+      flip(),
       // size({
       //   apply({ rects, elements }) {
       //     Object.assign(elements.floating.style, {
@@ -109,7 +116,7 @@ const Select = <TType, TActualType>({
               <Listbox.Options
                 ref={refs.setFloating}
                 className={twMerge(
-                  "rounded-md border border-black/10 bg-surface text-primary shadow-md p-1 focus:outline-none grid grid-cols-1 gap-0.5"
+                  "rounded-md border border-black/10 bg-surface text-primary shadow-md p-1 focus:outline-none grid grid-cols-1 gap-0.5 z-popup"
                 )}
                 style={{
                   position: strategy,

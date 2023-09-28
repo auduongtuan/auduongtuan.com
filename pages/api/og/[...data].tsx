@@ -1,5 +1,4 @@
 import { ImageResponse } from "@vercel/og";
-import { NextApiRequest } from "next";
 import { NextRequest } from "next/server";
 import { decode } from "@lib/base64";
 export const config = {
@@ -17,12 +16,12 @@ const boldFont = fetch(boldfontUrl.toString()).then((res) => res.arrayBuffer());
 const regularFont = fetch(regularFontUrl.toString()).then((res) =>
   res.arrayBuffer()
 );
+
 const OGImage = async function (req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const boldFontData = await boldFont;
   const regularFontData = await regularFont;
   const dataParams = searchParams.get("data");
-  console.log(dataParams);
   const decoded = decode(dataParams ? dataParams.slice(0, -4) : "");
   const data = JSON.parse(decoded) || {};
   const { title = "Hello World", tagline, background, logo, emoji } = data;
@@ -139,4 +138,5 @@ const OGImage = async function (req: NextRequest) {
     }
   );
 };
+
 export default OGImage;

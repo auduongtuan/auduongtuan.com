@@ -32,6 +32,10 @@ module.exports = {
         "dark-fade":
           "linear-gradient(180deg, rgb(32, 32, 32) 47.4%, rgba(32, 32, 32, 0) 100%)",
       },
+      zIndex: {
+        modal: 1000,
+        popup: 1001,
+      },
       backgroundColor: ({ theme }) => ({
         surface: theme.colors.white,
         "accent-subtle": theme.colors.blue[200],
@@ -46,7 +50,7 @@ module.exports = {
         control: theme.colors.gray[200],
       }),
       colors: ({ theme }) => ({
-        accent: theme.colors.blue[500],
+        accent: theme.colors.blue[600],
         "custom-neutral": {
           // 900: "#202020"
           900: "#1b1d22",

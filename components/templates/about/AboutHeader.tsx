@@ -68,6 +68,7 @@ export default function AboutHeader() {
                   name={images[image]}
                   closeTooltipContent="Hide my face 😢"
                   inverted
+                  mainClassname="bg-gray-200"
                 >
                   <div className="grid grid-cols-1 grid-rows-1">
                     <div className="col-start-1 row-start-1">
