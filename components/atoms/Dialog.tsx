@@ -11,7 +11,7 @@ function Dialog({ children, open, onClose, title, ...rest }) {
   }, [open, setPauseScrollEvent]);
   return (
     <Transition show={open} as={Fragment}>
-      <HDialog onClose={onClose} className="relative z-[45]" {...rest}>
+      <HDialog onClose={onClose} className="relative z-modal" {...rest}>
         {/* The backdrop, rendered as a fixed sibling to the panel container */}
         <Transition.Child
           as={Fragment}
