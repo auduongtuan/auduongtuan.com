@@ -2,13 +2,15 @@ import React from "react";
 import { FiDownload } from "react-icons/fi";
 import Button from "@atoms/Button";
 import Fade from "@atoms/Fade";
-import { experience, education, skills, now } from "./content";
+import { experience, education, skills, now, cvLink } from "./content";
 import InlineLink from "@atoms/InlineLink";
+
 const Heading = ({ children }: { children?: React.ReactNode }) => (
-  <h2 className="sub-heading border-b border-gray-200 pb-2 -mb-1">
+  <h2 className="pb-2 -mb-1 border-b border-gray-200 sub-heading">
     {children}
   </h2>
 );
+
 const Item = ({
   title,
   subtitle,
@@ -19,10 +21,10 @@ const Item = ({
   time?: string;
 } & React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="grid grid-cols-5 items-center gap-x-4 gap-y-0 group">
-      <div className="col-span-5 lg:col-span-5 md:flex items-baseline md:flex-gap-2">
-        <div className="text-md font-medium body-text ">{title}</div>
-        <div className="hidden md:block flex-1 border-gray-300 border-t border-dashed mt-3 md:mt-0"></div>
+    <div className="grid items-center grid-cols-5 gap-x-4 gap-y-0 group">
+      <div className="items-baseline col-span-5 lg:col-span-5 md:flex md:flex-gap-2">
+        <div className="font-medium text-md body-text ">{title}</div>
+        <div className="flex-1 hidden mt-3 border-t border-gray-300 border-dashed md:block md:mt-0"></div>
         {time && (
           <p className="text-sm  m-0 md:mt-0.5 text-gray-500 justify-self-end fonts-mono tabular-nums">
             {time}
@@ -31,15 +33,16 @@ const Item = ({
       </div>
       <div className="col-span-5 lg:col-span-5">
         {subtitle && <p className="text-sm mt-0.5 text-gray-500">{subtitle}</p>}
-        <div className="md:hidden flex-1 border-gray-300 border-t border-dashed mt-3 md:mt-0 md:order-2 group-last:hidden"></div>
+        <div className="flex-1 mt-3 border-t border-gray-300 border-dashed md:hidden md:mt-0 md:order-2 group-last:hidden"></div>
       </div>
     </div>
   );
 };
+
 export default function AboutContent() {
   return (
-    <div className="p-content relative h-full">
-      <Fade delay={300} className="main-container text-gray-800">
+    <div className="relative h-full p-content">
+      <Fade delay={300} className="text-gray-800 main-container">
         <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-12 lg:gap-y-24">
           <section className="col-span-2 md:col-span-6 lg:col-span-8 lg:mr-8">
             <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16">
@@ -53,16 +56,16 @@ export default function AboutContent() {
                     </InlineLink>
                     .
                   </p>
-                  <div className="grid gap-3 grid-cols-1 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                     {now.map((item, i) => (
                       <div
-                        className="px-3 md:px-4 py-2 bg-slate-100 rounded-md"
+                        className="px-3 py-2 rounded-md md:px-4 bg-slate-100"
                         key={`now-${i}`}
                       >
                         <p className="text-sm mt-0.5 text-gray-500">
                           {item.title}
                         </p>
-                        <div className="text-md font-medium body-text mt-1">
+                        <div className="mt-1 font-medium text-md body-text">
                           {item.link ? (
                             <InlineLink href={item.link}>
                               {item.content}
@@ -98,13 +101,13 @@ export default function AboutContent() {
               </div>
             </div>
           </section>
-          <aside className="col-span-2 md:col-span-6 lg:col-span-4 lg:col-start-9 flex flex-col only-sm:flex-gap-x-4 md:flex-gap-x-6 lg:flex-gap-x-8 flex-gap-y-8 md:flex-gap-y-12">
+          <aside className="flex flex-col col-span-2 md:col-span-6 lg:col-span-4 lg:col-start-9 only-sm:flex-gap-x-4 md:flex-gap-x-6 lg:flex-gap-x-8 flex-gap-y-8 md:flex-gap-y-12">
             {Object.keys(skills).map((group, i) => (
               <div key={i} className="col-span-1">
                 <Heading>{group}</Heading>
                 <ul className="mt-4 md:mt-8">
                   {skills[group].map((item, i) => (
-                    <li className="mt-1 md:mt-2 text-base md:text-lg" key={i}>
+                    <li className="mt-1 text-base md:mt-2 md:text-lg" key={i}>
                       {item}
                     </li>
                   ))}
@@ -112,7 +115,7 @@ export default function AboutContent() {
               </div>
             ))}
             <div className="col-span-1">
-              <Button href="/cv.pdf" icon={<FiDownload />} external>
+              <Button href={cvLink} icon={<FiDownload />} external>
                 Download my CV
               </Button>
             </div>
