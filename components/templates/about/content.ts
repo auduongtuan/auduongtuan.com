@@ -73,6 +73,7 @@ export const education = [
     time: "2013 - 2016",
   },
 ];
+
 export const skills = {
   "What I do": [
     "Information Architecture",
@@ -97,6 +98,7 @@ export const skills = {
     "PHP, WordPress",
   ],
 };
+
 export const now = [
   { title: "📖 Learning", content: "Swift & SwiftUI" },
   {
@@ -105,3 +107,6 @@ export const now = [
     link: "https://www.imdb.com/title/tt2467372/",
   },
 ];
+
+export const cvLink =
+  "https://drive.google.com/file/d/1ZzC66OjSuHewWLy2UUghW3MWjzNWkrNp/view?usp=drive_link";
