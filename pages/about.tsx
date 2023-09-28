@@ -1,5 +1,5 @@
-import HeadMeta from "../components/atoms/HeadMeta";
-import AboutPage from "../components/templates/about/AboutPage";
+import HeadMeta from "@atoms/HeadMeta";
+import AboutPage from "@templates/about/AboutPage";
 
 export default function About() {
   return (
