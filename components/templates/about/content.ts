@@ -1,3 +1,46 @@
+export const newExperience = [
+  {
+    title: "BAEMIN",
+    time: "10/2022 - Current",
+    subtitle: "Design / Dev",
+    type: "Full-time",
+    description:
+      "Working in Internal Developer Platform squad, focusing on design systems and design ops. Sometimes works on other tasks like handling editorial content/design for the food trend report, drawing badge icons 😂, designing and coding marketing websites, …",
+  },
+  {
+    title: "Aperia",
+    time: "04/2020 - 09/2022",
+    subtitle: "Design / Dev",
+    type: "Full-time",
+    description:
+      "Worked as a designer in a specialized team to create a design system that used in company CRM products.",
+  },
+  {
+    title: "Samsung",
+    subtitle: "Design",
+    type: "Full-time",
+    time: "01/2020 - 04/2020",
+    description:
+      "Joined in a new Samsung design team in Vietnam to build apps for IOT devices.",
+  },
+  {
+    title: "ECOE",
+    subtitle: "Design",
+    type: "Contract",
+    time: "03/2019 - 10/2019",
+    description:
+      "Joined to a design team building a new estate platform in Vietnam Market.",
+  },
+  {
+    title: "Yeah1",
+    subtitle: "Multimedia Design",
+    type: "Part-time",
+    time: "12/2017 - 07/2018",
+    description:
+      "Worked as a part-time designer and video editor to support marketing materials, landing pages, and videos for Phở Đặc Biệt.",
+  },
+];
+
 export const experience = [
   {
     title: "BAEMIN Vietnam",
