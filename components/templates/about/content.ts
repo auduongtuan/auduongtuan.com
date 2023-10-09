@@ -1,7 +1,7 @@
 export const newExperience = [
   {
     title: "BAEMIN",
-    time: "10/2022 - Current",
+    time: "Oct 2022 - Current",
     subtitle: "Design / Dev",
     type: "Full-time",
     description:
@@ -9,7 +9,7 @@ export const newExperience = [
   },
   {
     title: "Aperia",
-    time: "04/2020 - 09/2022",
+    time: "Apr 2020 - Sep 2022",
     subtitle: "Design / Dev",
     type: "Full-time",
     description:
@@ -19,7 +19,7 @@ export const newExperience = [
     title: "Samsung",
     subtitle: "Design",
     type: "Full-time",
-    time: "01/2020 - 04/2020",
+    time: "Jan 2020 - Apr 2020",
     description:
       "Joined in a new Samsung design team in Vietnam to build apps for IOT devices.",
   },
@@ -35,7 +35,7 @@ export const newExperience = [
     title: "Yeah1",
     subtitle: "Multimedia Design",
     type: "Part-time",
-    time: "12/2017 - 07/2018",
+    time: "Dec 2017 - Jul 2018",
     description:
       "Worked as a part-time designer and video editor to support marketing materials, landing pages, and videos for Phở Đặc Biệt.",
   },
@@ -146,8 +146,13 @@ export const now = [
   { title: "📖 Learning", content: "Swift & SwiftUI" },
   {
     title: "🎬 Watching",
-    content: "Brooklyn 99",
-    link: "https://www.imdb.com/title/tt2467372/",
+    content: "Sex Education 4",
+    link: "https://www.imdb.com/title/tt7767422/",
+  },
+  {
+    title: "🎧 Listening",
+    content: "tlinh - ái album ",
+    link: "https://open.spotify.com/album/0LM9Cm43Sug8Hfpm84qmt6",
   },
 ];
 
