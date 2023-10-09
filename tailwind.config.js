@@ -38,8 +38,6 @@ module.exports = {
       },
       backgroundColor: ({ theme }) => ({
         surface: theme.colors.white,
-        "accent-subtle": theme.colors.blue[200],
-        "accent-subtlest": theme.colors.blue[50],
       }),
       textColor: ({ theme }) => ({
         onaccent: theme.colors.white,
@@ -51,6 +49,8 @@ module.exports = {
       }),
       colors: ({ theme }) => ({
         accent: theme.colors.blue[600],
+        "accent-subtle": theme.colors.blue[200],
+        "accent-subtlest": theme.colors.blue[50],
         "custom-neutral": {
           // 900: "#202020"
           900: "#1b1d22",

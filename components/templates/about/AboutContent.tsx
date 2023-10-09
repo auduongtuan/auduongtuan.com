@@ -1,19 +1,21 @@
 import React from "react";
-import { FiDownload } from "react-icons/fi";
-import Button from "@atoms/Button";
 import Fade from "@atoms/Fade";
-import {
-  newExperience,
-  experience,
-  education,
-  skills,
-  now,
-  cvLink,
-} from "./content";
+import { newExperience, now, cvLink, education } from "./content";
 import InlineLink from "@atoms/InlineLink";
+import { twMerge } from "tailwind-merge";
 
-const Heading = ({ children }: { children?: React.ReactNode }) => (
-  <h2 className="pb-2 -mb-1 border-b border-gray-200 sub-heading">
+const Heading = ({
+  children,
+  className,
+  ...rest
+}: React.ComponentPropsWithRef<"h2">) => (
+  <h2
+    className={twMerge(
+      "pb-2 -mb-1 border-b border-gray-200 sub-heading",
+      className
+    )}
+    {...rest}
+  >
     {children}
   </h2>
 );
@@ -22,25 +24,30 @@ const NewItem = ({
   title,
   subtitle,
   time,
+  education,
 }: {
   title: string;
   subtitle?: string;
   time?: string;
+  education?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="grid items-center grid-cols-5 px-3 py-2 bg-white border border-gray-100 rounded-md gap-x-4 gap-y-0 group md:px-4">
-      <div className="items-baseline col-span-5 lg:col-span-5 md:flex md:flex-gap-2">
-        <div className="font-medium text-md body-text ">{title}</div>
-        <div className="flex-1 hidden mt-3 border-t border-gray-300 border-dashed md:block md:mt-0"></div>
-        {time && (
-          <p className="text-sm  m-0 md:mt-0.5 text-gray-500 justify-self-end fonts-mono tabular-nums">
-            {time}
-          </p>
+    <div className="items-center bg-white rounded-md gap-x-4 gap-y-0 group ">
+      <div className="items-baseline col-span-5 lg:col-span-5 ">
+        <span className="font-medium text-md body-text ">{title}</span>{" "}
+        {!education && subtitle && (
+          <span className="text-sm text-gray-500">· {subtitle}</span>
+        )}
+        {education && subtitle && (
+          <span className="block text-sm my-0.5 text-gray-500">{subtitle}</span>
         )}
       </div>
       <div className="col-span-5 lg:col-span-5">
-        {subtitle && <p className="text-sm mt-0.5 text-gray-500">{subtitle}</p>}
-        <div className="flex-1 mt-3 border-t border-gray-300 border-dashed md:hidden md:mt-0 md:order-2 group-last:hidden"></div>
+        {time && (
+          <p className="text-sm m-0 md:mt-0.5 text-gray-500 justify-self-end tabular-nums">
+            {time}
+          </p>
+        )}
       </div>
     </div>
   );
@@ -81,18 +88,24 @@ export default function AboutContent() {
         <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-12 lg:gap-y-24">
           <section className="col-span-2 md:col-span-6 lg:col-span-8 lg:mr-8">
             <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16">
+              <div className="items-center w-full col-span-6 px-3 py-2 rounded-md md:flex md:-mx-3 md:-my-2 md:px-4 bg-slate-100">
+                <p className="mb-1 text-sm text-gray-500 md:mb-0 grow">
+                  💼 Looking for more details?
+                </p>
+                <p>
+                  <InlineLink href={cvLink} className="font-medium body-text">
+                    Download my CV
+                  </InlineLink>
+                </p>
+              </div>
               <div className="col-span-6 md:col-span-6">
-                <Heading>Experience</Heading>
-                <div className="grid grid-cols-1 gap-6 mt-4 md:mt-8">
+                <Heading>Work Experience</Heading>
+
+                <div className="grid grid-cols-1 gap-5 mt-4 md:gap-6 md:grid-cols-2 md:mt-8">
                   {newExperience.map((item, i) => (
                     <NewItem key={i} {...item} />
                   ))}
                 </div>
-              </div>
-              <div className="col-span-1">
-                <Button href={cvLink} icon={<FiDownload />} external>
-                  Download full CV
-                </Button>
               </div>
 
               {/* <div className="col-span-6 md:col-span-6">
@@ -104,14 +117,14 @@ export default function AboutContent() {
                 </div>
               </div> */}
 
-              {/* <div className="col-span-6 md:col-span-6">
+              <div className="col-span-6 md:col-span-6">
                 <Heading>Education</Heading>
-                <div className="grid grid-cols-1 gap-6 mt-4 md:mt-8">
+                <div className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2 md:mt-8">
                   {education.map((item, i) => (
-                    <Item key={i} {...item} />
+                    <NewItem education key={i} {...item} />
                   ))}
                 </div>
-              </div> */}
+              </div>
             </div>
           </section>
           {/* <aside className="flex flex-col col-span-2 md:col-span-6 lg:col-span-4 lg:col-start-9 only-sm:flex-gap-x-4 md:flex-gap-x-6 lg:flex-gap-x-8 flex-gap-y-8 md:flex-gap-y-12">
