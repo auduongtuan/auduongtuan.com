@@ -37,9 +37,10 @@ export default function AboutHeader() {
               </Fade>
               <Fade delay={200}>
                 <p className="mt-4 md:mt-8">
-                  I have been self-studying design &amp; code since 2009. Then,
-                  received a BFA in design and am getting my 2nd bachelor&apos;s
-                  degree in tech. You can read more at{" "}
+                  I have been self-studying design &amp; code since 2009 when I
+                  was tinkering with Yahoo Blog theme. Then, received a BFA in
+                  design and am getting my 2nd bachelor&apos;s degree in tech.
+                  You can read more at{" "}
                   <InlineLink href="/blog/my-digital-journey" dark>
                     my digital journey
                   </InlineLink>
