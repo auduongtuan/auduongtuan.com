@@ -1,7 +1,7 @@
 export const newExperience = [
   {
     title: "BAEMIN",
-    time: "Oct 2022 - Current",
+    time: "Oct 2022 - Nov 2023",
     subtitle: "Design / Dev",
     type: "Full-time",
     description:
@@ -95,7 +95,7 @@ export const education = [
   {
     title: "University of Science HCMC (HCMUS)",
     subtitle: "BSc in Information Technology",
-    time: "2021 - Current",
+    time: "2021 - 2023",
     description: "Focus on Web Technologies",
   },
   {
@@ -143,16 +143,16 @@ export const skills = {
 };
 
 export const now = [
-  { title: "📖 Learning", content: "Swift & SwiftUI" },
+  { title: "📖 Learning", content: "Guitar 🎸" },
   {
     title: "🎬 Watching",
-    content: "Sex Education 4",
-    link: "https://www.imdb.com/title/tt7767422/",
+    content: "What If...?",
+    link: "https://www.imdb.com/title/tt10168312/",
   },
   {
     title: "🎧 Listening",
-    content: "tlinh - ái album ",
-    link: "https://open.spotify.com/album/0LM9Cm43Sug8Hfpm84qmt6",
+    content: "Wren Evans - LOI CHOI album",
+    link: "https://open.spotify.com/album/1c4nTHI2hreFeF5P37wf4f?si=kNY-wzg7QZaC6mQQReztUA",
   },
 ];
 
