@@ -37,10 +37,9 @@ export default function AboutHeader() {
               </Fade>
               <Fade delay={200}>
                 <p className="mt-4 md:mt-8">
-                  I have been self-studying design &amp; code since 2009 when I
-                  was tinkering with Yahoo Blog theme. Then, received a BFA in
-                  design and am getting my 2nd bachelor&apos;s degree in tech.
-                  You can read more at{" "}
+                  My journey began when I taught myself design and code while
+                  tinkering with the Yahoo Blog theme. Then, I pursued a BFA in
+                  design and a BSc degree in tech. You can read more at{" "}
                   <InlineLink href="/blog/my-digital-journey" dark>
                     my digital journey
                   </InlineLink>
@@ -49,11 +48,10 @@ export default function AboutHeader() {
               </Fade>
               <Fade delay={250}>
                 <p className="mt-4 md:mt-8">
-                  Currently, I am spending my week days at{" "}
-                  <InlineLink href="https://baemin.vn" dark>
-                    BAEMIN ↗
-                  </InlineLink>{" "}
-                  focusing on Design System and DesignOps.
+                  Recently, I had worked on Design systems and Design ops at
+                  companies like Aperia, BAEMIN. I am looking for a role in a
+                  product company where I can enhance my technical abilities and
+                  product mindset.
                 </p>
               </Fade>
             </Balancer>
