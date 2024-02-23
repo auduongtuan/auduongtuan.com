@@ -94,6 +94,12 @@ module.exports = {
     require("@tailwindcss/typography"),
     require("tailwindcss-animation-delay"),
     require("@headlessui/tailwindcss"),
+    plugin(function ({ addVariant }) {
+      addVariant(
+        "sm-only",
+        "@media screen and (max-width: theme('screens.md'))"
+      ); // instead of hard-coded 640px use sm breakpoint value from config. Or anything
+    }),
     plugin(({ addUtilities, e, theme, variants }) => {
       Object.entries(theme("gap")).forEach(([key, value]) =>
         addUtilities(
