@@ -32,10 +32,14 @@ const CommentSuggestion = ({
   }, [useEnglish]);
 
   return (
-    <Skeleton.Wrapper block className="flex w-full" loaded={list.length > 0}>
+    <Skeleton.Wrapper
+      block
+      className={`flex w-full h-[36px] mb-4`}
+      loaded={list.length > 0}
+    >
       <Skeleton type="block" className="rounded-full"></Skeleton>
       <Skeleton.Content className="flex-shrink w-full">
-        <div className="flex mb-4 justify-stretch">
+        <div className="flex justify-stretch">
           <div className="mr-1.5 flex flex-grow-0 flex-shrink-0">
             <Tooltip content="Use English">
               <PillButton
