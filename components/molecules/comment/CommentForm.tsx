@@ -1,23 +1,18 @@
 import { useReducer, useRef, Fragment } from "react";
 import Button from "@atoms/Button";
 import Toast from "@atoms/Toast";
-import Dialog from "@atoms/Dialog";
 import axios from "axios";
 import { FieldValues, useForm } from "react-hook-form";
-import { FiMessageCircle, FiSend } from "react-icons/fi";
-import Switch from "@atoms/Switch";
+import { FiSend } from "react-icons/fi";
 import TextField from "@atoms/TextField";
-
-function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+import CommentSuggestion from "./CommentSuggestion";
 
 const CommentForm = ({ page, wording, onSubmit }) => {
   const [state, setState] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     { open: false, loading: false, sent: false, error: false, anonymous: false }
   );
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, resetField, getValues } = useForm();
   const messageRef = useRef<HTMLTextAreaElement | null>(null);
   const { ref: formContentRef, ...formContentRest } = register("content");
   // const [anonymous, setAnonymous]
@@ -36,7 +31,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
         .then((res) => {
           // console.log(res);
           setState({ loading: false, sent: true, open: false });
-          reset();
+          resetField("content");
           onSubmit && onSubmit();
         })
         .catch((err) => {
@@ -44,6 +39,13 @@ const CommentForm = ({ page, wording, onSubmit }) => {
           setState({ loading: false, sent: false, error: true });
         });
     }
+  };
+  const quickComment = (content: string) => {
+    if (messageRef.current) messageRef.current.value = content;
+    submitHandler({
+      ...getValues(),
+      content,
+    });
   };
   return (
     <Fragment>
@@ -53,9 +55,12 @@ const CommentForm = ({ page, wording, onSubmit }) => {
           Message sent. Thank for your {wording.singular}.
         </Toast>
       )}
-
-      <form onSubmit={handleSubmit(submitHandler)}>
-        <section className="grid grid-cols-1 gap-4 ">
+      <CommentSuggestion onButtonClick={quickComment} />
+      <form
+        onSubmit={handleSubmit(submitHandler)}
+        className={state.loading ? "pointer-events-none animate-pulse" : ""}
+      >
+        <section className="grid grid-cols-1 gap-0 ">
           <div>
             <textarea
               id="content-input"
@@ -67,45 +72,43 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                 formContentRef(e);
                 messageRef.current = e;
               }}
-              className="block w-full h-32 px-3 py-2 text-base leading-tight text-gray-800 transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40"
+              className="relative block w-full h-32 px-3 py-2 text-base leading-tight text-gray-800 transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none md:rounded-b-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 focus:z-10"
             />
           </div>
 
-          {!state.anonymous && (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <TextField
-                  type="text"
-                  label="Your name"
-                  required={!state.anonymous}
-                  {...register("name")}
-                />
-              </div>
-              <div>
-                <TextField
-                  type="email"
-                  label="Your email (optional)"
-                  placeholder="example@gmail.com"
-                  {...register("email")}
-                />
-              </div>
+          <div className="md:flex">
+            <div className="mt-2 md:-mr-[2px] md:-mt-[2px] grow">
+              <TextField
+                type="text"
+                className="relative md:rounded-t-none md:rounded-br-none focus:z-10"
+                // label="Your name (optional)"
+                placeholder="Your name (optional)"
+                {...register("name")}
+              />
             </div>
-          )}
-        </section>
-        <footer className="flex items-center justify-between mt-6 flex-gap-x-3">
-          <div>
-            <Switch
-              label="Send as anonymous"
-              checked={state.anonymous}
-              onChange={(b) => setState({ anonymous: b })}
-            ></Switch>
+            <div className="mt-2 md:-mr-[2px] md:-mt-[2px] grow">
+              <TextField
+                className="relative md:rounded-none focus:z-10"
+                type="email"
+                placeholder="Your email (optional)"
+                // placeholder="example@gmail.com"
+                {...register("email")}
+              />
+            </div>
+            <Button
+              className="relative focus:z-10 mt-4 md:-mt-[2px] sm-only:w-full sm-only:justify-center md:rounded-t-none md:rounded-bl-none"
+              type="submit"
+              loading={state.loading}
+              icon={<FiSend />}
+            >
+              Send
+            </Button>
           </div>
-          <Button type="submit" loading={state.loading} icon={<FiSend />}>
-            Send
-          </Button>
-        </footer>
+        </section>
+        <footer className="flex items-center justify-between mt-6 flex-gap-x-3"></footer>
       </form>
     </Fragment>
   );
 };
+
 export default CommentForm;
