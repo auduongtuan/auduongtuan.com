@@ -37,7 +37,7 @@ export default function AboutHeader() {
         <div className="grid grid-cols-12 gap-4 md:gap-8">
           <div
             ref={contentRef}
-            className="col-span-12 lg:col-span-7 text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-4"
+            className="col-span-12 lg:col-span-7 text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-6"
           >
             <Fade delay={150} as="p">
               Xin chào!
@@ -65,14 +65,13 @@ export default function AboutHeader() {
                 </InlineLink>
               </Tooltip>
               . I&apos;m a{" "}
-              <Tooltip content="View more information about design engineer">
+              <Tooltip content="View more information about this role">
                 <InlineLink href="/blog/ux-design-engineer">
-                  versatile software professional
+                  {/* versatile software professional */}design engineer
                 </InlineLink>
               </Tooltip>
-              , usually transitioning between the roles of a designer,
-              developer, or any other hat required to bring my creative visions
-              to life.
+              , transitioning between the roles of a designer, developer, or any
+              other hat required to bring my creative visions to life.
               {/* I&apos;m Tuan - a software designer and developer. */}
               {/* Proudly having many skills that span across a spectrum of
             disciplines helps me to solve problems in creative, organized
@@ -80,7 +79,7 @@ export default function AboutHeader() {
             </Fade>
             <Fade delay={250} as="p">
               My journey began when I taught myself design and code while
-              tinkering with the Yahoo Blog theme. Then, I pursued a BFA in
+              tinkering with the Yahoo! blog theme. Then, I pursued a BFA in
               Design at{" "}
               <InlineLink className="text-[#ab3632]" href="https://uah.edu.vn">
                 UAH
@@ -120,8 +119,8 @@ export default function AboutHeader() {
                 BAEMIN VN
               </InlineLink>
               <RiCrossFill className="inline w-4 h-4 mb-1 text-secondary" />. I
-              am seeking a role in a product company where I can enhance my
-              technical abilities and product mindset.
+              am currently seeking a role in a product company where I can
+              enhance my technical abilities and product mindset.
             </Fade>
             <Fade delay={350} as="p">
               <span>Curious for more details?</span>{" "}

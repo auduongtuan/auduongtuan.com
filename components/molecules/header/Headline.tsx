@@ -65,7 +65,7 @@ const Headline = () => {
       </Fade>
       <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
-          className="inline-block text-[#62abd6] transition-all duration-300 ease-bounce"
+          className="inline-block text-[#62abd6] transition-all duration-200 ease-bounce"
           style={startTextStyle}
           ref={(el) => (texts.current[0] = el)}
           data-color="#b5d1d4"
@@ -75,7 +75,7 @@ const Headline = () => {
       </div>
       <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
-          className="inline-block text-[#6d7eff] transition-all duration-300 ease-bounce "
+          className="inline-block text-[#6d7eff] transition-all duration-200 ease-bounce "
           style={startTextStyle}
           ref={(el) => (texts.current[1] = el)}
           data-color="#b3c4e2"
@@ -85,7 +85,7 @@ const Headline = () => {
       </div>
       <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
-          className="inline-block text-[#c881e7] transition-all duration-300 ease-bounce "
+          className="inline-block text-[#c881e7] transition-all duration-200 ease-bounce "
           style={startTextStyle}
           ref={(el) => (texts.current[2] = el)}
           data-color="#dfcae4"
