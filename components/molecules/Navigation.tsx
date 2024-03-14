@@ -41,7 +41,8 @@ const Navigation = React.memo(
         if (hideOnScroll) window.removeEventListener("scroll", handleScroll);
       };
     }, [hideOnScroll, pauseScrollEvent]);
-    const darkMenu = headerInView || menuOpened;
+    // const darkMenu = headerInView || menuOpened;
+    const darkMenu = false;
     // may need to
     // https://paco.me/writing/disable-theme-transitions
 
@@ -58,12 +59,12 @@ const Navigation = React.memo(
     return (
       <div>
         <header className={NavigationStyles}>
-          <nav className="flex items-center justify-between py-2 text-base font-semibold text-display md:text-xl main-container md:py-4">
+          <nav className="flex items-center justify-between py-2 text-base font-semibold font-display text-display md:text-xl main-container md:py-4">
             {/* logo */}
             <NavigationLink
               href="/"
               logo
-              inverted={headerInView || menuOpened}
+              inverted={darkMenu}
               callback={() => setMenuOpened(false)}
             >
               Au Duong Tuan
@@ -95,7 +96,7 @@ const Navigation = React.memo(
                       <NavigationLink
                         pathname={item.pathname}
                         href={item.href}
-                        inverted={headerInView}
+                        inverted={darkMenu}
                       >
                         {item.name}
                       </NavigationLink>

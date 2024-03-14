@@ -35,18 +35,21 @@ export default function Header() {
   };
 
   return (
-    <header ref={ref} className="z-10 w-full text-white bg-custom-neutral-900">
+    <header
+      ref={ref}
+      className="z-10 w-full bg-white border-b text-primary border-b-divider"
+    >
       <div className="main-container p-header">
         <div className="flex items-center justify-center">
           <div className="lg:max-w-[50rem] z-4">
             <Headline />
             <Fade delay={200}>
-              <p className="mt-6 text-center page-description lg:mt-9">
+              <p className="mt-4 text-center page-description text-secondary lg:mt-6">
                 <Balancer>
                   A software <GifText {...setupGif(0)}>designer</GifText>{" "}
-                  <span className="text-white/40">/</span>{" "}
+                  <span className="text-divider">/</span>{" "}
                   <GifText {...setupGif(1)}>developer</GifText>{" "}
-                  <span className="text-white/40">/</span>{" "}
+                  <span className="text-divider">/</span>{" "}
                   <GifText {...setupGif(2)}>whatever</GifText> who strives to
                   make good products with the human at the center
                 </Balancer>
@@ -65,7 +68,7 @@ export default function Header() {
             </Fade>
 
             <Fade delay={500} className="flex justify-center">
-              <Button href="/about" className="mt-6 md:mt-10" colorful arrow>
+              <Button href="/about" className="mt-6 md:mt-10" arrow>
                 Get to know me
               </Button>
             </Fade>

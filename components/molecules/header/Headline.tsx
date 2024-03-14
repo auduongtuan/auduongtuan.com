@@ -13,11 +13,12 @@ const Headline = () => {
   const activeTextIndex = useRef(0);
   useEffect(() => {
     const textAnimation = (firstTime = false) => {
-      const underlineEl = underline.current as HTMLElement | null;
+      // const underlineEl = underline.current as HTMLElement | null;
       const textEl = texts.current[
         activeTextIndex.current
       ] as HTMLElement | null;
-      if (!textEl || !underlineEl) return;
+      if (!textEl) return;
+      // if (!underlineEl) return;
 
       // text
       textEl.style.transform = "translateY(0)";
@@ -26,12 +27,12 @@ const Headline = () => {
       if (activeTextIndex.current == texts.current.length)
         activeTextIndex.current = 0;
 
-      // underline
-      if (!firstTime) underlineEl.style.transitionDuration = "300ms";
-      underlineEl.style.width = textEl.offsetWidth + "px";
-      underlineEl.style.backgroundColor = textEl.getAttribute(
-        "data-color"
-      ) as string;
+      // // underline
+      // if (!firstTime) underlineEl.style.transitionDuration = "300ms";
+      // underlineEl.style.width = textEl.offsetWidth + "px";
+      // underlineEl.style.backgroundColor = textEl.getAttribute(
+      //   "data-color"
+      // ) as string;
 
       setTimeout(() => {
         textEl.style.transform = "translateY(-40px)";
@@ -55,7 +56,7 @@ const Headline = () => {
     underlineEl.style.width = textEl.offsetWidth + "px";
   }, [size.width]);
   return (
-    <div className="grid grid-cols-1 text-center place-items-center h1">
+    <div className="grid grid-cols-1 leading-none text-center font-display place-items-center h1">
       <Fade
         className="w-full col-span-1 col-start-1 row-span-1 row-start-1 text-center place-items-center"
         slide
@@ -64,39 +65,39 @@ const Headline = () => {
       </Fade>
       <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
-          className="inline-block transition-all duration-300 ease-bounce"
+          className="inline-block text-[#62abd6] transition-all duration-300 ease-bounce"
           style={startTextStyle}
           ref={(el) => (texts.current[0] = el)}
-          data-color="#13464b"
+          data-color="#b5d1d4"
         >
           digital products.
         </span>
       </div>
       <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
-          className="inline-block transition-all duration-300 ease-bounce "
+          className="inline-block text-[#6d7eff] transition-all duration-300 ease-bounce "
           style={startTextStyle}
           ref={(el) => (texts.current[1] = el)}
-          data-color="#1a3059"
+          data-color="#b3c4e2"
         >
           web applications.
         </span>
       </div>
       <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
-          className="inline-block transition-all duration-300 ease-bounce "
+          className="inline-block text-[#c881e7] transition-all duration-300 ease-bounce "
           style={startTextStyle}
           ref={(el) => (texts.current[2] = el)}
-          data-color="#5f276c"
+          data-color="#dfcae4"
         >
           automate tools.
         </span>
       </div>
-      <div
-        className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-2 md:h-3 lg:h-4 bg-slate-700 bottom-0.5 lg:bottom-1 transition-all duration-[800ms] relative z-10"
+      {/* <div
+        className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-2 md:h-3 lg:h-4 bg-transparent bottom-0.5 lg:bottom-1 transition-all duration-[800ms] relative z-10"
         ref={underline}
         style={{ width: "0" }}
-      ></div>
+      ></div> */}
     </div>
   );
 };

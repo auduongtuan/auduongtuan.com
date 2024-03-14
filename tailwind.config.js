@@ -16,7 +16,7 @@ module.exports = {
       },
       fontFamily: {
         // "display": ['Work Sans', ],
-        display: ["var(--main-font)", "Helvetica", "Arial", "sans-serif"],
+        display: ["Bricolage Grotesque", "Helvetica", "Arial", "sans-serif"],
         sans: ["var(--main-font)", "Helvetica", "Arial", "sans-serif"],
         // "script": ['Nanum Pen Script', 'IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif']
       },
@@ -38,6 +38,7 @@ module.exports = {
       },
       backgroundColor: ({ theme }) => ({
         surface: theme.colors.white,
+        "surface-raised": "rgba(209,213,219,0.4)",
       }),
       textColor: ({ theme }) => ({
         onaccent: theme.colors.white,
@@ -51,6 +52,9 @@ module.exports = {
         accent: theme.colors.blue[600],
         "accent-subtle": theme.colors.blue[200],
         "accent-subtlest": theme.colors.blue[50],
+        // gray.900/15
+        divider: "rgb(17 24 39 / 0.10)",
+        underline: "rgb(17 24 39 / 0.15)",
         "custom-neutral": {
           // 900: "#202020"
           900: "#1b1d22",

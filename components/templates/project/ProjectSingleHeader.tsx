@@ -16,7 +16,10 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
   const { ref } = useHeaderInView();
   const bp = useBreakpoint();
   return (
-    <header ref={ref} className="z-10 w-full text-white bg-custom-neutral-900">
+    <header
+      ref={ref}
+      className="z-10 w-full border-b text-primary bg-surface border-divider"
+    >
       <div className="main-container p-header">
         <div
           className="grid grid-cols-12 p-0 gap-x-4 content-container"
@@ -50,7 +53,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                   <Tooltip content="View website">
                     <IconButton
                       size={bp == "sm" ? "small" : "medium"}
-                      inverted
+                      // inverted
                       href={project.meta.link ? project.meta.link : "#"}
                       external
                     >
@@ -68,7 +71,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
               </Fade>
             )}
           </div>
-          <Fade as="p" delay={200} className={`col-span-12 mt-4 big-body-text`}>
+          <Fade as="p" delay={200} className={`col-span-12 mt-4 body-text`}>
             <Balancer ratio={0.36}>{project.meta.description}</Balancer>
           </Fade>
 

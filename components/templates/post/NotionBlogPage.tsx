@@ -12,7 +12,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
     <>
       <header
         ref={ref}
-        className="z-10 w-full text-white bg-custom-neutral-900"
+        className="z-10 w-full border-b text-primary bg-surface border-divider"
       >
         <div className="main-container p-header">
           <div className="grid grid-cols-12 gap-4 md:gap-8">

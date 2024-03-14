@@ -11,7 +11,10 @@ export default function AboutHeader() {
   const images = ["tuan_smile.jpg", "tuan_grin.jpg"];
   const [image, setImage] = useState(0);
   return (
-    <header ref={ref} className="z-10 w-full text-white bg-custom-neutral-900">
+    <header
+      ref={ref}
+      className="z-10 w-full border-b text-primary bg-surface border-divider"
+    >
       <div className="main-container p-header">
         <div className="grid grid-cols-12 gap-x-8 gap-y-6 md:gap-y-8">
           <Fade
@@ -40,7 +43,7 @@ export default function AboutHeader() {
                   My journey began when I taught myself design and code while
                   tinkering with the Yahoo Blog theme. Then, I pursued a BFA in
                   design and a BSc degree in tech. You can read more at{" "}
-                  <InlineLink href="/blog/my-digital-journey" dark>
+                  <InlineLink href="/blog/my-digital-journey">
                     my digital journey
                   </InlineLink>
                   .
