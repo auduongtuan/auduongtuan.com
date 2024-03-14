@@ -7,7 +7,7 @@ export interface GifTextProps extends React.HTMLProps<HTMLAnchorElement> {
 const GifText = forwardRef<HTMLAnchorElement, GifTextProps>(
   ({ children, href, external = false, ...rest }, ref) => {
     const className =
-      "underline decoration-2 underline-offset-4 transition-all duration-200 decoration-gray-600 hover:decoration-transparent inline-block -mx-2 -my-1 px-2 py-1 rounded-xl hover:bg-white/5";
+      "inline-block px-2 py-1 -mx-2 -my-1 underline transition-all duration-200 decoration-2 underline-offset-4 decoration-divider hover:decoration-transparent rounded-xl hover:bg-surface-raised";
     const Component = href ? ExternalLink : "span";
     if (external || !href) {
       return (

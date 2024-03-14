@@ -1,21 +1,17 @@
-import React from "react";
-
 import { Post } from "@lib/blog";
 import PostListItem from "./PostListItem";
 import useHeaderInView from "@hooks/useHeaderInView";
 import Footer from "@molecules/Footer";
-import Fade, { FadeProps } from "@atoms/Fade";
+import Fade from "@atoms/Fade";
+
 export default function BlogPage({ posts }: { posts: Post[] }) {
   const { ref } = useHeaderInView();
 
   return (
     <>
-      <header
-        ref={ref}
-        className="z-10 w-full text-white bg-custom-neutral-900"
-      >
-        <div className="main-container p-header">
-          <div className="grid grid-cols-12 gap-4 md:gap-8">
+      <header ref={ref} className="z-10 w-full text-primary bg-surface ">
+        <div className="pt-20 pb-8 border-b main-container md:pt-24 md:pb-10 lg:pt-28 lg:pb-12 border-divider">
+          <div className="grid grid-cols-12 gap-2 md:gap-4">
             <Fade
               as="h1"
               className="col-span-12 md:col-span-8"

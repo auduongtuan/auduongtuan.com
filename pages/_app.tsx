@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       {/* --main-font: ${ibm.style.fontFamily}; */}
       <style jsx global>{`
         :root {
-          --main-font: "IBM Plex Sans";
+          --main-font: "IBM Plex Sans", sans-serif;
         }
       `}</style>
       <main>

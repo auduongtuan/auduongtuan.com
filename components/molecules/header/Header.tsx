@@ -35,18 +35,21 @@ export default function Header() {
   };
 
   return (
-    <header ref={ref} className="z-10 w-full text-white bg-custom-neutral-900">
+    <header
+      ref={ref}
+      className="z-10 w-full bg-white border-b text-primary border-b-divider"
+    >
       <div className="main-container p-header">
         <div className="flex items-center justify-center">
-          <div className="lg:max-w-[50rem] z-4">
+          <div className="lg:max-w-[50rem] ">
             <Headline />
             <Fade delay={200}>
-              <p className="mt-6 text-center page-description lg:mt-9">
+              <p className="relative z-30 mt-4 text-center page-description text-secondary lg:mt-6">
                 <Balancer>
                   A software <GifText {...setupGif(0)}>designer</GifText>{" "}
-                  <span className="text-white/40">/</span>{" "}
+                  <span className="text-divider">/</span>{" "}
                   <GifText {...setupGif(1)}>developer</GifText>{" "}
-                  <span className="text-white/40">/</span>{" "}
+                  <span className="text-divider">/</span>{" "}
                   <GifText {...setupGif(2)}>whatever</GifText> who strives to
                   make good products with the human at the center
                 </Balancer>
@@ -65,14 +68,14 @@ export default function Header() {
             </Fade>
 
             <Fade delay={500} className="flex justify-center">
-              <Button href="/about" className="mt-6 md:mt-10" colorful arrow>
+              <Button href="/about" className="mt-6 md:mt-8" arrow>
                 Get to know me
               </Button>
             </Fade>
           </div>
           {/* <div className="relative z-30 col-span-12 col-start-1 row-start-1 row-end-2 pointer-events-none lg:col-span-4 md:block"> */}
 
-          <div ref={refs.setFloating} className="z-10" style={floatingStyles}>
+          <div ref={refs.setFloating} className="z-40" style={floatingStyles}>
             <div className="w-[360px] max-w-full grid grid-cols-1 grid-rows-1">
               <Fade
                 duration={100}

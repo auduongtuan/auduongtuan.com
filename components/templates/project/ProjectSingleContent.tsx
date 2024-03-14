@@ -9,12 +9,13 @@ import Fade from "@atoms/Fade";
 const ProjectSingleContent = ({ project }: { project: Project }) => {
   return (
     <div
-      className="p-content bg-gray-100 relative"
+      // remove bg color for clearer content
+      className="relative p-content"
       key={project.slug + "_content"}
-      style={{
-        background:
-          project.meta.contentBackground && project.meta.contentBackground,
-      }}
+      // style={{
+      //   background:
+      //     project.meta.contentBackground && project.meta.contentBackground,
+      // }}
     >
       <ContentMenu />
       <Fade as="article" id="project" className="main-container" delay={200}>

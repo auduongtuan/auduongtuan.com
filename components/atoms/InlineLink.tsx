@@ -2,7 +2,8 @@ import Link from "next/link";
 import ExternalLink from "./ExternalLink";
 import { twMerge } from "tailwind-merge";
 import { forwardRef } from "react";
-interface InlineLinkProps {
+interface InlineLinkProps
+  extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap"> {
   href: string;
   className?: string;
   children: React.ReactNode;
@@ -10,6 +11,7 @@ interface InlineLinkProps {
   dark?: boolean;
   wrap?: boolean;
 }
+
 const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
   (
     {
@@ -24,7 +26,9 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
     ref
   ) => {
     // get the internal link (without /)
-    let checkInternal = href.match(/^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i);
+    let checkInternal = href.match(
+      /^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i
+    );
     // console.log(checkInternal);
     const Component = checkInternal ? Link : ExternalLink;
     const linkStyles = twMerge(
@@ -34,11 +38,9 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
       wrap && "hover:decoration-blue-500",
       "transition-all duration-100",
       "-mx-2 px-2 -my-1 py-1 rounded-xl",
-      dark
-        ? "decoration-slate-600"
-        : "decoration-slate-400/40",
+      dark ? "decoration-slate-600" : "decoration-underline",
       dark && !wrap && "hover:bg-white/10",
-      !dark && !wrap && "hover:bg-black/5",
+      !dark && !wrap && "hover:bg-surface-raised",
       className
     );
     return (

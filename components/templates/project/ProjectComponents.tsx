@@ -6,6 +6,8 @@ import { Grid, Col } from "@atoms/Grid";
 import CustomImage, { CustomImageProps } from "@atoms/CustomImage";
 import CustomVideo, { CustomVideoProps } from "@atoms/CustomVideo";
 import InlineLink from "@atoms/InlineLink";
+import Persona, { PersonaProps } from "@atoms/Persona";
+
 const ProjectComponents = (slug: string) => ({
   h2: ({ children }: { children: React.ReactNode }) => (
     <h2 className="lg:relative">
@@ -88,59 +90,7 @@ const ProjectComponents = (slug: string) => ({
   VideoBox: VideoBox,
   BrowserFrame: BrowserFrame,
   // code: Code,
-  Persona: ({
-    children,
-    name = "",
-    image = "",
-    layout = 1,
-    imageWidth,
-    imageHeight,
-  }: {
-    children: React.ReactNode;
-    name: string;
-    image: string | React.ReactNode;
-    layout: 1 | 2;
-    imageWidth?: number;
-    imageHeight?: number;
-  }) => {
-    let imageTag;
-    if (
-      typeof image == "string" &&
-      (image.split(".").pop() == "png" || image.split(".").pop() == "jpg")
-    ) {
-      if (imageWidth && imageHeight) {
-        imageTag = (
-          <CustomImage
-            src={image}
-            slug={slug}
-            alt={name}
-            width={imageWidth}
-            height={imageHeight}
-          />
-        );
-      } else {
-        imageTag = <CustomImage src={image} slug={slug} alt={name} fill />;
-      }
-    } else if (React.isValidElement(image)) {
-      imageTag = image;
-    }
-    return (
-      <div
-        className={`shadow-sm bg-white p-4 h-full rounded-xl persona-${layout}`}
-      >
-        <div
-          className={`${
-            layout == 2
-              ? "rounded-full overflow-hidden w-28 h-28 md:w-32 md:h-32 lg:w-32 lg:h-32 xl:w-40 xl:h-40 leading-0"
-              : ""
-          } image`}
-        >
-          {imageTag}
-        </div>
-        {name && <h3>{name}</h3>}
-        {children}
-      </div>
-    );
-  },
+  Persona: (props: PersonaProps) => <Persona {...props} slug={slug} />,
 });
+
 export default ProjectComponents;

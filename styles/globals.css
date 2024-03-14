@@ -39,11 +39,11 @@
   h1,
   .h1 {
     /* tracking-tight */
-    @apply text-4xl md:text-5xl lg:text-7xl font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11];
+    @apply text-4xl md:text-5xl lg:text-7xl font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-display;
   }
   h2,
   .h2 {
-    @apply text-2xl md:text-[1.75rem] leading-tight md:leading-tight font-semibold text-slate-800;
+    @apply text-2xl md:text-3xl leading-tight md:leading-tight font-semibold font-display text-slate-800;
   }
   h3,
   .h3 {
@@ -71,7 +71,7 @@
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
   }
   .page-description {
-    @apply text-base font-normal leading-normal lg:leading-normal md:leading-normal md:text-xl lg:text-2xl;
+    @apply text-base font-normal leading-normal lg:leading-normal md:leading-normal md:text-xl lg:text-xl;
   }
 
   .sub-heading {
