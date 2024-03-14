@@ -1,8 +1,10 @@
 import Fade from "./Fade";
+
 export interface BadgeProps {
   content: string;
   index: number;
 }
+
 const Badge = ({ content, index }: BadgeProps) => {
   return (
     <Fade className="w-[8.5rem] h-[8.5rem] text-center relative inline-flex mt-[0.4rem] flex-col items-center justify-center">
@@ -30,4 +32,5 @@ const Badge = ({ content, index }: BadgeProps) => {
     </Fade>
   );
 };
+
 export default Badge;

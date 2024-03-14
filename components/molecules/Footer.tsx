@@ -6,6 +6,7 @@ import Fade from "@atoms/Fade";
 import CustomImage from "@atoms/CustomImage";
 import InlineLink from "@atoms/InlineLink";
 import Skeleton from "@atoms/Skeleton";
+
 export default function Footer() {
   const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR("/api/spotify", fetcher);
@@ -18,8 +19,8 @@ export default function Footer() {
   });
   return (
     <div id="contact" className="relative">
-      <footer className="text-gray-900 sticky bottom-0 z-0">
-        <div className="main-container pt-0 pb-12 md:pb-16 lg:pb-24" ref={ref}>
+      <footer className="sticky bottom-0 z-0 text-gray-900">
+        <div className="pt-0 pb-12 main-container md:pb-16 lg:pb-24" ref={ref}>
           <section className="grid grid-cols-12 lg:grid-rows-2 gap-x-3 gap-y-8 border-t border-t-gray-200 pt-12 md:min-h-[18rem]">
             <Fade
               slide
@@ -83,7 +84,7 @@ export default function Footer() {
                 show={inView}
                 delay={100}
                 as="p"
-                className={`text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed  font-medium`}
+                className={`font-display text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed  font-medium`}
               >
                 I&apos;d love to hear from you. Email me any time at{" "}
                 <InlineLink href="mailto:hi@auduongtuan.com">

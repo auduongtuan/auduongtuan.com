@@ -6,7 +6,7 @@ export default function AboutPage() {
   return (
     <div>
       <AboutHeader />
-      <AboutContent />
+      {/* <AboutContent /> */}
       <Footer></Footer>
     </div>
   );

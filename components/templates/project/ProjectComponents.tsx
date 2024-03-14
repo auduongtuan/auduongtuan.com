@@ -7,6 +7,7 @@ import CustomImage, { CustomImageProps } from "@atoms/CustomImage";
 import CustomVideo, { CustomVideoProps } from "@atoms/CustomVideo";
 import InlineLink from "@atoms/InlineLink";
 import Persona, { PersonaProps } from "@atoms/Persona";
+
 const ProjectComponents = (slug: string) => ({
   h2: ({ children }: { children: React.ReactNode }) => (
     <h2 className="lg:relative">
@@ -91,4 +92,5 @@ const ProjectComponents = (slug: string) => ({
   // code: Code,
   Persona: (props: PersonaProps) => <Persona {...props} slug={slug} />,
 });
+
 export default ProjectComponents;

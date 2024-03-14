@@ -88,16 +88,6 @@ export default function AboutContent() {
         <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-12 lg:gap-y-24">
           <section className="col-span-2 md:col-span-6 lg:col-span-8 lg:mr-8">
             <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16">
-              <div className="items-center w-full col-span-6 px-3 py-2 rounded-md md:flex md:-mx-3 md:-my-2 md:px-4 bg-slate-100">
-                <p className="mb-1 text-sm text-gray-500 md:mb-0 grow">
-                  💼 Looking for more details?
-                </p>
-                <p>
-                  <InlineLink href={cvLink} className="font-medium body-text">
-                    Download my CV
-                  </InlineLink>
-                </p>
-              </div>
               <div className="col-span-6 md:col-span-6">
                 <Heading>Work Experience</Heading>
 

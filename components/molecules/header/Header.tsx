@@ -41,10 +41,10 @@ export default function Header() {
     >
       <div className="main-container p-header">
         <div className="flex items-center justify-center">
-          <div className="lg:max-w-[50rem] z-4">
+          <div className="lg:max-w-[50rem] ">
             <Headline />
             <Fade delay={200}>
-              <p className="mt-4 text-center page-description text-secondary lg:mt-6">
+              <p className="relative z-30 mt-4 text-center page-description text-secondary lg:mt-6">
                 <Balancer>
                   A software <GifText {...setupGif(0)}>designer</GifText>{" "}
                   <span className="text-divider">/</span>{" "}
@@ -68,14 +68,14 @@ export default function Header() {
             </Fade>
 
             <Fade delay={500} className="flex justify-center">
-              <Button href="/about" className="mt-6 md:mt-10" arrow>
+              <Button href="/about" className="mt-6 md:mt-8" arrow>
                 Get to know me
               </Button>
             </Fade>
           </div>
           {/* <div className="relative z-30 col-span-12 col-start-1 row-start-1 row-end-2 pointer-events-none lg:col-span-4 md:block"> */}
 
-          <div ref={refs.setFloating} className="z-10" style={floatingStyles}>
+          <div ref={refs.setFloating} className="z-40" style={floatingStyles}>
             <div className="w-[360px] max-w-full grid grid-cols-1 grid-rows-1">
               <Fade
                 duration={100}

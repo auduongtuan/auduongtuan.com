@@ -56,7 +56,7 @@ const Headline = () => {
     underlineEl.style.width = textEl.offsetWidth + "px";
   }, [size.width]);
   return (
-    <div className="grid grid-cols-1 leading-none text-center font-display place-items-center h1">
+    <div className="relative grid grid-cols-1 leading-none text-center font-display place-items-center h1">
       <Fade
         className="w-full col-span-1 col-start-1 row-span-1 row-start-1 text-center place-items-center"
         slide

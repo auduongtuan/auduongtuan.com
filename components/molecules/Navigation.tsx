@@ -50,7 +50,7 @@ const Navigation = React.memo(
       "w-full top-0 z-[42] transition-transform duration-150",
       fixed ? "fixed" : "absolute",
       darkMenu
-        ? "bg-custom-neutral-900/60 backdrop-blur-md text-white"
+        ? "bg-surface-raised backdrop-blur-md text-white"
         : "bg-white/60	backdrop-blur-md text-dark-blue-900",
       darkMenu && fixed && "border-b border-white/10",
       !darkMenu && fixed && "border-b border-gray-900/10",
@@ -71,7 +71,7 @@ const Navigation = React.memo(
             </NavigationLink>
             {menuOpened ? (
               <button
-                className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer text-white hover:bg-white/10`}
+                className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer text-dark-blue-900 hover:bg-surface-raised`}
                 onClick={() => setMenuOpened(false)}
               >
                 <FiX className="w-6 h-6" />
@@ -81,9 +81,9 @@ const Navigation = React.memo(
                 {(bp == "md" || bp == "sm") && (
                   <button
                     className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer ${
-                      headerInView
+                      darkMenu
                         ? "text-white hover:bg-white/10"
-                        : "text-dark-blue-900 hover:bg-black/5"
+                        : "text-dark-blue-900 hover:bg-surface-raised"
                     }`}
                     onClick={() => setMenuOpened(true)}
                   >
@@ -118,8 +118,8 @@ const Navigation = React.memo(
           leaveFrom="opacity-1 translate-y-0"
           leaveTo="opacity-0 -translate-y-12"
         >
-          <div className={`fixed z-40 w-full h-full bg-custom-neutral-900`}>
-            <div className="main-container">
+          <div className={`fixed z-40 w-full h-full bg-surface`}>
+            <div className="main-container font-display">
               <ul className="flex flex-col w-full pt-16 flex-gap-y-2">
                 {menuItems.map((item, i) => (
                   <li key={i} className="w-full">
@@ -127,7 +127,7 @@ const Navigation = React.memo(
                       pathname={item.pathname}
                       href={item.href}
                       className="block w-full px-4 py-4 text-left "
-                      inverted
+                      inverted={darkMenu}
                       callback={() => setMenuOpened(false)}
                     >
                       {item.name}

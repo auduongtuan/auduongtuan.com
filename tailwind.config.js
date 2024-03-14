@@ -37,6 +37,7 @@ module.exports = {
         popup: 1001,
       },
       backgroundColor: ({ theme }) => ({
+        subtle: theme("colors.slate.100"),
         surface: theme.colors.white,
         "surface-raised": "rgba(209,213,219,0.4)",
       }),
