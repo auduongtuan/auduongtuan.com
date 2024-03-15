@@ -36,7 +36,7 @@ const Button = ({
 }: ButtonProps) => {
   //   if (colorful) className += ;
   const buttonStyles = twMerge(
-    "py-2 px-4 rounded-lg font-semibold text-base tracking-wideinline-block transition-all",
+    "font-display py-2 px-4 rounded-lg font-semibold text-base tracking-wideinline-block transition-all",
     "focus:ring-2 ring-blue-600 outline-none",
     "inline-flex items-center",
     // "[&_svg]:ml-2 [&_svg]:translate-y-0 [&_svg]:translate-x-0 [&_svg]:duration-300 [&_svg]:transition-transform [&_svg]:block [&:hover_svg]:translate-y-0 [&:hover_svg]:translate-x-1",

@@ -51,10 +51,10 @@ export const BaseFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
               "px-3 py-1.5  rounded-t-[11px] z-[1]"
             )}
           >
-            <div className="flex items-center flex-grow flex-gap-2 basis-0">
-              <span className="block w-2 h-2 rounded bg-slate-400"></span>
-              <span className="block w-2 h-2 rounded bg-slate-400"></span>
-              <span className="block w-2 h-2 rounded bg-slate-400"></span>
+            <div className="flex items-center flex-grow basis-0">
+              <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
+              <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
+              <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
               {startContent}
             </div>
             {middleContent}
@@ -105,7 +105,7 @@ const BrowserFrame = React.forwardRef<HTMLDivElement, BrowserFrameProps>(
   ({ startContent, endContent, middleContent, url, ...rest }, ref) => {
     const startContentRender = () => (
       <>
-        <FiChevronLeft className="hidden ml-3 md:inline-block text-slate-400" />
+        <FiChevronLeft className="hidden ml-2 mr-1 md:inline-block text-slate-400" />
         <FiChevronRight className="hidden md:inline-block text-slate-600" />
         {startContent}
       </>
@@ -181,7 +181,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
         <div className="absolute top-0 left-0 z-10 w-full h-full pointer-events-none rounded-xl"></div>
         <header
           className={twMerge(
-            "flex items-center justify-between",
+            "font-display flex items-center justify-between",
             inverted ? "bg-slate-100" : "bg-slate-800",
             draggable && "cursor-move",
             "px-3 py-1.5 rounded-t-xl border-b border-black/10 z-[1] "
@@ -192,15 +192,15 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
               <Tooltip content={closeTooltipContent}>
                 <button
                   aria-label="Close it"
-                  className="block w-2 h-2 rounded cursor-pointer bg-slate-400 hover:bg-red-500 active:bg-red-700"
+                  className="block w-2.5 h-2.5 rounded-full cursor-pointer bg-slate-400 hover:bg-red-500 active:bg-red-700"
                   onClick={onClose}
                 ></button>
               </Tooltip>
             ) : (
-              <span className="block w-2 h-2 rounded bg-slate-400"></span>
+              <span className="block w-2.5 h-2.5 rounded-full bg-slate-400"></span>
             )}
-            <span className="block w-2 h-2 rounded bg-slate-400"></span>
-            <span className="block w-2 h-2 rounded bg-slate-400"></span>
+            <span className="block w-2.5 h-2.5 rounded-full bg-slate-400"></span>
+            <span className="block w-2.5 h-2.5 rounded-full bg-slate-400"></span>
             {/* <FiChevronLeft className="ml-3 text-slate-400" />
         <FiChevronRight className="text-slate-600" /> */}
           </div>

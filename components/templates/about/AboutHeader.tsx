@@ -1,7 +1,7 @@
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
 import Fade from "@atoms/Fade";
-import { AppFrame, PhotoFrame } from "@atoms/Frame";
+import { PhotoFrame } from "@atoms/Frame";
 import InlineLink from "@atoms/InlineLink";
 import Tooltip from "@atoms/Tooltip";
 import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react";
@@ -9,13 +9,13 @@ import { Portal } from "@headlessui/react";
 import useHeaderInView from "@hooks/useHeaderInView";
 import { useRef, useState } from "react";
 import { RiCrossFill } from "react-icons/ri";
-import { cvLink, now } from "./content";
+import { cvLink } from "./content";
+import TuanPhoto from "./TuanPhoto";
+import Now from "./Now";
 
 export default function AboutHeader() {
   const { ref } = useHeaderInView();
   const contentRef = useRef<HTMLDivElement>(null);
-  const images = ["tuan_smile.jpg", "tuan_grin.jpg"];
-  const [image, setImage] = useState(0);
   const [showImage, setShowImage] = useState(false);
   const [position, setPosition] = useState([0, 0]);
   const [showGif, setShowGif] = useState(false);
@@ -32,12 +32,15 @@ export default function AboutHeader() {
   });
 
   return (
-    <header ref={ref} className="z-10 w-full text-primary bg-surface">
+    <main
+      ref={ref}
+      className="z-10 w-full overflow-hidden text-primary bg-surface"
+    >
       <div className="main-container p-header">
-        <div className="grid grid-cols-12 gap-4 md:gap-8">
+        <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-y-8 md:gap-x-8">
           <div
             ref={contentRef}
-            className="col-span-12 lg:col-span-7 text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-6"
+            className="col-span-12 lg:col-span-7 text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-4 lg:[&_p:not(:first-child)]:mt-6"
           >
             <Fade delay={150} as="p">
               Xin chào!
@@ -147,39 +150,12 @@ export default function AboutHeader() {
             </div>
           </Portal>
           <div className="col-span-12 lg:col-span-4 lg:col-start-9">
-            <Fade delay={400} slide>
-              <AppFrame title="Now">
-                <div className="flex flex-col gap-4 p-4 leading-normal">
-                  <p>
-                    {`This section updates what I'm doing, as inspired by `}
-                    <InlineLink href="https://sive.rs/nowff">
-                      Now page momment ↗
-                    </InlineLink>
-                    .
-                  </p>
-                  <div className="flex flex-col gap-2">
-                    {now.map((item, i) => (
-                      <div
-                        className="px-3 py-2 rounded-md md:px-4 bg-slate-100"
-                        key={`now-${i}`}
-                      >
-                        <p className="text-sm mt-0.5 text-gray-500">
-                          {item.title}
-                        </p>
-                        <div className="mt-1 font-medium text-md body-text">
-                          {item.link ? (
-                            <InlineLink href={item.link}>
-                              {item.content}
-                            </InlineLink>
-                          ) : (
-                            item.content
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </AppFrame>
+            <Fade
+              delay={400}
+              slide
+              className="flex flex-col items-center justify-center h-full"
+            >
+              <Now />
             </Fade>
           </div>
         </div>
@@ -189,47 +165,11 @@ export default function AboutHeader() {
             style={{ left: position[0], top: position[1] }}
           >
             <Fade show={showImage} as="div" duration={100} slide>
-              <div
-                onMouseOver={() => setImage(1)}
-                onMouseLeave={() => setImage(0)}
-              >
-                <PhotoFrame
-                  draggable
-                  name={images[image]}
-                  closeTooltipContent="Hide my face 😢"
-                  inverted
-                  onClose={() => setShowImage(false)}
-                  mainClassname="bg-gray-200"
-                  className="w-[400px] max-w-[calc(100vw-32px)] "
-                >
-                  <div className="grid grid-cols-1 grid-rows-1">
-                    <div className="col-start-1 row-start-1">
-                      <CustomImage
-                        src={images[0]}
-                        slug="about"
-                        width="1256"
-                        height="1570"
-                      />
-                    </div>
-                    <div
-                      className={`col-start-1 row-start-1 transition-opacity duration-200 ${
-                        image == 1 ? "opacity-100" : "opacity-0"
-                      }`}
-                    >
-                      <CustomImage
-                        src={images[1]}
-                        slug="about"
-                        width="1256"
-                        height="1570"
-                      />
-                    </div>
-                  </div>
-                </PhotoFrame>
-              </div>
+              <TuanPhoto onClose={() => setShowImage(false)} />
             </Fade>
           </div>
         </Portal>
       </div>
-    </header>
+    </main>
   );
 }

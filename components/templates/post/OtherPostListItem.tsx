@@ -28,7 +28,7 @@ const OtherPostListItem = ({
       <div className="flex flex-col">
         <h5
           className={clsx(
-            "flex  space-x-3 text-base md:text-lg font-semibold "
+            "flex font-display space-x-3 text-base md:text-lg font-semibold "
           )}
         >
           <span className="block w-full grow">{post.meta.title}</span>

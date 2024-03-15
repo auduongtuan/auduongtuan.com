@@ -96,7 +96,7 @@ const CommentList = ({ comments, wording }) => {
               }`}
             >
               <GiPostStamp className="text-6xl text-slate-400" />
-              <h5 className="mt-2 text-base font-medium text-gray-600 md:text-lg">
+              <h5 className="mt-2 text-base font-medium text-gray-600 font-display md:text-lg">
                 No {wording.plural} yet.
               </h5>
               <p className="mt-1 text-sm text-gray-800 md:text-base">
