@@ -47,11 +47,11 @@
   }
   h3,
   .h3 {
-    @apply text-lg md:text-xl leading-tight md:leading-tight font-semibold text-slate-800;
+    @apply text-lg md:text-xl leading-tight md:leading-tight font-semibold font-display text-slate-800;
   }
   h4,
   .h4 {
-    @apply text-xs md:text-sm font-sans font-medium uppercase tracking-wide;
+    @apply text-xs md:text-sm font-display font-medium uppercase tracking-wide;
   }
   .big-body-text {
     /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-display; */
@@ -75,7 +75,7 @@
   }
 
   .sub-heading {
-    @apply text-sm md:text-base font-medium tracking-wide uppercase text-gray-500;
+    @apply font-display text-sm md:text-base font-medium tracking-wide uppercase text-gray-500;
   }
   .muted-text {
     @apply text-sm md:text-base opacity-60;
