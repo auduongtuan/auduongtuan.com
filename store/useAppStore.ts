@@ -7,12 +7,16 @@ export interface AppState {
   setHeaderInView: (headerInView: boolean) => void;
   setMenuOpened: (menuOpened: boolean) => void;
   setPauseScrollEvent: (pauseScrollEvent: boolean) => void;
+  hasHistory: boolean;
+  setHasHistory: (hasHistory: boolean) => void;
 }
 
 const useAppStore = create<AppState>((set) => ({
   headerInView: true,
   menuOpened: false,
   pauseScrollEvent: false,
+  hasHistory: false,
+  setHasHistory: (hasHistory: boolean) => set((state) => ({ hasHistory })),
   setHeaderInView: (headerInView: boolean) =>
     set((state) => ({ headerInView })),
   setMenuOpened: (menuOpened: boolean) => set((state) => ({ menuOpened })),

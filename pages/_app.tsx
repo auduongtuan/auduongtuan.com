@@ -10,6 +10,7 @@ import * as gtag from "../lib/gtag";
 import { Provider as BalancerProvider } from "react-wrap-balancer";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
+import useAppStore from "@store/useAppStore";
 // import { IBM_Plex_Sans } from "@next/font/google";
 // const ibm = IBM_Plex_Sans({
 //   subsets: ["latin", "latin-ext", "vietnamese"],
@@ -33,6 +34,17 @@ function MyApp({ Component, pageProps }: AppProps) {
       };
     }
   }, [router.events]);
+
+  const { hasHistory, setHasHistory } = useAppStore();
+  useEffect(() => {
+    const historyCheck = () => {
+      setHasHistory(true);
+    };
+    router.events.on("routeChangeComplete", historyCheck);
+    return () => {
+      router.events.off("routeChangeComplete", historyCheck);
+    };
+  }, [setHasHistory, router.events]);
 
   return (
     <BalancerProvider>

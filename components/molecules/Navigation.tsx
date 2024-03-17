@@ -28,7 +28,7 @@ const Navigation = React.memo(
       const handleScroll = () => {
         if (pauseScrollEvent) return;
         const st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
-        const threshold = 10;
+        const threshold = 40;
         if (Math.abs(st - lastScrollTop) > threshold) {
           setHidden(st > lastScrollTop);
         }

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { useEffect } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 import Balancer from "react-wrap-balancer";
@@ -17,6 +16,8 @@ import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import parseBlocks from "@notion/parseBlocks";
 import OtherPostList from "./OtherPostList";
 import { Transition } from "@headlessui/react";
+import { useRouter } from "next/router";
+import useAppStore from "@store/useAppStore";
 
 const PostSinglePage = ({
   post,
@@ -35,11 +36,16 @@ const PostSinglePage = ({
     setPosts,
   } = usePostStore();
   const isShown = !post.meta.protected || decryptedPostContent != null;
+
   useEffect(() => {
     setPost(post);
     setPostContent(postContent);
     setPosts(posts);
   }, [setPost, setPostContent, setPosts, post, postContent, posts]);
+
+  const router = useRouter();
+
+  const hasHistory = useAppStore((state) => state.hasHistory);
 
   return (
     <>
@@ -57,13 +63,22 @@ const PostSinglePage = ({
             duration={100}
             className="hidden w-8 lg:block p-header grow-0 shrink"
           >
-            <Link href="/blog" legacyBehavior>
-              <Tooltip content="Back to blog">
-                <IconButton href="/blog">
-                  <FiArrowLeft />
-                </IconButton>
-              </Tooltip>
-            </Link>
+            <Tooltip
+              content={hasHistory ? "Back to previous page" : "Back to blog"}
+            >
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (hasHistory) {
+                    router.back();
+                  } else {
+                    router.push("/blog", undefined, { scroll: false });
+                  }
+                }}
+              >
+                <FiArrowLeft />
+              </IconButton>
+            </Tooltip>
           </Fade>
           <div className="pb-0 grow content-container p-header">
             <div className="grid grid-cols-1 gap-2 md:gap-4 ">
