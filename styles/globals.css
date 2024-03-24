@@ -1,6 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bg-subtle: theme("colors.slate.100");
+  --bg-surface: theme("colors.white");
+  --bg-surface-raised: rgba(209, 213, 219, 0.4);
+  --fg-primary: theme("colors.gray.800");
+  --fg-secondary: theme("colors.gray.600");
+  --fg-tertiary: theme("colors.gray.500");
+  --bg-button-primary: #050f32;
+  --bg-button-primary-hover: var(--accent-bolder);
+  --bg-button-primary-pressed: var(--accent-boldest);
+  --fg-oncolor: theme("colors.white");
+  --accent-boldest: theme("colors.blue.900");
+  --accent-bolder: theme("colors.blue.800");
+  --accent: theme("colors.blue.600");
+  --accent-subtle: theme("colors.blue.200");
+  --accent-subtlest: theme("colors.blue.50");
+  --control: theme("colors.gray.200");
+  --divider: rgb(17 24 39 / 0.1);
+  --underline: rgb(17 24 39 / 0.15);
+}
+
+.dark {
+  --bg-surface: theme("colors.gray.900");
+  --bg-surface-raised: rgba(0, 0, 0, 0.4);
+  --fg-primary: theme("colors.gray.100");
+  --fg-secondary: theme("colors.gray.300");
+  --bg-button-primary: theme("colors.white");
+  --control: theme("colors.gray.800");
+  --divider: rgb(255 255 255 / 0.1);
+  --underline: rgb(255 255 255 / 0.15);
+}
+
 @layer base {
   @supports (font: -apple-system-body) and (-webkit-appearance: none) {
     img[loading="lazy"] {
@@ -8,6 +41,7 @@
     }
   }
 }
+
 @layer utilities {
   .translate-z-0 {
     transform: translateZ(0);
@@ -29,6 +63,7 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
 @layer components {
   /* html {
     scroll-behavior: smooth;
@@ -75,7 +110,7 @@
   }
 
   .sub-heading {
-    @apply font-display text-sm md:text-base font-medium tracking-wide uppercase text-gray-500;
+    @apply font-display text-sm md:text-base font-medium tracking-wide uppercase text-tertiary;
   }
   .muted-text {
     @apply text-sm md:text-base opacity-60;
@@ -140,7 +175,7 @@
     }
 
     h4 {
-      @apply mt-4 text-gray-500;
+      @apply mt-4 text-tertiary;
     }
 
     .content-node {

@@ -8,7 +8,7 @@ const Note = ({ children }: { children: React.ReactNode }) => {
     after:rotate-90 after:block after:-top-4 after:-right-4 after:w-0 after:h-0"
       >
         <div
-          className="clip-path-paper-fold bg-[#aad0ff] text-dark-blue-700 rounded-sm no-first-child-mt p-4 lg:p-6 text-sm body relative
+          className="clip-path-paper-fold bg-[#aad0ff] text-primary rounded-sm no-first-child-mt p-4 lg:p-6 text-sm body relative
     "
         >
           {children}

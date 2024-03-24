@@ -50,12 +50,12 @@ const NavigationLink = ({
 }) => {
   const router = useRouter();
   // const activeClassName = "underline underline-offset-4";
-  const activeClassName = inverted ? "bg-white/10" : "bg-surface-raised";
+  const activeClassName = inverted ? "bg-surface/10" : "bg-surface-raised";
   const anchorClassName = clsx(
     "font-medium inline-block text-lg rounded-xl",
     logo ? "uppercase" : "",
     inverted
-      ? "text-white hover:bg-white/10"
+      ? "text-white hover:bg-surface/10"
       : "text-primary hover:bg-surface-raised",
     (router.asPath == href || router.pathname == href.split("#")[0]) && !logo
       ? activeClassName

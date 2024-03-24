@@ -111,7 +111,7 @@ const PostSinglePage = ({
                   <Tag key={`tag-${i}`}>{tag}</Tag>
                 ))}
               </Fade>
-              <Fade className="mt-1 text-gray-500 muted-text" delay={200}>
+              <Fade className="mt-1 text-tertiary muted-text" delay={200}>
                 Posted on{" "}
                 {post.meta.date &&
                   new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -154,7 +154,7 @@ const PostSinglePage = ({
           </div>
         </div>
       </Fade>
-      <section className="relative bg-white border-t border-gray-200 p-content">
+      <section className="relative bg-surface border-t border-gray-200 p-content">
         <div className="main-container">
           <Transition
             show={isShown}

@@ -55,7 +55,7 @@ const ProjectItem = memo(
                 : "row-start-2"
             )}
           >
-            <h2>
+            <h2 className="text-primary">
               <Balancer>
                 {project.meta.type == "casestudy" ? (
                   <Link href={`/project/${project.slug}`} legacyBehavior>

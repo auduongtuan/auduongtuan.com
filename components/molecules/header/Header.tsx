@@ -37,7 +37,7 @@ export default function Header() {
   return (
     <header
       ref={ref}
-      className="z-10 w-full bg-white border-b text-primary border-b-divider"
+      className="z-10 w-full bg-surface border-b text-primary border-b-divider"
     >
       <div className="main-container p-header">
         <div className="flex items-center justify-center">
