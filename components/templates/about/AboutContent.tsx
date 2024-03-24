@@ -32,19 +32,19 @@ const NewItem = ({
   education?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className="items-center bg-white rounded-md gap-x-4 gap-y-0 group ">
+    <div className="items-center bg-surface rounded-md gap-x-4 gap-y-0 group ">
       <div className="items-baseline col-span-5 lg:col-span-5 ">
         <span className="font-medium text-md body-text ">{title}</span>{" "}
         {!education && subtitle && (
-          <span className="text-sm text-gray-500">· {subtitle}</span>
+          <span className="text-sm text-tertiary">· {subtitle}</span>
         )}
         {education && subtitle && (
-          <span className="block text-sm my-0.5 text-gray-500">{subtitle}</span>
+          <span className="block text-sm my-0.5 text-tertiary">{subtitle}</span>
         )}
       </div>
       <div className="col-span-5 lg:col-span-5">
         {time && (
-          <p className="text-sm m-0 md:mt-0.5 text-gray-500 justify-self-end tabular-nums">
+          <p className="text-sm m-0 md:mt-0.5 text-tertiary justify-self-end tabular-nums">
             {time}
           </p>
         )}
@@ -68,13 +68,13 @@ const Item = ({
         <div className="font-medium text-md body-text ">{title}</div>
         <div className="flex-1 hidden mt-3 border-t border-gray-300 border-dashed md:block md:mt-0"></div>
         {time && (
-          <p className="text-sm  m-0 md:mt-0.5 text-gray-500 justify-self-end fonts-mono tabular-nums">
+          <p className="text-sm  m-0 md:mt-0.5 text-tertiary justify-self-end fonts-mono tabular-nums">
             {time}
           </p>
         )}
       </div>
       <div className="col-span-5 lg:col-span-5">
-        {subtitle && <p className="text-sm mt-0.5 text-gray-500">{subtitle}</p>}
+        {subtitle && <p className="text-sm mt-0.5 text-tertiary">{subtitle}</p>}
         <div className="flex-1 mt-3 border-t border-gray-300 border-dashed md:hidden md:mt-0 md:order-2 group-last:hidden"></div>
       </div>
     </div>
@@ -165,7 +165,7 @@ export default function AboutContent() {
                       className="px-3 py-2 rounded-md md:px-4 bg-slate-100"
                       key={`now-${i}`}
                     >
-                      <p className="text-sm mt-0.5 text-gray-500">
+                      <p className="text-sm mt-0.5 text-tertiary">
                         {item.title}
                       </p>
                       <div className="mt-1 font-medium text-md body-text">

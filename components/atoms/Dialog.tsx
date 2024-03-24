@@ -68,7 +68,7 @@ function Dialog({ children, open, onClose, title, ...rest }) {
                 {/* </div> */}
               </HDialog.Title>
 
-              <main className="flex-grow-0 bg-white">{children}</main>
+              <main className="flex-grow-0 bg-surface">{children}</main>
             </HDialog.Panel>
           </div>
         </Transition.Child>

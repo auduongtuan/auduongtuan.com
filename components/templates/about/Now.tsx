@@ -19,7 +19,7 @@ const Now = () => {
               className="px-3 py-2 rounded-md md:px-4 bg-slate-100"
               key={`now-${i}`}
             >
-              <p className="text-sm mt-0.5 text-gray-500">{item.title}</p>
+              <p className="text-sm mt-0.5 text-tertiary">{item.title}</p>
               <div className="mt-1 font-medium text-md body-text">
                 {item.link ? (
                   <InlineLink href={item.link}>{item.content}</InlineLink>

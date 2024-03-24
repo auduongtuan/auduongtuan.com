@@ -19,11 +19,11 @@ const SpotifyPlayer = () => {
             alt={data.title}
           />
           <div className="flex-1">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-secondary">
               {data.isPlaying ? "Now playing 🎵" : "Offline - Recently played"}
             </p>
             <p className="font-medium font-display">
-              {data.artist} <span className="text-gray-600">-</span>{" "}
+              {data.artist} <span className="text-secondary">-</span>{" "}
               <a href={data.songUrl} target="_blank" rel="noreferrer">
                 {data.title}
               </a>

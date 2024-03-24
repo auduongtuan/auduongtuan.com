@@ -41,8 +41,8 @@ const Button = ({
     "inline-flex items-center",
     // "[&_svg]:ml-2 [&_svg]:translate-y-0 [&_svg]:translate-x-0 [&_svg]:duration-300 [&_svg]:transition-transform [&_svg]:block [&:hover_svg]:translate-y-0 [&:hover_svg]:translate-x-1",
     colorful
-      ? "bg-white/80 text-gray-900 hover:text-white hover:bg-blue-900 active:bg-blue-900 focus:shadow-blue-400"
-      : "text-white bg-dark-blue-900 hover:bg-blue-800 active:bg-blue-900",
+      ? "bg-surface/80 text-primary hover:text-white hover:bg-button-primary-hover active:bg-button-primary-pressed focus:shadow-blue-400"
+      : "text-white bg-button-primary hover:bg-button-primary-hover active:bg-button-primary-pressed",
     secondary &&
       "bg-slate-300 text-slate-800 hover:bg-slate-400 active:bg-slate-500",
     disabled && "disabled",

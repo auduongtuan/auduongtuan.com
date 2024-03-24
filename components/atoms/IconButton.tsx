@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import { forwardRef } from "react";
+import { twMerge } from "tailwind-merge";
 type IconButtonProps<T extends React.ElementType> = {
   tooltip?: string;
   children: React.ReactNode;
@@ -25,17 +25,15 @@ const IconButton = forwardRef(
     const externalAttrs = external
       ? { target: "_blank", rel: "noreferrer" }
       : {};
-    const buttonStyles = clsx({
-      "focus:ring-2 ring-blue-600 outline-none flex items-center transition-all ease justify-center rounded-full":
-        true,
-      "hover:bg-blue-800 hover:text-white active:bg-blue-900 active:text-white cursor-pointer":
-        true,
-      "w-10 h-10 text-xl": size == "small",
-      "w-16 h-16 text-2xl": size == "medium",
-      "bg-white text-black": inverted,
-      "bg-black/10": !inverted,
-      className,
-    });
+    const buttonStyles = twMerge(
+      "focus:ring-2 ring-accent outline-none flex items-center transition-all ease justify-center rounded-full",
+      "hover:bg-button-primary-hover hover:text-oncolor active:bg-button-secondary-pressed active:text-oncolor cursor-pointer",
+      size == "small" && "w-10 h-10 text-xl",
+      size == "medium" && "w-16 h-16 text-2xl",
+      inverted && "bg-surface text-black",
+      !inverted && "bg-black/10",
+      className
+    );
     return href ? (
       <a
         href={href}

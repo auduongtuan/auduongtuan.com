@@ -23,7 +23,7 @@ const ProjectCard = ({ project }: { project: Project }) => {
     </Fragment>
   );
   const classname =
-    "col-span-6 md:col-span-3 lg:col-span-2 text-gray-900 p-3 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2";
+    "col-span-6 md:col-span-3 lg:col-span-2 text-primary p-3 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2";
   return ["casestudy", "post"].includes(project.meta.type) ? (
     <Link
       href={

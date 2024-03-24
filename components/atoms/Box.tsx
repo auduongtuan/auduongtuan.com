@@ -13,7 +13,7 @@ const Box = ({
   return (
     <div
       className={twMerge(
-        "border border-divider box shadow-[0_4px_5px_-1px_rgb(0_0_0/0.02),_0_2px_3px_-2px_rgb(0_0_0/0.03)] bg-white p-4 h-full rounded-xl",
+        "border border-divider box shadow-[0_4px_5px_-1px_rgb(0_0_0/0.02),_0_2px_3px_-2px_rgb(0_0_0/0.03)] bg-surface p-4 h-full rounded-xl",
         className
       )}
       {...rest}

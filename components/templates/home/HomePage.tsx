@@ -16,9 +16,11 @@ export default function HomePage({ posts, projects }: HomePageProps) {
   return (
     <div>
       <Header />
-      <ProjectList projects={projects} />
-      {/* <PostList posts={posts} /> */}
-      <Footer />
+      <div className="bg-surface">
+        <ProjectList projects={projects} />
+        {/* <PostList posts={posts} /> */}
+        <Footer />
+      </div>
     </div>
   );
 }

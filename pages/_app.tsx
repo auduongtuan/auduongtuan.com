@@ -76,7 +76,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           --main-font: "IBM Plex Sans", sans-serif;
         }
       `}</style>
-      <main>
+      <main className="">
         <Navigation hideOnScroll={true} fixed={true} />
         <div id="toast-root"></div>
         <Component {...pageProps} />

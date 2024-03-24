@@ -4,6 +4,7 @@ module.exports = {
   future: {
     hoverOnlyWhenSupported: true,
   },
+  darkMode: "selector",
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./content/**/*.{md,mdx}",
@@ -37,35 +38,26 @@ module.exports = {
         popup: 1001,
       },
       backgroundColor: ({ theme }) => ({
-        subtle: theme("colors.slate.100"),
-        surface: theme.colors.white,
-        "surface-raised": "rgba(209,213,219,0.4)",
+        "button-primary": "var(--bg-button-primary)",
+        "button-primary-hover": "var(--bg-button-primary-hover)",
+        "button-primary-pressed": "var(--bg-button-primary-pressed)",
+        subtle: "var(--bg-subtle)",
+        surface: "var(--bg-surface)",
+        "surface-raised": "var(--bg-surface-raised)",
       }),
       textColor: ({ theme }) => ({
-        onaccent: theme.colors.white,
-        primary: theme.colors.gray[800],
-        secondary: theme.colors.gray[600],
-      }),
-      borderColor: ({ theme }) => ({
-        control: theme.colors.gray[200],
+        primary: "var(--fg-primary)",
+        secondary: "var(--fg-secondary)",
+        tertiary: "var(--fg-tertiary)",
       }),
       colors: ({ theme }) => ({
-        accent: theme.colors.blue[600],
-        "accent-subtle": theme.colors.blue[200],
-        "accent-subtlest": theme.colors.blue[50],
-        // gray.900/15
-        divider: "rgb(17 24 39 / 0.10)",
-        underline: "rgb(17 24 39 / 0.15)",
-        "custom-neutral": {
-          // 900: "#202020"
-          900: "#1b1d22",
-        },
-        "dark-blue": {
-          900: "#050F32",
-        },
-        "dark-header": {
-          900: "hsl(230, 82%, 10%)",
-        },
+        oncolor: "var(--fg-oncolor)",
+        control: "var(--control)",
+        accent: "var(--accent)",
+        "accent-subtle": "var(--accent-subtle)",
+        "accent-subtlest": "var(--accent-subtlest)",
+        divider: "var(--divider)",
+        underline: "var(--underline)",
       }),
       transitionTimingFunction: {
         bounce: "cubic-bezier(0.175, 0.885, 0.32, 1.275)",

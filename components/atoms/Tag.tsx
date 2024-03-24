@@ -12,7 +12,7 @@ const Tag = forwardRef<HTMLSpanElement, TagProps>(
         className={twMerge(
           "uppercase tracking-wide text-[10px] md:text-[11px] font-medium",
           inverted
-            ? "bg-white/20 text-white"
+            ? "bg-surface/20 text-white"
             : "bg-slate-700/10 text-slate-900/50",
           "px-2 py-1 rounded-md",
           className

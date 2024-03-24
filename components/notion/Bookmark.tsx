@@ -13,7 +13,7 @@ const Bookmark = ({ block }) => {
             : block.bookmark.url}
         </p>
         {block.bookmark.meta.description ? (
-          <p className="text-xs text-gray-600 mt-1">
+          <p className="text-xs text-secondary mt-1">
             {block.bookmark.meta.description}
           </p>
         ) : null}
@@ -30,7 +30,7 @@ const Bookmark = ({ block }) => {
         )}
       </ExternalLink>
       {block.bookmark.caption ? (
-        <p className="mt-2 text-gray-600">
+        <p className="mt-2 text-secondary">
           {richTextObject(block.bookmark.caption, block.id)}
         </p>
       ) : null}

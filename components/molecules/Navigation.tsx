@@ -51,9 +51,9 @@ const Navigation = React.memo(
       fixed ? "fixed" : "absolute",
       darkMenu
         ? "bg-surface-raised backdrop-blur-md text-white"
-        : "bg-white/60	backdrop-blur-md text-dark-blue-900",
+        : "bg-surface/60	backdrop-blur-md text-primary",
       darkMenu && fixed && "border-b border-white/10",
-      !darkMenu && fixed && "border-b border-gray-900/10",
+      !darkMenu && fixed && "border-b border-divider",
       hidden && "-translate-y-full"
     );
     return (
@@ -71,7 +71,7 @@ const Navigation = React.memo(
             </NavigationLink>
             {menuOpened ? (
               <button
-                className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer text-dark-blue-900 hover:bg-surface-raised`}
+                className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer text-primary hover:bg-surface-raised`}
                 onClick={() => setMenuOpened(false)}
               >
                 <FiX className="w-6 h-6" />
@@ -82,8 +82,8 @@ const Navigation = React.memo(
                   <button
                     className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer ${
                       darkMenu
-                        ? "text-white hover:bg-white/10"
-                        : "text-dark-blue-900 hover:bg-surface-raised"
+                        ? "text-white hover:bg-surface/10"
+                        : "text-primary hover:bg-surface-raised"
                     }`}
                     onClick={() => setMenuOpened(true)}
                   >
