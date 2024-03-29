@@ -16,11 +16,11 @@ const getNotionAsset = async (req: NextApiRequest, res: NextApiResponse) => {
       if (
         block &&
         "type" in block &&
-        block.type == "image" &&
-        "file" in block.image
+        (block.type == "image" || block.type == "video") &&
+        "file" in block[block.type]
       ) {
         // res.end(block.image.file.url);
-        https.get(block.image.file.url, (getResponse) => {
+        https.get(block[block.type].file.url, (getResponse) => {
           const proxyHeader = (header: string) => {
             const value =
               getResponse.headers[header] ||

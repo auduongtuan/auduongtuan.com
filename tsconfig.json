@@ -10,7 +10,7 @@
       "@lib/*": ["lib/*"],
       "@store/*": ["store/*"]
     },
-    "target": "es5",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
