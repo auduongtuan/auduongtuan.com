@@ -6,6 +6,7 @@ import {
   BlockObjectResponse,
   CalloutBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import Box, { EmojiBox } from "@atoms/Box";
 
 function trimAny(str: string, chars: string[]) {
   var start = 0,
@@ -17,6 +18,7 @@ function trimAny(str: string, chars: string[]) {
 
   return start > 0 || end < str.length ? str.substring(start, end) : str;
 }
+
 function getCalloutComponentWithOptions(
   block: BlockObjectResponse
 ): [string | undefined, { [key: string]: string }] {
@@ -39,20 +41,19 @@ function getCalloutComponentWithOptions(
     return [undefined, {}];
   }
 }
+
 export const parseCallout = (
   block: CalloutBlockObjectResponse,
   blocks: BlockObjectResponse[],
   lastBlockIndex: { value: number }
 ) => {
-  console.log({ lastBlockIndex });
   let rendered: React.ReactElement | null = null;
   let gridBlocks: BlockObjectResponse[] = [];
   while (
     blocks[lastBlockIndex.value] &&
     "type" in blocks[lastBlockIndex.value] &&
     blocks[lastBlockIndex.value].type == "callout" &&
-    getCalloutComponentWithOptions(blocks[lastBlockIndex.value])[0] ==
-      "grid-item" &&
+    getCalloutComponentWithOptions(blocks[lastBlockIndex.value])[0] == "Col" &&
     lastBlockIndex.value <= blocks.length - 1
   ) {
     gridBlocks.push(blocks[lastBlockIndex.value]);
@@ -60,35 +61,45 @@ export const parseCallout = (
   }
   // give the last item back
   const [component, options] = getCalloutComponentWithOptions(block);
+  const children = "children" in block && parseBlocks(block.children);
   if ("callout" in block) {
     switch (component) {
-      case "browser-frame":
+      case "BrowserFrame":
         rendered = (
           <div key={block.id} className="mt-content-node">
             <BrowserFrame mainClassname="[&>*:first-child]:mt-0">
-              {"children" in block && parseBlocks(block.children)}
+              {children}
             </BrowserFrame>
           </div>
         );
         break;
-      case "grid-item":
+      case "Col":
         // ony grid-item that we need to take last item back
         lastBlockIndex.value--;
         rendered = (
           <Grid className="mt-content-node">
-            {gridBlocks.map((block) => (
-              <Col key={block.id} {...getCalloutComponentWithOptions(block)[1]}>
-                {block.id}
+            {gridBlocks.map((gblock) => (
+              <Col
+                key={gblock.id}
+                {...getCalloutComponentWithOptions(gblock)[1]}
+              >
+                {"children" in gblock && parseBlocks(gblock.children)}
               </Col>
             ))}
           </Grid>
         );
         break;
+      case "Box":
+        rendered = <Box {...options}>{children}</Box>;
+        break;
+      case "EmojiBox":
+        rendered = <EmojiBox {...options}>{children}</EmojiBox>;
+        break;
       default:
         rendered = (
           <div key={block.id} className="mt-content-node">
             {richTextObject(block.callout?.rich_text)}
-            {"children" in block && parseBlocks(block.children)}
+            {children}
           </div>
         );
     }

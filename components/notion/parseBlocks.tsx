@@ -5,7 +5,6 @@ import Bookmark from "./Bookmark";
 import Disclosure from "@atoms/Disclosure";
 import parseListItem from "./parseListItem";
 import CustomImage from "@atoms/CustomImage";
-import BrowserFrame from "@atoms/Frame";
 
 const parseBlocks = (blocks: unknown) => {
   if (!Array.isArray(blocks) || blocks.length == 0) return null;
@@ -27,7 +26,7 @@ const parseBlocks = (blocks: unknown) => {
             <CustomImage
               className="max-w-full text-center"
               // src={block.image.file.url}
-              src={`/api/notion-asset/${block.id}`}
+              src={`/api/notion-asset/block/${block.id}`}
               alt={block.image.alt ? block.image.alt : "Post Content Image"}
               width={block.image.width}
               height={block.image.height}
@@ -67,7 +66,6 @@ const parseBlocks = (blocks: unknown) => {
             key={block.id}
             className="mt-content-node"
           >
-            {console.log("toggle", block.children)}
             {block.children && parseBlocks(block.children)}
           </Disclosure>
         );

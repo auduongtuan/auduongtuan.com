@@ -1,26 +1,55 @@
 import * as https from "https";
 const IMMUTABLE = "public, max-age=31536000, immutable";
 const REVALIDATE = "public, s-maxage=59, stale-while-rgevalidate";
-import { Client } from "@notionhq/client";
+import { Client, isFullPage } from "@notionhq/client";
 import { NextApiRequest, NextApiResponse } from "next";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const getNotionAsset = async (req: NextApiRequest, res: NextApiResponse) => {
   const { assetRequest, last_edited_time } = req.query;
   // console.log(assetRequest);
   if (assetRequest && assetRequest.length > 0) {
-    const block = await notion.blocks.retrieve({
-      block_id: assetRequest[0],
-    });
+    const [type, id, property, index = 0] = assetRequest;
+    let fileUrl: string;
 
-    return new Promise<void>((resolve, reject) => {
+    if (type == "page") {
+      const page = await notion.pages.retrieve({
+        page_id: id,
+      });
+      if (
+        isFullPage(page) &&
+        property == "icon" &&
+        page.icon &&
+        "file" in page.icon
+      )
+        fileUrl = page.icon?.file?.url;
+      if (isFullPage(page) && property in page.properties) {
+        const prop = page.properties[property];
+        if (
+          prop.type == "files" &&
+          "files" in prop &&
+          prop.files[index] &&
+          "file" in prop.files[index]
+        ) {
+          fileUrl = prop.files[index]?.file?.url;
+        }
+      }
+    } else if (type == "block") {
+      const block = await notion.blocks.retrieve({
+        block_id: id,
+      });
       if (
         block &&
         "type" in block &&
         (block.type == "image" || block.type == "video") &&
         "file" in block[block.type]
-      ) {
+      )
+        fileUrl = block[block.type].file.url;
+    }
+
+    return new Promise<void>((resolve, reject) => {
+      if (fileUrl) {
         // res.end(block.image.file.url);
-        https.get(block[block.type].file.url, (getResponse) => {
+        https.get(fileUrl, (getResponse) => {
           const proxyHeader = (header: string) => {
             const value =
               getResponse.headers[header] ||

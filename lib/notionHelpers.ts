@@ -36,7 +36,7 @@ export function breakRichTextChunks(longText: string): {
 export function getProperty(
   page,
   prop: string,
-  propType: "rich_text" | "title"
+  propType: "rich_text" | "title" | "select"
 ): string;
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
@@ -53,11 +53,22 @@ export function getProperty(
   prop: string,
   propType: "multi_select"
 ): string[];
-
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "checkbox" | "date" | "multi_select" | "rich_text" | "title"
+  propType: "files"
+): object[];
+export function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
+  propType:
+    | "checkbox"
+    | "date"
+    | "multi_select"
+    | "rich_text"
+    | "title"
+    | "select"
+    | "files"
 ) {
   if (
     "properties" in page &&
@@ -83,6 +94,14 @@ export function getProperty(
       case "multi_select":
         returnValue = data.map((option) => option.name);
         break;
+      case "select":
+        returnValue = "name" in data ? data?.name : "";
+        break;
+      case "files":
+        returnValue = data.map((file) => file);
+        break;
+      default:
+        returnValue = data;
     }
     return returnValue;
   } else {

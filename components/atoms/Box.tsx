@@ -34,11 +34,11 @@ const Box = ({
 export const EmojiBox = ({
   children,
   caption,
-  emoji,
+  emoji = "🥹",
 }: {
   children: React.ReactNode;
-  emoji: string;
-  caption?: string;
+  emoji?: string;
+  caption?: React.ReactNode;
 }) => {
   return (
     <Box>
