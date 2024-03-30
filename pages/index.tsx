@@ -21,6 +21,7 @@ export default function Index({
 }
 export async function getStaticProps() {
   const notionProjects = await getNotionProjects();
+
   return {
     props: {
       projects: allProjects,

@@ -14,6 +14,14 @@ module.exports = {
         protocol: "https",
         hostname: "*.spotify.com",
       },
+      {
+        protocol: "https",
+        hostname: "*.cloudinary.com",
+      },
+      {
+        protocol: "http",
+        hostname: "*.cloudinary.com",
+      },
     ],
   },
   reactStrictMode: false,

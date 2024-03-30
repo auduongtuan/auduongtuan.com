@@ -26,8 +26,8 @@ const parseBlocks = (blocks: unknown) => {
           <div key={block.id} className="flex flex-col mt-content-node">
             <CustomImage
               className="max-w-full text-center"
-              // src={block.image.file.url}
-              src={`/api/notion-asset/block/${block.id}`}
+              src={block.image.url}
+              // src={`/api/notion-asset/block/${block.id}`}
               alt={block.image.alt ? block.image.alt : "Post Content Image"}
               width={block.image.width}
               height={block.image.height}
