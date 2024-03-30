@@ -67,6 +67,7 @@ const getNotionAsset = async (req: NextApiRequest, res: NextApiResponse) => {
 
           proxyHeader("Content-Type");
           proxyHeader("Content-Length");
+          proxyHeader("Range");
 
           if (getResponse.statusCode === 200) {
             res.setHeader("Cache-Control", IMMUTABLE);
