@@ -1,4 +1,5 @@
 import {
+  BlockObjectResponse,
   FileBlockObjectResponse,
   PageObjectResponse,
   PartialPageObjectResponse,
@@ -11,6 +12,10 @@ const NOTION_RICH_TEXT_LIMIT = 2000;
 const limitRegex = new RegExp(`.{1,${NOTION_RICH_TEXT_LIMIT}}`, "g");
 export const notion = new Client({ auth: process.env.NOTION_API_KEY });
 export type PageIcon = PageObjectResponse["icon"];
+
+export type BlockObjectResponseWithChildren<T = BlockObjectResponse> = T & {
+  children?: BlockObjectResponseWithChildren[];
+};
 
 export type NotionMedia = {
   type: "image" | "video";

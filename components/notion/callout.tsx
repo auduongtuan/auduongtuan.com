@@ -7,6 +7,7 @@ import {
   CalloutBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import Box, { EmojiBox } from "@atoms/Box";
+import { BlockObjectResponseWithChildren } from "@lib/notionHelpers";
 
 function trimAny(str: string, chars: string[]) {
   var start = 0,
@@ -43,12 +44,12 @@ function getCalloutComponentWithOptions(
 }
 
 export const parseCallout = (
-  block: CalloutBlockObjectResponse,
+  block: BlockObjectResponseWithChildren<CalloutBlockObjectResponse>,
   blocks: BlockObjectResponse[],
   lastBlockIndex: { value: number }
 ) => {
   let rendered: React.ReactElement | null = null;
-  let gridBlocks: BlockObjectResponse[] = [];
+  let gridBlocks: BlockObjectResponseWithChildren[] = [];
   while (
     blocks[lastBlockIndex.value] &&
     "type" in blocks[lastBlockIndex.value] &&
