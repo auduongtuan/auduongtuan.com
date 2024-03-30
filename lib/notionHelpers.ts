@@ -1,14 +1,26 @@
 import {
+  FileBlockObjectResponse,
   PageObjectResponse,
   PartialPageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { Client } from "@notionhq/client";
 import probe from "probe-image-size";
 import fetchMeta from "fetch-meta-tags";
+import { get } from "lodash";
 const NOTION_RICH_TEXT_LIMIT = 2000;
 const limitRegex = new RegExp(`.{1,${NOTION_RICH_TEXT_LIMIT}}`, "g");
 export const notion = new Client({ auth: process.env.NOTION_API_KEY });
 export type PageIcon = PageObjectResponse["icon"];
+
+export type NotionMedia = {
+  type: "image" | "video";
+  url: string;
+  ext: string;
+  caption?: string;
+  width?: number;
+  height?: number;
+};
+
 export function breakRichTextChunks(longText: string): {
   type: "text";
   text: { content: string };
@@ -33,6 +45,7 @@ export function breakRichTextChunks(longText: string): {
         },
       ];
 }
+
 export function getProperty(
   page,
   prop: string,
@@ -57,7 +70,7 @@ export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
   propType: "files"
-): object[];
+): FileBlockObjectResponse[];
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
@@ -98,7 +111,7 @@ export function getProperty(
         returnValue = "name" in data ? data?.name : "";
         break;
       case "files":
-        returnValue = data.map((file) => file);
+        returnValue = data;
         break;
       default:
         returnValue = data;
@@ -107,6 +120,58 @@ export function getProperty(
   } else {
     return null;
   }
+}
+
+export async function getMediaFromProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string
+): Promise<NotionMedia[]> {
+  const files = getProperty(page, prop, "files");
+  const dimensions = getProperty(page, prop + " Dimensions", "rich_text");
+  return Promise.all(
+    files.map(async (file, i): Promise<NotionMedia> => {
+      const url = get(file, "file.url") || "";
+      const ext = url.split("?")[0].split(".").pop() || "";
+      let width = 0;
+      let height = 0;
+      const type = [
+        "amv",
+        "asf",
+        "avi",
+        "f4v",
+        "flv",
+        "gifv",
+        "mkv",
+        "mov",
+        "mpg",
+        "mpeg",
+        "mpv",
+        "mp4",
+        "m4v",
+        "qt",
+        "wmv",
+      ].includes(ext)
+        ? "video"
+        : "image";
+
+      if (dimensions) {
+        const dim = dimensions.split("x");
+        width = parseInt(dim[0]);
+        height = parseInt(dim[1]);
+      } else if (type == "image") {
+        const dim = await probe(url);
+        width = dim.width;
+        height = dim.height;
+      }
+      return {
+        url: getPageFileUrl(page.id, prop, i) + "." + ext,
+        type,
+        width,
+        height,
+        ext,
+      };
+    })
+  );
 }
 
 export const getBlockChildren = async (id: string) => {
@@ -152,3 +217,28 @@ export const getBlockChildren = async (id: string) => {
   );
   return results;
 };
+
+export function getPageFileUrl(
+  pageId: string,
+  prop: string,
+  order: number = 0
+) {
+  return (
+    `/api/notion-asset/page/${pageId}/${prop}` + (order ? `/${order}` : "")
+  );
+}
+
+export function getBlockFileUrl(blockId: string) {
+  return `/api/notion-asset/block/${blockId}`;
+}
+
+export function getPageIcon(page: PageObjectResponse) {
+  if (page?.icon?.type == "file") {
+    return {
+      url: getPageFileUrl(page.id, "icon"),
+      width: 40,
+      height: 40,
+    };
+  }
+  return null;
+}

@@ -14,11 +14,12 @@ const parseBlocks = (blocks: unknown) => {
     const block = blocks[lastBlockIndex.value];
     switch (block.type) {
       case "paragraph":
-        content.push(
-          <p key={block.id} className="body-text mt-content-node">
-            {richTextBlock(block)}
-          </p>
-        );
+        block.paragraph.rich_text.length > 0 &&
+          content.push(
+            <p key={block.id} className="body-text mt-content-node">
+              {richTextBlock(block)}
+            </p>
+          );
         break;
       case "image":
         content.push(
@@ -31,7 +32,7 @@ const parseBlocks = (blocks: unknown) => {
               width={block.image.width}
               height={block.image.height}
             />
-            {block.image?.caption && (
+            {block.image?.caption && block.image?.caption.length > 0 && (
               <p className="mt-2 text-sm">
                 {richTextObject(block.image.caption, block.id)}
               </p>

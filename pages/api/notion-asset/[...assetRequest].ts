@@ -8,7 +8,13 @@ const getNotionAsset = async (req: NextApiRequest, res: NextApiResponse) => {
   const { assetRequest, last_edited_time } = req.query;
   // console.log(assetRequest);
   if (assetRequest && assetRequest.length > 0) {
-    const [type, id, property, index = 0] = assetRequest;
+    const assetReq = [...assetRequest];
+    //remove file extension if present
+    assetReq[assetReq.length - 1] = assetReq[assetReq.length - 1].replace(
+      /\.[^/.]+$/,
+      ""
+    );
+    const [type, id, property, index = 0] = assetReq;
     let fileUrl: string;
 
     if (type == "page") {
