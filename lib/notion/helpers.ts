@@ -157,10 +157,14 @@ export const getBlockChildren = async (
     results.map(async (block) => {
       if (block.type == "image" || block.type == "video") {
         // const { width, height } = await probe(block.video.file.url);
-        let media: NotionMedia;
-        if (block.id in assets) {
-          media = assets[block.id];
-        } else {
+        let media: NotionMedia | undefined = undefined;
+        if (block.id in assets) media = assets[block.id];
+        // renew media if it's not there or outdated
+        if (
+          !media ||
+          !media.lastUpdated ||
+          new Date(media.lastUpdated) < new Date(block.last_edited_time)
+        ) {
           media = await getMediaFromBlock(block);
           assets[block.id] = media;
         }

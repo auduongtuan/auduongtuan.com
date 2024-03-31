@@ -20,6 +20,7 @@ export type NotionMedia = {
   caption?: string;
   width?: number;
   height?: number;
+  lastUpdated?: string;
 };
 
 export function getPageFileUrl(
@@ -129,6 +130,9 @@ export async function getMediaFromCloudinary(
     width: info.width,
     height: info.height,
     ext: info.format,
+    lastUpdated: info.last_updated
+      ? info.last_updated.updated_at
+      : info.created_at,
   };
 }
 
