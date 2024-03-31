@@ -1,7 +1,8 @@
 import allProjects from "../lib/project";
-import { getNotionProjects } from "@lib/notionProject";
+import { getNotionProjects } from "@lib/notion/project";
 import HomePage, { HomePageProps } from "../components/templates/home/HomePage";
 import HeadMeta from "../components/atoms/HeadMeta";
+import { isDevEnvironment } from "../lib/password";
 
 export default function Index({
   posts,
@@ -20,8 +21,7 @@ export default function Index({
   );
 }
 export async function getStaticProps() {
-  const notionProjects = await getNotionProjects();
-
+  const notionProjects = await getNotionProjects(isDevEnvironment);
   return {
     props: {
       projects: allProjects,

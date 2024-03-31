@@ -2,39 +2,37 @@ import { isFullPage } from "@notionhq/client";
 import {
   notion,
   getProperty,
-  getBlockChildren,
-  PageIcon,
   getPageIcon,
   NotionMedia,
   getMediaFromProperty,
-} from "./notionHelpers";
+  getBlockChildren,
+} from "@lib/notion";
+
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
-import probe from "probe-image-size";
 
 export type NotionProject = {
   id: string;
   slug: string;
   title: string;
   date: string;
-  type: "web" | "app" | "other";
-  description?: string;
-  tagline?: string;
-  meta: {
-    background?: string;
-    contentBackground?: string;
-    cover?: NotionMedia[];
-    tools?: string[];
-    roles?: string[];
-    achievements?: string[];
-    team?: string[];
-    link?: string;
-    linkCta?: string;
-    browser?: boolean;
-    half?: boolean;
-    point?: number;
-    protected?: boolean;
-    [key: string]: unknown;
-  };
+  caseStudy: boolean;
+  platform: "web" | "app" | "other";
+  description: string;
+  tagline: string;
+  point: number;
+  cover: NotionMedia[];
+  icon: NotionMedia;
+  tools: string[];
+  roles: string[];
+  protected: boolean;
+  halfDisplay: boolean;
+  achievements?: string[];
+  background?: string;
+  team?: string[];
+  link?: string;
+  linkCta?: string;
+  postSlug?: string;
+  // [key: string]: unknown;
 };
 
 export async function getNotionProjects(
@@ -84,16 +82,32 @@ export async function getNotionProjects(
         title: getProperty(page, "Title", "title"),
         date: getProperty(page, "Date", "date"),
         description: getProperty(page, "Description", "rich_text"),
-        type: getProperty(page, "Type", "select"),
+        platform: getProperty(page, "Platform", "select"),
         tagline: getProperty(page, "Tagline", "rich_text"),
-        meta: {
-          icon: getPageIcon(page),
-          tools: getProperty(page, "Tools", "multi_select"),
-          roles: getProperty(page, "Roles", "multi_select"),
-          cover: await getMediaFromProperty(page, "Cover"),
-        },
+        caseStudy: getProperty(page, "Case Study", "checkbox"),
+        cover: await getMediaFromProperty(page, "Cover"),
+        icon: await getPageIcon(page),
+        tools: getProperty(page, "Tools", "multi_select"),
+        team: getProperty(page, "Team", "multi_select"),
+        link: getProperty(page, "Link", "url"),
+        roles: getProperty(page, "Roles", "multi_select"),
+        achievements: getProperty(page, "Achievements", "rich_text")
+          .split(",")
+          .map((item) => item.trim())
+          .filter((achievement) => achievement),
+        halfDisplay: getProperty(page, "Half Display", "checkbox"),
+        point: getProperty(page, "Point", "number"),
+        background: getProperty(page, "Background", "rich_text"),
+        protected: getProperty(page, "Protected", "checkbox"),
+        postSlug: getProperty(page, "Post Slug", "rich_text"),
       };
     })
   );
+
   return projects.filter((page) => page) as NotionProject[];
 }
+
+export const getNotionProjectContent = async (id: string) => {
+  const results = await getBlockChildren(id);
+  return results;
+};

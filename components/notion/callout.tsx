@@ -7,7 +7,7 @@ import {
   CalloutBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import Box, { EmojiBox } from "@atoms/Box";
-import { BlockObjectResponseWithChildren } from "@lib/notionHelpers";
+import { BlockObjectResponseWithChildren } from "@lib/notion/helpers";
 
 function trimAny(str: string, chars: string[]) {
   var start = 0,

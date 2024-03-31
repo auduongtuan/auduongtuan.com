@@ -1,10 +1,5 @@
 const BLOG_DATABASE_ID = process.env.BLOG_DATABASE_ID as string;
-import {
-  notion,
-  getProperty,
-  getBlockChildren,
-  PageIcon,
-} from "./notionHelpers";
+import { notion, getProperty, getBlockChildren, PageIcon } from "@lib/notion";
 export interface Post {
   id: string;
   slug: string;

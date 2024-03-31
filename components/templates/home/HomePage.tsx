@@ -7,11 +7,12 @@ import Header from "@molecules/header/Header";
 import Footer from "@molecules/Footer";
 import Navigation from "@molecules/Navigation";
 import HeadMeta from "@atoms/HeadMeta";
-import { NotionProject } from "@lib/notionProject";
+import { NotionProject } from "@lib/notion/project";
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
 import BrowserFrame from "@atoms/Frame";
 import { twMerge } from "tailwind-merge";
+import NotionProjectList from "@templates/project/NotionProjectList";
 
 export type HomePageProps = {
   posts: Post[];
@@ -24,34 +25,34 @@ export default function HomePage({
   notionProjects,
 }: HomePageProps) {
   console.log(notionProjects);
-  const renderCover = (project: NotionProject) => {
-    return (
-      project.meta.cover &&
-      project.meta.cover.map((cover) => (
-        <div key={cover.url} className={cover.type == "video" ? "w-full" : ""}>
-          {cover.type === "image" ? (
-            <CustomImage
-              src={cover.url}
-              alt={project.title + " cover image"}
-              width={cover.width}
-              height={cover.height}
-            />
-          ) : (
-            <CustomVideo
-              src={cover.url}
-              width={cover.width}
-              height={cover.height}
-              className="w-full"
-            ></CustomVideo>
-          )}
-        </div>
-      ))
-    );
-  };
+  // const renderCover = (project: NotionProject) => {
+  //   return (
+  //     project.meta.cover &&
+  //     project.meta.cover.map((cover) => (
+  //       <div key={cover.url} className={cover.type == "video" ? "w-full" : ""}>
+  //         {cover.type === "image" ? (
+  //           <CustomImage
+  //             src={cover.url}
+  //             alt={project.title + " cover image"}
+  //             width={cover.width}
+  //             height={cover.height}
+  //           />
+  //         ) : (
+  //           <CustomVideo
+  //             src={cover.url}
+  //             width={cover.width}
+  //             height={cover.height}
+  //             className="w-full"
+  //           ></CustomVideo>
+  //         )}
+  //       </div>
+  //     ))
+  //   );
+  // };
   return (
     <div>
       <Header />
-      <div className="flex flex-col gap-10 main-container">
+      {/* <div className="flex flex-col gap-10 main-container">
         {notionProjects.map((project) => (
           <article
             key={project.id}
@@ -84,8 +85,8 @@ export default function HomePage({
             )}
           </article>
         ))}
-      </div>
-      {/* <ProjectList projects={projects} /> */}
+      </div> */}
+      <NotionProjectList projects={notionProjects} />
       {/* <PostList posts={posts} /> */}
 
       <Footer />

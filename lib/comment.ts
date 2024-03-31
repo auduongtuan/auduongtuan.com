@@ -1,5 +1,6 @@
-import { notion, breakRichTextChunks } from "./notionHelpers";
+import { notion, breakRichTextChunks } from "@lib/notion";
 const COMMENT_DATABASE_ID = process.env.COMMENT_DATABASE_ID as string;
+
 export async function createComment({ name, content, email, page, header }) {
   let properties: any = {
     Content: {

@@ -8,8 +8,9 @@ import Fade from "@atoms/Fade";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { twMerge } from "tailwind-merge";
 import Tooltip from "@atoms/Tooltip";
+import { NotionProject } from "@lib/notion";
 interface ProjectSingleHeaderProps {
-  project: Project;
+  project: NotionProject;
 }
 
 export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
@@ -31,39 +32,40 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
           <div className="flex flex-wrap items-center col-span-12 flex-gap-x-4">
             <Fade duration={200} slide className="flex-grow">
               <h1 className="text-3xl tracking-tight md:text-4xl lg:text-5xl font-display">
-                {project.meta.title}
+                {project.title}
               </h1>
               <p className="mt-1 text-gray-500 opacity-100 md:mt-2 muted-text">
-                {new Date(project.meta.date).toLocaleDateString("en-US", {
+                {new Date(project.date).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                 })}
               </p>
             </Fade>
-            {(project.meta.link || project.meta.achievements) && (
+            {(project.link || project.achievements) && (
               <Fade
                 className={twMerge(
                   "flex-shrink-0 flex-grow-0",
-                  project.meta.achievements && bp == "sm" && "mt-2 w-full"
+                  project.achievements && bp == "sm" && "mt-2 w-full"
                 )}
                 duration={300}
                 delay={400}
               >
-                {project.meta.link && (
+                {project.link && (
                   <Tooltip content="View website">
                     <IconButton
                       size={bp == "sm" ? "small" : "medium"}
                       // inverted
-                      href={project.meta.link ? project.meta.link : "#"}
+                      href={project.link ? project.link : "#"}
                       external
                     >
                       <FiEye />
                     </IconButton>
                   </Tooltip>
                 )}
-                {project.meta.achievements && (
+                {console.log(project.achievements)}
+                {project.achievements && (
                   <div className="flex flex-gap-4">
-                    {project.meta.achievements.map((achievement, i) => (
+                    {project.achievements.map((achievement, i) => (
                       <Badge key={i} index={i} content={achievement} />
                     ))}
                   </div>
@@ -72,15 +74,15 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
             )}
           </div>
           <Fade as="p" delay={200} className={`col-span-12 mt-4 body-text`}>
-            <Balancer ratio={0.36}>{project.meta.description}</Balancer>
+            <Balancer ratio={0.36}>{project.description}</Balancer>
           </Fade>
 
           <div className="flex col-span-12 mt-6 space-4 md:mt-8">
             <Fade className="flex-grow" delay={300}>
               <h5 className="text-sm sub-heading">Tools used</h5>
               <ul className="leading-tight">
-                {project.meta.tools &&
-                  project.meta.tools.map((tool, i) => (
+                {project.tools &&
+                  project.tools.map((tool, i) => (
                     <li className="mt-3" key={i}>
                       {tool}
                     </li>
@@ -90,8 +92,8 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
             <Fade className="flex-grow" delay={350}>
               <h5 className="text-sm sub-heading">What I did</h5>
               <ul className="leading-tight">
-                {project.meta.roles &&
-                  project.meta.roles.map((role, i) => (
+                {project.roles &&
+                  project.roles.map((role, i) => (
                     <li className="mt-3" key={i}>
                       {role}
                     </li>
