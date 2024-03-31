@@ -25,6 +25,7 @@ function getCalloutComponentWithOptions(
 ): [string | undefined, { [key: string]: string }] {
   if ("callout" in block && "rich_text" in block.callout) {
     const componentWithOptions = block?.callout?.rich_text[0]?.plain_text;
+    if (!componentWithOptions) return [undefined, {}];
     const parts = componentWithOptions.split(" ");
     const component = parts[0];
     const options = parts

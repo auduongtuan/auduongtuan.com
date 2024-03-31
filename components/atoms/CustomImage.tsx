@@ -32,7 +32,7 @@ const CustomImage = ({
           width={width}
           height={height}
           priority={true}
-          onLoadingComplete={() => setIsLoaded(true)}
+          onLoad={() => setIsLoaded(true)}
           {...rest}
         />
       </Skeleton.Content>

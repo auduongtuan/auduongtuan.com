@@ -62,41 +62,42 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
     };
   }
-  const mdxProject = getProject(slug);
-  if (mdxProject) {
-    const mdxContent = await serialize(mdxProject.content, {
-      mdxOptions: {
-        remarkPlugins: [require("remark-prism")],
-        development: process.env.NODE_ENV === "development",
-      },
-    });
-    return {
-      props: {
-        project: project,
-        projects: projects,
-        mdxContent,
-      },
-    };
-  } else {
-    // Get the Notion page data and all child block data
+  // const mdxProject = getProject(slug);
+  // if (mdxProject) {
+  //   const mdxContent = await serialize(mdxProject.content, {
+  //     mdxOptions: {
+  //       remarkPlugins: [require("remark-prism")],
+  //       development: process.env.NODE_ENV === "development",
+  //     },
+  //   });
+  //   return {
+  //     props: {
+  //       project: project,
+  //       projects: projects,
+  //       mdxContent,
+  //     },
+  //   };
+  // } else {
+  // Get the Notion page data and all child block data
 
-    const notionContent = await getNotionProjectContent(project.id);
-    // if (post.meta.protected) {
-    //   const json = JSON.stringify(rawPostContent);
-    //   const encrypted = CryptoJS.AES.encrypt(json, PASSWORD).toString();
-    //   postContent = encrypted;
-    // } else {
-    //   postContent = rawPostContent;
-    // }
+  const notionContent = await getNotionProjectContent(project.id);
+  console.log("NOTION CONTENT " + project.title, notionContent);
+  // if (post.meta.protected) {
+  //   const json = JSON.stringify(rawPostContent);
+  //   const encrypted = CryptoJS.AES.encrypt(json, PASSWORD).toString();
+  //   postContent = encrypted;
+  // } else {
+  //   postContent = rawPostContent;
+  // }
 
-    return {
-      props: {
-        project: project,
-        projects: projects,
-        notionContent,
-      },
-    };
-  }
+  return {
+    props: {
+      project: project,
+      projects: projects,
+      notionContent,
+    },
+  };
+  // }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {

@@ -52,8 +52,13 @@ export function getFileUrl(file: FileBlockObjectResponse) {
 }
 
 export function getExtFromUrl(url: string): string {
-  const ext = url.split("?")[0].split(".").pop() || "";
-  return ext;
+  try {
+    const ext = (url && url.split("?")[0].split(".").pop()) || "";
+    return ext;
+  } catch (e) {
+    console.error(e);
+    return "";
+  }
 }
 
 export function getTypeFromExt(ext: string): MediaType {
@@ -96,6 +101,7 @@ export async function getMediaFromCloudinary(
     return await cloudinary.uploader.upload(url, {
       public_id: public_id,
       resource_type: type,
+      timeout: 60000,
     });
   };
 
@@ -105,6 +111,7 @@ export async function getMediaFromCloudinary(
     try {
       const resource = await cloudinary.api.resource(public_id, {
         resource_type: type,
+        timeout: 60000,
       });
       info = resource;
       if (typeof renew === "string") {
@@ -135,6 +142,9 @@ export async function getMediaFromBlock(
     const url = getFileUrl(block[block.type]);
     const type = getTypeFromUrl(url);
     const public_id = `block_${block.id}`;
+    if (!url) {
+      throw new Error("Block does not have a file URL");
+    }
     return await getMediaFromCloudinary(
       public_id,
       type,
@@ -147,7 +157,7 @@ export async function getMediaFromBlock(
 }
 
 export async function getMediaFromProperty(
-  page: PageObjectResponse | PartialPageObjectResponse,
+  page: PageObjectResponse,
   prop: string
 ): Promise<NotionMedia[]> {
   const files = getProperty(page, prop, "files");

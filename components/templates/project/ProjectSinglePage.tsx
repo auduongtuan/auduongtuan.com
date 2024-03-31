@@ -21,7 +21,7 @@ const ProjectSinglePage = ({
       <HeadMeta
         title={project.title}
         description={project.description}
-        logo={project.icon ? project.icon.url : null}
+        logo={project.icon ? project.icon.url : undefined}
         background={project.background}
         tagline={project.tagline}
       />

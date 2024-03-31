@@ -6,7 +6,7 @@ import {
 } from "@notionhq/client/build/src/api-endpoints";
 import fetchMeta from "fetch-meta-tags";
 import { NOTION_RICH_TEXT_LIMIT, notion } from "./base";
-import { getMediaFromBlock } from "./media";
+import { NotionMedia, getMediaFromBlock } from "./media";
 
 const limitRegex = new RegExp(`.{1,${NOTION_RICH_TEXT_LIMIT}}`, "g");
 
@@ -134,7 +134,10 @@ export function getProperty(
   }
 }
 
-export const getBlockChildren = async (id: string) => {
+export const getBlockChildren = async (
+  id: string,
+  assets: { [key: string]: NotionMedia } = {}
+) => {
   const baseQuery = {
     block_id: id,
     page_size: 100,
@@ -152,19 +155,18 @@ export const getBlockChildren = async (id: string) => {
   // handle image size
   await Promise.all(
     results.map(async (block) => {
-      if (block.type == "image") {
-        // const { width, height } = await probe(block.image.file.url);
-        const media = await getMediaFromBlock(block);
-        block.image.url = media.url;
-        block.image.width = media.width || null;
-        block.image.height = media.height || null;
-      }
-      if (block.type == "video") {
+      if (block.type == "image" || block.type == "video") {
         // const { width, height } = await probe(block.video.file.url);
-        const media = await getMediaFromBlock(block);
-        block.video.url = media.url;
-        block.video.width = media.width || null;
-        block.video.height = media.height || null;
+        let media: NotionMedia;
+        if (block.id in assets) {
+          media = assets[block.id];
+        } else {
+          media = await getMediaFromBlock(block);
+          assets[block.id] = media;
+        }
+        block[block.type].url = media.url;
+        block[block.type].width = media.width || null;
+        block[block.type].height = media.height || null;
       }
       if (block.type == "bookmark") {
         let blockInfo;
@@ -180,7 +182,7 @@ export const getBlockChildren = async (id: string) => {
       }
       // get children
       if (block.has_children) {
-        block.children = await getBlockChildren(block.id);
+        block.children = await getBlockChildren(block.id, assets);
       }
     })
   );

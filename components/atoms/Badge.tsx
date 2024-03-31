@@ -10,10 +10,10 @@ const Badge = ({ content, index }: BadgeProps) => {
     <Fade className="w-[8.5rem] h-[8.5rem] text-center relative inline-flex mt-[0.4rem] flex-col items-center justify-center">
       <div className="absolute flex flex-col items-center justify-center w-full h-full px-5 py-3 text-center rounded-full">
         <span className="block px-1 mb-1 text-sm font-semibold leading-tight text-gray-500 -text-gray-100">
-          {content.split(":")[0]}
+          {content && content.split(":")[0]}
         </span>
         <span className="text-[0.6875rem] text-center uppercase font-medium leading-tight -text-gray-400 text-gray-500">
-          {content.split(":")[1]}
+          {content && content.split(":")[1]}
         </span>
       </div>
       {/* <svg className='absolute top-0 left-0 w-full h-full fill-gray-300' */}
