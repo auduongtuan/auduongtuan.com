@@ -124,7 +124,8 @@ const getNotionAsset = async (req: NextApiRequest, res: NextApiResponse) => {
               // Listing 6.
               res.statusCode =
                 start !== undefined || end !== undefined ? 206 : 200;
-              res.setHeader("Cache-Control", IMMUTABLE);
+              if (res.statusCode == 200)
+                res.setHeader("Cache-Control", IMMUTABLE);
               res.setHeader("content-length", retrievedLength);
 
               if (range !== undefined) {

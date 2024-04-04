@@ -7,6 +7,8 @@ import {
   getMediaFromProperty,
   getBlockChildren,
 } from "@lib/notion";
+import { isDevEnvironment } from "@lib/password";
+import cacheData from "memory-cache";
 
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
 
@@ -34,6 +36,24 @@ export type NotionProject = {
   postSlug?: string;
   // [key: string]: unknown;
 };
+
+export async function getNotionProjectsWithCache() {
+  let projects: NotionProject[];
+  if (isDevEnvironment) {
+    const cache = cacheData.get("projects");
+    if (cache) {
+      console.log("use projects from cache");
+      projects = cache;
+    } else {
+      projects = await getNotionProjects(isDevEnvironment);
+      cacheData.put("projects", projects, 24 * 1000 * 60 * 60);
+      console.log("put new projects");
+    }
+  } else {
+    projects = await getNotionProjects(isDevEnvironment);
+  }
+  return projects;
+}
 
 export async function getNotionProjects(
   includeUnpublished?: boolean

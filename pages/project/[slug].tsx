@@ -2,8 +2,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetStaticProps, GetStaticPaths } from "next";
 import DefaultErrorPage from "next/error";
-import { getProject } from "@lib/project";
-import { serialize } from "next-mdx-remote/serialize";
 import ProjectSinglePage, {
   ProjectSinglePageProps,
 } from "@templates/project/ProjectSinglePage";
@@ -11,6 +9,7 @@ import {
   NotionProject,
   getNotionProjectContent,
   getNotionProjects,
+  getNotionProjectsWithCache,
 } from "@lib/notion";
 import { isDevEnvironment } from "@lib/password";
 
@@ -101,7 +100,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const projects = await getNotionProjects(isDevEnvironment);
+  const projects = await getNotionProjectsWithCache();
   // old mdx paths
   // const paths = projectSlugs.map((slug) => ({
   //   params: { slug: slug },

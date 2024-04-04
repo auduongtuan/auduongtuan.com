@@ -1,8 +1,7 @@
 // import allProjects from "../lib/project";
-import { getNotionProjects } from "@lib/notion/project";
+import { getNotionProjectsWithCache } from "@lib/notion/project";
 import HomePage, { HomePageProps } from "../components/templates/home/HomePage";
 import HeadMeta from "../components/atoms/HeadMeta";
-import { isDevEnvironment } from "../lib/password";
 
 export default function Index({ notionProjects }: HomePageProps) {
   return (
@@ -13,7 +12,7 @@ export default function Index({ notionProjects }: HomePageProps) {
   );
 }
 export async function getStaticProps() {
-  const notionProjects = await getNotionProjects(isDevEnvironment);
+  const notionProjects = await getNotionProjectsWithCache();
   return {
     props: {
       notionProjects: notionProjects,
