@@ -36,7 +36,7 @@ const ProjectSingleContent = ({
             />
           </div>
         )}
-        {notionContent && parseBlocks(notionContent)}
+        {notionContent &&   <div className="project-grid">{parseBlocks(notionContent)}</div>}
       </Fade>
     </div>
   );

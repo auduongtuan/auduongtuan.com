@@ -12,6 +12,8 @@ import {
   getNotionProjectsWithCache,
 } from "@lib/notion";
 import { isDevEnvironment } from "@lib/password";
+import { getProject } from "@lib/project";
+import { serialize } from 'next-mdx-remote/serialize'
 
 export default function ProjectView({
   project,
@@ -61,22 +63,22 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
     };
   }
-  // const mdxProject = getProject(slug);
-  // if (mdxProject) {
-  //   const mdxContent = await serialize(mdxProject.content, {
-  //     mdxOptions: {
-  //       remarkPlugins: [require("remark-prism")],
-  //       development: process.env.NODE_ENV === "development",
-  //     },
-  //   });
-  //   return {
-  //     props: {
-  //       project: project,
-  //       projects: projects,
-  //       mdxContent,
-  //     },
-  //   };
-  // } else {
+  const mdxProject = getProject(slug);
+  if (mdxProject) {
+    const mdxContent = await serialize(mdxProject.content, {
+      mdxOptions: {
+        remarkPlugins: [require("remark-prism")],
+        development: process.env.NODE_ENV === "development",
+      },
+    });
+    return {
+      props: {
+        project: project,
+        projects: projects,
+        mdxContent,
+      },
+    };
+  } else {
   // Get the Notion page data and all child block data
 
   const notionContent = await getNotionProjectContent(project.id);
@@ -96,7 +98,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       notionContent,
     },
   };
-  // }
+  }
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
