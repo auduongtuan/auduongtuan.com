@@ -15,7 +15,7 @@ const ProjectComponents = (slug: string) => ({
     </h2>
   ),
   img: ({ src, alt }) => {
-    const ext = src.split(".").pop();
+    const ext = src && src.split(".").pop();
     return ext == "png" || ext == "jpg" ? (
       <CustomImage alt={alt} src={src} slug={slug} />
     ) : (

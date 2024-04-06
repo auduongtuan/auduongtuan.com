@@ -33,7 +33,6 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // Grab the slug from the post URL
   const slug = context.query && context.query.slug;
   const secret = context.query && context.query.secret;
-  console.log(slug);
   if (!secret || secret != "eyJhbGciOiJIUzI1NiJ9") {
     return {
       props: {

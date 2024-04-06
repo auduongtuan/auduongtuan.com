@@ -64,67 +64,35 @@ export const getProject = (slug: string): Project | null => {
   }
   return null;
 };
-export const allProjects: Project[] = projectSlugs.reduce(
-  (projects: Project[], slug) => {
-    const fullPath = join(PROJECTS_PATH, `${slug}.mdx`);
-    // Read markdown file as string
-    try {
-      if (fs.existsSync(fullPath)) {
-        const fileContents = fs.readFileSync(fullPath, "utf8");
 
-        // Use gray-matter to parse the post metadata section
-        const {
-          content,
-          data,
-        }: { content: any; data: { [key: string]: any } } =
-          matter(fileContents);
-
-        // Combine the data with the id
-        projects.push({
-          slug: slug,
-          meta: data as Project["meta"],
-          content: content,
-        });
-      }
-    } catch (err) {
-      console.log(err);
-    }
-    return projects;
-  },
-  []
-);
-export default allProjects;
-
-// export function getProjectSlugs(): string[] {
-//     return fs.readdirSync(PROJECTS_PATH).filter(fn => fn.endsWith('.mdx')).map(fileName => fileName.replace(/\.mdx$/, ''));
-//     // return fs.readdirSync(PROJECTS_PATH, { withFileTypes: true }).filter(dirent => dirent.isDirectory()).map(dirent => dirent.name);
-// }
-// export async function getProjectBySlug(slug: string): Promise<Project|null|undefined> {
-//     // Remove ".mdx" from file name to get id
+// export const allProjects: Project[] = projectSlugs.reduce(
+//   (projects: Project[], slug) => {
 //     const fullPath = join(PROJECTS_PATH, `${slug}.mdx`);
-
 //     // Read markdown file as string
 //     try {
-//         if (fs.existsSync(fullPath)) {
-//             const fileContents = fs.readFileSync(fullPath, 'utf8')
+//       if (fs.existsSync(fullPath)) {
+//         const fileContents = fs.readFileSync(fullPath, "utf8");
 
-//             // Use gray-matter to parse the post metadata section
-//             const {content, data}:{content: any, data: {[key:string]: any}} = matter(fileContents)
+//         // Use gray-matter to parse the post metadata section
+//         const {
+//           content,
+//           data,
+//         }: { content: any; data: { [key: string]: any } } =
+//           matter(fileContents);
 
-//             // Combine the data with the id
-//             return {
-//                 slug: slug,
-//                 meta: data as Project["meta"],
-//                 content: content
-//             }
-//         }
-//     } catch(err) {
-//         return null;
+//         // Combine the data with the id
+//         projects.push({
+//           slug: slug,
+//           meta: data as Project["meta"],
+//           content: content,
+//         });
+//       }
+//     } catch (err) {
+//       console.log(err);
 //     }
+//     return projects;
+//   },
+//   []
+// );
 
-// }
-// export async function getAllProjects() {
-//     return await Promise.all(getProjectSlugs().map(async slug => {
-//         return await getProjectBySlug(slug);
-//     }));
-// }
+// export default allProjects;

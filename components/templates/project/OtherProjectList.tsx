@@ -2,37 +2,35 @@ import { Project } from "@lib/project";
 import Link from "next/link";
 import CustomImage from "@atoms/CustomImage";
 import { Fragment } from "react";
-const ProjectCard = ({ project }: { project: Project }) => {
+import { NotionProject } from "@lib/notion";
+import { parseInternalLink } from "@lib/utils";
+const ProjectCard = ({ project }: { project: NotionProject }) => {
+  const internalLink = parseInternalLink(project.link || "") || "";
   const content = (
     <Fragment>
-      {project.meta.logo && (
+      {project.icon && (
         <div className="w-12 h-12 grow-0 shrink-0">
           <CustomImage
-            src={project.meta.logo}
-            slug={project.slug}
+            src={project.icon.url}
             width={48}
             height={48}
-            alt={project.meta.title}
+            alt={project.title}
           />
         </div>
       )}
       <div>
-        <h3 className="text-xl">{project.meta.title}</h3>
-        <p className="text-sm text-gray-700">{project.meta.tagline}</p>
+        <h3 className="text-xl">{project.title}</h3>
+        <p className="text-sm text-gray-700">{project.tagline}</p>
       </div>
     </Fragment>
   );
   const classname =
     "col-span-6 md:col-span-3 lg:col-span-2 text-gray-900 p-3 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2";
-  return ["casestudy", "post"].includes(project.meta.type) ? (
+  return project.caseStudy || internalLink ? (
     <Link
-      href={
-        project.meta.type == "casestudy"
-          ? `/project/${project.slug}`
-          : `/blog/${project.meta.postSlug}`
-      }
+      href={project.caseStudy ? `/project/${project.slug}` : internalLink}
       className={classname}
-      style={{ backgroundColor: project.meta.background }}
+      style={{ backgroundColor: project.background }}
     >
       {content}
     </Link>
@@ -41,8 +39,8 @@ const ProjectCard = ({ project }: { project: Project }) => {
       target="_blank"
       rel="noreferrer"
       className={classname}
-      href={project.meta.link}
-      style={{ backgroundColor: project.meta.background }}
+      href={project.link}
+      style={{ backgroundColor: project.background }}
     >
       {content}
     </a>
@@ -52,8 +50,8 @@ const OtherProjectList = ({
   project: currentProject,
   projects,
 }: {
-  project: Project;
-  projects: Project[];
+  project: NotionProject;
+  projects: NotionProject[];
 }) => {
   return (
     <>
@@ -61,7 +59,7 @@ const OtherProjectList = ({
       <div className="grid grid-cols-6 gap-4 mt-6 md:gap-6 group">
         {projects
           .filter((project) => project.slug != currentProject.slug)
-          .sort((a, b) => (b.meta.coolness || 0) - (a.meta.coolness || 0))
+          .sort((a, b) => (b.point || 0) - (a.point || 0))
           .slice(0, 6)
           .map((project, i) => (
             <ProjectCard

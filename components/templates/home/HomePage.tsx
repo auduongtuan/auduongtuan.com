@@ -1,23 +1,16 @@
-import { Post } from "@lib/blog";
-import { Project } from "@lib/project";
-import ProjectList from "../project/ProjectList";
-import PostList from "../post/PostList";
-
 import Header from "@molecules/header/Header";
 import Footer from "@molecules/Footer";
-import Navigation from "@molecules/Navigation";
-import HeadMeta from "@atoms/HeadMeta";
+import { NotionProject } from "@lib/notion/project";
+import NotionProjectList from "@templates/project/NotionProjectList";
 
 export type HomePageProps = {
-  posts: Post[];
-  projects: Project[];
+  notionProjects: NotionProject[];
 };
-export default function HomePage({ posts, projects }: HomePageProps) {
+export default function HomePage({ notionProjects }: HomePageProps) {
   return (
     <div>
       <Header />
-      <ProjectList projects={projects} />
-      {/* <PostList posts={posts} /> */}
+      <NotionProjectList projects={notionProjects} />
       <Footer />
     </div>
   );

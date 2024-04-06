@@ -5,7 +5,7 @@ export interface CustomVideoProps {
   src: string;
   width?: number;
   height?: number;
-  slug: string;
+  slug?: string;
   autoPlay?: boolean;
   preload?: boolean;
   loop?: boolean;
@@ -13,41 +13,90 @@ export interface CustomVideoProps {
   show?: boolean;
 }
 
-const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(({poster, src, width, height, slug, autoPlay = true, loop = true, className = '', preload = false, show = true}, ref) => {
-  const innerRef = useRef<HTMLVideoElement>(null);
-  const [loaded, setLoaded] = useState(false);
-  useImperativeHandle(ref, () => innerRef.current as HTMLVideoElement);
-  useEffect(() => {
-    if ("IntersectionObserver" in window) {
-      const lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
-        entries.forEach(function(video) {
-          if (video.isIntersecting && video.target instanceof HTMLVideoElement && video.target.dataset.src && show) {
-            video.target.src = video.target.dataset.src;
-            video.target.load();
-            video.target.classList.remove("lazy");
-            lazyVideoObserver.unobserve(video.target);
-            video.target.onloadeddata = () => {
-              setLoaded(true);
+const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(
+  (
+    {
+      poster,
+      src,
+      width,
+      height,
+      slug,
+      autoPlay = true,
+      loop = true,
+      className = "",
+      preload = false,
+      show = true,
+    },
+    ref
+  ) => {
+    const innerRef = useRef<HTMLVideoElement>(null);
+    const [loaded, setLoaded] = useState(false);
+    useImperativeHandle(ref, () => innerRef.current as HTMLVideoElement);
+    useEffect(() => {
+      if ("IntersectionObserver" in window) {
+        const lazyVideoObserver = new IntersectionObserver(function (
+          entries,
+          observer
+        ) {
+          entries.forEach(function (video) {
+            if (
+              video.isIntersecting &&
+              video.target instanceof HTMLVideoElement &&
+              video.target.dataset.src &&
+              show
+            ) {
+              video.target.src = video.target.dataset.src;
+              video.target.load();
+              video.target.classList.remove("lazy");
+              lazyVideoObserver.unobserve(video.target);
+              video.target.onloadeddata = () => {
+                setLoaded(true);
+              };
             }
-          }
+          });
         });
-      });
-      // console.log(innerRef);
-      if (innerRef.current instanceof HTMLVideoElement) lazyVideoObserver.observe(innerRef.current);
-      return () => lazyVideoObserver.disconnect();
-    }
-  }, [ref, show]);
-  // return <video className='w-full h-auto' poster={poster && poster} src={require(`../../public/uploads/${slug}/${src}`)} width={width ? width : undefined} height={height ? height: undefined} loop={loop} muted={autoPlay} autoPlay={autoPlay} playsInline={autoPlay} preload="true"></video>
-  return (
-    <Skeleton.Wrapper loaded={loaded} className="rounded-md overflow-hidden" block data-video>
-    <Skeleton type="video"></Skeleton>
-    <Skeleton.Content>
-    <div className='w-full relative h-0' style={(width && height) ? {paddingTop: `${height/width*100}%`} : {}}>
-      <video ref={innerRef} className={`w-full h-full absolute left-0 top-0 ${className}`} poster={poster && `/uploads/${slug}/${poster}`} data-src={`/uploads/${slug}/${src}`} width={width ? width : undefined} height={height ? height: undefined} loop={loop} muted={autoPlay} autoPlay={autoPlay} playsInline={autoPlay} preload={preload ? "true" : "false"}></video>
-    </div>
-    </Skeleton.Content>
-    </Skeleton.Wrapper>
-  );
-});
-CustomVideo.displayName = 'CustomVideo';
+        // console.log(innerRef);
+        if (innerRef.current instanceof HTMLVideoElement)
+          lazyVideoObserver.observe(innerRef.current);
+        return () => lazyVideoObserver.disconnect();
+      }
+    }, [ref, show]);
+    // return <video className='w-full h-auto' poster={poster && poster} src={require(`../../public/uploads/${slug}/${src}`)} width={width ? width : undefined} height={height ? height: undefined} loop={loop} muted={autoPlay} autoPlay={autoPlay} playsInline={autoPlay} preload="true"></video>
+    return (
+      <Skeleton.Wrapper
+        loaded={loaded}
+        className="overflow-hidden rounded-md"
+        block
+        data-video
+      >
+        <Skeleton type="video"></Skeleton>
+        <Skeleton.Content>
+          <div
+            className="relative w-full h-0"
+            style={
+              width && height
+                ? { paddingTop: `${(height / width) * 100}%` }
+                : {}
+            }
+          >
+            <video
+              ref={innerRef}
+              className={`w-full h-full absolute left-0 top-0 ${className}`}
+              poster={poster && `/uploads/${slug}/${poster}`}
+              data-src={slug ? `/uploads/${slug}/${src}` : src}
+              width={width ? width : undefined}
+              height={height ? height : undefined}
+              loop={loop}
+              muted={autoPlay}
+              autoPlay={autoPlay}
+              playsInline={autoPlay}
+              preload={preload ? "true" : "false"}
+            ></video>
+          </div>
+        </Skeleton.Content>
+      </Skeleton.Wrapper>
+    );
+  }
+);
+CustomVideo.displayName = "CustomVideo";
 export default CustomVideo;
