@@ -11,9 +11,9 @@ import {
   getNotionProjects,
   getNotionProjectsWithCache,
 } from "@lib/notion";
-import { isDevEnvironment } from "@lib/password";
+import { isDevEnvironment } from "@lib/utils";
 import { getProject } from "@lib/project";
-import { serialize } from 'next-mdx-remote/serialize'
+import { serialize } from "next-mdx-remote/serialize";
 
 export default function ProjectView({
   project,
@@ -79,25 +79,25 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       },
     };
   } else {
-  // Get the Notion page data and all child block data
+    // Get the Notion page data and all child block data
+    const notionContent = await getNotionProjectContent(project.id);
+    // TBD: Encrypt the content if the post is protected
+    // if (post.meta.protected) {
+    //   const json = JSON.stringify(rawPostContent);
+    //   const encrypted = CryptoJS.AES.encrypt(json, PASSWORD).toString();
+    //   postContent = encrypted;
+    // } else {
+    //   postContent = rawPostContent;
+    // }
 
-  const notionContent = await getNotionProjectContent(project.id);
-  console.log("NOTION CONTENT " + project.title, notionContent);
-  // if (post.meta.protected) {
-  //   const json = JSON.stringify(rawPostContent);
-  //   const encrypted = CryptoJS.AES.encrypt(json, PASSWORD).toString();
-  //   postContent = encrypted;
-  // } else {
-  //   postContent = rawPostContent;
-  // }
-
-  return {
-    props: {
-      project: project,
-      projects: projects,
-      notionContent,
-    },
-  };
+    return {
+      props: {
+        project: project,
+        projects: projects,
+        notionContent,
+      },
+      revalidate: 120,
+    };
   }
 };
 

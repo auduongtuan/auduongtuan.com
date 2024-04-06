@@ -1,4 +1,3 @@
-// import allProjects from "../lib/project";
 import { getNotionProjectsWithCache } from "@lib/notion/project";
 import HomePage, { HomePageProps } from "../components/templates/home/HomePage";
 import HeadMeta from "../components/atoms/HeadMeta";
@@ -17,5 +16,6 @@ export async function getStaticProps() {
     props: {
       notionProjects: notionProjects,
     },
+    revalidate: 120,
   };
 }

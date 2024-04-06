@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { createComment, getComments } from "@lib/comment";
 import { uploadFileToR2 } from "@lib/r2";
+import { isDevEnvironment } from "@lib/utils";
+
 const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "GET") {
+  if (req.method === "GET" && isDevEnvironment) {
     return res
       .status(200)
       .json(
@@ -13,4 +14,5 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
       );
   }
 };
+
 export default notionAPI;

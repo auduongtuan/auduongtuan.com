@@ -7,7 +7,7 @@ import {
   getMediaFromProperty,
   getBlockChildren,
 } from "@lib/notion";
-import { isDevEnvironment } from "@lib/password";
+import { isDevEnvironment } from "@lib/utils";
 import cacheData from "memory-cache";
 
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
@@ -42,12 +42,10 @@ export async function getNotionProjectsWithCache() {
   if (isDevEnvironment) {
     const cache = cacheData.get("projects");
     if (cache) {
-      console.log("use projects from cache");
       projects = cache;
     } else {
       projects = await getNotionProjects(isDevEnvironment);
       cacheData.put("projects", projects, 24 * 1000 * 60 * 60);
-      console.log("put new projects");
     }
   } else {
     projects = await getNotionProjects(isDevEnvironment);

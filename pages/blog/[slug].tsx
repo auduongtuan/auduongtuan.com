@@ -5,7 +5,9 @@ import DefaultErrorPage from "next/error";
 import { getPosts, getPostContent, Post } from "@lib/blog";
 import NotionPostPage from "@templates/post/NotionPostPage";
 import CryptoJS from "crypto-js";
-import PASSWORD, { isDevEnvironment } from "@lib/password";
+import { isDevEnvironment } from "@lib/utils";
+
+const PASSWORD = process.env.BLOG_PASSWORD as string;
 
 type BlogProps = {
   post: Post;
