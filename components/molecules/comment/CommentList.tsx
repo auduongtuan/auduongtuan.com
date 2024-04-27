@@ -58,7 +58,7 @@ const CommentList = ({ comments, wording }) => {
                     : "Anonymous";
                   const avatarColor = hasName
                     ? avatarColors[getHashOfString(name) % avatarColors.length]
-                    : "bg-gray-300 text-gray-800/70";
+                    : "bg-gray-300 text-primary/70";
                   return (
                     <div key={`comment-${i}`} className="flex space-x-3">
                       <span
@@ -72,14 +72,14 @@ const CommentList = ({ comments, wording }) => {
                       </span>
                       <div className="w-full px-4 py-3 bg-gray-100 rounded-xl ">
                         <div className="flex justify-between">
-                          <h6 className="font-medium text-gray-800">
+                          <h6 className="font-medium text-primary">
                             {hasName ? richTextObject(comment.name) : "Someone"}
                           </h6>
                           <span className="text-sm muted-text">
                             {timeAgo.format(new Date(comment.createdTime))}
                           </span>
                         </div>
-                        <div className="text-gray-800">
+                        <div className="text-primary">
                           {richTextObject(comment.content)}
                         </div>
                       </div>
@@ -99,7 +99,7 @@ const CommentList = ({ comments, wording }) => {
               <h5 className="mt-2 text-base font-medium text-secondary font-display md:text-lg">
                 No {wording.plural} yet.
               </h5>
-              <p className="mt-1 text-sm text-gray-800 md:text-base">
+              <p className="mt-1 text-sm text-primary md:text-base">
                 {`Why don't you `}
                 <Tooltip content="A nostalgia trend of Yahoo 360 era">
                   <InlineLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</InlineLink>

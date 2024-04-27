@@ -87,7 +87,7 @@ const PostSinglePage = ({
                   <Balancer>
                     <Fade
                       as="h1"
-                      className="col-span-1 text-2xl leading-tight text-gray-800 grow md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
+                      className="col-span-1 text-2xl leading-tight text-primary grow md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
                       slide
                       duration={100}
                     >
@@ -128,7 +128,7 @@ const PostSinglePage = ({
       <Fade className="relative" delay={200} key={post.slug + "_content"}>
         <ContentMenu />
         <div className="pt-8 md:pt-9 content-container p-content blog-content">
-          <div className="text-gray-800 [&>*:first-child]:mt-0">
+          <div className="text-primary [&>*:first-child]:mt-0">
             {post.meta.protected ? (
               <>
                 <Transition

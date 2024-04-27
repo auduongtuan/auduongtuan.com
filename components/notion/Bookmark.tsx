@@ -7,7 +7,7 @@ const Bookmark = ({ block }) => {
         href={block.bookmark.url}
         className="block border border-gray-200 text-sm py-3 px-4 rounded-md mt-4 hover:bg-gray-100"
       >
-        <p className="text-base font-medium text-gray-800">
+        <p className="text-base font-medium text-primary">
           {block.bookmark.meta.title
             ? block.bookmark.meta.title
             : block.bookmark.url}

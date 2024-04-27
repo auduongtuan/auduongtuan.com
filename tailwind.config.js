@@ -17,11 +17,15 @@ module.exports = {
       },
       fontFamily: {
         // "display": ['Work Sans', ],
-        display: ["Bricolage Grotesque", "Helvetica", "Arial", "sans-serif"],
-        sans: ["var(--main-font)", "Helvetica", "Arial", "sans-serif"],
+        display: ["Hanken Grotesk", "Helvetica", "Arial", "sans-serif"],
+        sans: ["Hanken Grotesk", "Helvetica", "Arial", "sans-serif"],
         // "script": ['Nanum Pen Script', 'IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif']
       },
       fontSize: {
+        // sm: ["0.9375rem", "1.25rem"],
+        // base: ["1.0625rem", "1.5rem"],
+        // lg: ["1.1875rem", "1.875rem"],
+        // xl: ["1.3125rem", "1.875rem"],
         // '6xl': '3.375rem',
         // '7xl': '4rem'
       },

@@ -125,7 +125,7 @@ const ContentMenu = () => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }
                   }}
-                  className={`col-start-1 row-start-1 pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-0 ml-3 text-sm font-semibold hover:text-gray-800 truncate ${
+                  className={`col-start-1 row-start-1 pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-0 ml-3 text-sm font-semibold hover:text-primary truncate ${
                     i == active ? "text-primary" : "text-gray-400"
                   }`}
                   href={`#${heading.id}`}

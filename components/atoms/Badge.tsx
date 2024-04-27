@@ -12,7 +12,7 @@ const Badge = ({ content, index }: BadgeProps) => {
         <span className="block px-1 mb-1 text-sm font-semibold leading-tight text-tertiary -text-gray-100">
           {content.split(":")[0]}
         </span>
-        <span className="text-[0.6875rem] text-center uppercase font-medium leading-tight -text-gray-400 text-tertiary">
+        <span className="text-[0.6875rem] text-center uppercase font-medium tracking-wide leading-tight -text-gray-400 text-tertiary">
           {content.split(":")[1]}
         </span>
       </div>

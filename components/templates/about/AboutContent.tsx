@@ -84,7 +84,7 @@ const Item = ({
 export default function AboutContent() {
   return (
     <div className="relative h-full p-content">
-      <Fade delay={300} className="text-gray-800 main-container">
+      <Fade delay={300} className="text-primary main-container">
         <div className="grid grid-cols-2 md:grid-cols-6 lg:grid-cols-12 gap-x-8 gap-y-8 md:gap-y-12 lg:gap-y-24">
           <section className="col-span-2 md:col-span-6 lg:col-span-8 lg:mr-8">
             <div className="grid grid-cols-1 gap-y-8 md:gap-y-12 gap-x-16">

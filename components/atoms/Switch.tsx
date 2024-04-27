@@ -26,7 +26,7 @@ const Switch = ({ checked, onChange, label }) => {
             </button>
           )}
         </HSwitch>
-        <HSwitch.Label className="text-gray-800 text-base cursor-pointer">
+        <HSwitch.Label className="text-primary text-base cursor-pointer">
           {label}
         </HSwitch.Label>
       </div>

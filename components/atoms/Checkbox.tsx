@@ -29,7 +29,7 @@ const Checkbox = ({ checked, onChange, label, ...rest }: CheckboxProps) => {
           )}
         </HSwitch>
         {label && (
-          <HSwitch.Label className="text-base text-gray-800 cursor-pointer">
+          <HSwitch.Label className="text-base cursor-pointer text-primary">
             {label}
           </HSwitch.Label>
         )}
