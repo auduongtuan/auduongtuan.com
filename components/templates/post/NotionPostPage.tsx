@@ -87,7 +87,7 @@ const PostSinglePage = ({
                   <Balancer>
                     <Fade
                       as="h1"
-                      className="col-span-1 text-2xl leading-tight text-gray-800 grow md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
+                      className="col-span-1 text-2xl leading-tight text-primary grow md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
                       slide
                       duration={100}
                     >
@@ -111,7 +111,7 @@ const PostSinglePage = ({
                   <Tag key={`tag-${i}`}>{tag}</Tag>
                 ))}
               </Fade>
-              <Fade className="mt-1 text-gray-500 muted-text" delay={200}>
+              <Fade className="mt-1 text-tertiary muted-text" delay={200}>
                 Posted on{" "}
                 {post.meta.date &&
                   new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -128,7 +128,7 @@ const PostSinglePage = ({
       <Fade className="relative" delay={200} key={post.slug + "_content"}>
         <ContentMenu />
         <div className="pt-8 md:pt-9 content-container p-content blog-content">
-          <div className="text-gray-800 [&>*:first-child]:mt-0">
+          <div className="text-primary [&>*:first-child]:mt-0">
             {post.meta.protected ? (
               <>
                 <Transition
@@ -154,7 +154,7 @@ const PostSinglePage = ({
           </div>
         </div>
       </Fade>
-      <section className="relative bg-white border-t border-gray-200 p-content">
+      <section className="relative bg-surface border-t border-gray-200 p-content">
         <div className="main-container">
           <Transition
             show={isShown}

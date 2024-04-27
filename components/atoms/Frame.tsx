@@ -112,7 +112,7 @@ const BrowserFrame = React.forwardRef<HTMLDivElement, BrowserFrameProps>(
     );
     const middleContentRender = () => (
       <>
-        <div className="bg-white/20 text-xs text-white/80 text-center min-h-[20px] px-4 py-[2px] rounded-md inline-block justify-self-center w-[60%] md:w-1/2">
+        <div className="bg-surface/20 text-xs text-white/80 text-center min-h-[20px] px-4 py-[2px] rounded-md inline-block justify-self-center w-[60%] md:w-1/2">
           {url && (
             <a href={url} target="_blank" rel="noreferrer">
               {url.replace(/(^\w+:|^)\/\//, "")}

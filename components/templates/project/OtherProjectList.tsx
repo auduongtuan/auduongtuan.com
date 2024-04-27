@@ -19,13 +19,13 @@ const ProjectCard = ({ project }: { project: NotionProject }) => {
         </div>
       )}
       <div>
-        <h3 className="text-xl">{project.title}</h3>
-        <p className="text-sm text-gray-700">{project.tagline}</p>
+        <h3 className="text-lg leading-tight">{project.title}</h3>
+        <p className="mt-0.5 text-sm text-secondary">{project.tagline}</p>
       </div>
     </Fragment>
   );
   const classname =
-    "col-span-6 md:col-span-3 lg:col-span-2 text-gray-900 p-3 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2";
+    "col-span-6 md:col-span-3 lg:col-span-2 text-primary p-3 md:p-3.5 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2";
   return project.caseStudy || internalLink ? (
     <Link
       href={project.caseStudy ? `/project/${project.slug}` : internalLink}

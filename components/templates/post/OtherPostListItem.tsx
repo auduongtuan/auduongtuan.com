@@ -28,10 +28,10 @@ const OtherPostListItem = ({
       <div className="flex flex-col">
         <h5
           className={clsx(
-            "flex font-display space-x-3 text-base md:text-lg font-semibold "
+            "grow inline-flex font-display space-x-3 text-base md:text-lg font-semibold "
           )}
         >
-          <span className="block w-full grow">{post.meta.title}</span>
+          <span className="">{post.meta.title}</span>
           {post.meta.protected && (
             <FiLock className="mt-1 text-gray-400 shrink-0 grow-0"></FiLock>
           )}

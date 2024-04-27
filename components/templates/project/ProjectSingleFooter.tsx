@@ -13,7 +13,7 @@ const ProjectSingleFooter = ({
 }: ProjectSingleFooterProps) => {
   return (
     <Fragment>
-      <div className="relative bg-white border-t border-gray-200 p-content">
+      <div className="relative border-t border-gray-200 bg-surface p-content">
         <div className="main-container">
           <ReactionAndComment
             page={`project/${project.slug}`}

@@ -39,7 +39,7 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
       "transition-all duration-100",
       "-mx-2 px-2 -my-1 py-1 rounded-xl",
       dark ? "decoration-slate-600" : "decoration-underline",
-      dark && !wrap && "hover:bg-white/10",
+      dark && !wrap && "hover:bg-surface/10",
       !dark && !wrap && "hover:bg-surface-raised",
       className
     );

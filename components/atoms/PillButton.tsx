@@ -29,7 +29,7 @@ const PillButton = forwardRef(
       ? { target: "_blank", rel: "noreferrer" }
       : {};
     const buttonStyles = twMerge(
-      "shrink-0 text-gray-600 inline-flex items-center transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1 px-3 py-1 hover:border-blue-600 justify-items-center hover:bg-white/40 group",
+      "shrink-0 text-secondary inline-flex items-center transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1 px-3 py-1 hover:border-blue-600 justify-items-center hover:bg-surface/40 group",
       active && "border-blue-600 text-blue-600",
       className
     );

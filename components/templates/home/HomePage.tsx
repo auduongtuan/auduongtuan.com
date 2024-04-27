@@ -8,7 +8,7 @@ export type HomePageProps = {
 };
 export default function HomePage({ notionProjects }: HomePageProps) {
   return (
-    <div>
+    <div className="bg-surface">
       <Header />
       <NotionProjectList projects={notionProjects} />
       <Footer />

@@ -7,13 +7,13 @@ const Bookmark = ({ block }) => {
         href={block.bookmark.url}
         className="block border border-gray-200 text-sm py-3 px-4 rounded-md mt-4 hover:bg-gray-100"
       >
-        <p className="text-base font-medium text-gray-800">
+        <p className="text-base font-medium text-primary">
           {block.bookmark.meta.title
             ? block.bookmark.meta.title
             : block.bookmark.url}
         </p>
         {block.bookmark.meta.description ? (
-          <p className="text-xs text-gray-600 mt-1">
+          <p className="text-xs text-secondary mt-1">
             {block.bookmark.meta.description}
           </p>
         ) : null}
@@ -30,7 +30,7 @@ const Bookmark = ({ block }) => {
         )}
       </ExternalLink>
       {block.bookmark.caption ? (
-        <p className="mt-2 text-gray-600">
+        <p className="mt-2 text-secondary">
           {richTextObject(block.bookmark.caption, block.id)}
         </p>
       ) : null}

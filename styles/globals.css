@@ -1,6 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --bg-subtle: theme("colors.slate.100");
+  --bg-surface: theme("colors.white");
+  --bg-surface-raised: rgba(209, 213, 219, 0.4);
+  --fg-primary: theme("colors.gray.700");
+  --fg-secondary: theme("colors.gray.600");
+  --fg-tertiary: theme("colors.gray.500");
+  --bg-button-primary: #050f32;
+  --bg-button-primary-hover: var(--accent-bolder);
+  --bg-button-primary-pressed: var(--accent-boldest);
+  --fg-oncolor: theme("colors.white");
+  --accent-boldest: theme("colors.blue.900");
+  --accent-bolder: theme("colors.blue.800");
+  --accent: theme("colors.blue.600");
+  --accent-subtle: theme("colors.blue.200");
+  --accent-subtlest: theme("colors.blue.50");
+  --control: theme("colors.gray.200");
+  --divider: rgb(17 24 39 / 0.1);
+  --underline: rgb(17 24 39 / 0.15);
+}
+
+.dark {
+  --bg-surface: theme("colors.gray.900");
+  --bg-surface-raised: rgba(0, 0, 0, 0.4);
+  --fg-primary: theme("colors.gray.100");
+  --fg-secondary: theme("colors.gray.300");
+  --bg-button-primary: theme("colors.white");
+  --control: theme("colors.gray.800");
+  --divider: rgb(255 255 255 / 0.1);
+  --underline: rgb(255 255 255 / 0.15);
+}
+
 @layer base {
   @supports (font: -apple-system-body) and (-webkit-appearance: none) {
     img[loading="lazy"] {
@@ -8,6 +41,7 @@
     }
   }
 }
+
 @layer utilities {
   .translate-z-0 {
     transform: translateZ(0);
@@ -29,25 +63,26 @@
     scrollbar-width: none; /* Firefox */
   }
 }
+
 @layer components {
   /* html {
     scroll-behavior: smooth;
   } */
   body {
-    /* letter-spacing: -0.02em; */
+    /* letter-spacing: -0.005em; */
   }
   h1,
   .h1 {
     /* tracking-tight */
-    @apply text-4xl md:text-5xl lg:text-7xl font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-display;
+    @apply text-4xl md:text-5xl lg:text-7xl font-bold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-display;
   }
   h2,
   .h2 {
-    @apply text-2xl md:text-3xl leading-tight md:leading-tight font-semibold font-display text-slate-800;
+    @apply text-2xl md:text-3xl leading-tight md:leading-tight font-bold font-display;
   }
   h3,
   .h3 {
-    @apply text-lg md:text-xl leading-tight md:leading-tight font-semibold font-display text-slate-800;
+    @apply text-lg md:text-xl leading-tight md:leading-tight font-bold font-display;
   }
   h4,
   .h4 {
@@ -65,7 +100,7 @@
     @apply text-base leading-relaxed md:text-lg md:leading-relaxed;
   }
   .p-header {
-    @apply pt-[5rem] pb-14 md:pt-32 md:pb-24 lg:pt-36 lg:pb-28;
+    @apply pt-[5rem] pb-14 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32;
   }
   .p-homepage-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
@@ -75,7 +110,7 @@
   }
 
   .sub-heading {
-    @apply font-display text-sm md:text-base font-medium tracking-wide uppercase text-gray-500;
+    @apply font-display text-sm md:text-base font-medium tracking-wide uppercase text-tertiary;
   }
   .muted-text {
     @apply text-sm md:text-base opacity-60;
@@ -101,8 +136,8 @@
     @apply max-w-content-container px-container mx-auto;
   }
   .project-grid {
-    /*@apply grid grid-cols-3 gap-x-4 text-gray-800;*/
-    @apply text-gray-800;
+    /*@apply grid grid-cols-3 gap-x-4 text-primary;*/
+    @apply text-primary;
     @apply flex flex-col items-center;
     .full {
       width: 100%;
@@ -135,12 +170,21 @@
       @apply mt-2 first:-mt-1 md:first:-mt-2;
     }
 
+    h2 {
+      /* @apply mt-0 pt-12 md:pt-16 lg:pt-20 md:pr-2; */
+      /* @apply lg:col-span-1 lg:col-start-1 text-slate-900; */
+      @apply mt-10 md:mt-16 lg:mt-24 first:mt-0;
+      /* & + *:not(.full) {
+        @apply pt-0 lg:mt-0  lg:pt-[5.4rem];
+      } */
+    }
+
     h3 {
       @apply mt-8 md:mt-12 -mb-1 first:mt-0;
     }
 
     h4 {
-      @apply mt-4 text-gray-500;
+      @apply mt-4 text-tertiary;
     }
 
     .content-node {
@@ -194,14 +238,6 @@
       line-height: 0;
     }
 
-    h2 {
-      /* @apply mt-0 pt-12 md:pt-16 lg:pt-20 md:pr-2; */
-      /* @apply lg:col-span-1 lg:col-start-1 text-slate-900; */
-      @apply mt-10 md:mt-16 lg:mt-20 first:mt-0;
-      /* & + *:not(.full) {
-        @apply pt-0 lg:mt-0  lg:pt-[5.4rem];
-      } */
-    }
     .persona-1 {
       .image {
         @apply rounded-md overflow-hidden;

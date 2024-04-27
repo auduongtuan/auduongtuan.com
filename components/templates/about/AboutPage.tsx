@@ -4,7 +4,7 @@ import Footer from "@molecules/Footer";
 
 export default function AboutPage() {
   return (
-    <div>
+    <div className="bg-surface">
       <AboutHeader />
       {/* <AboutContent /> */}
       <Footer></Footer>

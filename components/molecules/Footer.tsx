@@ -15,9 +15,9 @@ export default function Footer() {
   });
   return (
     <div id="contact" className="relative">
-      <footer className="sticky bottom-0 z-0 text-gray-900">
+      <footer className="sticky bottom-0 z-0 text-primary">
         <div className="pt-0 pb-12 main-container md:pb-16 lg:pb-24" ref={ref}>
-          <section className="grid grid-cols-12 lg:grid-rows-2 gap-x-3 gap-y-8 border-t border-t-gray-200 pt-12 md:min-h-[18rem]">
+          <section className="grid grid-cols-12 lg:grid-rows-2 gap-x-3 gap-y-8 border-t border-t-divider pt-12 md:min-h-[18rem]">
             <Fade
               slide
               show={inView}
