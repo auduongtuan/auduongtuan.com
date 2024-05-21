@@ -3,6 +3,13 @@ import NotionProjectItem from "./NotionProjectItem";
 import Fade from "@atoms/Fade";
 import Select from "@atoms/Select";
 import { NotionProject } from "@lib/notion";
+import {
+  PiClockCounterClockwiseBold,
+  PiLightbulbBold,
+  PiPaletteBold,
+  PiWrenchBold,
+} from "react-icons/pi";
+import { event } from "@lib/gtag";
 
 export default function NotionProjectList({
   projects,
@@ -10,49 +17,56 @@ export default function NotionProjectList({
   projects: NotionProject[];
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [sortBy, setSortBy] = useState("coolness");
-  const [roleFilter, setRoleFilter] = useState<string[]>([]);
+  const [sortBy, setSortBy] = useState("group");
+  const sortOptions = [
+    {
+      value: "group",
+      name: "Group & Chronology",
+      icon: <PiClockCounterClockwiseBold />,
+    },
+    {
+      value: "visual",
+      name: "Visual aesthetics",
+      icon: <PiPaletteBold />,
+    },
+    {
+      value: "product",
+      name: "Product ideation",
+      icon: <PiLightbulbBold />,
+    },
+    {
+      value: "engineering",
+      name: "Engineering intensity",
+      icon: <PiWrenchBold />,
+    },
+  ];
+  const setSortByAndTrack = (value: string) => {
+    setSortBy(value);
+    event({
+      action: "sort_projects",
+      category: "engagement",
+      label: sortOptions.find((option) => option.value == value)?.name!,
+      value: value,
+    });
+  };
 
   const handleScroll = () => {
     const position = window.pageYOffset;
     setScrollPosition(position);
   };
 
-  const filteringFunction = (project: NotionProject) => {
-    if (roleFilter.length == 0) return true;
-    if (project.roles == null) return false;
-    return project.roles.some((role) => roleFilter.includes(role));
-  };
-
   const sortingFunction = (a: NotionProject, b: NotionProject) => {
-    if (sortBy == "coolness") {
-      const aCoolness = a?.point ?? 0;
-      const bCoolness = b?.point ?? 0;
-      return bCoolness > aCoolness
-        ? 1
-        : bCoolness < aCoolness
-        ? -1
-        : b.date?.localeCompare(a.date);
-    } else if (sortBy == "time-asc") {
-      return a.date?.localeCompare(b.date);
-    } else {
+    if (sortBy == "group") {
       return b.date?.localeCompare(a.date);
     }
+    const aPoint = a?.points[sortBy] ?? 0;
+    const bPoint = b?.points[sortBy] ?? 0;
+    return bPoint > aPoint
+      ? 1
+      : bPoint < aPoint
+      ? -1
+      : b.date?.localeCompare(a.date);
   };
-
-  const roles = useMemo(
-    () =>
-      projects.reduce<string[]>((acc, project) => {
-        if (project.roles == null) return acc;
-        project.roles.forEach((role) => {
-          if (!acc.includes(role)) {
-            acc.push(role);
-          }
-        });
-        return acc;
-      }, []),
-    [projects]
-  );
 
   useEffect(() => {
     handleScroll();
@@ -62,9 +76,20 @@ export default function NotionProjectList({
     };
   }, [sortBy]);
 
-  const shownProjects = projects
-    .filter(filteringFunction)
-    .sort(sortingFunction);
+  const shownProjects = projects.sort(sortingFunction);
+
+  const projectGroups = useMemo(
+    () =>
+      shownProjects.reduce((acc, project) => {
+        if (!project.group) return acc;
+        if (!acc[project.group]) {
+          acc[project.group] = [];
+        }
+        acc[project.group].push(project);
+        return acc;
+      }, {} as Record<string, NotionProject[]>),
+    [shownProjects]
+  );
 
   return (
     <section id="works">
@@ -76,78 +101,44 @@ export default function NotionProjectList({
               <Select
                 label="Sort by"
                 value={sortBy}
-                buttonClassName={"w-[120px]"}
-                onChange={setSortBy}
-                options={[
-                  {
-                    value: "coolness",
-                    name: "Featured",
-                  },
-                  {
-                    value: "time-desc",
-                    name: "Latest",
-                  },
-                  {
-                    value: "time-asc",
-                    name: "Earliest",
-                  },
-                ]}
+                buttonClassName={"max-w-[240px]"}
+                onChange={setSortByAndTrack}
+                options={sortOptions}
               />
-              <Select
-                label="Filter by"
-                value={roleFilter}
-                buttonClassName={"w-[120px]"}
-                renderValue={(selected) => {
-                  if (
-                    !selected ||
-                    selected?.length == 0 ||
-                    selected.length == roles.length
-                  )
-                    return "All roles";
-                  if (selected.length == 1) return selected[0];
-                  return selected.length + " roles";
-                }}
-                multiple
-                onChange={setRoleFilter}
-                options={roles.sort().map((tool) => ({
-                  value: tool,
-                  name: tool,
-                }))}
-              />
-              {/* <button
-              className={sortBy == "coolness" ? activeFilterClass : filterClass}
-              onClick={() => setSortBy("coolness")}
-            >
-              Featured <FiHeart />
-            </button>
-            <button
-              className={
-                sortBy == "time-desc" ? activeFilterClass : filterClass
-              }
-              onClick={() => setSortBy("time-desc")}
-            >
-              Lastest <FiArrowDown />
-            </button>
-            <button
-              className={sortBy == "time-asc" ? activeFilterClass : filterClass}
-              onClick={() => setSortBy("time-asc")}
-            >
-              Earliest <FiArrowUp />
-            </button> */}
             </div>
           </div>
         </div>
 
-        <main className="grid grid-cols-12 gap-6">
-          {shownProjects.map((project, i) => (
-            <NotionProjectItem
-              key={`${project.slug}-${i}`}
-              index={i}
-              project={project}
-              projects={shownProjects}
-            />
-          ))}
-        </main>
+        {sortBy == "group" ? (
+          Object.keys(projectGroups).map((group) => (
+            <section key={group}>
+              <h2 className="mb-4 font-serif text-base italic font-normal muted-text">
+                {group}
+              </h2>
+              <div className="grid grid-cols-12 gap-6 mb-6 md:mb-8">
+                {projectGroups[group].map((project, i) => (
+                  <NotionProjectItem
+                    key={`${project.slug}-${i}`}
+                    index={i}
+                    project={project}
+                    projects={shownProjects}
+                  />
+                ))}
+              </div>
+            </section>
+          ))
+        ) : (
+          <div className="grid grid-cols-12 gap-6">
+            {shownProjects.map((project, i) => (
+              <NotionProjectItem
+                key={`${project.slug}-${i}`}
+                index={i}
+                project={project}
+                projects={shownProjects}
+              />
+            ))}
+          </div>
+        )}
       </Fade>
     </section>
   );

@@ -5,8 +5,9 @@ import Bookmark from "./Bookmark";
 import Disclosure from "@atoms/Disclosure";
 import parseListItem from "./parseListItem";
 import CustomImage from "@atoms/CustomImage";
+import { NotionAssets } from "@lib/notion";
 
-const parseBlocks = (blocks: unknown) => {
+const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
   if (!Array.isArray(blocks) || blocks.length == 0) return null;
   let lastBlockIndex: { value: number } = { value: 0 };
   let content: React.ReactNode[] = [];
@@ -47,7 +48,7 @@ const parseBlocks = (blocks: unknown) => {
             className="pl-4 border-l-2 border-gray-300 mt-content-node"
           >
             <p className="body-text mt-content-node">{richTextBlock(block)}</p>
-            {parseBlocks(block.children)}
+            {parseBlocks(block.children, assets)}
           </blockquote>
         );
         break;
@@ -67,7 +68,7 @@ const parseBlocks = (blocks: unknown) => {
             key={block.id}
             className="mt-content-node"
           >
-            {block.children && parseBlocks(block.children)}
+            {block.children && parseBlocks(block.children, assets)}
           </Disclosure>
         );
         break;
@@ -91,7 +92,22 @@ const parseBlocks = (blocks: unknown) => {
         break;
       // using callout as a container
       case "callout":
-        content.push(parseCallout(block, blocks, lastBlockIndex));
+        content.push(parseCallout(block, blocks, lastBlockIndex, assets));
+        break;
+      case "embed":
+        if (block.embed.url.includes("facebook.com")) {
+          content.push(
+            <div key={block.id} className="mt-content-node">
+              <iframe
+                src={`https://www.facebook.com/plugins/post.php?href=${block.embed.url}&width=auto&height=675&show_text=false&appId`}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                className="w-full overflow-y-scroll h-[675px]"
+              ></iframe>
+            </div>
+          );
+        }
+        break;
+      default:
         break;
     }
     lastBlockIndex.value++;

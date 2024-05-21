@@ -1,19 +1,48 @@
+import { twMerge } from "tailwind-merge";
 import Fade from "./Fade";
 
 export interface BadgeProps {
   content: string;
   index: number;
+  size?: "small" | "medium";
 }
 
-const Badge = ({ content, index }: BadgeProps) => {
+const Badge = ({ content, index, size = "medium" }: BadgeProps) => {
+  const parts = content.split(":");
+  const prize = size == "medium" ? parts[0] : parts[2] || parts[0];
+  const contest = size == "medium" ? parts[1] : parts[3] || parts[1];
   return (
-    <Fade className="w-[8.5rem] h-[8.5rem] text-center relative inline-flex mt-[0.4rem] flex-col items-center justify-center">
-      <div className="absolute flex flex-col items-center justify-center w-full h-full px-5 py-3 text-center rounded-full">
-        <span className="block px-1 mb-1 text-sm font-semibold leading-tight text-tertiary -text-gray-100">
-          {content.split(":")[0]}
+    <Fade
+      className={twMerge(
+        size == "medium"
+          ? "w-[8.5rem] h-[8.5rem]"
+          : "w-[4.725rem] h-[4.725rem]",
+        "text-center relative inline-flex mt-[0.4rem] flex-col items-center justify-center"
+      )}
+    >
+      <div
+        className={twMerge(
+          size == "medium" ? "px-5 py-3" : "px-2.5 pb-2 pt-0.5",
+          "absolute flex flex-col items-center justify-center w-full h-full text-center rounded-full"
+        )}
+      >
+        <span
+          className={twMerge(
+            size == "medium"
+              ? "text-sm mb-1 leading-tight"
+              : "text-[0.625rem] leading-[0.95] mb-1",
+            "block px-1  font-semibold  text-tertiary -text-gray-100"
+          )}
+        >
+          {prize}
         </span>
-        <span className="text-[0.6875rem] text-center uppercase font-medium tracking-wide leading-tight -text-gray-400 text-tertiary">
-          {content.split(":")[1]}
+        <span
+          className={twMerge(
+            size == "medium" ? "text-[0.6875rem]" : "text-[0.4625rem]",
+            "text-center uppercase font-medium tracking-wide leading-tight -text-gray-400 text-tertiary"
+          )}
+        >
+          {contest}
         </span>
       </div>
       {/* <svg className='absolute top-0 left-0 w-full h-full fill-gray-300' */}

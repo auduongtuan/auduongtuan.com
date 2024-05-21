@@ -1,4 +1,3 @@
-import { Project } from "@lib/project";
 import { FiEye } from "react-icons/fi";
 import IconButton from "@atoms/IconButton";
 import Badge from "@atoms/Badge";
@@ -62,7 +61,6 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                     </IconButton>
                   </Tooltip>
                 )}
-                {console.log(project.achievements)}
                 {project.achievements && (
                   <div className="flex flex-gap-4">
                     {project.achievements.map((achievement, i) => (

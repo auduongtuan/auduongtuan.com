@@ -6,6 +6,7 @@
   --bg-subtle: theme("colors.slate.100");
   --bg-surface: theme("colors.white");
   --bg-surface-raised: rgba(209, 213, 219, 0.4);
+  --bg-card: #f3f3f3;
   --fg-primary: theme("colors.gray.700");
   --fg-secondary: theme("colors.gray.600");
   --fg-tertiary: theme("colors.gray.500");
@@ -100,7 +101,7 @@
     @apply text-base leading-relaxed md:text-lg md:leading-relaxed;
   }
   .p-header {
-    @apply pt-[5rem] pb-14 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32;
+    @apply pt-20 pb-14 md:pt-28 md:pb-20 lg:pt-36 lg:pb-28;
   }
   .p-homepage-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
@@ -123,7 +124,8 @@
     @apply px-4 md:px-6;
   }
   .max-w-main-container {
-    @apply max-w-full lg:w-[76rem];
+    /* @apply max-w-full lg:w-[76rem]; */
+    @apply max-w-full lg:w-[70rem];
   }
   .main-container {
     @apply px-container mx-auto;

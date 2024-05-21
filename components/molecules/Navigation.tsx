@@ -59,7 +59,7 @@ const Navigation = React.memo(
     return (
       <div>
         <header className={NavigationStyles}>
-          <nav className="flex items-center justify-between py-2 text-base font-semibold font-display text-display md:text-xl main-container md:py-4">
+          <nav className="flex items-center justify-between py-2 text-base font-semibold font-display text-display md:text-xl main-container md:py-3.5">
             {/* logo */}
             <NavigationLink
               href="/"

@@ -15,10 +15,14 @@ module.exports = {
       screens: {
         tall: { raw: "(min-height: 960px)" },
       },
+      boxShadow: {
+        "button-inner": "0px 2px 0px 0px rgba(255, 255, 255, 0.25) inset",
+      },
       fontFamily: {
         // "display": ['Work Sans', ],
         display: ["Hanken Grotesk", "Helvetica", "Arial", "sans-serif"],
         sans: ["Hanken Grotesk", "Helvetica", "Arial", "sans-serif"],
+        serif: ["Hanken Grotesk", "Georgia", "Cambria", "serif"],
         // "script": ['Nanum Pen Script', 'IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif']
       },
       fontSize: {
@@ -48,6 +52,7 @@ module.exports = {
         subtle: "var(--bg-subtle)",
         surface: "var(--bg-surface)",
         "surface-raised": "var(--bg-surface-raised)",
+        card: "var(--bg-card)",
       }),
       textColor: ({ theme }) => ({
         primary: "var(--fg-primary)",

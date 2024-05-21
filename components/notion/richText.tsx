@@ -41,7 +41,8 @@ export const richTextObject = (
       if (
         (richTextObject.length == 1 &&
           textItem.text.content.startsWith("Download")) ||
-        textItem.text.content.startsWith("Get")
+        textItem.text.content.startsWith("Get") ||
+        textItem.text.content.startsWith("View")
       ) {
         return (
           <Button

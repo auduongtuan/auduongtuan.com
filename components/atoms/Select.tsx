@@ -15,6 +15,7 @@ import Checkbox from "./Checkbox";
 interface SelectOption<TActualType> {
   value: TActualType;
   name: string;
+  icon?: React.ReactNode;
 }
 
 interface SelectProps<TType, TActualType>
@@ -108,8 +109,11 @@ const Select = <TType, TActualType>({
             buttonClassName
           )}
         >
+          {selectedOption?.icon && (
+            <span className="mr-2">{selectedOption.icon}</span>
+          )}
           <span className="truncate">{renderValueFn()}</span>
-          <FiChevronDown className="w-4 h-4 ml-1 opacity-50 shrink-0" />
+          <FiChevronDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Listbox.Button>
         {isBrowser
           ? ReactDOM.createPortal(
@@ -137,7 +141,7 @@ const Select = <TType, TActualType>({
                       " data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
                       multiple
                         ? "ui-selected:bg-transparent ui-selected:hover:bg-accent-subtlest ui-active:bg-accent-subtlest"
-                        : "ui-selected:bg-accent ui-selected:text-oncolor ui-active:ui-not-selected:bg-accent-subtle"
+                        : "ui-selected:bg-accent ui-selected:text-oncolor ui-active:ui-not-selected:bg-subtle"
                     )}
                   >
                     {multiple && (
@@ -149,7 +153,12 @@ const Select = <TType, TActualType>({
                         className={`pointer-events-none mr-2`}
                       />
                     )}
-                    <div className="grow">{option.name}</div>
+                    <div className="flex items-center grow">
+                      {option.icon && (
+                        <span className="mr-2">{option.icon}</span>
+                      )}
+                      <span>{option.name}</span>
+                    </div>
                     {!multiple && (
                       <FiCheck
                         className={twMerge(

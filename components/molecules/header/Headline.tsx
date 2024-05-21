@@ -56,16 +56,17 @@ const Headline = () => {
     underlineEl.style.width = textEl.offsetWidth + "px";
   }, [size.width]);
   return (
-    <div className="relative grid grid-cols-1 leading-none text-center font-display place-items-center h1">
+    <div className="relative grid grid-cols-1 text-center font-display place-items-center h1 leading-[0.95]">
       <Fade
         className="w-full col-span-1 col-start-1 row-span-1 row-start-1 text-center place-items-center"
         slide
       >
-        Hi! I design and build
+        I <span className="font-serif italic font-medium">design</span> and{" "}
+        <span className="font-serif italic font-medium">build</span>
       </Fade>
-      <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
+      <div className="relative z-20 col-span-1 col-start-1 row-span-1 row-start-2 w-ful">
         <span
-          className="inline-block text-[#62abd6] transition-all duration-200 ease-bounce"
+          className="inline-block transition-all duration-200 ease-bounce"
           style={startTextStyle}
           ref={(el) => (texts.current[0] = el)}
           data-color="#b5d1d4"
@@ -75,7 +76,7 @@ const Headline = () => {
       </div>
       <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
-          className="inline-block text-[#6d7eff] transition-all duration-200 ease-bounce "
+          className="inline-block transition-all duration-200 ease-bounce "
           style={startTextStyle}
           ref={(el) => (texts.current[1] = el)}
           data-color="#b3c4e2"
@@ -85,7 +86,7 @@ const Headline = () => {
       </div>
       <div className="relative z-20 w-full col-span-1 col-start-1 row-span-1 row-start-2">
         <span
-          className="inline-block text-[#c881e7] transition-all duration-200 ease-bounce "
+          className="inline-block transition-all duration-200 ease-bounce "
           style={startTextStyle}
           ref={(el) => (texts.current[2] = el)}
           data-color="#dfcae4"

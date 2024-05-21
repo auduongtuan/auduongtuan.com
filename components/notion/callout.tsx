@@ -1,13 +1,18 @@
-import Grid, { Col } from "@atoms/Grid";
-import parseBlocks from "./parseBlocks";
-import { richTextObject } from "./richText";
+import Box, { EmojiBox } from "@atoms/Box";
+import CustomImage from "@atoms/CustomImage";
+import CustomVideo from "@atoms/CustomVideo";
+import Figure from "@atoms/Figure";
 import BrowserFrame from "@atoms/Frame";
+import Grid, { Col } from "@atoms/Grid";
+import Note from "@atoms/Note";
+import { NotionAssets, NotionMedia } from "@lib/notion";
+import { BlockObjectResponseWithChildren } from "@lib/notion/helpers";
 import {
   BlockObjectResponse,
   CalloutBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import Box, { EmojiBox } from "@atoms/Box";
-import { BlockObjectResponseWithChildren } from "@lib/notion/helpers";
+import parseBlocks from "./parseBlocks";
+import { richTextObject } from "./richText";
 
 function trimAny(str: string, chars: string[]) {
   var start = 0,
@@ -24,21 +29,27 @@ function getCalloutComponentWithOptions(
   block: BlockObjectResponse
 ): [string | undefined, { [key: string]: string }] {
   if ("callout" in block && "rich_text" in block.callout) {
-    const componentWithOptions = block?.callout?.rich_text[0]?.plain_text;
+    const componentWithOptions = block?.callout?.rich_text
+      .map((richTextItem) => richTextItem.plain_text)
+      .join("");
     if (!componentWithOptions) return [undefined, {}];
     const parts = componentWithOptions.split(" ");
     const component = parts[0];
-    const options = parts
-      .splice(1)
-      .join(" ")
-      .matchAll(/(\w+)=("[^<>"]*"|'[^<>']*'|\w+)/g);
-    return [
-      component,
-      [...options].reduce((acc, m) => {
-        acc[m[1]] = trimAny(m[2], [`'`, `"`]);
-        return acc;
-      }, {}),
-    ];
+    const optionPartString = parts.splice(1).join(" ");
+    const options = optionPartString
+      // .matchAll(/(\w+)=("[^<>"]*"|'[^<>']*'|\w+)/g);
+      .matchAll(/(\w+)=["']?((?:.(?!["']?\s+(?:\S+)=|\s*\/?[>"']))+.)["']?/g);
+    let optionsObject: { [key: string]: string } = {};
+    [...options].forEach((m) => {
+      optionsObject[m[1]] = trimAny(m[2], ['"', "'"]);
+    });
+
+    // const optionsObject = [...options].reduce((acc, m) => {
+    //   console.log(m[1], m[2]);
+    //   acc[m[1]] = m[2];
+    //   return acc;
+    // }, {});
+    return [component, optionsObject];
   } else {
     return [undefined, {}];
   }
@@ -47,7 +58,8 @@ function getCalloutComponentWithOptions(
 export const parseCallout = (
   block: BlockObjectResponseWithChildren<CalloutBlockObjectResponse>,
   blocks: BlockObjectResponse[],
-  lastBlockIndex: { value: number }
+  lastBlockIndex: { value: number },
+  assets?: NotionAssets
 ) => {
   let rendered: React.ReactElement | null = null;
   let gridBlocks: BlockObjectResponseWithChildren[] = [];
@@ -63,7 +75,7 @@ export const parseCallout = (
   }
   // give the last item back
   const [component, options] = getCalloutComponentWithOptions(block);
-  const children = "children" in block && parseBlocks(block.children);
+  const children = "children" in block && parseBlocks(block.children, assets);
   if ("callout" in block) {
     switch (component) {
       case "BrowserFrame":
@@ -75,11 +87,18 @@ export const parseCallout = (
           </div>
         );
         break;
+      case "Note":
+        rendered = (
+          <Note key={block.id} className="mt-content-node">
+            {children}
+          </Note>
+        );
+        break;
       case "Col":
         // ony grid-item that we need to take last item back
         lastBlockIndex.value--;
         rendered = (
-          <Grid className="mt-content-node">
+          <Grid key={block.id} className="mt-content-node">
             {gridBlocks.map((gblock) => (
               <Col
                 key={gblock.id}
@@ -92,10 +111,50 @@ export const parseCallout = (
         );
         break;
       case "Box":
-        rendered = <Box {...options}>{children}</Box>;
+        rendered = (
+          <Box key={block.id} {...options}>
+            {children}
+          </Box>
+        );
         break;
       case "EmojiBox":
-        rendered = <EmojiBox {...options}>{children}</EmojiBox>;
+        rendered = (
+          <EmojiBox key={block.id} {...options}>
+            {children}
+          </EmojiBox>
+        );
+        break;
+      case "Figure":
+        rendered = (
+          <Figure key={block.id} {...options}>
+            {children}
+          </Figure>
+        );
+        break;
+      case "Asset":
+        let asset: false | undefined | NotionMedia | NotionMedia[] =
+          assets && options.name in assets && assets[options.id];
+        if (!asset) return;
+        const media = Array.isArray(asset) ? asset[0] : asset;
+        rendered = (
+          <div key={block.id} className="mt-content-node">
+            {media.type == "video" && (
+              <CustomVideo
+                src={media.url}
+                width={media.width}
+                height={media.height}
+              />
+            )}
+            {media.type == "image" && (
+              <CustomImage
+                src={media.url}
+                width={media.width}
+                height={media.height}
+              />
+            )}
+            {children}
+          </div>
+        );
         break;
       default:
         rendered = (
