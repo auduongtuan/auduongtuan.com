@@ -30,6 +30,7 @@ module.exports = {
         // base: ["1.0625rem", "1.5rem"],
         // lg: ["1.1875rem", "1.875rem"],
         // xl: ["1.3125rem", "1.875rem"],
+        "3xl": ["2rem", "2.5rem"],
         // '6xl': '3.375rem',
         // '7xl': '4rem'
       },
@@ -49,6 +50,9 @@ module.exports = {
         "button-primary": "var(--bg-button-primary)",
         "button-primary-hover": "var(--bg-button-primary-hover)",
         "button-primary-pressed": "var(--bg-button-primary-pressed)",
+        "button-secondary": "var(--bg-button-secondary)",
+        "button-secondary-hover": "var(--bg-button-secondary-hover)",
+        "button-secondary-pressed": "var(--bg-button-secondary-pressed)",
         subtle: "var(--bg-subtle)",
         surface: "var(--bg-surface)",
         "surface-raised": "var(--bg-surface-raised)",

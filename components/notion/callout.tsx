@@ -13,6 +13,10 @@ import {
 } from "@notionhq/client/build/src/api-endpoints";
 import parseBlocks from "./parseBlocks";
 import { richTextObject } from "./richText";
+import { Children } from "react";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
+import IconButton from "@atoms/IconButton";
+import Carousel from "@atoms/Carousel";
 
 function trimAny(str: string, chars: string[]) {
   var start = 0,
@@ -117,6 +121,13 @@ export const parseCallout = (
           </Box>
         );
         break;
+      case "FullWidth":
+        rendered = (
+          <div key={block.id} className={"full"} {...options}>
+            {children}
+          </div>
+        );
+        break;
       case "EmojiBox":
         rendered = (
           <EmojiBox key={block.id} {...options}>
@@ -133,7 +144,7 @@ export const parseCallout = (
         break;
       case "Asset":
         let asset: false | undefined | NotionMedia | NotionMedia[] =
-          assets && options.name in assets && assets[options.id];
+          assets && options.id in assets && assets[options.id];
         if (!asset) return;
         const media = Array.isArray(asset) ? asset[0] : asset;
         rendered = (
@@ -153,6 +164,13 @@ export const parseCallout = (
               />
             )}
             {children}
+          </div>
+        );
+        break;
+      case "Slider":
+        rendered = (
+          <div key={block.id} className="mt-content-node">
+            <Carousel>{children}</Carousel>
           </div>
         );
         break;

@@ -5,6 +5,7 @@ import {
   RichTextItemResponse,
   TextRichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import { twMerge } from "tailwind-merge";
 
 const escapedNewLineToLineBreakTag = (string) => {
   return string.split("\n").map((item, index) => {
@@ -24,19 +25,18 @@ export const richTextObject = (
       textItem.text &&
       textItem.text.link == null
     ) {
-      if (textItem.annotations.bold) {
-        return (
-          <strong className="font-medium" key={`${blockId}-${i}`}>
-            {escapedNewLineToLineBreakTag(textItem.text.content)}
-          </strong>
-        );
-      } else {
-        return (
-          <span key={`${blockId}-${i}`}>
-            {escapedNewLineToLineBreakTag(textItem.text.content)}
-          </span>
-        );
-      }
+      const Tag = textItem.annotations.bold ? "strong" : "span";
+      return (
+        <Tag
+          className={twMerge(
+            textItem.annotations.bold == true ? "font-semibold" : "",
+            textItem.annotations.color == "red" && "text-red-600"
+          )}
+          key={`${blockId}-${i}`}
+        >
+          {escapedNewLineToLineBreakTag(textItem.text.content)}
+        </Tag>
+      );
     } else if (textItem.text.link) {
       if (
         (richTextObject.length == 1 &&

@@ -1,7 +1,7 @@
 {
   "name": "port-v3",
   "private": true,
-  "version": "3.3.0",
+  "version": "3.5.0",
   "scripts": {
     "old-dev": "next-remote-watch ./content/projects",
     "dev": "next dev",
@@ -45,6 +45,7 @@
     "react-lazy-media": "^0.3.1",
     "react-portal": "^4.2.2",
     "react-scroll-percentage": "^4.3.0",
+    "react-snap-carousel": "^0.4.0",
     "react-social-media-embed": "^2.5.13",
     "react-wrap-balancer": "^0.3.0",
     "remark-prism": "^1.3.6",

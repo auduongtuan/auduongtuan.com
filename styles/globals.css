@@ -13,6 +13,9 @@
   --bg-button-primary: #050f32;
   --bg-button-primary-hover: var(--accent-bolder);
   --bg-button-primary-pressed: var(--accent-boldest);
+  --bg-button-secondary: rgb(17 24 39 / 0.1);
+  --bg-button-secondary-hover: var(--bg-button-primary-hover);
+  --bg-button-secondary-pressed: var(--bg-button-primary-pressed);
   --fg-oncolor: theme("colors.white");
   --accent-boldest: theme("colors.blue.900");
   --accent-bolder: theme("colors.blue.800");
@@ -83,7 +86,7 @@
   }
   h3,
   .h3 {
-    @apply text-lg md:text-xl leading-tight md:leading-tight font-bold font-display;
+    @apply text-lg md:text-2xl leading-tight md:leading-tight font-bold font-display;
   }
   h4,
   .h4 {

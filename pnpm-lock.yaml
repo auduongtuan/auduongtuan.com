@@ -110,6 +110,9 @@ dependencies:
   react-scroll-percentage:
     specifier: ^4.3.0
     version: 4.3.2(react@18.2.0)
+  react-snap-carousel:
+    specifier: ^0.4.0
+    version: 0.4.0(react@18.2.0)
   react-social-media-embed:
     specifier: ^2.5.13
     version: 2.5.13(react-dom@18.2.0)(react@18.2.0)
@@ -5424,6 +5427,14 @@ packages:
       '@babel/runtime': 7.17.8
       react: 18.2.0
       react-intersection-observer: 8.34.0(react@18.2.0)
+    dev: false
+
+  /react-snap-carousel@0.4.0(react@18.2.0):
+    resolution: {integrity: sha512-uPrXbH2BxJnPodQ+GwEYnbygGZ368RpnAJkNYyiOfko3i0D5cIAuSA4mz+pv9r/O5WhIMo5WOuP4DU56sO7QeA==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-social-media-embed@2.5.13(react-dom@18.2.0)(react@18.2.0):

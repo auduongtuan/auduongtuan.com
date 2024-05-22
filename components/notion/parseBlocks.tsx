@@ -6,6 +6,7 @@ import Disclosure from "@atoms/Disclosure";
 import parseListItem from "./parseListItem";
 import CustomImage from "@atoms/CustomImage";
 import { NotionAssets } from "@lib/notion";
+import Figure from "@atoms/Figure";
 
 const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
   if (!Array.isArray(blocks) || blocks.length == 0) return null;
@@ -25,19 +26,23 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
       case "image":
         content.push(
           <div key={block.id} className="flex flex-col mt-content-node">
-            <CustomImage
-              className="max-w-full text-center"
-              src={block.image.url}
-              // src={`/api/notion-asset/block/${block.id}`}
-              alt={block.image.alt ? block.image.alt : "Post Content Image"}
-              width={block.image.width}
-              height={block.image.height}
-            />
-            {block.image?.caption && block.image?.caption.length > 0 && (
-              <p className="mt-2 text-sm">
-                {richTextObject(block.image.caption, block.id)}
-              </p>
-            )}
+            <Figure
+              caption={
+                block.image.caption && block.image?.caption.length > 0
+                  ? richTextObject(block.image.caption, block.id)
+                  : ""
+              }
+              borderRadius={false}
+            >
+              <CustomImage
+                className="max-w-full text-center"
+                src={block.image.url}
+                // src={`/api/notion-asset/block/${block.id}`}
+                alt={block.image.alt ? block.image.alt : "Post Content Image"}
+                width={block.image.width}
+                height={block.image.height}
+              />
+            </Figure>
           </div>
         );
         break;
@@ -77,7 +82,8 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
           "bulleted_list_item",
           block,
           blocks,
-          lastBlockIndex
+          lastBlockIndex,
+          assets
         );
         if (bulletedList) content.push(bulletedList);
         break;
@@ -86,7 +92,8 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
           "numbered_list_item",
           block,
           blocks,
-          lastBlockIndex
+          lastBlockIndex,
+          assets
         );
         if (numberedList) content.push(numberedList);
         break;

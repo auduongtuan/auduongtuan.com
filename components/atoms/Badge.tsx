@@ -22,7 +22,7 @@ const Badge = ({ content, index, size = "medium" }: BadgeProps) => {
     >
       <div
         className={twMerge(
-          size == "medium" ? "px-5 py-3" : "px-2.5 pb-2 pt-0.5",
+          size == "medium" ? "px-5 py-3" : "px-3 pb-2 pt-0.5",
           "absolute flex flex-col items-center justify-center w-full h-full text-center rounded-full"
         )}
       >
