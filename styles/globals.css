@@ -6,16 +6,21 @@
   --bg-subtle: theme("colors.slate.100");
   --bg-surface: theme("colors.white");
   --bg-surface-raised: rgba(209, 213, 219, 0.4);
-  --bg-card: #f3f3f3;
-  --fg-primary: rgb(37 44 55);
-  --fg-secondary: theme("colors.gray.600");
-  --fg-tertiary: theme("colors.gray.500");
-  --bg-button-primary: #050f32;
+  --bg-card: hsl(226 2 95);
+  --bg-pill: hsl(var(--base-dark) / 0.07);
+  --fg-decorative: var(--base-dark / 0.2);
+  --fg-primary: hsl(226 28 17);
+  --fg-secondary: hsl(226 3 36);
+  --fg-tertiary: hsl(226 2 54);
+  --bg-button-primary: hsl(226 78 11);
   --bg-button-primary-hover: var(--accent-bolder);
   --bg-button-primary-pressed: var(--accent-boldest);
-  --bg-button-secondary: rgb(17 24 39 / 0.1);
+  --base-dark: 216 39 11;
+  --bg-button-secondary: hsl(var(--base-dark) / 0.1);
   --bg-button-secondary-hover: var(--bg-button-primary-hover);
   --bg-button-secondary-pressed: var(--bg-button-primary-pressed);
+  --bg-button-secondary-activated: rgb(17 24 39 / 0.2);
+
   --fg-oncolor: theme("colors.white");
   --accent-boldest: theme("colors.blue.900");
   --accent-bolder: theme("colors.blue.800");
@@ -117,7 +122,7 @@
     @apply font-display text-sm md:text-base font-medium tracking-wide uppercase text-tertiary;
   }
   .muted-text {
-    @apply text-sm md:text-base opacity-60;
+    @apply text-sm md:text-base text-tertiary;
   }
   .p-content {
     /*@apply py-12 md:py-16 lg:py-20;*/

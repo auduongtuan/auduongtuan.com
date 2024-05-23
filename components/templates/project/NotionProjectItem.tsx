@@ -71,7 +71,7 @@ const NotionProjectItem = memo(
                     )}
                   </Balancer>
                 </h2>
-                <p className="text-md md:mt-1 muted-text">
+                <p className="md:mt-1 muted-text">
                   {new Date(project.date).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -97,7 +97,7 @@ const NotionProjectItem = memo(
                 )}
               </Fade>
             </header>
-            <p className="mt-2 body-text md:mt-3">
+            <p className="mt-2 body-text md:mt-3 text-secondary">
               <Balancer ratio={0.67}>{project.tagline}</Balancer>
             </p>
             <ScrollableTagList

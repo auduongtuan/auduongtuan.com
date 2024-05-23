@@ -31,7 +31,7 @@ const Badge = ({ content, index, size = "medium" }: BadgeProps) => {
             size == "medium"
               ? "text-sm mb-1 leading-tight"
               : "text-[0.625rem] leading-[0.95] mb-1",
-            "block px-1  font-semibold  text-tertiary -text-gray-100"
+            "block px-1  font-semibold  text-secondary"
           )}
         >
           {prize}
@@ -39,7 +39,7 @@ const Badge = ({ content, index, size = "medium" }: BadgeProps) => {
         <span
           className={twMerge(
             size == "medium" ? "text-[0.6875rem]" : "text-[0.4625rem]",
-            "text-center uppercase font-medium tracking-wide leading-tight -text-gray-400 text-tertiary"
+            "text-center uppercase font-medium tracking-wide leading-tight text-tertiary"
           )}
         >
           {contest}

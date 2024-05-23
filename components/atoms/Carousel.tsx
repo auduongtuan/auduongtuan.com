@@ -31,7 +31,7 @@ const Carousel = ({
         <IconButton
           onClick={() => prev()}
           className={twMerge(
-            "hidden md:flex absolute left-0 -translate-x-16 -translate-y-1/2 top-1/2 text-slate-400",
+            "hidden md:flex absolute left-0 -translate-x-16 -translate-y-1/2 top-1/2 ",
             activePageIndex === 0 && "opacity-0 pointer-events-none invisible"
           )}
         >
@@ -64,7 +64,10 @@ const Carousel = ({
           {pages.map((_, i) => (
             <button
               key={i}
-              className="size-3 rounded-full mx-2 font-bold text-transparent text-white bg-button-secondary hover:bg-button-secondary-hover active:bg-button-secondary-pressed text-[0] block "
+              className={twMerge(
+                "size-3 rounded-full mx-2 font-bold text-transparent text-white bg-button-secondary hover:bg-button-secondary-hover active:bg-button-secondary-pressed text-[0] block",
+                activePageIndex === i && "bg-button-secondary-activated"
+              )}
               onClick={() => goTo(i)}
             >
               {i + 1}
@@ -75,7 +78,7 @@ const Carousel = ({
         <IconButton
           onClick={() => next()}
           className={twMerge(
-            "hidden md:flex absolute right-0 translate-x-16 -translate-y-1/2 top-1/2 text-slate-400",
+            "hidden md:flex absolute right-0 translate-x-16 -translate-y-1/2 top-1/2 ",
             activePageIndex === pages.length - 1 &&
               "opacity-0 pointer-events-none invisible"
           )}
