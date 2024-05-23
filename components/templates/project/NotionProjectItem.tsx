@@ -148,7 +148,8 @@ const NotionProjectItem = memo(
               project.cover.map((coverMedia) =>
                 project.platform === "web" ? (
                   <BrowserFrame
-                    url={project.link && project.link}
+                    title={project.coverTitle}
+                    url={project.link}
                     className="max-h-full"
                     key={coverMedia.url}
                   >

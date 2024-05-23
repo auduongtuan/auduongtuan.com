@@ -42,6 +42,7 @@ export type NotionProject = {
     visual: number;
   };
   assets: NotionAssets;
+  coverTitle?: string;
   // [key: string]: unknown;
 };
 
@@ -129,7 +130,7 @@ export async function getNotionProjects(
         assets.cover = await getMediaFromProperty(page, "Cover");
         update = true;
       }
-      if (!("icon" in assets)) {
+      if (!("icon" in assets) || !assets.icon) {
         assets.icon = await getPageIcon(page);
         update = true;
       }
@@ -173,6 +174,7 @@ export async function getNotionProjects(
           visual: getProperty(page, "Visual Point", "number") || 0,
         },
         assets: assets,
+        coverTitle: getProperty(page, "Cover Title", "rich_text"),
       };
     })
   );
