@@ -7,6 +7,7 @@ import CustomImage, { CustomImageProps } from "@atoms/CustomImage";
 import CustomVideo, { CustomVideoProps } from "@atoms/CustomVideo";
 import InlineLink from "@atoms/InlineLink";
 import Persona, { PersonaProps } from "@atoms/Persona";
+import Figure from "@atoms/Figure";
 
 const ProjectComponents = (slug: string) => ({
   h2: ({ children }: { children: React.ReactNode }) => (
@@ -53,23 +54,7 @@ const ProjectComponents = (slug: string) => ({
     </div>
   ),
   Video: (props: CustomVideoProps) => <CustomVideo {...props} slug={slug} />,
-  Figure: ({
-    children,
-    caption,
-    ...rest
-  }: {
-    children: React.ReactNode;
-    caption?: React.ReactNode;
-  }) => (
-    <figure {...rest}>
-      <div className="rounded-xl overflow-hidden translate-z-0 leading-[0]">
-        {children}
-      </div>
-      {caption && (
-        <figcaption className="mt-2 text-base lg:mt-4">{caption}</figcaption>
-      )}
-    </figure>
-  ),
+  Figure,
   Note,
   FullWidth: ({ children }: { children: React.ReactNode }) => {
     return <div className="full">{children}</div>;

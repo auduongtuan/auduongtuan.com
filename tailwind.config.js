@@ -15,10 +15,14 @@ module.exports = {
       screens: {
         tall: { raw: "(min-height: 960px)" },
       },
+      boxShadow: {
+        "button-inner": "0px 2px 0px 0px rgba(255, 255, 255, 0.25) inset",
+      },
       fontFamily: {
         // "display": ['Work Sans', ],
         display: ["Hanken Grotesk", "Helvetica", "Arial", "sans-serif"],
         sans: ["Hanken Grotesk", "Helvetica", "Arial", "sans-serif"],
+        serif: ["Hanken Grotesk", "Georgia", "Cambria", "serif"],
         // "script": ['Nanum Pen Script', 'IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif']
       },
       fontSize: {
@@ -26,7 +30,8 @@ module.exports = {
         // base: ["1.0625rem", "1.5rem"],
         // lg: ["1.1875rem", "1.875rem"],
         // xl: ["1.3125rem", "1.875rem"],
-        // '6xl': '3.375rem',
+        "3xl": ["2rem", "2.5rem"],
+        "6xl": "4.25rem",
         // '7xl': '4rem'
       },
       backgroundImage: {
@@ -45,9 +50,13 @@ module.exports = {
         "button-primary": "var(--bg-button-primary)",
         "button-primary-hover": "var(--bg-button-primary-hover)",
         "button-primary-pressed": "var(--bg-button-primary-pressed)",
+        "button-secondary": "var(--bg-button-secondary)",
+        "button-secondary-hover": "var(--bg-button-secondary-hover)",
+        "button-secondary-pressed": "var(--bg-button-secondary-pressed)",
         subtle: "var(--bg-subtle)",
         surface: "var(--bg-surface)",
         "surface-raised": "var(--bg-surface-raised)",
+        card: "var(--bg-card)",
       }),
       textColor: ({ theme }) => ({
         primary: "var(--fg-primary)",

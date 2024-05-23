@@ -39,7 +39,7 @@ const PostListItem = ({ post, className = "" }: PostListItemProps) => {
               : null}
           </span>
           <div className="grow">
-            <h2 className={clsx("flex items-start space-x-3 h3")}>
+            <h2 className={clsx("flex items-start space-x-3 text-xl")}>
               <Balancer ratio={0.67}>{post.meta.title}</Balancer>
               {post.meta.protected && (
                 <FiLock className="text-gray-400"></FiLock>

@@ -1,6 +1,16 @@
-const Note = ({ children }: { children: React.ReactNode }) => {
+import { forwardRef } from "react";
+import { twMerge } from "tailwind-merge";
+
+const Note = forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<"aside">
+>(({ children, className, ...rest }, ref) => {
   return (
-    <aside className="filter drop-shadow-md">
+    <aside
+      className={twMerge("filter drop-shadow-md", className)}
+      {...rest}
+      ref={ref}
+    >
       <div
         className="overflow-hidden relative
     after:absolute after:content-['']
@@ -16,5 +26,7 @@ const Note = ({ children }: { children: React.ReactNode }) => {
       </div>
     </aside>
   );
-};
+});
+
+Note.displayName = "Note";
 export default Note;

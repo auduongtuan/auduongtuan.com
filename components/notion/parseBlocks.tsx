@@ -5,8 +5,10 @@ import Bookmark from "./Bookmark";
 import Disclosure from "@atoms/Disclosure";
 import parseListItem from "./parseListItem";
 import CustomImage from "@atoms/CustomImage";
+import { NotionAssets } from "@lib/notion";
+import Figure from "@atoms/Figure";
 
-const parseBlocks = (blocks: unknown) => {
+const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
   if (!Array.isArray(blocks) || blocks.length == 0) return null;
   let lastBlockIndex: { value: number } = { value: 0 };
   let content: React.ReactNode[] = [];
@@ -24,19 +26,23 @@ const parseBlocks = (blocks: unknown) => {
       case "image":
         content.push(
           <div key={block.id} className="flex flex-col mt-content-node">
-            <CustomImage
-              className="max-w-full text-center"
-              src={block.image.url}
-              // src={`/api/notion-asset/block/${block.id}`}
-              alt={block.image.alt ? block.image.alt : "Post Content Image"}
-              width={block.image.width}
-              height={block.image.height}
-            />
-            {block.image?.caption && block.image?.caption.length > 0 && (
-              <p className="mt-2 text-sm">
-                {richTextObject(block.image.caption, block.id)}
-              </p>
-            )}
+            <Figure
+              caption={
+                block.image.caption && block.image?.caption.length > 0
+                  ? richTextObject(block.image.caption, block.id)
+                  : ""
+              }
+              borderRadius={false}
+            >
+              <CustomImage
+                className="max-w-full text-center"
+                src={block.image.url}
+                // src={`/api/notion-asset/block/${block.id}`}
+                alt={block.image.alt ? block.image.alt : "Post Content Image"}
+                width={block.image.width}
+                height={block.image.height}
+              />
+            </Figure>
           </div>
         );
         break;
@@ -47,7 +53,7 @@ const parseBlocks = (blocks: unknown) => {
             className="pl-4 border-l-2 border-gray-300 mt-content-node"
           >
             <p className="body-text mt-content-node">{richTextBlock(block)}</p>
-            {parseBlocks(block.children)}
+            {parseBlocks(block.children, assets)}
           </blockquote>
         );
         break;
@@ -67,7 +73,7 @@ const parseBlocks = (blocks: unknown) => {
             key={block.id}
             className="mt-content-node"
           >
-            {block.children && parseBlocks(block.children)}
+            {block.children && parseBlocks(block.children, assets)}
           </Disclosure>
         );
         break;
@@ -76,7 +82,8 @@ const parseBlocks = (blocks: unknown) => {
           "bulleted_list_item",
           block,
           blocks,
-          lastBlockIndex
+          lastBlockIndex,
+          assets
         );
         if (bulletedList) content.push(bulletedList);
         break;
@@ -85,13 +92,29 @@ const parseBlocks = (blocks: unknown) => {
           "numbered_list_item",
           block,
           blocks,
-          lastBlockIndex
+          lastBlockIndex,
+          assets
         );
         if (numberedList) content.push(numberedList);
         break;
       // using callout as a container
       case "callout":
-        content.push(parseCallout(block, blocks, lastBlockIndex));
+        content.push(parseCallout(block, blocks, lastBlockIndex, assets));
+        break;
+      case "embed":
+        if (block.embed.url.includes("facebook.com")) {
+          content.push(
+            <div key={block.id} className="mt-content-node">
+              <iframe
+                src={`https://www.facebook.com/plugins/post.php?href=${block.embed.url}&width=auto&height=675&show_text=false&appId`}
+                allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                className="w-full overflow-y-scroll h-[675px]"
+              ></iframe>
+            </div>
+          );
+        }
+        break;
+      default:
         break;
     }
     lastBlockIndex.value++;

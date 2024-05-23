@@ -15,6 +15,7 @@ import Checkbox from "./Checkbox";
 interface SelectOption<TActualType> {
   value: TActualType;
   name: string;
+  icon?: React.ReactNode;
 }
 
 interface SelectProps<TType, TActualType>
@@ -104,19 +105,22 @@ const Select = <TType, TActualType>({
         <Listbox.Button
           ref={refs.setReference}
           className={twMerge(
-            "flex w-full items-center justify-between rounded-md border border-gray-200 bg-background px-3 py-1.5 text-base ring-offset-background placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex w-full items-center justify-between rounded-lg border border-gray-200 bg-background px-3 py-1.5 text-base ring-offset-background placeholder:text-muted focus:outline-none focus-visible:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             buttonClassName
           )}
         >
+          {selectedOption?.icon && (
+            <span className="mr-2">{selectedOption.icon}</span>
+          )}
           <span className="truncate">{renderValueFn()}</span>
-          <FiChevronDown className="w-4 h-4 ml-1 opacity-50 shrink-0" />
+          <FiChevronDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
         </Listbox.Button>
         {isBrowser
           ? ReactDOM.createPortal(
               <Listbox.Options
                 ref={refs.setFloating}
                 className={twMerge(
-                  "rounded-md border border-black/10 bg-surface text-primary shadow-md p-1 focus:outline-none grid grid-cols-1 gap-0.5 z-popup"
+                  "rounded-md border border-black/10 bg-surface text-primary shadow-lg p-1 focus:outline-none grid grid-cols-1 gap-0.5 z-popup"
                 )}
                 style={{
                   position: strategy,
@@ -137,7 +141,7 @@ const Select = <TType, TActualType>({
                       " data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
                       multiple
                         ? "ui-selected:bg-transparent ui-selected:hover:bg-accent-subtlest ui-active:bg-accent-subtlest"
-                        : "ui-selected:bg-accent ui-selected:text-oncolor ui-active:ui-not-selected:bg-accent-subtle"
+                        : "ui-selected:bg-accent ui-selected:text-oncolor ui-active:ui-not-selected:bg-subtle"
                     )}
                   >
                     {multiple && (
@@ -149,7 +153,12 @@ const Select = <TType, TActualType>({
                         className={`pointer-events-none mr-2`}
                       />
                     )}
-                    <div className="grow">{option.name}</div>
+                    <div className="flex items-center grow">
+                      {option.icon && (
+                        <span className="mr-2">{option.icon}</span>
+                      )}
+                      <span>{option.name}</span>
+                    </div>
                     {!multiple && (
                       <FiCheck
                         className={twMerge(

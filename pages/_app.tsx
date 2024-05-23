@@ -11,6 +11,7 @@ import { Provider as BalancerProvider } from "react-wrap-balancer";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import useAppStore from "@store/useAppStore";
+import Sidebar from "@molecules/Sidebar";
 // import { IBM_Plex_Sans } from "@next/font/google";
 // const ibm = IBM_Plex_Sans({
 //   subsets: ["latin", "latin-ext", "vietnamese"],
@@ -79,7 +80,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       <main className="">
         <Navigation hideOnScroll={true} fixed={true} />
         <div id="toast-root"></div>
+        {/* <div className="flex items-stretch justify-stretch content-stretch"> */}
+        {/* <Sidebar /> */}
+        {/* <div className="flex items-center justify-center grow"> */}
         <Component {...pageProps} />
+        {/* </div> */}
+        {/* </div> */}
       </main>
     </BalancerProvider>
   );

@@ -1,3 +1,4 @@
+import { NotionAssets } from "@lib/notion";
 import parseBlocks from "./parseBlocks";
 import { richTextBlock } from "./richText";
 type ListItemType = "bulleted_list_item" | "numbered_list_item";
@@ -6,7 +7,8 @@ const parseListItem = (
   listItemType: ListItemType,
   block,
   blocks,
-  lastBlockIndex
+  lastBlockIndex,
+  assets?: NotionAssets
 ) => {
   const Tag = listItemType == "numbered_list_item" ? "ol" : "ul";
   let listItemBlocks: any[] = [];
@@ -29,7 +31,7 @@ const parseListItem = (
       {listItemBlocks.map((item) => (
         <li key={item.id} className="mt-2 md:mt-3 first:mt-0">
           {richTextBlock(item)}
-          {parseBlocks(block.children)}
+          {parseBlocks(item.children, assets)}
         </li>
       ))}
     </Tag>

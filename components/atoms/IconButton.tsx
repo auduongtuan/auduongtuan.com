@@ -26,7 +26,7 @@ const IconButton = forwardRef(
       ? { target: "_blank", rel: "noreferrer" }
       : {};
     const buttonStyles = twMerge(
-      "focus:ring-2 ring-accent outline-none flex items-center transition-all ease justify-center rounded-full",
+      "focus-visible:ring-2 ring-accent outline-none flex items-center transition-all ease justify-center rounded-full",
       "hover:bg-button-primary-hover hover:text-oncolor active:bg-button-secondary-pressed active:text-oncolor cursor-pointer",
       size == "small" && "w-10 h-10 text-xl",
       size == "medium" && "w-16 h-16 text-2xl",

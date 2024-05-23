@@ -1,20 +1,20 @@
-import { memo } from "react";
-import { Project } from "@lib/project";
+import Badge from "@atoms/Badge";
 import Button from "@atoms/Button";
-import { FiEye } from "react-icons/fi";
-import IconButton from "@atoms/IconButton";
-import Link from "next/link";
-import BrowserFrame from "@atoms/Frame";
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
-import Balancer from "react-wrap-balancer";
 import Fade from "@atoms/Fade";
-import useVisibleRatio from "@hooks/useVisiblePercentage";
+import BrowserFrame from "@atoms/Frame";
+import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
-import { twMerge } from "tailwind-merge";
-import ScrollableTagList from "@molecules/ScrollableTagList";
+import useVisibleRatio from "@hooks/useVisiblePercentage";
 import { NotionProject } from "@lib/notion";
 import { parseInternalLink } from "@lib/utils";
+import ScrollableTagList from "@molecules/ScrollableTagList";
+import Link from "next/link";
+import { memo } from "react";
+import { FiEye } from "react-icons/fi";
+import Balancer from "react-wrap-balancer";
+import { twMerge } from "tailwind-merge";
 
 export type NotionProjectItemProps = {
   project: NotionProject;
@@ -25,18 +25,18 @@ export type NotionProjectItemProps = {
 const NotionProjectItem = memo(
   ({ project, projects, index, ...rest }: NotionProjectItemProps) => {
     const { ref, visibleRatio } = useVisibleRatio();
-    const isHalf = projects.length % 2 == 0 || index !== 0;
+    const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
     return (
       <div
         ref={ref}
         className={twMerge(
-          "rounded-2xl p-6 md:p-10 lg:p-12 text-primary",
+          "rounded-2xl p-4 md:p-6 lg:p-6 text-primary",
           !isHalf ? "col-span-12" : "col-span-12 md:col-span-6",
-          "transition-all ease duration-400"
+          "transition-all ease duration-400 bg-card"
         )}
         style={{
-          backgroundColor: project.background,
+          // backgroundColor: project.background,
           opacity: visibleRatio,
         }}
         {...rest}
@@ -58,36 +58,58 @@ const NotionProjectItem = memo(
                 : "row-start-2"
             )}
           >
-            <h2>
-              <Balancer>
-                {project.platform == "web" ? (
-                  <Link href={`/project/${project.slug}`} legacyBehavior>
-                    {project.title}
-                  </Link>
-                ) : (
-                  project.title
+            <header className="flex items-center">
+              <div className="grow">
+                <h2 className="text-2xl">
+                  <Balancer>
+                    {project.platform == "web" ? (
+                      <Link href={`/project/${project.slug}`} legacyBehavior>
+                        {project.title}
+                      </Link>
+                    ) : (
+                      project.title
+                    )}
+                  </Balancer>
+                </h2>
+                <p className="text-md md:mt-1 muted-text">
+                  {new Date(project.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                  })}
+                </p>
+              </div>
+              <Fade
+                className={twMerge("flex-shrink-0 flex-grow-0")}
+                duration={300}
+                delay={400}
+              >
+                {project.achievements && (
+                  <div className="flex flex-gap-4">
+                    {project.achievements.map((achievement, i) => (
+                      <Badge
+                        size="small"
+                        key={i}
+                        index={i}
+                        content={achievement}
+                      />
+                    ))}
+                  </div>
                 )}
-              </Balancer>
-            </h2>
-            <p className="md:mt-1 muted-text">
-              {new Date(project.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-              })}
-            </p>
-            <p className="mt-2 text-base md:mt-4 md:text-lg tracking-relaxed md:tracking-relaxed _md:text-xl _tracking-tight _font-display">
+              </Fade>
+            </header>
+            <p className="mt-2 body-text md:mt-3">
               <Balancer ratio={0.67}>{project.tagline}</Balancer>
             </p>
             <ScrollableTagList
               tags={project.roles || []}
-              background={project.background || "#EEEEEE"}
+              background={"var(--bg-card)"}
               className="mt-4"
             />
 
-            <div className="flex mt-6 space-x-4 md:mt-8">
+            <div className="flex mt-6 space-x-4 md:mt-5">
               {project.caseStudy && (
                 <Button scroll={false} href={`/project/${project.slug}`} arrow>
-                  Case study
+                  View project
                 </Button>
               )}
               {project.postSlug && (

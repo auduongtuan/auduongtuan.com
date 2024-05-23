@@ -36,13 +36,13 @@ const Button = ({
 }: ButtonProps) => {
   //   if (colorful) className += ;
   const buttonStyles = twMerge(
-    "font-display py-2 px-4 rounded-lg font-semibold text-md inline-block transition-all",
+    "font-display py-2 px-4 rounded-lg font-semibold text-md text-base inline-block transition-all",
     "focus-visible:ring-2 ring-blue-600 outline-none ",
     "inline-flex items-center",
     // "[&_svg]:ml-2 [&_svg]:translate-y-0 [&_svg]:translate-x-0 [&_svg]:duration-300 [&_svg]:transition-transform [&_svg]:block [&:hover_svg]:translate-y-0 [&:hover_svg]:translate-x-1",
     colorful
       ? "bg-surface/80 text-primary hover:text-white hover:bg-button-primary-hover active:bg-button-primary-pressed active:outline-none focus:shadow-blue-400"
-      : "text-white bg-button-primary hover:bg-button-primary-hover active:bg-button-primary-pressed",
+      : "text-white bg-button-primary shadow-button-inner hover:bg-button-primary-hover active:bg-button-primary-pressed",
     secondary &&
       "bg-slate-300 text-slate-800 hover:bg-slate-400 active:bg-slate-500",
     disabled && "disabled",

@@ -23,6 +23,10 @@ export type NotionMedia = {
   lastUpdated?: string;
 };
 
+export type NotionAssets = {
+  [key: string]: NotionMedia | NotionMedia[];
+};
+
 export function getPageFileUrl(
   pageId: string,
   prop: string,

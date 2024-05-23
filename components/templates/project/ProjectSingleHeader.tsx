@@ -1,4 +1,3 @@
-import { Project } from "@lib/project";
 import { FiEye } from "react-icons/fi";
 import IconButton from "@atoms/IconButton";
 import Badge from "@atoms/Badge";
@@ -62,7 +61,6 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                     </IconButton>
                   </Tooltip>
                 )}
-                {console.log(project.achievements)}
                 {project.achievements && (
                   <div className="flex flex-gap-4">
                     {project.achievements.map((achievement, i) => (
@@ -78,6 +76,17 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
           </Fade>
 
           <div className="flex col-span-12 mt-6 space-4 md:mt-8">
+            <Fade className="flex-grow" delay={350}>
+              <h5 className="text-sm sub-heading">My contribution</h5>
+              <ul className="leading-tight">
+                {project.roles &&
+                  project.roles.map((role, i) => (
+                    <li className="mt-3" key={i}>
+                      {role}
+                    </li>
+                  ))}
+              </ul>
+            </Fade>
             <Fade className="flex-grow" delay={300}>
               <h5 className="text-sm sub-heading">Tools used</h5>
               <ul className="leading-tight">
@@ -85,17 +94,6 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                   project.tools.map((tool, i) => (
                     <li className="mt-3" key={i}>
                       {tool}
-                    </li>
-                  ))}
-              </ul>
-            </Fade>
-            <Fade className="flex-grow" delay={350}>
-              <h5 className="text-sm sub-heading">What I did</h5>
-              <ul className="leading-tight">
-                {project.roles &&
-                  project.roles.map((role, i) => (
-                    <li className="mt-3" key={i}>
-                      {role}
                     </li>
                   ))}
               </ul>
