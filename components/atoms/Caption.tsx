@@ -7,7 +7,7 @@ const Caption = ({
 }) => {
   const Tag = as;
   return (
-    <Tag className="mt-2 text-base text-center text-tertiary lg:mt-4">
+    <Tag className="mt-2 text-base text-center text-secondary lg:mt-4">
       {children}
     </Tag>
   );

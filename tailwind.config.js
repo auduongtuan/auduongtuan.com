@@ -53,17 +53,23 @@ module.exports = {
         "button-secondary": "var(--bg-button-secondary)",
         "button-secondary-hover": "var(--bg-button-secondary-hover)",
         "button-secondary-pressed": "var(--bg-button-secondary-pressed)",
+        "button-secondary-activated": "var(--bg-button-secondary-activated)",
+        pill: "var(--bg-pill)",
         subtle: "var(--bg-subtle)",
         surface: "var(--bg-surface)",
         "surface-raised": "var(--bg-surface-raised)",
         card: "var(--bg-card)",
       }),
-      textColor: ({ theme }) => ({
+      // textColor: ({ theme }) => ({
+      //   primary: "var(--fg-primary)",
+      //   secondary: "var(--fg-secondary)",
+      //   tertiary: "var(--fg-tertiary)",
+      // }),
+      colors: ({ theme }) => ({
+        decorative: "var(--fg-decorative)",
         primary: "var(--fg-primary)",
         secondary: "var(--fg-secondary)",
         tertiary: "var(--fg-tertiary)",
-      }),
-      colors: ({ theme }) => ({
         oncolor: "var(--fg-oncolor)",
         control: "var(--control)",
         accent: "var(--accent)",
