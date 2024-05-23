@@ -237,6 +237,9 @@
 
     > .full {
       @apply mt-content-node pt-3;
+      & > *:first-child {
+        @apply mt-0;
+      }
     }
 
     figure > div > p {

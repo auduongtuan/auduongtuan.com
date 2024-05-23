@@ -1,4 +1,5 @@
 import { twMerge } from "tailwind-merge";
+import Caption from "./Caption";
 
 const Figure = ({
   children,
@@ -21,11 +22,7 @@ const Figure = ({
     >
       {children}
     </div>
-    {caption && (
-      <figcaption className="mt-2 text-base text-center text-tertiary lg:mt-4">
-        {caption}
-      </figcaption>
-    )}
+    {caption && <Caption as="figcaption">{caption}</Caption>}
   </figure>
 );
 
