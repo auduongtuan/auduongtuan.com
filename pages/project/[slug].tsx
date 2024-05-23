@@ -57,10 +57,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   );
   if (!project) {
     return {
-      props: {
-        project: null,
-        projects: projects,
-      },
+      notFound: true,
     };
   }
   const mdxProject = getProject(slug);

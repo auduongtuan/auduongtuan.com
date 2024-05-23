@@ -111,7 +111,6 @@ export default function AboutHeader() {
                 href="https://www.baemin.vn"
                 className="text-[#54b0ad]"
                 onMouseEnter={(e) => {
-                  console.log("a");
                   setShowGif(true);
                 }}
                 onMouseLeave={() => {

@@ -31,7 +31,7 @@ module.exports = {
         // lg: ["1.1875rem", "1.875rem"],
         // xl: ["1.3125rem", "1.875rem"],
         "3xl": ["2rem", "2.5rem"],
-        // '6xl': '3.375rem',
+        "6xl": "4.25rem",
         // '7xl': '4rem'
       },
       backgroundImage: {
