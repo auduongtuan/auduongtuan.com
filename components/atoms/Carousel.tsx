@@ -4,13 +4,18 @@ import IconButton from "./IconButton";
 import { useSnapCarousel } from "react-snap-carousel";
 import { twMerge } from "tailwind-merge";
 import Caption from "./Caption";
+import useProjectStore from "@store/useProjectStore";
+import { useCompare } from "@hooks";
+import { event } from "@lib/gtag";
 
 const Carousel = ({
   children,
   caption,
+  blockId,
 }: {
   children: React.ReactNode;
   caption?: React.ReactNode;
+  blockId?: string;
 }) => {
   const {
     goTo,
@@ -22,9 +27,22 @@ const Carousel = ({
     next,
   } = useSnapCarousel();
   const [isSSR, setIsSSR] = useState(true);
+  const { project } = useProjectStore();
+  const hasActivePageIndexChanged = useCompare(activePageIndex);
   useEffect(() => {
     setIsSSR(false);
   }, []);
+  useEffect(() => {
+    if (isSSR) return;
+    if (!hasActivePageIndexChanged) return;
+    event({
+      action: "carousel_page_changed",
+      category: "project_page",
+      label: project?.title!,
+      page_index: activePageIndex,
+      block_id: blockId,
+    });
+  }, [project, blockId, activePageIndex, hasActivePageIndexChanged, isSSR]);
   return (
     <>
       <div className="relative">

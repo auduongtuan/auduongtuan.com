@@ -1,6 +1,5 @@
 import { create } from "zustand";
-import { Project } from "../lib/project";
-import { NotionAssets } from "@lib/notion";
+import { NotionProject } from "@lib/notion";
 
 export enum PasswordProtectError {
   INCORRECT_PASSWORD = "INCORRECT_PASSWORD",
@@ -8,19 +7,17 @@ export enum PasswordProtectError {
 }
 
 export interface ProjectState {
-  project: Project | null;
-  projects: Project[] | null;
-  projectAssets: NotionAssets | null;
+  project: NotionProject | null;
+  projects: NotionProject[] | null;
+  setProject: (project: NotionProject) => void;
+  setProjects: (projects: NotionProject[]) => void;
 }
 
 const useProjectStore = create<ProjectState>((set) => ({
   project: null,
   projects: null,
-  projectAssets: null,
-  setProject: (project: Project) => set((state) => ({ project })),
-  setProjects: (projects: Project[]) => set((state) => ({ projects })),
-  setProjectAssets: (projectAssets: NotionAssets) =>
-    set((state) => ({ projectAssets })),
+  setProject: (project: NotionProject) => set((state) => ({ project })),
+  setProjects: (projects: NotionProject[]) => set((state) => ({ projects })),
 }));
 
 export default useProjectStore;

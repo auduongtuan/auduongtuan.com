@@ -154,7 +154,7 @@ const PostSinglePage = ({
           </div>
         </div>
       </Fade>
-      <section className="relative bg-surface border-t border-gray-200 p-content">
+      <section className="relative border-t border-gray-200 bg-surface p-content">
         <div className="main-container">
           <Transition
             show={isShown}

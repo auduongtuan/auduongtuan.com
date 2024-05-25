@@ -170,7 +170,9 @@ export const parseCallout = (
       case "Slider":
         rendered = (
           <div key={block.id} className="mt-content-node">
-            <Carousel {...options}>{children}</Carousel>
+            <Carousel {...options} blockId={block.id}>
+              {children}
+            </Carousel>
           </div>
         );
         break;

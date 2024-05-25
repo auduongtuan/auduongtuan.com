@@ -13,17 +13,20 @@ export const event = ({
   category,
   label,
   value,
+  ...rest
 }: {
   action: string;
   category: string;
-  label: string;
-  value: string | number;
+  label?: string;
+  value?: number;
+  [key: string]: any;
 }) => {
   if (typeof window !== "undefined" && "gtag" in window) {
     window.gtag("event", action, {
       event_category: category,
       event_label: label,
       value: value,
+      ...rest,
     });
   }
 };

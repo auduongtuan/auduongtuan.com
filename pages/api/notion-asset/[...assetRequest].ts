@@ -74,7 +74,7 @@ const getNotionAsset = async (req: NextApiRequest, res: NextApiResponse) => {
           proxyHeader("ETag");
 
           if (getResponse.headers["content-type"] == "video/mp4") {
-            console.log("serve video file");
+            // console.log("serve video file");
             const options: { start?: number; end?: number } = {};
 
             let start: number | undefined = undefined;
@@ -144,7 +144,7 @@ const getNotionAsset = async (req: NextApiRequest, res: NextApiResponse) => {
                   resolve();
                 })
                 .on("error", (err) => {
-                  console.log("Pipe error", err);
+                  // console.log("Pipe error", err);
                   res.writeHead(500, err.toString());
                   res.end();
                   reject(err);
@@ -174,7 +174,7 @@ const getNotionAsset = async (req: NextApiRequest, res: NextApiResponse) => {
                 resolve();
               })
               .on("error", (err) => {
-                console.log("Pipe error", err);
+                // console.log("Pipe error", err);
                 res.writeHead(500, err.toString());
                 res.end();
                 reject(err);
