@@ -6,6 +6,7 @@
       "@molecules/*": ["components/molecules/*"],
       "@templates/*": ["components/templates/*"],
       "@notion/*": ["components/notion/*"],
+      "@hooks": ["hooks/index"],
       "@hooks/*": ["hooks/*"],
       "@lib/*": ["lib/*"],
       "@store/*": ["store/*"]

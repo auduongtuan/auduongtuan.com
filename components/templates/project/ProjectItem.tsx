@@ -1,39 +1,42 @@
-import { memo } from "react";
-import { Project } from "@lib/project";
+import Badge from "@atoms/Badge";
 import Button from "@atoms/Button";
-import { FiEye } from "react-icons/fi";
-import IconButton from "@atoms/IconButton";
-import Link from "next/link";
-import BrowserFrame from "@atoms/Frame";
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
-import Balancer from "react-wrap-balancer";
 import Fade from "@atoms/Fade";
-import useVisibleRatio from "@hooks/useVisiblePercentage";
+import BrowserFrame from "@atoms/Frame";
+import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
-import { twMerge } from "tailwind-merge";
+import useVisibleRatio from "@hooks/useVisiblePercentage";
+import { NotionProject } from "@lib/notion";
+import { parseInternalLink } from "@lib/utils";
 import ScrollableTagList from "@molecules/ScrollableTagList";
+import Link from "next/link";
+import { memo } from "react";
+import { FiEye } from "react-icons/fi";
+import Balancer from "react-wrap-balancer";
+import { twMerge } from "tailwind-merge";
 
-export type ProjectItemProps = {
-  project: Project;
-  projects: Project[];
+export type NotionProjectItemProps = {
+  project: NotionProject;
+  projects: NotionProject[];
   index: number;
 };
 
 const ProjectItem = memo(
-  ({ project, projects, index, ...rest }: ProjectItemProps) => {
+  ({ project, projects, index, ...rest }: NotionProjectItemProps) => {
     const { ref, visibleRatio } = useVisibleRatio();
-    const isHalf = projects.length % 2 == 0 || index !== 0;
+    const isHalf = true;
+    const internalLink = parseInternalLink(project.link || "");
     return (
       <div
         ref={ref}
         className={twMerge(
-          "rounded-2xl p-6 md:p-10 lg:p-12 text-primary",
+          "rounded-2xl p-4 md:p-6 lg:p-6 text-primary",
           !isHalf ? "col-span-12" : "col-span-12 md:col-span-6",
-          "transition-all ease duration-400"
+          "transition-all ease duration-400 bg-card"
         )}
         style={{
-          backgroundColor: project.meta.background,
+          // backgroundColor: project.background,
           opacity: visibleRatio,
         }}
         {...rest}
@@ -55,62 +58,77 @@ const ProjectItem = memo(
                 : "row-start-2"
             )}
           >
-            <h2 className="text-primary">
-              <Balancer>
-                {project.meta.type == "casestudy" ? (
-                  <Link href={`/project/${project.slug}`} legacyBehavior>
-                    {project.meta.title}
-                  </Link>
-                ) : (
-                  project.meta.title
+            <header className="flex items-center">
+              <div className="grow">
+                <h2 className="text-2xl">
+                  <Balancer>
+                    {project.platform == "web" ? (
+                      <Link href={`/project/${project.slug}`} legacyBehavior>
+                        {project.title}
+                      </Link>
+                    ) : (
+                      project.title
+                    )}
+                  </Balancer>
+                </h2>
+                <p className="md:mt-1 muted-text">
+                  {new Date(project.date).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "long",
+                  })}
+                </p>
+              </div>
+              <Fade
+                className={twMerge("flex-shrink-0 flex-grow-0")}
+                duration={300}
+                delay={400}
+              >
+                {project.achievements && (
+                  <div className="flex flex-gap-4">
+                    {project.achievements.map((achievement, i) => (
+                      <Badge
+                        size="small"
+                        key={i}
+                        index={i}
+                        content={achievement}
+                      />
+                    ))}
+                  </div>
                 )}
-              </Balancer>
-            </h2>
-            <p className="md:mt-1 muted-text">
-              {new Date(project.meta.date).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "long",
-              })}
-            </p>
-            <p className="mt-2 text-base md:mt-4 md:text-lg tracking-relaxed md:tracking-relaxed _md:text-xl _tracking-tight _font-display">
-              <Balancer ratio={0.67}>{project.meta.tagline}</Balancer>
+              </Fade>
+            </header>
+            <p className="mt-2 body-text md:mt-3 text-secondary">
+              <Balancer ratio={0.67}>{project.tagline}</Balancer>
             </p>
             <ScrollableTagList
-              tags={project.meta.roles || []}
-              background={project.meta.background || "#EEEEEE"}
+              tags={project.roles || []}
+              background={"var(--bg-card)"}
               className="mt-4"
             />
 
-            <div className="flex mt-6 space-x-4 md:mt-8">
-              {project.meta.type == "casestudy" && (
+            <div className="flex mt-6 space-x-4 md:mt-5">
+              {project.caseStudy && (
                 <Button scroll={false} href={`/project/${project.slug}`} arrow>
-                  Case study
+                  View project
                 </Button>
               )}
-              {project.meta.type == "post" && (
-                <Button
-                  scroll={false}
-                  href={`/blog/${project.meta.postSlug}`}
-                  arrow
-                >
+              {project.postSlug && (
+                <Button scroll={false} href={`/blog/${project.postSlug}`} arrow>
                   Read post
                 </Button>
               )}
-              {project.meta.type == "link" && (
+              {project.platform == "web" && !project.caseStudy && (
                 <Button
                   scroll={false}
-                  href={project.meta.link ? project.meta.link : "#"}
+                  href={project.link ? project.link : "#"}
                   external={true}
                 >
                   View website
                 </Button>
               )}
-              {project.meta.type != "link" && project.meta.link && (
-                <Tooltip content={project.meta.linkCta || "View website"}>
-                  <IconButton
-                    href={project.meta.link ? project.meta.link : "#"}
-                    external
-                  >
+              {project.caseStudy && project.link && !internalLink && (
+                <Tooltip content={project.linkCta || "View website"}>
+                  <IconButton href={project.link ? project.link : "#"} external>
                     <FiEye />
                   </IconButton>
                 </Tooltip>
@@ -126,53 +144,44 @@ const ProjectItem = memo(
             slide
             show={visibleRatio > 0.4}
           >
-            {project.meta.video && (
-              <BrowserFrame
-                url={project.meta.link && project.meta.link}
-                className="max-h-full"
-              >
-                <CustomVideo
-                  src={project.meta.video}
-                  slug={project.slug}
-                  width={project.meta.videoWidth}
-                  height={project.meta.videoHeight}
-                ></CustomVideo>
-              </BrowserFrame>
-            )}
-            {project.meta.cover && project.meta.browser && (
-              <BrowserFrame url={project.meta.link && project.meta.link}>
-                <CustomImage
-                  slug={project.slug}
-                  src={project.meta.cover}
-                  alt={project.meta.title}
-                  width={project.meta.coverWidth}
-                  height={project.meta.coverHeight}
-                />
-              </BrowserFrame>
-            )}
-
-            {project.meta.cover && !project.meta.browser && (
-              <div className={`relative transition-all ease-bounce w-full `}>
-                <CustomImage
-                  slug={project.slug}
-                  src={project.meta.cover}
-                  alt={project.meta.title}
-                  width={project.meta.coverWidth}
-                  height={project.meta.coverHeight}
-                />
-              </div>
-            )}
-            {project.meta.cover2 && !project.meta.browser && (
-              <div className={`relative transition-all ease-bounce w-full `}>
-                <CustomImage
-                  slug={project.slug}
-                  src={project.meta.cover2}
-                  alt={project.meta.title}
-                  width={project.meta.coverWidth}
-                  height={project.meta.coverHeight}
-                />
-              </div>
-            )}
+            {project.cover &&
+              project.cover.map((coverMedia) =>
+                project.platform === "web" ? (
+                  <BrowserFrame
+                    title={project.coverTitle}
+                    url={project.link}
+                    className="max-h-full"
+                    key={coverMedia.url}
+                  >
+                    {coverMedia.type === "image" ? (
+                      <CustomImage
+                        src={coverMedia.url}
+                        alt={project.title + " cover image"}
+                        width={coverMedia.width}
+                        height={coverMedia.height}
+                      />
+                    ) : (
+                      <CustomVideo
+                        src={coverMedia.url}
+                        width={coverMedia.width}
+                        height={coverMedia.height}
+                      ></CustomVideo>
+                    )}
+                  </BrowserFrame>
+                ) : (
+                  <div
+                    className={`relative transition-all ease-bounce w-full `}
+                    key={coverMedia.url}
+                  >
+                    <CustomImage
+                      src={coverMedia.url}
+                      alt={project.title + " cover image"}
+                      width={coverMedia.width}
+                      height={coverMedia.height}
+                    />
+                  </div>
+                )
+              )}
           </Fade>
         </div>
       </div>
@@ -180,5 +189,5 @@ const ProjectItem = memo(
   }
 );
 
-ProjectItem.displayName = "ProjectItem";
+ProjectItem.displayName = "NotionProjectItem";
 export default ProjectItem;

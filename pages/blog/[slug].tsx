@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import DefaultErrorPage from "next/error";
 import { getPosts, getPostContent, Post } from "@lib/blog";
-import NotionPostPage from "@templates/post/NotionPostPage";
+import PostPage from "@templates/post/PostPage";
 import CryptoJS from "crypto-js";
 import { isDevEnvironment } from "@lib/utils";
 
@@ -31,7 +31,7 @@ export default function Blog({ post, postContent, posts }: BlogProps) {
       </>
     );
   }
-  return <NotionPostPage post={post} postContent={postContent} posts={posts} />;
+  return <PostPage post={post} postContent={postContent} posts={posts} />;
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {

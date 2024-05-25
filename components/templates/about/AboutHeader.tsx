@@ -12,6 +12,7 @@ import { RiCrossFill } from "react-icons/ri";
 import { cvLink } from "./content";
 import TuanPhoto from "./TuanPhoto";
 import Now from "./Now";
+import { event } from "@lib/gtag";
 
 export default function AboutHeader() {
   const { ref } = useHeaderInView();
@@ -54,6 +55,11 @@ export default function AboutHeader() {
                     e.preventDefault();
                     var rect = contentRef.current?.getBoundingClientRect();
                     if (!rect) return;
+                    event({
+                      action: "view_about_photo",
+                      category: "about_page",
+                      label: "View Tuan's photo",
+                    });
                     setPosition([rect.left, rect.top + 40]);
                     setShowImage(true);
                   }}
@@ -112,6 +118,11 @@ export default function AboutHeader() {
                 className="text-[#54b0ad]"
                 onMouseEnter={(e) => {
                   setShowGif(true);
+                  event({
+                    action: "hover_gif",
+                    category: "about_page",
+                    label: "baemin-cry.gif",
+                  });
                 }}
                 onMouseLeave={() => {
                   setShowGif(false);
@@ -126,7 +137,18 @@ export default function AboutHeader() {
             </Fade>
             <Fade delay={350} as="p">
               <span>Curious for more details?</span>{" "}
-              <InlineLink href={cvLink}>Download my CV </InlineLink>
+              <InlineLink
+                href={cvLink}
+                onClick={() => {
+                  event({
+                    action: "download_cv",
+                    category: "about_page",
+                    label: "Download CV",
+                  });
+                }}
+              >
+                Download my CV{" "}
+              </InlineLink>
             </Fade>
           </div>
           <Portal>
@@ -164,7 +186,16 @@ export default function AboutHeader() {
             style={{ left: position[0], top: position[1] }}
           >
             <Fade show={showImage} as="div" duration={100} slide>
-              <TuanPhoto onClose={() => setShowImage(false)} />
+              <TuanPhoto
+                onClose={() => {
+                  setShowImage(false);
+                  event({
+                    action: "close_about_photo",
+                    category: "about_page",
+                    label: "Close Tuan's photo",
+                  });
+                }}
+              />
             </Fade>
           </div>
         </Portal>
