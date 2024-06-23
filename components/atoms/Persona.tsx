@@ -2,14 +2,13 @@ import React from "react";
 import CustomImage from "./CustomImage";
 import Box from "./Box";
 
-export interface PersonaProps {
-  children: React.ReactNode;
+export interface PersonaProps extends React.ComponentPropsWithoutRef<"div"> {
   name: string;
-  image: string | React.ReactNode;
-  layout: 1 | 2;
+  image?: string | React.ReactNode;
+  layout?: 1 | 2;
   imageWidth?: number;
   imageHeight?: number;
-  slug: string;
+  slug?: string;
 }
 
 const Persona = ({
@@ -20,6 +19,7 @@ const Persona = ({
   imageWidth,
   imageHeight,
   slug,
+  ...rest
 }: PersonaProps) => {
   let imageTag;
   if (
@@ -43,7 +43,7 @@ const Persona = ({
     imageTag = image;
   }
   return (
-    <Box className={`p-4 h-full persona-${layout}`}>
+    <Box className={`p-4 h-full persona-${layout}`} {...rest}>
       <div
         className={`${
           layout == 2

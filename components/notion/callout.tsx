@@ -10,6 +10,7 @@ import { BlockObjectResponseWithChildren } from "@lib/notion/helpers";
 import {
   BlockObjectResponse,
   CalloutBlockObjectResponse,
+  ImageBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import parseBlocks from "./parseBlocks";
 import { richTextObject } from "./richText";
@@ -17,6 +18,9 @@ import { Children } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import IconButton from "@atoms/IconButton";
 import Carousel from "@atoms/Carousel";
+import Vimeo from "@atoms/Vimeo";
+import Persona from "@atoms/Persona";
+import { twMerge } from "tailwind-merge";
 
 function trimAny(str: string, chars: string[]) {
   var start = 0,
@@ -78,67 +82,83 @@ export const parseCallout = (
     lastBlockIndex.value++;
   }
   // give the last item back
-  const [component, options] = getCalloutComponentWithOptions(block);
-  const children = "children" in block && parseBlocks(block.children, assets);
+  const [component, { mt, ...options }] = getCalloutComponentWithOptions(block);
+  const parseChildren = () =>
+    "children" in block && parseBlocks(block.children, assets);
   if ("callout" in block) {
     switch (component) {
       case "BrowserFrame":
         rendered = (
-          <div key={block.id} className="mt-content-node">
+          <div key={block.id} className={"mt-content-node"}>
             <BrowserFrame mainClassname="[&>*:first-child]:mt-0">
-              {children}
+              {parseChildren()}
             </BrowserFrame>
           </div>
         );
         break;
       case "Note":
         rendered = (
-          <Note key={block.id} className="mt-content-node">
-            {children}
+          <Note key={block.id} className={"mt-content-node"}>
+            {parseChildren()}
           </Note>
         );
         break;
       case "Col":
         // ony grid-item that we need to take last item back
         lastBlockIndex.value--;
+        const { align } = options;
         rendered = (
-          <Grid key={block.id} className="mt-content-node">
-            {gridBlocks.map((gblock) => (
-              <Col
-                key={gblock.id}
-                {...getCalloutComponentWithOptions(gblock)[1]}
-              >
-                {"children" in gblock && parseBlocks(gblock.children)}
-              </Col>
-            ))}
+          <Grid
+            key={block.id}
+            className={twMerge(
+              "mt-content-node",
+              align == "center" && "items-center"
+            )}
+          >
+            {gridBlocks.map((gblock) => {
+              const { align, ...colOptions } =
+                getCalloutComponentWithOptions(gblock)[1];
+              return (
+                <Col key={gblock.id} {...colOptions}>
+                  {"children" in gblock && parseBlocks(gblock.children)}
+                </Col>
+              );
+            })}
           </Grid>
         );
         break;
       case "Box":
         rendered = (
           <Box key={block.id} {...options}>
-            {children}
+            {parseChildren()}
+          </Box>
+        );
+        break;
+      case "MarginBox":
+        rendered = (
+          <Box key={block.id} className={"mt-content-node"} {...options}>
+            {parseChildren()}
           </Box>
         );
         break;
       case "FullWidth":
         rendered = (
-          <div key={block.id} className={"full"} {...options}>
-            {children}
+          <div key={block.id} className={"full mt-content-node"} {...options}>
+            {parseChildren()}
           </div>
         );
         break;
       case "EmojiBox":
         rendered = (
           <EmojiBox key={block.id} {...options}>
-            {children}
+            {parseChildren()}
           </EmojiBox>
         );
         break;
       case "Figure":
         rendered = (
           <Figure key={block.id} {...options}>
-            {children}
+            {parseChildren()}
           </Figure>
         );
         break;
@@ -163,24 +183,57 @@ export const parseCallout = (
                 height={media.height}
               />
             )}
-            {children}
+            {parseChildren()}
           </div>
         );
         break;
       case "Slider":
         rendered = (
-          <div key={block.id} className="mt-content-node">
+          <div key={block.id}>
             <Carousel {...options} blockId={block.id}>
-              {children}
+              {parseChildren()}
             </Carousel>
           </div>
+        );
+        break;
+      case "Vimeo":
+        const { id, ratio, ...otherOptions } = options;
+        rendered = (
+          <div key={block.id} className="w-full mt-content-node">
+            <Vimeo
+              id={id}
+              ratio={ratio ? Number(ratio) : undefined}
+              {...otherOptions}
+            />
+          </div>
+        );
+        break;
+      case "PersonaBox":
+        const { name, ...rest } = options;
+        const imageBlock = block.children?.find(
+          (block) => block.type == "image"
+        ) as any;
+        const otherBlocks = imageBlock
+          ? block.children?.filter((block) => block.id != imageBlock.id)
+          : block.children;
+        rendered = (
+          <Persona
+            key={block.id}
+            name={name}
+            image={imageBlock?.image?.url}
+            imageWidth={imageBlock?.image?.width}
+            imageHeight={imageBlock?.image?.height}
+            {...rest}
+          >
+            {"children" in block && parseBlocks(otherBlocks, assets)}
+          </Persona>
         );
         break;
       default:
         rendered = (
           <div key={block.id} className="mt-content-node">
             {richTextObject(block.callout?.rich_text)}
-            {children}
+            {parseChildren()}
           </div>
         );
     }
