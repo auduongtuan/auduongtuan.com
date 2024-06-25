@@ -4,12 +4,21 @@ const Box = ({
   children,
   className = "",
   caption,
+  contentMaxWidth,
   ...rest
 }: {
   children: React.ReactNode;
   className?: string;
   caption?: string;
+  contentMaxWidth?: string;
 }) => {
+  const renderChildren = () =>
+    contentMaxWidth ? (
+      <div style={{ maxWidth: contentMaxWidth }}>{children}</div>
+    ) : (
+      children
+    );
+
   return (
     <div
       className={twMerge(
@@ -21,12 +30,12 @@ const Box = ({
       {caption ? (
         <div className="flex flex-col justify-center h-full">
           <div className="flex items-center justify-center flex-grow [&>*:first-child]:mt-0">
-            {children}
+            {renderChildren()}
           </div>
           <h4 className="font-medium text-center">{caption}</h4>
         </div>
       ) : (
-        children
+        renderChildren()
       )}
     </div>
   );
