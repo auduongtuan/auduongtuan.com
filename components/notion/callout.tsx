@@ -229,6 +229,16 @@ export const parseCallout = (
           </Persona>
         );
         break;
+      case "Quote":
+        rendered = (
+          <blockquote
+            key={block.id}
+            className="text-xl font-semibold text-center mt-content-node"
+          >
+            {parseChildren()}
+          </blockquote>
+        );
+        break;
       default:
         rendered = (
           <div key={block.id} className="mt-content-node">

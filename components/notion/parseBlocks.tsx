@@ -7,6 +7,8 @@ import parseListItem from "./parseListItem";
 import CustomImage from "@atoms/CustomImage";
 import { NotionAssets } from "@lib/notion";
 import Figure from "@atoms/Figure";
+import CustomVideo from "@atoms/CustomVideo";
+import Code from "@atoms/Code";
 
 const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
   if (!Array.isArray(blocks) || blocks.length == 0) return null;
@@ -101,6 +103,25 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
       case "callout":
         content.push(parseCallout(block, blocks, lastBlockIndex, assets));
         break;
+      case "video":
+        content.push(
+          <Figure
+            caption={
+              block.video.caption && block.video?.caption.length > 0
+                ? richTextObject(block.video.caption, block.id)
+                : ""
+            }
+            key={block.id}
+          >
+            <CustomVideo
+              src={block.video.url}
+              width={block.video.width}
+              height={block.video.height}
+              autoPlay
+            />
+          </Figure>
+        );
+        break;
       case "embed":
         if (block.embed.url.includes("facebook.com")) {
           content.push(
@@ -112,7 +133,26 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
               ></iframe>
             </div>
           );
+        } else {
+          content.push(
+            <div key={block.id} className="mt-content-node">
+              <iframe
+                src={block.embed.url}
+                className="w-full h-[600px] border-0 rounded-md overflow-hidden"
+                title="Design Tokens - CSS"
+                allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+                sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+              ></iframe>
+            </div>
+          );
         }
+        break;
+      case "code":
+        content.push(
+          <Code language={block.code.language} key={block.id}>
+            {block.code.rich_text.map((r) => r.plain_text).join("")}
+          </Code>
+        );
         break;
       default:
         break;
