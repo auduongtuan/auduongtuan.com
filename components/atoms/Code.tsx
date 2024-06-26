@@ -1,5 +1,5 @@
 import Highlight from "react-highlight";
-import "highlight.js/styles/tokyo-night-dark.css";
+import "highlight.js/styles/atom-one-light.css";
 
 export interface CodeHighlighterProps
   extends React.ComponentPropsWithRef<"pre"> {
