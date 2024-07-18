@@ -16,7 +16,9 @@ const BackToPreviousPage = ({
   const hasHistory = useAppStore((state) => state.hasHistory);
 
   return (
-    <Tooltip content={hasHistory ? "Back to previous page" : defaultLinkLabel}>
+    <Tooltip
+      content={hasHistory ? "Back to the previous page" : defaultLinkLabel}
+    >
       <IconButton
         onClick={(e) => {
           e.preventDefault();
