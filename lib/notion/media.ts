@@ -129,7 +129,7 @@ export async function getMediaFromCloudinary(
     }
   }
   return {
-    url: info.url,
+    url: info.secure_url,
     type: info.resource_type as "image" | "video",
     width: info.width,
     height: info.height,
