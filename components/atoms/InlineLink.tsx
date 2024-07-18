@@ -29,6 +29,8 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
     let checkInternal = href.match(
       /^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i
     );
+    if (href.startsWith("mailto:") || href.startsWith("tel:"))
+      checkInternal = null;
     // console.log(checkInternal);
     const Component = checkInternal ? Link : ExternalLink;
     const linkStyles = twMerge(

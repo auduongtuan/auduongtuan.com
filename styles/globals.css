@@ -29,6 +29,12 @@
   --control: theme("colors.gray.200");
   --divider: rgb(var(--base-mono) / 0.1);
   --underline: rgb(var(--base-mono) / 0.15);
+  --main-width: 70rem;
+  --content-width: 52rem;
+  --container-padding: 1rem;
+  @screen md {
+    --container-padding: 1.5rem;
+  }
 }
 
 .dark {
@@ -134,14 +140,14 @@
   }
   .max-w-main-container {
     /* @apply max-w-full lg:w-[76rem]; */
-    @apply max-w-full lg:w-[70rem];
+    @apply max-w-full lg:w-[var(--main-width)];
   }
   .main-container {
     @apply px-container mx-auto;
     @apply max-w-main-container;
   }
   .max-w-content-container {
-    @apply max-w-[50rem];
+    @apply max-w-[var(--content-width)];
   }
   .content-container {
     @apply max-w-content-container px-container mx-auto;
@@ -160,7 +166,7 @@
     }
     > *:not(.full) {
       /*@apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2; */
-      @apply w-full max-w-content-container;
+      @apply w-full max-w-[calc(var(--content-width)-var(--container-padding)*2)];
     }
     blockquote p {
       @apply text-xl md:text-2xl font-semibold;

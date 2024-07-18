@@ -9,6 +9,7 @@ import GifText from "./GifText";
 import Balancer from "react-wrap-balancer";
 import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react";
 import { event } from "@lib/gtag";
+import { Transition } from "@headlessui/react";
 
 export default function Header() {
   const { ref } = useHeaderInView();
@@ -99,32 +100,35 @@ export default function Header() {
           </div>
           {/* <div className="relative z-30 col-span-12 col-start-1 row-start-1 row-end-2 pointer-events-none lg:col-span-4 md:block"> */}
 
-          <div ref={refs.setFloating} className="z-40" style={floatingStyles}>
-            <div className="w-[360px] max-w-full grid grid-cols-1 grid-rows-1">
-              {gifs.map((gif, i) => (
-                <Fade
-                  key={gif.name}
-                  duration={100}
-                  show={activeGif === i}
-                  slide
-                  className="inline col-start-1 row-start-1"
+          <div
+            ref={refs.setFloating}
+            style={floatingStyles}
+            className="z-40 w-[360px] max-w-[100vw]"
+          >
+            {gifs.map((gif, i) => (
+              <Transition
+                key={gif.name}
+                show={activeGif !== null && activeGif === i}
+              >
+                <Transition.Child
+                  enter="transition-all duration-200"
+                  enterFrom="opacity-0 translate-y-10"
+                  enterTo="opacity-100 translate-y-0"
+                  leave="transition-all duration-200"
+                  leaveFrom="opacity-100 translate-y-0"
+                  leaveTo="opacity-0 translate-y-10"
                 >
-                  <PhotoFrame
-                    name={gif.name}
-                    inverted
-                    className="w-full h-auto"
-                  >
+                  <PhotoFrame name={gif.name} inverted>
                     <CustomVideo
                       slug="gif"
                       src={gif.video}
                       width={gif.size[0]}
                       height={gif.size[1]}
-                      className="w-full h-auto"
                     />
                   </PhotoFrame>
-                </Fade>
-              ))}
-            </div>
+                </Transition.Child>
+              </Transition>
+            ))}
           </div>
 
           {/* </div> */}
