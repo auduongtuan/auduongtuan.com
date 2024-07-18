@@ -1,23 +1,19 @@
-import { useEffect } from "react";
-import { FiArrowLeft } from "react-icons/fi";
-import Balancer from "react-wrap-balancer";
-import { twMerge } from "tailwind-merge";
-import useHeaderInView from "@hooks/useHeaderInView";
-import { Post } from "@lib/blog";
-import usePostStore from "@store/usePostStore";
 import Fade from "@atoms/Fade";
 import HeadMeta from "@atoms/HeadMeta";
-import IconButton from "@atoms/IconButton";
 import Tag from "@atoms/Tag";
-import Tooltip from "@atoms/Tooltip";
+import { Transition } from "@headlessui/react";
+import useHeaderInView from "@hooks/useHeaderInView";
+import { Post } from "@lib/blog";
 import ContentMenu from "@molecules/ContentMenu";
 import PasswordProtect from "@molecules/PasswordProtect";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import parseBlocks from "@notion/parseBlocks";
+import usePostStore from "@store/usePostStore";
+import { useEffect } from "react";
+import Balancer from "react-wrap-balancer";
+import { twMerge } from "tailwind-merge";
 import OtherPostList from "./OtherPostList";
-import { Transition } from "@headlessui/react";
-import { useRouter } from "next/router";
-import useAppStore from "@store/useAppStore";
+import BackToPreviousPage from "@molecules/BackToPreviousPage";
 
 const PostSinglePage = ({
   post,
@@ -43,10 +39,6 @@ const PostSinglePage = ({
     setPosts(posts);
   }, [setPost, setPostContent, setPosts, post, postContent, posts]);
 
-  const router = useRouter();
-
-  const hasHistory = useAppStore((state) => state.hasHistory);
-
   return (
     <>
       <HeadMeta
@@ -63,22 +55,10 @@ const PostSinglePage = ({
             duration={100}
             className="hidden w-8 lg:block p-header grow-0 shrink"
           >
-            <Tooltip
-              content={hasHistory ? "Back to previous page" : "Back to blog"}
-            >
-              <IconButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (hasHistory) {
-                    router.back();
-                  } else {
-                    router.push("/blog", undefined, { scroll: false });
-                  }
-                }}
-              >
-                <FiArrowLeft />
-              </IconButton>
-            </Tooltip>
+            <BackToPreviousPage
+              defaultLink="/blog"
+              defaultLinkLabel="Back to Blog"
+            />
           </Fade>
           <div className="pb-0 grow content-container p-header">
             <div className="grid grid-cols-1 gap-2 md:gap-4 ">

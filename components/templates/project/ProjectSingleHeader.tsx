@@ -8,6 +8,7 @@ import useBreakpoint from "@hooks/useBreakpoint";
 import { twMerge } from "tailwind-merge";
 import Tooltip from "@atoms/Tooltip";
 import { NotionProject } from "@lib/notion";
+import BackToPreviousPage from "@molecules/BackToPreviousPage";
 interface ProjectSingleHeaderProps {
   project: NotionProject;
 }
@@ -20,14 +21,20 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
       ref={ref}
       className="z-10 w-full border-b text-primary bg-surface border-divider"
     >
-      <div className="main-container p-header">
+      <div className="flex justify-center p-0 lg:px-container main-container p-header">
+        <Fade
+          duration={100}
+          className="hidden w-8 lg:block p-header grow-0 shrink"
+        >
+          <BackToPreviousPage
+            defaultLink="/"
+            defaultLinkLabel="Back to Works"
+          />
+        </Fade>
         <div
-          className="grid grid-cols-12 p-0 gap-x-4 content-container"
+          className="grid grid-cols-12 grow content-container p-header gap-x-4"
           key={project.slug + "_header"}
         >
-          {/* <div className="self-center hidden col-span-4 md:block group row-span-full">
-            <InlineLink href="/" underline={false} dark={true} className="opacity-0 group-hover:opacity-100"><FiArrowLeft />All projects</InlineLink>
-          </div> */}
           <div className="flex flex-wrap items-center col-span-12 flex-gap-x-4">
             <Fade duration={200} slide className="flex-grow">
               <h1 className="text-3xl tracking-tight md:text-4xl lg:text-5xl font-display">
@@ -100,6 +107,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
             </Fade>
           </div>
         </div>
+        <div className="hidden w-8 lg:block p-header grow-0 shrink"></div>
       </div>
     </header>
   );

@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useImperativeHandle, useState } from "react";
 import Skeleton from "./Skeleton";
-export interface CustomVideoProps {
+import { twMerge } from "tailwind-merge";
+export interface CustomVideoProps
+  extends React.ComponentPropsWithoutRef<"video"> {
   poster?: string;
   src: string;
   width?: number;
   height?: number;
   slug?: string;
-  autoPlay?: boolean;
-  preload?: boolean;
-  loop?: boolean;
   className?: string;
   show?: boolean;
 }
@@ -26,6 +25,7 @@ const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(
       className = "",
       preload = false,
       show = true,
+      ...rest
     },
     ref
   ) => {
@@ -81,7 +81,10 @@ const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(
           >
             <video
               ref={innerRef}
-              className={`w-full h-full absolute left-0 top-0 ${className}`}
+              className={twMerge(
+                `w-full h-full absolute left-0 top-0`,
+                className
+              )}
               poster={poster && `/uploads/${slug}/${poster}`}
               data-src={slug ? `/uploads/${slug}/${src}` : src}
               width={width ? width : undefined}
@@ -91,6 +94,7 @@ const CustomVideo = React.forwardRef<HTMLVideoElement, CustomVideoProps>(
               autoPlay={autoPlay}
               playsInline={autoPlay}
               preload={preload ? "true" : "false"}
+              {...rest}
             ></video>
           </div>
         </Skeleton.Content>

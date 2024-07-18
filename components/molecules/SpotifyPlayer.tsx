@@ -8,13 +8,13 @@ const SpotifyPlayer = () => {
   return (
     <>
       {data ? (
-        <div className="flex items-center flex-gap-4">
+        <div className="flex items-center flex-gap-3">
           <CustomImage
             className={`rounded-full overflow-hidden ${
               data.isPlaying && "animate-spin-slow"
             } flex-grow-0`}
-            width="64"
-            height="64"
+            width="48"
+            height="48"
             src={data.albumImageUrl}
             alt={data.title}
           />

@@ -36,7 +36,7 @@ const NavigationLink = ({
   href,
   children,
   pathname = "/",
-  className = "-mx-2 px-2 py-0.5 -my-0.5",
+  className = "-mx-3 px-3 py-0.5 -my-0.5",
   logo = false,
   inverted = false,
   callback,
@@ -51,9 +51,12 @@ const NavigationLink = ({
 }) => {
   const router = useRouter();
   // const activeClassName = "underline underline-offset-4";
-  const activeClassName = inverted ? "bg-surface/10" : "bg-surface-raised";
+  const activeClassName = inverted
+    ? "bg-surface/10 shadow-navigation-inner"
+    : "bg-surface-raised shadow-navigation-inner";
   const anchorClassName = twMerge(
-    "font-medium inline-block text-base tracking-wide uppercase rounded-xl",
+    logo && "tracking-wide uppercase",
+    "font-medium inline-block text-base  rounded-xl",
     // logo && "uppercase",
     inverted
       ? "text-white hover:bg-surface/10"
