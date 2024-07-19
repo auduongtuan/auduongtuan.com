@@ -1,7 +1,8 @@
 import HeadMeta from "@atoms/HeadMeta";
+import { getNotionNowItems, NotionNowItem } from "@lib/notion/now";
 import AboutPage from "@templates/about/AboutPage";
 
-export default function About() {
+export default function About({ nowItems }: { nowItems: NotionNowItem[] }) {
   return (
     <>
       <HeadMeta
@@ -10,7 +11,16 @@ export default function About() {
                   transitioning between the roles of a designer, developer, or
                   any other hat required to bring my creative visions to life."
       />
-      <AboutPage />
+      <AboutPage nowItems={nowItems} />
     </>
   );
+}
+
+export async function getStaticProps() {
+  return {
+    props: {
+      nowItems: await getNotionNowItems(),
+    },
+    revalidate: 120,
+  };
 }
