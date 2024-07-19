@@ -142,19 +142,5 @@ export const skills = {
   ],
 };
 
-export const now = [
-  { title: "📖 Learning", content: "Guitar 🎸" },
-  {
-    title: "🎬 Watching",
-    content: "Anh trai vượt ngàn chông gai",
-    link: "https://www.imdb.com/title/tt10168312/",
-  },
-  {
-    title: "🎧 Listening",
-    content: "SOOBIN - BẬT NÓ LÊN",
-    link: "https://open.spotify.com/album/5tlCVkYaDAmAtJ5YxejpWi?si=L62YuljwRlmtnoI00EREvg",
-  },
-];
-
 export const cvLink =
   "https://drive.google.com/file/d/1ZzC66OjSuHewWLy2UUghW3MWjzNWkrNp/view?usp=drive_link";

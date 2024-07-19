@@ -1,8 +1,8 @@
 import { AppFrame } from "@atoms/Frame";
 import InlineLink from "@atoms/InlineLink";
-import { now } from "./content";
+import { NotionNowItem } from "@lib/notion/now";
 
-const Now = () => {
+const Now = ({ items }: { items: NotionNowItem[] }) => {
   return (
     <AppFrame title="Now" draggable>
       <div className="flex flex-col gap-4 p-4 leading-normal">
@@ -14,7 +14,7 @@ const Now = () => {
           .
         </p>
         <div className="flex flex-col gap-2">
-          {now.map((item, i) => (
+          {items.map((item, i) => (
             <div
               className="px-3 py-2 rounded-md md:px-4 bg-slate-100"
               key={`now-${i}`}
