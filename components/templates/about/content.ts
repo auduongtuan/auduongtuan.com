@@ -146,13 +146,13 @@ export const now = [
   { title: "📖 Learning", content: "Guitar 🎸" },
   {
     title: "🎬 Watching",
-    content: "What If...?",
+    content: "Anh trai vượt ngàn chông gai",
     link: "https://www.imdb.com/title/tt10168312/",
   },
   {
     title: "🎧 Listening",
-    content: "Wren Evans - LOI CHOI album",
-    link: "https://open.spotify.com/album/1c4nTHI2hreFeF5P37wf4f?si=kNY-wzg7QZaC6mQQReztUA",
+    content: "SOOBIN - BẬT NÓ LÊN",
+    link: "https://open.spotify.com/album/5tlCVkYaDAmAtJ5YxejpWi?si=L62YuljwRlmtnoI00EREvg",
   },
 ];
 

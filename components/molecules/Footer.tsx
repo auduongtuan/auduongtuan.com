@@ -9,6 +9,7 @@ import {
   PiGithubLogoBold,
   PiLinkedinLogoBold,
 } from "react-icons/pi";
+import Tooltip from "@atoms/Tooltip";
 
 export default function Footer() {
   const { ref, inView } = useInView({
@@ -33,23 +34,27 @@ export default function Footer() {
               show={inView}
               as={"div"}
               delay={0}
-              className={`col-span-12 lg:col-span-5 lg:row-span-1 lg:self-center`}
+              className={`col-span-12 lg:col-span-6 lg:row-span-1 lg:self-center`}
             >
               <SpotifyPlayer />
             </Fade>
 
-            <div className="col-span-12 lg:col-span-7 lg:col-start-6 lg:row-span-1 lg:justify-self-end lg:self-center">
+            <div className="col-span-12 lg:col-span-6 lg:row-span-1 lg:justify-self-end lg:self-center">
               <Fade slide show={inView} delay={100} as="p">
                 <p className="text-sm text-secondary">Let&apos;s connect </p>
                 <div className="flex items-center gap-4 text-lg font-medium leading-relaxed font-display md:text-xl lg:text-2xl md:leading-relaxed lg:leading-relaxed">
-                  <InlineLink href="mailto:hi@auduongtuan.com" className="">
-                    hi@auduongtuan.com
-                  </InlineLink>{" "}
+                  <Tooltip content="Say hi to me">
+                    <InlineLink href="mailto:hi@auduongtuan.com" className="">
+                      hi@auduongtuan.com
+                    </InlineLink>
+                  </Tooltip>{" "}
                   {socialNetworks.map((item, i) => (
                     <React.Fragment key={i}>
-                      <InlineLink href={item.url}>
-                        {icons[item.name]}
-                      </InlineLink>
+                      <Tooltip content={item.name}>
+                        <InlineLink href={item.url}>
+                          {icons[item.name]}
+                        </InlineLink>
+                      </Tooltip>
                     </React.Fragment>
                   ))}
                 </div>

@@ -56,6 +56,7 @@ module.exports = {
         "button-secondary-hover": "var(--bg-button-secondary-hover)",
         "button-secondary-pressed": "var(--bg-button-secondary-pressed)",
         "button-secondary-activated": "var(--bg-button-secondary-activated)",
+        navigation: "var(--bg-navigation)",
         pill: "var(--bg-pill)",
         subtle: "var(--bg-subtle)",
         surface: "var(--bg-surface)",
