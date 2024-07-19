@@ -19,8 +19,7 @@ const menuItems = [
 
 const Navigation = React.memo(
   ({ fixed = true, hideOnScroll = false }: NavigationProps) => {
-    const { menuOpened, pauseScrollEvent, headerInView, setMenuOpened } =
-      useAppStore();
+    const { menuOpened, pauseScrollEvent, setMenuOpened } = useAppStore();
     const [hidden, setHidden] = useState(false);
     const bp = useBreakpoint();
     useEffect(() => {
@@ -41,6 +40,10 @@ const Navigation = React.memo(
         if (hideOnScroll) window.removeEventListener("scroll", handleScroll);
       };
     }, [hideOnScroll, pauseScrollEvent]);
+    // close mobile menu when bp changes
+    useEffect(() => {
+      setMenuOpened(false);
+    }, [bp, setMenuOpened]);
     // const darkMenu = headerInView || menuOpened;
     const darkMenu = false;
     // may need to
@@ -51,7 +54,7 @@ const Navigation = React.memo(
       fixed ? "fixed" : "absolute",
       darkMenu
         ? "bg-surface-raised backdrop-blur-md text-white"
-        : "bg-surface/60	backdrop-blur-md text-primary",
+        : "bg-navigation backdrop-blur-md text-primary",
       darkMenu && fixed && "border-b border-white/10",
       !darkMenu && fixed && "border-b border-divider",
       hidden && "-translate-y-full"

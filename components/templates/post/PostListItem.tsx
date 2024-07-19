@@ -42,12 +42,12 @@ const PostListItem = ({ post, className = "" }: PostListItemProps) => {
             <h2 className={clsx("flex items-start space-x-3 text-xl")}>
               <Balancer ratio={0.67}>{post.meta.title}</Balancer>
               {post.meta.protected && (
-                <FiLock className="text-gray-400"></FiLock>
+                <FiLock className="mt-1 text-tertiary"></FiLock>
               )}
             </h2>
 
             <Balancer ratio={0.3}>
-              <p className="mt-2 text-gray-700 md:mt-3 body-text">
+              <p className="mt-2 text-secondary md:mt-3 body-text">
                 {post.meta.excerpt}
               </p>
             </Balancer>
