@@ -36,16 +36,16 @@ const SpotifyPlayer = () => {
       ) : (
         <Skeleton.Wrapper
           loaded={false}
-          className="flex items-center flex-gap-4"
+          className="flex items-center flex-gap-3"
         >
-          <Skeleton className="w-16 h-16 rounded-full" type="inline"></Skeleton>
+          <Skeleton className="w-12 h-12 rounded-full" type="inline"></Skeleton>
           <div className="flex-1">
             <Skeleton
-              className="w-[80%] h-4 rounded-full"
+              className="w-[50%] max-w-[240px] h-4 rounded-full"
               type="inline"
             ></Skeleton>
             <Skeleton
-              className="w-[50%] h-4 rounded-full mt-2"
+              className="w-[80%] max-w-[320px] h-4 rounded-full mt-2"
               type="inline"
             ></Skeleton>
           </div>
