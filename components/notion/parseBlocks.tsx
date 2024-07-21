@@ -149,7 +149,11 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
         break;
       case "code":
         content.push(
-          <Code language={block.code.language} key={block.id}>
+          <Code
+            language={block.code.language}
+            key={block.id}
+            className="mt-content-node"
+          >
             {block.code.rich_text.map((r) => r.plain_text).join("")}
           </Code>
         );
