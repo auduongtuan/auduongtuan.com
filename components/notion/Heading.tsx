@@ -25,7 +25,7 @@ const Heading = ({ block }) => {
     </Tag>
   );
   return block.has_children ? (
-    <Disclosure title={title} className={gutterTop[block.type]}>
+    <Disclosure title={title} className={gutterTop[Tag]}>
       {block.children && parseBlocks(block.children)}
     </Disclosure>
   ) : (
