@@ -1,10 +1,17 @@
+import React from "react";
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
 import Fade from "@atoms/Fade";
 import { PhotoFrame } from "@atoms/Frame";
 import InlineLink from "@atoms/InlineLink";
 import Tooltip from "@atoms/Tooltip";
-import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react";
+import {
+  autoUpdate,
+  offset,
+  shift,
+  size,
+  useFloating,
+} from "@floating-ui/react";
 import { Portal } from "@headlessui/react";
 import useHeaderInView from "@hooks/useHeaderInView";
 import { event } from "@lib/gtag";
@@ -16,11 +23,15 @@ import TuanPhoto from "./TuanPhoto";
 import { NotionNowItem } from "@lib/notion/now";
 import Footer from "@molecules/Footer";
 
-export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
-  const { ref } = useHeaderInView();
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [showImage, setShowImage] = useState(false);
-  const [position, setPosition] = useState([0, 0]);
+function HoverGif({
+  text,
+  children,
+  label,
+}: {
+  text: React.ReactElement;
+  label: string;
+  children: React.ReactNode;
+}) {
   const [showGif, setShowGif] = useState(false);
   const { refs, floatingStyles } = useFloating({
     placement: "bottom",
@@ -29,10 +40,56 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
       shift({
         padding: 8,
       }),
+      size({
+        padding: 8,
+        apply({ availableWidth, availableHeight, elements }) {
+          // Change styles, e.g.
+          Object.assign(elements.floating.style, {
+            maxWidth: `${availableWidth}px`,
+            maxHeight: `${availableHeight}px`,
+          });
+        },
+      }),
     ],
     open: showGif,
     whileElementsMounted: autoUpdate,
   });
+  const el = React.cloneElement(text, {
+    onMouseEnter: (e) => {
+      setShowGif(true);
+      event({
+        action: "hover_gif",
+        category: "about_page",
+        label: label,
+      });
+    },
+    onMouseLeave: () => {
+      setShowGif(false);
+    },
+    ref: refs.setReference,
+  });
+  return (
+    <>
+      {el}
+      <Portal>
+        <div ref={refs.setFloating} className="z-40" style={floatingStyles}>
+          <Fade duration={100} show={showGif} slide>
+            <PhotoFrame name={label} inverted>
+              {children}
+            </PhotoFrame>
+          </Fade>
+        </div>
+      </Portal>
+    </>
+  );
+}
+
+export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
+  const { ref } = useHeaderInView();
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [showImage, setShowImage] = useState(false);
+  const [position, setPosition] = useState([0, 0]);
+
   return (
     <div className="bg-surface">
       <main
@@ -43,7 +100,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
           <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-y-8 md:gap-x-8">
             <div
               ref={contentRef}
-              className="col-span-12 lg:col-span-7 text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-4 lg:[&_p:not(:first-child)]:mt-6"
+              className="col-span-12 lg:col-span-7 text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-5 [&_h3:not(:first-child)]:mt-4 lg:[&_h3:not(:first-child)]:mt-6 "
             >
               <Fade delay={150} as="p">
                 Xin chào!
@@ -90,28 +147,56 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
             disciplines helps me to solve problems in creative, organized
             and programmatic ways. */}
               </Fade>
+              <Fade as="h3" delay={250} className="mt-4 sub-heading">
+                How I got started
+              </Fade>
               <Fade delay={250} as="p">
                 My journey began when I taught myself design and code while
                 tinkering with the Yahoo! blog theme. Then, I pursued a BFA in
                 Design at{" "}
-                <InlineLink
-                  className="text-[#ab3632]"
-                  href="https://uah.edu.vn"
+                <HoverGif
+                  text={
+                    <InlineLink
+                      className="text-[#ab3632]"
+                      href="https://uah.edu.vn"
+                    >
+                      UAH
+                    </InlineLink>
+                  }
+                  label="uah.jpg"
                 >
-                  UAH
-                </InlineLink>{" "}
+                  <CustomImage
+                    src="/uploads/about/uah.jpg"
+                    width={512}
+                    height={341}
+                  />
+                </HoverGif>{" "}
                 and a BS in Tech at{" "}
-                <InlineLink
-                  className="text-[#183679]"
-                  href="https://hcmus.edu.vn/"
+                <HoverGif
+                  text={
+                    <InlineLink
+                      className="text-[#183679]"
+                      href="https://hcmus.edu.vn/"
+                    >
+                      HCMUS
+                    </InlineLink>
+                  }
+                  label="hcmus.jpg"
                 >
-                  HCMUS
-                </InlineLink>
+                  <CustomImage
+                    src="/uploads/about/hcmus.jpg"
+                    width={340}
+                    height={512}
+                  />
+                </HoverGif>
                 . You can read more at{" "}
                 <InlineLink href="/blog/my-digital-journey">
-                  my digital journey
+                  my &quot;digital&quot; journey
                 </InlineLink>
                 .
+              </Fade>
+              <Fade as="h3" delay={300} className="sub-heading">
+                My professional work
               </Fade>
               <Fade delay={300} as="p">
                 Previously, I had worked on Design systems and Design ops at
@@ -123,24 +208,24 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                   Aperia
                 </InlineLink>
                 ,{" "}
-                <InlineLink
-                  href="https://www.baemin.vn"
-                  className="text-[#54b0ad]"
-                  onMouseEnter={(e) => {
-                    setShowGif(true);
-                    event({
-                      action: "hover_gif",
-                      category: "about_page",
-                      label: "baemin-cry.gif",
-                    });
-                  }}
-                  onMouseLeave={() => {
-                    setShowGif(false);
-                  }}
-                  ref={refs.setReference}
+                <HoverGif
+                  text={
+                    <InlineLink
+                      href="https://www.baemin.vn"
+                      className="text-[#54b0ad]"
+                    >
+                      BAEMIN VN
+                    </InlineLink>
+                  }
+                  label="baemin-cry.gif"
                 >
-                  BAEMIN VN
-                </InlineLink>
+                  <CustomVideo
+                    slug="gif"
+                    src="baemin.mp4"
+                    width={480}
+                    height={480}
+                  />
+                </HoverGif>
                 <RiCrossFill className="inline w-4 h-4 mb-1 text-secondary" />.
                 I am currently seeking a role in a product company where I can
                 enhance my technical abilities and product mindset.
@@ -161,29 +246,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 </InlineLink>
               </Fade>
             </div>
-            <Portal>
-              <div
-                ref={refs.setFloating}
-                className="z-40"
-                style={floatingStyles}
-              >
-                <Fade
-                  duration={100}
-                  show={showGif}
-                  slide
-                  className="inline col-start-1 row-start-1"
-                >
-                  <PhotoFrame name="baemin-cry.gif" inverted>
-                    <CustomVideo
-                      slug="gif"
-                      src="baemin.mp4"
-                      width={480}
-                      height={480}
-                    />
-                  </PhotoFrame>
-                </Fade>
-              </div>
-            </Portal>
+
             <div className="col-span-12 lg:col-span-4 lg:col-start-9">
               <Fade
                 delay={400}
