@@ -1,21 +1,25 @@
 import CryptoJS from "crypto-js";
 import { useEffect } from "react";
 import TextField from "@atoms/TextField";
-import usePostStore, { PasswordProtectError } from "@store/usePostStore";
 import { FiLock } from "react-icons/fi";
+import usePasswordProtectStore, {
+  PasswordProtectError,
+} from "@store/usePasswordProtectStore";
 
-const PasswordProtect = () => {
-  const {
-    post,
-    postContent,
-    protect: { password, setPassword, setDecryptedContent, error, setError },
-  } = usePostStore();
+const PasswordProtect = ({
+  encryptedContent,
+  mode = "post",
+}: {
+  encryptedContent: string;
+  mode: "project" | "post";
+}) => {
+  const { password, setPassword, setDecryptedContent, error, setError } =
+    usePasswordProtectStore();
 
   useEffect(() => {
-    if (!post) return;
-    if (post.meta.protected && password.length == 7) {
+    if (password.length == 7) {
       try {
-        const decrypt = CryptoJS.AES.decrypt(postContent, password);
+        const decrypt = CryptoJS.AES.decrypt(encryptedContent, password);
         const jsonContent = decrypt.toString(CryptoJS.enc.Utf8);
         try {
           const content = JSON.parse(jsonContent);
@@ -29,19 +33,21 @@ const PasswordProtect = () => {
         setError(PasswordProtectError.INCORRECT_PASSWORD);
       }
     }
-  }, [post, postContent, setDecryptedContent, password, setError]);
+  }, [encryptedContent, setDecryptedContent, password, setError]);
 
   return (
     <div className="p-6 border-2 border-gray-200 border-dashed rounded-md">
       <div className="flex w-full flex-gap-4">
         <div className="grow">
-          <h3>This post is password-protected</h3>
+          <h3>This {mode} is password-protected</h3>
           <p className="mt-4 text-base">
-            Please input the password below to view this post.
+            Please input the password below to view this {mode}.
           </p>
           <p className="mt-2 text-base">
-            Password hint: 4 digits of my birthday + 3 last digits of my phone
-            number.
+            Password hint:{" "}
+            {mode == "post"
+              ? "4 digits of my birthday + 3 last digits of my phone number."
+              : "Password is in my submitted resume."}
           </p>
         </div>
         <FiLock className="shrink-0 text-[24px] md:text-[32px] text-gray-400"></FiLock>

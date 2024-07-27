@@ -1,4 +1,4 @@
-import { Post } from "@lib/blog";
+import { Post } from "@lib/notion";
 import OtherPostListItem from "./OtherPostListItem";
 
 const OtherPostList = ({ posts, post }: { post: Post; posts: Post[] }) => {

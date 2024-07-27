@@ -1,4 +1,4 @@
-import { Post } from "@lib/blog";
+import { Post } from "@lib/notion";
 import PostListItem from "./PostListItem";
 import useHeaderInView from "@hooks/useHeaderInView";
 import Footer from "@molecules/Footer";

@@ -1,10 +1,3 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { GetStaticProps, GetStaticPaths } from "next";
-import DefaultErrorPage from "next/error";
-import ProjectSinglePage, {
-  ProjectSinglePageProps,
-} from "@templates/project/ProjectSinglePage";
 import {
   NotionProject,
   getNotionProjectContent,
@@ -12,11 +5,20 @@ import {
   getNotionProjectsWithCache,
 } from "@lib/notion";
 import { isDevEnvironment } from "@lib/utils";
+import ProjectSinglePage, {
+  ProjectSinglePageProps,
+} from "@templates/project/ProjectSinglePage";
+import CryptoJS from "crypto-js";
+import { GetStaticPaths, GetStaticProps } from "next";
+import DefaultErrorPage from "next/error";
+import Head from "next/head";
+import { useRouter } from "next/router";
+
+const PASSWORD = process.env.PROJECT_PASSWORD as string;
 
 export default function ProjectView({
   project,
   projects,
-  mdxContent,
   notionContent,
 }: ProjectSinglePageProps) {
   const router = useRouter();
@@ -25,7 +27,7 @@ export default function ProjectView({
     return <h1>Loading...</h1>;
   }
 
-  if (!project || !project.caseStudy || project.protected) {
+  if (!project || !project.caseStudy) {
     return (
       <>
         <Head>
@@ -39,7 +41,6 @@ export default function ProjectView({
     <ProjectSinglePage
       project={project}
       projects={projects}
-      mdxContent={mdxContent}
       notionContent={notionContent}
     />
   );
@@ -48,7 +49,7 @@ export default function ProjectView({
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug as string;
   // Get all posts from the Notion database
-  const projects = await getNotionProjects(isDevEnvironment);
+  const projects = await getNotionProjectsWithCache();
   // Find the post with a matching slug property
   let project: NotionProject | undefined = projects.find(
     (proj) => proj.slug === slug
@@ -58,16 +59,17 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       notFound: true,
     };
   }
+  let notionContent;
   // Get the Notion page data and all child block data
-  const notionContent = await getNotionProjectContent(project.id);
+  const rawNotionContent = await getNotionProjectContent(project.id);
   // TBD: Encrypt the content if the post is protected
-  // if (post.meta.protected) {
-  //   const json = JSON.stringify(rawPostContent);
-  //   const encrypted = CryptoJS.AES.encrypt(json, PASSWORD).toString();
-  //   postContent = encrypted;
-  // } else {
-  //   postContent = rawPostContent;
-  // }
+  if (project.protected) {
+    const json = JSON.stringify(rawNotionContent);
+    const encrypted = CryptoJS.AES.encrypt(json, PASSWORD).toString();
+    notionContent = encrypted;
+  } else {
+    notionContent = rawNotionContent;
+  }
 
   return {
     props: {

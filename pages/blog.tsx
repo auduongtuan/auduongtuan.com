@@ -1,5 +1,5 @@
 import BlogPage from "../components/templates/post/BlogPage";
-import { getPosts, Post } from "@lib/blog";
+import { getPosts, Post } from "@lib/notion";
 import HeadMeta from "../components/atoms/HeadMeta";
 import { isDevEnvironment } from "@lib/utils";
 
