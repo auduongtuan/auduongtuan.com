@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { NotionProject } from "@lib/notion";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import OtherProjectList from "./OtherProjectList";
+import usePasswordProtectStore from "@store/usePasswordProtectStore";
 interface ProjectSingleFooterProps {
   projects: NotionProject[];
   project: NotionProject;
@@ -11,14 +12,22 @@ const ProjectSingleFooter = ({
   projects,
   project,
 }: ProjectSingleFooterProps) => {
+  const { decryptedContent } = usePasswordProtectStore();
+  const isShown = !project.protected || decryptedContent != null;
+
   return (
     <Fragment>
       <div className="relative border-t border-gray-200 bg-surface p-content">
         <div className="main-container">
-          <ReactionAndComment
-            page={`project/${project.slug}`}
-          ></ReactionAndComment>
-          <div className="relative pt-10 mt-10 border-t border-gray-200 md:mt-16 md:pt-12">
+          {isShown && (
+            <ReactionAndComment
+              page={`project/${project.slug}`}
+            ></ReactionAndComment>
+          )}
+          {isShown && (
+            <hr className="pt-10 mt-10 border-t border-gray-200 md:mt-16 md:pt-12"></hr>
+          )}
+          <div className="relative ">
             <OtherProjectList projects={projects} project={project} />
           </div>
         </div>

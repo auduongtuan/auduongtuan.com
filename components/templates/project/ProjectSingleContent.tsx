@@ -1,21 +1,21 @@
-import React, { useCallback } from "react";
 import ContentMenu from "@molecules/ContentMenu";
-import { MDXRemote } from "next-mdx-remote";
-import ProjectComponents from "./ProjectComponents";
 import Fade from "@atoms/Fade";
 import { NotionProject } from "@lib/notion";
 import parseBlocks from "@notion/parseBlocks";
+import usePasswordProtectStore from "@store/usePasswordProtectStore";
+import { Transition } from "@headlessui/react";
+import PasswordProtect from "@molecules/PasswordProtect";
+
 // add key to make it re-render with animation
 // https://stackoverflow.com/questions/63186710/how-to-trigger-a-css-animation-on-every-time-a-react-component-re-renders
 const ProjectSingleContent = ({
   project,
-  mdxContent,
   notionContent,
 }: {
   project: NotionProject;
-  mdxContent: any;
   notionContent: any;
 }) => {
+  const { decryptedContent } = usePasswordProtectStore();
   return (
     <div
       // remove bg color for clearer content
@@ -28,15 +28,33 @@ const ProjectSingleContent = ({
     >
       <ContentMenu />
       <Fade as="article" id="project" className="main-container" delay={200}>
-        {mdxContent && (
-          <div className="project-grid">
-            <MDXRemote
-              {...mdxContent}
-              components={ProjectComponents(project.slug)}
-            />
-          </div>
-        )}
-        {notionContent && (
+        {project.protected ? (
+          <>
+            <Transition
+              show={decryptedContent != null}
+              enter="transition-all duration-1000"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+            >
+              <div className="project-grid">
+                {parseBlocks(decryptedContent, project.assets)}
+              </div>
+            </Transition>
+            <Transition
+              show={decryptedContent == null}
+              leave="transition-opacity duration-300"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="content-container">
+                <PasswordProtect
+                  encryptedContent={notionContent}
+                  mode="project"
+                />
+              </div>
+            </Transition>
+          </>
+        ) : (
           <div className="project-grid">
             {parseBlocks(notionContent, project.assets)}
           </div>
@@ -45,4 +63,5 @@ const ProjectSingleContent = ({
     </div>
   );
 };
+
 export default ProjectSingleContent;

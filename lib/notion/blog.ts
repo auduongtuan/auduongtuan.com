@@ -1,6 +1,14 @@
 const BLOG_DATABASE_ID = process.env.BLOG_DATABASE_ID as string;
-import { notion, getProperty, getBlockChildren, PageIcon } from "@lib/notion";
+import {
+  notion,
+  getProperty,
+  PageIcon,
+  getNotionPageContent,
+  parseNotionPageAssets,
+  NotionAssets,
+} from "@lib/notion";
 import { isFullPage } from "@notionhq/client";
+
 export interface Post {
   id: string;
   slug: string;
@@ -12,6 +20,7 @@ export interface Post {
     tags: string[];
     excerpt?: string;
   };
+  assets: NotionAssets;
 }
 
 export async function getPosts(includeUnpublished?: boolean) {
@@ -49,9 +58,10 @@ export async function getPosts(includeUnpublished?: boolean) {
       },
     ],
   });
-  return response.results
-    .map((page) => {
+  const posts = await Promise.all(
+    response.results.map(async (page) => {
       if (!isFullPage(page)) return undefined;
+      const assets = await parseNotionPageAssets(page);
       return {
         id: page.id,
         slug: getProperty(page, "Slug", "rich_text"),
@@ -63,12 +73,13 @@ export async function getPosts(includeUnpublished?: boolean) {
           excerpt: getProperty(page, "Excerpt", "rich_text"),
           icon: "icon" in page ? page.icon : undefined,
         },
+        assets: assets,
       };
     })
-    .filter((page) => page) as Post[];
+  );
+  return posts.filter((page) => page) as Post[];
 }
 
 export const getPostContent = async (id: string) => {
-  const results = await getBlockChildren(id);
-  return results;
+  return await getNotionPageContent(id);
 };

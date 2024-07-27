@@ -1,11 +1,6 @@
 import { create } from "zustand";
 import { NotionProject } from "@lib/notion";
 
-export enum PasswordProtectError {
-  INCORRECT_PASSWORD = "INCORRECT_PASSWORD",
-  UNKNOWN = "UNKNOWN",
-}
-
 export interface ProjectState {
   project: NotionProject | null;
   projects: NotionProject[] | null;

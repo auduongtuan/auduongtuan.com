@@ -3,17 +3,18 @@ import HeadMeta from "@atoms/HeadMeta";
 import Tag from "@atoms/Tag";
 import { Transition } from "@headlessui/react";
 import useHeaderInView from "@hooks/useHeaderInView";
-import { Post } from "@lib/blog";
+import { Post } from "@lib/notion";
+import BackToPreviousPage from "@molecules/BackToPreviousPage";
 import ContentMenu from "@molecules/ContentMenu";
 import PasswordProtect from "@molecules/PasswordProtect";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import parseBlocks from "@notion/parseBlocks";
+import usePasswordProtectStore from "@store/usePasswordProtectStore";
 import usePostStore from "@store/usePostStore";
 import { useEffect } from "react";
 import Balancer from "react-wrap-balancer";
 import { twMerge } from "tailwind-merge";
 import OtherPostList from "./OtherPostList";
-import BackToPreviousPage from "@molecules/BackToPreviousPage";
 
 const PostSinglePage = ({
   post,
@@ -25,13 +26,9 @@ const PostSinglePage = ({
   postContent: any;
 }) => {
   const { ref } = useHeaderInView(true);
-  const {
-    protect: { decryptedPostContent },
-    setPost,
-    setPostContent,
-    setPosts,
-  } = usePostStore();
-  const isShown = !post.meta.protected || decryptedPostContent != null;
+  const { decryptedContent } = usePasswordProtectStore();
+  const { setPost, setPostContent, setPosts } = usePostStore();
+  const isShown = !post.meta.protected || decryptedContent != null;
 
   useEffect(() => {
     setPost(post);
@@ -112,20 +109,20 @@ const PostSinglePage = ({
             {post.meta.protected ? (
               <>
                 <Transition
-                  show={decryptedPostContent != null}
+                  show={decryptedContent != null}
                   enter="transition-all duration-1000"
                   enterFrom="opacity-0"
                   enterTo="opacity-100"
                 >
-                  {parseBlocks(decryptedPostContent)}
+                  {parseBlocks(decryptedContent)}
                 </Transition>
                 <Transition
-                  show={decryptedPostContent == null}
+                  show={decryptedContent == null}
                   leave="transition-opacity duration-300"
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <PasswordProtect />
+                  <PasswordProtect encryptedContent={postContent} mode="post" />
                 </Transition>
               </>
             ) : (

@@ -1,5 +1,5 @@
 import React from "react";
-import { Post } from "@lib/blog";
+import { Post } from "@lib/notion";
 import PostListItem from "./PostListItem";
 export type PostListProps = {
   posts: Post[];

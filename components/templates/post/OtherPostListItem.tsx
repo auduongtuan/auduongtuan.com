@@ -1,4 +1,4 @@
-import { Post } from "@lib/blog";
+import { Post } from "@lib/notion";
 import Link from "next/link";
 import { FiLock } from "react-icons/fi";
 import Tag from "@atoms/Tag";

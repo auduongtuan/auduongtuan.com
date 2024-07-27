@@ -11,6 +11,7 @@ export interface ProjectSinglePageProps {
   mdxContent?: any;
   notionContent?: any;
 }
+
 const ProjectSinglePage = ({
   project,
   projects,
@@ -33,11 +34,7 @@ const ProjectSinglePage = ({
         tagline={project.tagline}
       />
       <ProjectSingleHeader project={project} />
-      <ProjectSingleContent
-        project={project}
-        mdxContent={mdxContent}
-        notionContent={notionContent}
-      />
+      <ProjectSingleContent project={project} notionContent={notionContent} />
       <ProjectSingleFooter project={project} projects={projects} />
     </div>
   );

@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import DefaultErrorPage from "next/error";
-import { getPosts, getPostContent, Post } from "@lib/blog";
+import { getPosts, getPostContent, Post } from "@lib/notion";
 import PostPage from "@templates/post/PostPage";
 import CryptoJS from "crypto-js";
 import { isDevEnvironment } from "@lib/utils";

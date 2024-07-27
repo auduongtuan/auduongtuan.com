@@ -41,7 +41,7 @@ export function getBlockFileUrl(blockId: string) {
   return `/api/notion-asset/block/${blockId}`;
 }
 
-export async function getPageIcon(page: PageObjectResponse) {
+export async function getPageIconFile(page: PageObjectResponse) {
   if (page.icon?.type == "file") {
     return await getMediaFromCloudinary(
       `page_${page.id}_icon`,
@@ -169,6 +169,7 @@ export async function getMediaFromProperty(
   prop: string
 ): Promise<NotionMedia[]> {
   const files = getProperty(page, prop, "files");
+  if (!files) return [];
   // const dimensions = getProperty(page, prop + " Dimensions", "rich_text");
   return Promise.all(
     files.map(async (file, i): Promise<NotionMedia> => {
