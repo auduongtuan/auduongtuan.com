@@ -44,7 +44,7 @@ const Button = ({
       ? "bg-surface/80 text-primary hover:text-white hover:bg-button-primary-hover active:bg-button-primary-pressed active:outline-none focus:shadow-blue-400"
       : "text-white bg-button-primary shadow-button-inner hover:bg-button-primary-hover active:bg-button-primary-pressed",
     secondary &&
-      "bg-slate-300 text-slate-800 hover:bg-slate-400 active:bg-slate-500",
+      "bg-button-secondary text-secondary hover:bg-button-primary-hover hover:text-oncolor active:bg-button-primary-pressed",
     disabled && "disabled",
     className
   );

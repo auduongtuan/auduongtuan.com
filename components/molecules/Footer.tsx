@@ -1,15 +1,18 @@
-import React from "react";
-import socialNetworks from "@lib/socialNetworks";
-import { useInView } from "react-intersection-observer";
+import Button from "@atoms/Button";
+import Dialog from "@atoms/Dialog";
 import Fade from "@atoms/Fade";
 import InlineLink from "@atoms/InlineLink";
-import SpotifyPlayer from "./SpotifyPlayer";
+import Tooltip from "@atoms/Tooltip";
+import { event } from "@lib/gtag";
+import socialNetworks from "@lib/socialNetworks";
+import React, { useState } from "react";
 import {
   PiBehanceLogoBold,
   PiGithubLogoBold,
   PiLinkedinLogoBold,
 } from "react-icons/pi";
-import Tooltip from "@atoms/Tooltip";
+import { useInView } from "react-intersection-observer";
+import SpotifyPlayer from "./SpotifyPlayer";
 
 export default function Footer() {
   const { ref, inView } = useInView({
@@ -24,6 +27,8 @@ export default function Footer() {
     Behance: <PiBehanceLogoBold />,
     Linkedin: <PiLinkedinLogoBold />,
   };
+  const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div id="contact" className="relative">
       <footer className="sticky bottom-0 z-0 text-primary">
@@ -70,9 +75,78 @@ export default function Footer() {
             >
               Written, designed and built by Tuan.
               <br />© {new Date().getFullYear()}.{` `}
-              <InlineLink href="/blog/enhance-skills-building-personal-websites">
+              <InlineLink
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  event({
+                    action: "view_colophon",
+                    category: "engagement",
+                    label: "View Colophon",
+                  });
+                  setIsOpen((open) => !open);
+                }}
+              >
                 Colophon.
               </InlineLink>
+              <Dialog
+                open={isOpen}
+                onClose={() => setIsOpen((open) => !open)}
+                title="Colophon"
+              >
+                <div className="p-4 [&>p:not(:first-child)]:mt-4 leading-relaxed">
+                  <p>
+                    This site is designed in{" "}
+                    <InlineLink href="https://figma.com">Figma</InlineLink> and
+                    built using{" "}
+                    <InlineLink href="https://nextjs.org/">Next.js</InlineLink>{" "}
+                    and{" "}
+                    <InlineLink href="https://tailwindcss.com/">
+                      TailwindCSS
+                    </InlineLink>
+                    . Some other libraries used are{" "}
+                    <InlineLink href="https://floating-ui.com/">
+                      Floating UI
+                    </InlineLink>
+                    ,{" "}
+                    <InlineLink href="https://headlessui.com">
+                      Headless UI
+                    </InlineLink>
+                    .
+                  </p>
+                  <p>
+                    Content is managed in Notion and rendered into static pages
+                    using{" "}
+                    <InlineLink href="https://developers.notion.com/">
+                      Notion API
+                    </InlineLink>{" "}
+                    with custom code. The music player is powered by{" "}
+                    <InlineLink href="https://developer.spotify.com/documentation/web-api">
+                      Spotify API
+                    </InlineLink>
+                    .
+                  </p>
+
+                  <p>
+                    Texts are set in{" "}
+                    <InlineLink href="https://fonts.google.com/specimen/Hanken+Grotesk">
+                      Hanken Grotesk
+                    </InlineLink>{" "}
+                    by Hanken Design Co.
+                  </p>
+                  <div className="flex mt-6 flex-gap-x-2">
+                    <Button
+                      href="/blog/enhance-skills-building-personal-websites"
+                      arrow
+                    >
+                      See site history
+                    </Button>
+                    <Button secondary onClick={() => setIsOpen(false)}>
+                      Close
+                    </Button>
+                  </div>
+                </div>
+              </Dialog>
             </Fade>
           </section>
         </div>
