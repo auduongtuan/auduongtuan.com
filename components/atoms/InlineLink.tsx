@@ -27,11 +27,8 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
   ) => {
     // get the internal link (without /)
     let checkInternal = href.match(
-      /^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i
+      /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i
     );
-    if (href.startsWith("mailto:") || href.startsWith("tel:"))
-      checkInternal = null;
-    // console.log(checkInternal);
     const Component = checkInternal ? Link : ExternalLink;
     const linkStyles = twMerge(
       "inline-flex gap-2 items-center",
@@ -45,10 +42,11 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
       !dark && !wrap && "hover:bg-surface-raised",
       className
     );
+    const link = checkInternal ? checkInternal[1] || checkInternal[2] : href;
     return (
       <Component
         ref={ref}
-        href={(checkInternal ? `/${checkInternal[1]}` : href) as string}
+        href={link as string}
         className={linkStyles}
         {...rest}
       >
