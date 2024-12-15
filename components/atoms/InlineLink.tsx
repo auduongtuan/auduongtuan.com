@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ExternalLink from "./ExternalLink";
-import { twMerge } from "tailwind-merge";
 import { forwardRef } from "react";
+import { cn } from "@lib/utils/cn";
 interface InlineLinkProps
   extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap"> {
   href: string;
@@ -30,7 +30,7 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
       /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i
     );
     const Component = checkInternal ? Link : ExternalLink;
-    const linkStyles = twMerge(
+    const linkStyles = cn(
       "inline-flex gap-2 items-center",
       underline && "underline underline-offset-4",
       !wrap && "whitespace-nowrap break-words hover:decoration-transparent",

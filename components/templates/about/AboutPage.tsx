@@ -100,7 +100,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
           <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-y-8 md:gap-x-8">
             <div
               ref={contentRef}
-              className="col-span-12 lg:col-span-7 text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-5 [&_h3:not(:first-child)]:mt-4 lg:[&_h3:not(:first-child)]:mt-6 "
+              className="col-span-12 lg:col-span-8 lg:col-start-3 text-lg md:text-xl lg:text-xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-4 [&_h3:not(:first-child)]:mt-6 lg:[&_h3:not(:first-child)]:mt-10 "
             >
               <Fade delay={150} as="p">
                 Xin chào!
@@ -147,7 +147,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
             disciplines helps me to solve problems in creative, organized
             and programmatic ways. */}
               </Fade>
-              <Fade as="h3" delay={250} className="mt-4 md:mt-8 sub-heading">
+              <Fade as="h3" delay={250} className="sub-heading">
                 How I got started
               </Fade>
               <Fade delay={250} as="p">
@@ -195,11 +195,18 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 </InlineLink>
                 .
               </Fade>
-              <Fade as="h3" delay={300} className="mt-4 md:mt-8 sub-heading">
+              <Fade as="h3" delay={300} className="sub-heading">
                 My professional work
               </Fade>
-              <Fade delay={300} as="p">
-                Previously, I had worked on Design systems and Design ops at
+              <Fade delay={350} as="p">
+                Currently, I spend my days working on bioinformatics products at{" "}
+                <InlineLink
+                  className="text-[#00B4DB]"
+                  href="https://bioturing.com/"
+                >
+                  BioTuring
+                </InlineLink>
+                . Previously, I had worked on Design systems and Design ops at
                 companies like{" "}
                 <InlineLink
                   className="text-[#05295d]"
@@ -226,11 +233,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                     height={480}
                   />
                 </HoverGif>
-                <RiCrossFill className="inline w-4 h-4 mb-1 text-secondary" />.
-                I am currently seeking a role in a product company where I can
-                enhance my technical abilities and product mindset.
-              </Fade>
-              <Fade delay={350} as="p">
+                <RiCrossFill className="inline w-4 h-4 mb-1 text-secondary" />.{" "}
                 <span>Curious for more details?</span>{" "}
                 <InlineLink
                   href={cvLink}
@@ -242,19 +245,25 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                     });
                   }}
                 >
-                  Download my CV{" "}
+                  Download my CV
                 </InlineLink>
+                .
               </Fade>
-            </div>
-
-            <div className="col-span-12 lg:col-span-4 lg:col-start-9">
-              <Fade
-                delay={400}
-                slide
-                className="flex flex-col items-center justify-center h-full"
-              >
+              {/* <div className="col-span-12 lg:col-span-4 lg:col-start-9"> */}
+              <Fade as="h3" delay={450} className="mt-4 md:mt-8 sub-heading">
+                Now ⏰{" "}
+              </Fade>
+              <Fade as="p" delay={450}>
+                {`This section updates what I'm doing, as inspired by `}
+                <InlineLink href="https://sive.rs/nowff">
+                  Now page momment ↗
+                </InlineLink>
+                .
+              </Fade>
+              <Fade delay={400} slide className="mt-4 md:mt-6">
                 <Now items={nowItems} />
               </Fade>
+              {/* </div> */}
             </div>
           </div>
           <Portal>

@@ -61,8 +61,7 @@ const Headline = () => {
         className="w-full col-span-1 col-start-1 row-span-1 row-start-1 text-center place-items-center"
         slide
       >
-        I <span className="font-sans font-medium">design</span> and{" "}
-        <span className="font-sans font-medium">build</span>
+        I design and build
       </Fade>
       <div className="relative z-20 col-span-1 col-start-1 row-span-1 row-start-2 w-ful">
         <span

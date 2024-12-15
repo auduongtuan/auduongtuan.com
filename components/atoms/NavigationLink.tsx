@@ -1,8 +1,7 @@
 import React from "react";
 import CustomLink from "./CustomLink";
-import { Router, useRouter, NextRouter } from "next/router";
-import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
+import { useRouter } from "next/router";
+import { cn } from "@lib/utils/cn";
 interface NavigationAnchorProps {
   props: {
     onClick: void;
@@ -36,7 +35,7 @@ const NavigationLink = ({
   href,
   children,
   pathname = "/",
-  className = "-mx-3 px-3 py-0.5 -my-0.5 font-mono",
+  className = "-mx-3 px-3 py-0.5 -my-0.5",
   logo = false,
   inverted = false,
 
@@ -51,8 +50,8 @@ const NavigationLink = ({
   callback?: () => void;
 }) => {
   const router = useRouter();
-  const activeClassName =
-    "relative before:bg-primary before:absolute before:inset-x-0 before:left-3 before:right-3 before:-bottom-3.5 before:h-1 before:transition-all before:duration-300 before:ease-in-out";
+  const activeStyle =
+    "relative before:bg-secondary before:absolute before:bottom-0 md:before:inset-x-0 before:w-1 before:h-full before:left-0 md:before:left-3 md:before:right-3 md:before:-bottom-3.5 md:before:h-1 md:before:w-auto before:transition-all before:duration-300 before:ease-in-out";
   // const activeClassName = inverted
   //   ? "bg-surface/10 shadow-navigation-inner"
   //   : "bg-surface-raised shadow-navigation-inner";
@@ -61,14 +60,14 @@ const NavigationLink = ({
     router.pathname == href.split("#")[0] ||
     router.pathname.includes(href + "/") ||
     (href.includes("#works") && router.pathname.includes("/project/"));
-  const anchorClassName = twMerge(
+  const anchorClassName = cn(
     logo && "tracking-wide uppercase",
-    "font-medium inline-block text-base  rounded-xl",
+    "font-normal font-mono inline-block text-base rounded-xl",
     // logo && "uppercase",
     inverted
       ? "text-white hover:bg-surface/10"
       : "text-primary hover:bg-surface-raised",
-    isActive(router) && !logo ? activeClassName : "",
+    isActive(router) && !logo ? activeStyle : "",
     className
   );
 

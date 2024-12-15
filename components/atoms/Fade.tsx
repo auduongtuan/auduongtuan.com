@@ -1,4 +1,4 @@
-import clsx from "clsx";
+import { cn } from "@lib/utils/cn";
 import { useEffect, useMemo, useState } from "react";
 
 const durationClass = {
@@ -34,7 +34,7 @@ function Fade<T extends React.ElementType = "div">({
   unmount = true,
   ...rest
 }: FadeProps<T> & Omit<React.ComponentPropsWithoutRef<T>, keyof FadeProps<T>>) {
-  const originStyles = clsx(
+  const originStyles = cn(
     className,
     "transition-[opacity,transform] ease-in",
     duration && duration in durationClass && [durationClass[duration as number]]
@@ -48,7 +48,7 @@ function Fade<T extends React.ElementType = "div">({
   );
   const [ref, setRef] = useState<HTMLElement | null>(null);
   const [mounted, setMounted] = useState(show);
-  const [styles, setStyles] = useState(clsx(originStyles, ...stateStyles.hide));
+  const [styles, setStyles] = useState(cn(originStyles, ...stateStyles.hide));
   const Component = as || "div";
 
   useEffect(() => {
@@ -56,7 +56,7 @@ function Fade<T extends React.ElementType = "div">({
     if (show) {
       setMounted(true);
       const timeout = setTimeout(
-        () => setStyles(clsx(originStyles, ...stateStyles.show)),
+        () => setStyles(cn(originStyles, ...stateStyles.show)),
         delay
       );
       return () => {
@@ -76,7 +76,7 @@ function Fade<T extends React.ElementType = "div">({
         }
       };
       ref.addEventListener("transitionend", unMountElement);
-      setStyles(clsx(originStyles, ...stateStyles.hide));
+      setStyles(cn(originStyles, ...stateStyles.hide));
       return () => {
         ref.removeEventListener("transitionend", unMountElement);
       };
