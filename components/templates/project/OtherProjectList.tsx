@@ -31,7 +31,7 @@ const ProjectCard = ({ project }: { project: NotionProject }) => {
       href={project.caseStudy ? `/project/${project.slug}` : internalLink}
       className={classname}
       style={{ backgroundColor: project.background }}
-    >
+      legacyBehavior>
       {content}
     </Link>
   ) : (

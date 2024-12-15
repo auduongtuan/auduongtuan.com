@@ -72,7 +72,7 @@ const Button = ({
         {renderIcon ? <span className="ml-2">{renderIcon}</span> : null}
       </a>
     ) : (
-      <Link href={href} className={buttonStyles} {...rest}>
+      <Link href={href} className={buttonStyles} {...rest} legacyBehavior>
         {children && children}
         {renderIcon ? <span className="ml-2">{renderIcon}</span> : null}
       </Link>
