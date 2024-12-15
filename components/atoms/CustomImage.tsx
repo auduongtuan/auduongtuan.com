@@ -1,4 +1,4 @@
-import Image, { ImageProps } from "next/legacy/image";
+import Image, { ImageProps } from "next/image";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import Skeleton from "./Skeleton";
@@ -18,7 +18,7 @@ const CustomImage = ({
 }: CustomImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   return (
-    <Skeleton.Wrapper
+    (<Skeleton.Wrapper
       className={twMerge("rounded-md overflow-hidden", className)}
       loaded={isLoaded}
       data-image
@@ -34,9 +34,12 @@ const CustomImage = ({
           priority={true}
           onLoad={() => setIsLoaded(true)}
           {...rest}
-        />
+          style={{
+            maxWidth: "100%",
+            height: "auto"
+          }} />
       </Skeleton.Content>
-    </Skeleton.Wrapper>
+    </Skeleton.Wrapper>)
   );
 };
 export default CustomImage;
