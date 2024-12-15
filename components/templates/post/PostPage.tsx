@@ -1,5 +1,6 @@
+"use client";
+
 import Fade from "@atoms/Fade";
-import HeadMeta from "@atoms/HeadMeta";
 import Tag from "@atoms/Tag";
 import { Transition } from "@headlessui/react";
 import useHeaderInView from "@hooks/useHeaderInView";
@@ -38,14 +39,6 @@ const PostSinglePage = ({
 
   return (
     <>
-      <HeadMeta
-        title={post.meta.title}
-        description={post.meta.excerpt}
-        tagline={post.meta.tags.map((tag) => "#" + tag).join("  ")}
-        emoji={
-          post.meta.icon?.type == "emoji" ? post.meta.icon.emoji : undefined
-        }
-      />
       <header ref={ref} className="z-10 w-full " key={post.slug + "_header"}>
         <div className="flex justify-center p-0 lg:px-container main-container">
           <Fade

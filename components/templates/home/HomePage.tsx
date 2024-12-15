@@ -1,3 +1,5 @@
+"use client";
+
 import Header from "@molecules/header/Header";
 import Footer from "@molecules/Footer";
 import { NotionProject } from "@lib/notion/project";

@@ -9,49 +9,19 @@ import { isDevEnvironment } from "@lib/utils";
 
 const PASSWORD = process.env.BLOG_PASSWORD as string;
 
-type BlogProps = {
-  post: Post;
-  postContent: any;
-  posts: Post[];
-};
-
-export default function Blog({ post, postContent, posts }: BlogProps) {
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return <h1>Loading...</h1>;
-  }
-  if (!post) {
-    return (
-      <>
-        <Head>
-          <meta name="robots" content="noindex" />
-        </Head>
-        <DefaultErrorPage statusCode={404} />
-      </>
-    );
-  }
-  return <PostPage post={post} postContent={postContent} posts={posts} />;
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
+export async function generateStaticParams() {
   const posts = await getPosts();
   const postSlugs = posts.map((post) => {
     return {
-      params: {
-        slug: `/blog/${post.slug}`,
-      },
+      slug: `/blog/${post.slug}`,
     };
   });
-  return {
-    paths: postSlugs,
-    fallback: "blocking",
-  };
-};
+  return postSlugs;
+}
 
-export async function getStaticProps(context: GetStaticPropsContext) {
+export default async function Page({ params }) {
   // Grab the slug from the post URL
-  const slug = context.params && context.params.slug;
+  const slug = params.slug;
   // Get all posts from the Notion database
   const posts = await getPosts(isDevEnvironment);
   // Find the post with a matching slug property
@@ -71,15 +41,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
     } else {
       postContent = rawPostContent;
     }
+    // Next.js passes the data to my React template for rendering
+    return <PostPage post={post} postContent={postContent} posts={posts} />;
   }
-
-  // Next.js passes the data to my React template for rendering
-  return {
-    props: {
-      post,
-      postContent,
-      posts,
-    },
-    revalidate: 120,
-  };
 }

@@ -1,46 +1,56 @@
-import React, {useCallback} from "react";
-import { useRouter } from "next/router";
+import React, { useCallback } from "react";
+import { useRouter } from "next/navigation";
 
 interface CustomLinkProps {
-  href: string,
-  className?: string,
-  callback?: () => void
+  href: string;
+  className?: string;
+  callback?: () => void;
 }
 
-const CustomLink: React.FC<CustomLinkProps> = ({className = '', href, children, callback}) => {
+const CustomLink: React.FC<CustomLinkProps> = ({
+  className = "",
+  href,
+  children,
+  callback,
+}) => {
   const router = useRouter();
   const scrollIntoEl = useCallback((hash: string, pathname: string) => {
     if (hash) {
-      const el = document.getElementById(hash) as HTMLElement|null;
+      const el = document.getElementById(hash) as HTMLElement | null;
       if (el) {
-        el.scrollIntoView({behavior: 'smooth'});
-        history.replaceState(null, '', '#'+hash);
+        el.scrollIntoView({ behavior: "smooth" });
+        history.replaceState(null, "", "#" + hash);
       }
     } else {
-      window.scrollTo({top: 0, behavior: 'smooth'});
-      history.replaceState(null, '', pathname+(hash ? '#'+hash : ''));
-    }    
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      history.replaceState(null, "", pathname + (hash ? "#" + hash : ""));
+    }
   }, []);
-  const handleOnClick = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    const scrollX = window.pageXOffset;
-    const scrollY = window.pageYOffset;
+  const handleOnClick = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault();
+      const scrollX = window.pageXOffset;
+      const scrollY = window.pageYOffset;
 
-    const location = window.location;
-    const urlParts = href.split('#');
-    if (location.pathname === urlParts[0]) {
-      // console.log(urlParts[1]);
-      scrollIntoEl(urlParts[1], urlParts[0]);
-    }
-    else {
-      // neu chung page thi dep me
-      router.push(urlParts[0]).then(() => urlParts[1] && scrollIntoEl(urlParts[1], urlParts[0]));
-    }
-    if (callback) callback();
-    
-  }, [href, router, scrollIntoEl, callback]);
-  return <a onClick={handleOnClick} href={href} className={className}>{children}</a>
-
-}
+      const location = window.location;
+      const urlParts = href.split("#");
+      if (location.pathname === urlParts[0]) {
+        // console.log(urlParts[1]);
+        scrollIntoEl(urlParts[1], urlParts[0]);
+      } else {
+        // neu chung page thi dep me
+        router.push(urlParts[0]);
+        if (urlParts[1]) scrollIntoEl(urlParts[1], urlParts[0]);
+      }
+      if (callback) callback();
+    },
+    [href, router, scrollIntoEl, callback]
+  );
+  return (
+    <a onClick={handleOnClick} href={href} className={className}>
+      {children}
+    </a>
+  );
+};
 
 export default CustomLink;

@@ -1,6 +1,6 @@
 import React from "react";
 import CustomLink from "./CustomLink";
-import { useRouter } from "next/router";
+import { useRouter, usePathname } from "next/navigation";
 import clsx from "clsx";
 import { twMerge } from "tailwind-merge";
 interface NavigationAnchorProps {
@@ -50,6 +50,7 @@ const NavigationLink = ({
   callback?: () => void;
 }) => {
   const router = useRouter();
+  const currentPath = usePathname();
   // const activeClassName = "underline underline-offset-4";
   const activeClassName = inverted
     ? "bg-surface/10 shadow-navigation-inner"
@@ -61,7 +62,8 @@ const NavigationLink = ({
     inverted
       ? "text-white hover:bg-surface/10"
       : "text-primary hover:bg-surface-raised",
-    (router.asPath == href || router.pathname == href.split("#")[0]) && !logo
+    // router.asPath == href ||
+    currentPath == href.split("#")[0] && !logo
       ? activeClassName
       : "",
     className
@@ -69,9 +71,9 @@ const NavigationLink = ({
 
   return (
     // <Link href={href} scroll={false} passHref><NavigationAnchor className={anchorClassName}>{children}</NavigationAnchor></Link>
-    (<CustomLink href={href} className={anchorClassName} callback={callback}>
+    <CustomLink href={href} className={anchorClassName} callback={callback}>
       {children}
-    </CustomLink>)
+    </CustomLink>
   );
 };
 
