@@ -37,10 +37,10 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
         >
           <div className="flex flex-wrap items-center col-span-12 flex-gap-x-4">
             <Fade duration={200} slide className="flex-grow">
-              <h1 className="text-3xl tracking-tight md:text-4xl lg:text-5xl font-display">
+              <h1 className="font-sans text-3xl tracking-tight md:text-4xl lg:text-5xl">
                 {project.title}
               </h1>
-              <p className="mt-1 opacity-100 text-tertiary md:mt-2 muted-text">
+              <p className="mt-1 md:mt-2 muted-text">
                 {new Date(project.date).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",

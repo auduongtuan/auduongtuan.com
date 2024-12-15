@@ -3,33 +3,36 @@
 @tailwind utilities;
 
 :root {
+  --base-fg: 17 22 39;
+  --base-bg: 255 255 255;
   --bg-subtle: theme("colors.slate.100");
-  --bg-surface: theme("colors.white");
+  --bg-surface: rgb(var(--base-bg));
   --bg-surface-raised: rgba(209, 213, 219, 0.4);
   --bg-card: rgb(242 242 243);
-  --bg-navigation: rgba(255 255 255 / 0.7);
-  --bg-pill: rgb(var(--base-mono) / 0.07);
-  --fg-decorative: rgb(var(--base-mono) / 0.2);
-  --fg-primary: rgb(31 37 55);
+  --bg-navigation: rgba(var(--base-bg) / 0.7);
+  --bg-pill: rgb(var(--base-fg) / 0.07);
+  --fg-decorative: rgb(var(--base-fg) / 0.2);
+  --fg-primary: #222222;
   --fg-secondary: rgb(89 90 95);
   --fg-tertiary: rgb(135 136 140);
-  --bg-button-primary: rgb(6 16 50);
+  --bg-inverted: rgb(var(--base-fg));
+  --bg-button-primary: theme("colors.gray.900");
   --bg-button-primary-hover: var(--accent-bolder);
   --bg-button-primary-pressed: var(--accent-boldest);
-  --base-mono: 17 22 39;
-  --bg-button-secondary: rgb(var(--base-mono) / 0.1);
+  --bg-button-secondary: rgb(var(--base-fg) / 0.1);
   --bg-button-secondary-hover: var(--bg-button-primary-hover);
   --bg-button-secondary-pressed: var(--bg-button-primary-pressed);
-  --bg-button-secondary-activated: rgb(var(--base-mono) / 0.2);
-  --fg-oncolor: theme("colors.white");
+  --bg-button-secondary-activated: rgb(var(--base-fg) / 0.2);
+
+  --fg-oncolor: rgb(var(--base-bg));
   --accent-boldest: theme("colors.blue.900");
   --accent-bolder: theme("colors.blue.800");
   --accent: theme("colors.blue.600");
   --accent-subtle: theme("colors.blue.200");
   --accent-subtlest: theme("colors.blue.50");
-  --control: theme("colors.gray.200");
-  --divider: rgb(var(--base-mono) / 0.1);
-  --underline: rgb(var(--base-mono) / 0.15);
+  --control: rgb(var(--base-fg) / 0.15);
+  --divider: rgb(var(--base-fg) / 0.1);
+  --underline: rgb(var(--base-fg) / 0.15);
   --main-width: 70rem;
   --content-width: 52rem;
   --container-padding: 1rem;
@@ -39,13 +42,14 @@
 }
 
 .dark {
-  --bg-surface: theme("colors.gray.900");
+  --base-fg: 255 255 255;
+  --base-bg: 17 22 39;
+  --bg-surface: #222222;
   --bg-surface-raised: rgba(0, 0, 0, 0.4);
   --fg-primary: theme("colors.gray.100");
   --fg-secondary: theme("colors.gray.300");
   --bg-button-primary: theme("colors.white");
-  --control: theme("colors.gray.800");
-  --base-mono: 255 255 255;
+  --bg-card: #333333;
 }
 
 @layer base {
@@ -86,27 +90,30 @@
     /* letter-spacing: -0.005em; */
   }
   pre {
-    @apply w-full rounded-md overflow-hidden;
+    @apply w-full rounded-md overflow-hidden font-mono;
+  }
+  figcaption {
+    @apply font-mono;
   }
   h1,
   .h1 {
     /* tracking-tight */
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-display;
+    @apply text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-sans;
   }
   h2,
   .h2 {
-    @apply text-2xl md:text-3xl leading-tight md:leading-tight font-bold font-display;
+    @apply text-2xl md:text-3xl leading-tight md:leading-tight font-semibold font-sans;
   }
   h3,
   .h3 {
-    @apply text-lg md:text-2xl leading-tight md:leading-tight font-bold font-display;
+    @apply text-lg md:text-2xl leading-tight md:leading-tight font-semibold font-sans;
   }
   h4,
   .h4 {
-    @apply text-xs md:text-sm font-display font-medium uppercase tracking-wide;
+    @apply text-xs md:text-sm font-sans font-medium uppercase tracking-wide;
   }
   .big-body-text {
-    /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-display; */
+    /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-sans; */
     /* tracking-tight */
     @apply leading-normal md:leading-normal lg:leading-normal text-base md:text-xl;
   }
@@ -123,14 +130,14 @@
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
   }
   .page-description {
-    @apply text-base font-normal leading-normal lg:leading-normal md:leading-normal md:text-xl lg:text-xl;
+    @apply font-mono tracking-tight body-text text-secondary;
   }
 
   .sub-heading {
-    @apply font-display text-sm md:text-base font-medium tracking-wide uppercase text-tertiary;
+    @apply font-mono text-sm md:text-base font-normal tracking-wide uppercase text-tertiary;
   }
   .muted-text {
-    @apply text-sm md:text-base text-tertiary;
+    @apply text-sm md:text-sm text-tertiary font-mono tracking-tight;
   }
   .p-content {
     /*@apply py-12 md:py-16 lg:py-20;*/

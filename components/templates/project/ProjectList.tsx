@@ -111,9 +111,7 @@ export default function ProjectList({
         {sortBy == "group" ? (
           Object.keys(projectGroups).map((group) => (
             <section key={group}>
-              <h2 className="mb-4 font-serif text-base italic font-normal muted-text">
-                {group}
-              </h2>
+              <h2 className="mb-4 text-base font-normal muted-text">{group}</h2>
               <div className="grid grid-cols-12 gap-6 mb-6 md:mb-8">
                 {projectGroups[group].map((project, i) => (
                   <ProjectItem

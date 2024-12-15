@@ -44,7 +44,7 @@ const Carousel = ({
     });
   }, [project, blockId, activePageIndex, hasActivePageIndexChanged, isSSR]);
   return (
-    <>
+    <figure>
       <div className="relative">
         <IconButton
           onClick={() => prev()}
@@ -104,8 +104,8 @@ const Carousel = ({
           <FiChevronRight />
         </IconButton>
       </div>
-      {caption && <Caption>{caption}</Caption>}
-    </>
+      {caption && <Caption as="figcaption">{caption}</Caption>}
+    </figure>
   );
 };
 

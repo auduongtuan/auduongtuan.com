@@ -1,8 +1,7 @@
 import React from "react";
 import CustomLink from "./CustomLink";
 import { useRouter } from "next/router";
-import clsx from "clsx";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 interface NavigationAnchorProps {
   props: {
     onClick: void;
@@ -39,6 +38,7 @@ const NavigationLink = ({
   className = "-mx-3 px-3 py-0.5 -my-0.5",
   logo = false,
   inverted = false,
+
   callback,
 }: {
   href: string;
@@ -50,20 +50,24 @@ const NavigationLink = ({
   callback?: () => void;
 }) => {
   const router = useRouter();
-  // const activeClassName = "underline underline-offset-4";
-  const activeClassName = inverted
-    ? "bg-surface/10 shadow-navigation-inner"
-    : "bg-surface-raised shadow-navigation-inner";
-  const anchorClassName = twMerge(
+  const activeStyle =
+    "relative before:bg-secondary before:absolute before:bottom-0 md:before:inset-x-0 before:w-1 before:h-full before:left-0 md:before:left-3 md:before:right-3 md:before:-bottom-3.5 md:before:h-1 md:before:w-auto before:transition-all before:duration-300 before:ease-in-out";
+  // const activeClassName = inverted
+  //   ? "bg-surface/10 shadow-navigation-inner"
+  //   : "bg-surface-raised shadow-navigation-inner";
+  const isActive = (router) =>
+    router.asPath == href ||
+    router.pathname == href.split("#")[0] ||
+    router.pathname.includes(href + "/") ||
+    (href.includes("#works") && router.pathname.includes("/project/"));
+  const anchorClassName = cn(
     logo && "tracking-wide uppercase",
-    "font-medium inline-block text-base  rounded-xl",
+    "font-normal font-mono inline-block text-base rounded-xl",
     // logo && "uppercase",
     inverted
       ? "text-white hover:bg-surface/10"
       : "text-primary hover:bg-surface-raised",
-    (router.asPath == href || router.pathname == href.split("#")[0]) && !logo
-      ? activeClassName
-      : "",
+    isActive(router) && !logo ? activeStyle : "",
     className
   );
 

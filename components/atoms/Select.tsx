@@ -105,7 +105,7 @@ const Select = <TType, TActualType>({
         <Listbox.Button
           ref={refs.setReference}
           className={twMerge(
-            "flex w-full items-center justify-between rounded-lg border border-gray-200 bg-background px-3 py-1.5 text-base ring-offset-background placeholder:text-muted focus:outline-none focus-visible:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex w-full items-center justify-between rounded-lg border border-control bg-background px-3 py-1.5 text-base ring-offset-background placeholder:text-muted focus:outline-none focus-visible:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             buttonClassName
           )}
         >
@@ -120,7 +120,7 @@ const Select = <TType, TActualType>({
               <Listbox.Options
                 ref={refs.setFloating}
                 className={twMerge(
-                  "rounded-md border border-black/10 bg-surface text-primary shadow-lg p-1 focus:outline-none grid grid-cols-1 gap-0.5 z-popup"
+                  "rounded-md border border-control bg-surface text-primary shadow-lg p-1 focus:outline-none grid grid-cols-1 gap-0.5 z-popup"
                 )}
                 style={{
                   position: strategy,

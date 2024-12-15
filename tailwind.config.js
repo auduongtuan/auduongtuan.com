@@ -22,9 +22,16 @@ module.exports = {
       },
       fontFamily: {
         // "display": ['Work Sans', ],
-        display: ["Hanken Grotesk", "Helvetica", "Arial", "sans-serif"],
-        sans: ["Hanken Grotesk", "Helvetica", "Arial", "sans-serif"],
-        serif: ["Hanken Grotesk", "Georgia", "Cambria", "serif"],
+        sans: ["Inter", "Helvetica", "Arial", "sans-serif"],
+        mono: [
+          "Roboto Mono",
+          "Menlo",
+          "Monaco",
+          "Consolas",
+          "Liberation Mono",
+          "Courier New",
+          "monospace",
+        ],
         // "script": ['Nanum Pen Script', 'IBM Plex Sans', 'Helvetica', 'Arial', 'sans-serif']
       },
       fontSize: {

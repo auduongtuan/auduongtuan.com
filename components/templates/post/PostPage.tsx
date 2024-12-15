@@ -88,7 +88,10 @@ const PostSinglePage = ({
                   <Tag key={`tag-${i}`}>{tag}</Tag>
                 ))}
               </Fade>
-              <Fade className="mt-1 text-tertiary muted-text" delay={200}>
+              <Fade
+                className="mt-1 font-mono text-tertiary muted-text"
+                delay={200}
+              >
                 Posted on{" "}
                 {post.meta.date &&
                   new Date(post.meta.date).toLocaleDateString("en-US", {
