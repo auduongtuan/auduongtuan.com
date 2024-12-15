@@ -11,12 +11,12 @@ const Checkbox = ({ checked, onChange, label, ...rest }: CheckboxProps) => {
   // const [enabled, setEnabled] = useState(false)
 
   return (
-    <HSwitch.Group>
+    (<HSwitch.Group>
       <div className="flex items-center flex-gap-2">
         <HSwitch checked={checked} onChange={onChange} as={Fragment} {...rest}>
           {({ checked }) => (
             /* Use the `checked` state to conditionally style the button. */
-            <button
+            (<button
               className={twMerge(
                 checked
                   ? "bg-accent focus:ring-[3px] focus:ring-blue-600/20"
@@ -25,7 +25,7 @@ const Checkbox = ({ checked, onChange, label, ...rest }: CheckboxProps) => {
               )}
             >
               {checked && <FiCheck className="w-3 h-3 text-white" />}
-            </button>
+            </button>)
           )}
         </HSwitch>
         {label && (
@@ -34,7 +34,7 @@ const Checkbox = ({ checked, onChange, label, ...rest }: CheckboxProps) => {
           </HSwitch.Label>
         )}
       </div>
-    </HSwitch.Group>
+    </HSwitch.Group>)
   );
 };
 

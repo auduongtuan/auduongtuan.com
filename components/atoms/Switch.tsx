@@ -5,12 +5,12 @@ const Switch = ({ checked, onChange, label }) => {
   // const [enabled, setEnabled] = useState(false)
 
   return (
-    <HSwitch.Group>
+    (<HSwitch.Group>
       <div className="flex items-center flex-gap-2">
         <HSwitch checked={checked} onChange={onChange} as={Fragment}>
           {({ checked }) => (
             /* Use the `checked` state to conditionally style the button. */
-            <button
+            (<button
               className={`${
                 checked
                   ? "bg-blue-600 focus:ring-[3px] focus:ring-blue-600/20"
@@ -23,14 +23,14 @@ const Switch = ({ checked, onChange, label }) => {
                   checked ? "translate-x-6" : "translate-x-1"
                 } inline-block h-4 w-4 transform rounded-full bg-surface transition`}
               />
-            </button>
+            </button>)
           )}
         </HSwitch>
         <HSwitch.Label className="text-primary text-base cursor-pointer">
           {label}
         </HSwitch.Label>
       </div>
-    </HSwitch.Group>
+    </HSwitch.Group>)
   );
 };
 export default Switch;

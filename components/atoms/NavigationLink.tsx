@@ -69,9 +69,9 @@ const NavigationLink = ({
 
   return (
     // <Link href={href} scroll={false} passHref><NavigationAnchor className={anchorClassName}>{children}</NavigationAnchor></Link>
-    <CustomLink href={href} className={anchorClassName} callback={callback}>
+    (<CustomLink href={href} className={anchorClassName} callback={callback}>
       {children}
-    </CustomLink>
+    </CustomLink>)
   );
 };
 

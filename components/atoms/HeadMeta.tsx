@@ -44,7 +44,7 @@ const HeadMeta = ({
     //     <title>{finalTitle}</title>
     //     <meta name="description" content={description} />
     // </Head>
-    <NextSeo
+    (<NextSeo
       title={finalTitle}
       description={description}
       // canonical="https://www.canonical.ie/"
@@ -72,7 +72,7 @@ const HeadMeta = ({
         site: "@auduongtuan",
         cardType: "summary_large_image",
       }}
-    />
+    />)
   );
 };
 export default HeadMeta;
