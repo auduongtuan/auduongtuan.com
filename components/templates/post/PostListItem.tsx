@@ -21,8 +21,8 @@ const PostListItem = ({ post, className = "" }: PostListItemProps) => {
     >
       <div className="grid grid-cols-1 gap-x-3 gap-y-3 md:gap-y-4 md:grid-cols-12">
         <div className="col-span-3 row-start-2 md:row-start-auto">
-          <aside className="flex flex-col pl-10 mt-12 text-xl md:pl-0 flex-gap-2">
-            <p className={clsx(" text-sm md:text-base mt-1 muted-text ")}>
+          <aside className="flex flex-col pl-10 mt-12 font-mono text-xl md:pl-0 flex-gap-2">
+            <p className={clsx("mt-1 muted-text ")}>
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {
                   month: "long",
@@ -47,7 +47,7 @@ const PostListItem = ({ post, className = "" }: PostListItemProps) => {
             </h2>
 
             <Balancer ratio={0.3}>
-              <p className="mt-2 text-secondary md:mt-3 body-text">
+              <p className="mt-2 font-mono leading-relaxed tracking-tight text-secondary md:mt-3">
                 {post.meta.excerpt}
               </p>
             </Balancer>

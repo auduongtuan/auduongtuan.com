@@ -62,7 +62,7 @@ const Navigation = React.memo(
     return (
       <div>
         <header className={NavigationStyles}>
-          <nav className="flex items-center justify-between py-2 text-base font-semibold font-display text-display md:text-xl main-container md:py-3.5">
+          <nav className="flex items-center justify-between py-2 text-base font-semibold font-sans text-display md:text-xl main-container md:py-3.5">
             {/* logo */}
             <NavigationLink
               href="/"
@@ -122,7 +122,7 @@ const Navigation = React.memo(
           leaveTo="opacity-0 -translate-y-12"
         >
           <div className={`fixed z-40 w-full h-full bg-surface`}>
-            <div className="main-container font-display">
+            <div className="main-container font-sans">
               <ul className="flex flex-col w-full pt-16 flex-gap-y-2">
                 {menuItems.map((item, i) => (
                   <li key={i} className="w-full">

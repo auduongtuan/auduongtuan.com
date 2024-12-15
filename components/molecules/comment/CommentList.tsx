@@ -95,11 +95,9 @@ const CommentList = ({ comments, wording }) => {
                 !comments ? "opacity-0" : "opacity-100"
               }`}
             >
-              <GiPostStamp className="text-6xl text-slate-400" />
-              <h5 className="mt-2 text-base font-medium text-secondary font-display md:text-lg">
-                No {wording.plural} yet.
-              </h5>
-              <p className="mt-1 text-sm text-primary md:text-base">
+              <GiPostStamp className="text-6xl text-tertiary" />
+              <h5 className="mt-4 sub-heading">No {wording.plural} yet.</h5>
+              <p className="mt-1 text-sm text-secondary">
                 {`Why don't you `}
                 <Tooltip content="A nostalgia trend of Yahoo 360 era">
                   <InlineLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</InlineLink>

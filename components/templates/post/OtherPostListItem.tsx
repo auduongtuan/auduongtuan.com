@@ -28,12 +28,12 @@ const OtherPostListItem = ({
       <div className="flex flex-col">
         <h5
           className={clsx(
-            "grow inline-flex font-display space-x-3 text-base md:text-lg font-semibold "
+            "grow inline-flex font-sans space-x-3 text-base md:text-lg font-semibold "
           )}
         >
           <span className="">{post.meta.title}</span>
           {post.meta.protected && (
-            <FiLock className="mt-1 text-gray-400 shrink-0 grow-0"></FiLock>
+            <FiLock className="mt-1 text-tertiary shrink-0 grow-0"></FiLock>
           )}
         </h5>
         <div className={clsx("flex space-x-2 mt-3 flex-wrap items-start")}>
@@ -41,7 +41,7 @@ const OtherPostListItem = ({
             <Tag key={`tag-${i}`}>{tag}</Tag>
           ))}
         </div>
-        <p className={clsx("mt-2 muted-text text-sm")}>
+        <p className={clsx("mt-2 muted-text")}>
           Posted on{" "}
           {post.meta.date &&
             new Date(post.meta.date).toLocaleDateString("en-US", {

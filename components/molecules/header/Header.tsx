@@ -69,7 +69,7 @@ export default function Header() {
           <div className="lg:max-w-[50rem] ">
             <Headline />
             <Fade delay={200}>
-              <p className="relative z-30 mt-4 font-serif text-center body-text text-secondary lg:mt-6">
+              <p className="relative z-30 mt-4 font-mono tracking-tight text-center body-text text-secondary lg:mt-6">
                 <Balancer className="max-w-[40rem]" ratio={1}>
                   A software <GifText {...setupGif(0)}>designer</GifText>{" "}
                   <span className="text-divider">/</span>{" "}

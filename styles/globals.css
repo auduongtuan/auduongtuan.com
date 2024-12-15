@@ -10,10 +10,10 @@
   --bg-navigation: rgba(255 255 255 / 0.7);
   --bg-pill: rgb(var(--base-mono) / 0.07);
   --fg-decorative: rgb(var(--base-mono) / 0.2);
-  --fg-primary: rgb(31 37 55);
+  --fg-primary: #222222;
   --fg-secondary: rgb(89 90 95);
   --fg-tertiary: rgb(135 136 140);
-  --bg-button-primary: rgb(6 16 50);
+  --bg-button-primary: theme("colors.gray.900");
   --bg-button-primary-hover: var(--accent-bolder);
   --bg-button-primary-pressed: var(--accent-boldest);
   --base-mono: 17 22 39;
@@ -21,13 +21,14 @@
   --bg-button-secondary-hover: var(--bg-button-primary-hover);
   --bg-button-secondary-pressed: var(--bg-button-primary-pressed);
   --bg-button-secondary-activated: rgb(var(--base-mono) / 0.2);
+
   --fg-oncolor: theme("colors.white");
   --accent-boldest: theme("colors.blue.900");
   --accent-bolder: theme("colors.blue.800");
   --accent: theme("colors.blue.600");
   --accent-subtle: theme("colors.blue.200");
   --accent-subtlest: theme("colors.blue.50");
-  --control: theme("colors.gray.200");
+  --control: rgb(var(--base-mono) / 0.15);
   --divider: rgb(var(--base-mono) / 0.1);
   --underline: rgb(var(--base-mono) / 0.15);
   --main-width: 70rem;
@@ -86,27 +87,30 @@
     /* letter-spacing: -0.005em; */
   }
   pre {
-    @apply w-full rounded-md overflow-hidden;
+    @apply w-full rounded-md overflow-hidden font-mono;
+  }
+  figcaption {
+    @apply font-mono;
   }
   h1,
   .h1 {
     /* tracking-tight */
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-display;
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-sans;
   }
   h2,
   .h2 {
-    @apply text-2xl md:text-3xl leading-tight md:leading-tight font-bold font-display;
+    @apply text-2xl md:text-3xl leading-tight md:leading-tight font-bold font-sans;
   }
   h3,
   .h3 {
-    @apply text-lg md:text-2xl leading-tight md:leading-tight font-bold font-display;
+    @apply text-lg md:text-2xl leading-tight md:leading-tight font-semibold font-sans;
   }
   h4,
   .h4 {
-    @apply text-xs md:text-sm font-display font-medium uppercase tracking-wide;
+    @apply text-xs md:text-sm font-sans font-medium uppercase tracking-wide;
   }
   .big-body-text {
-    /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-display; */
+    /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-sans; */
     /* tracking-tight */
     @apply leading-normal md:leading-normal lg:leading-normal text-base md:text-xl;
   }
@@ -123,14 +127,14 @@
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
   }
   .page-description {
-    @apply text-base font-normal leading-normal lg:leading-normal md:leading-normal md:text-xl lg:text-xl;
+    @apply font-mono tracking-tight body-text text-secondary;
   }
 
   .sub-heading {
-    @apply font-display text-sm md:text-base font-medium tracking-wide uppercase text-tertiary;
+    @apply font-mono text-sm md:text-base font-normal tracking-wide uppercase text-tertiary;
   }
   .muted-text {
-    @apply text-sm md:text-base text-tertiary;
+    @apply text-sm md:text-sm text-tertiary font-mono tracking-tight;
   }
   .p-content {
     /*@apply py-12 md:py-16 lg:py-20;*/

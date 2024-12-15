@@ -20,7 +20,9 @@ const ProjectCard = ({ project }: { project: NotionProject }) => {
       )}
       <div>
         <h3 className="text-lg leading-tight">{project.title}</h3>
-        <p className="mt-0.5 text-sm text-secondary">{project.tagline}</p>
+        <p className="mt-0.5 text-sm text-secondary line-clamp-2">
+          {project.tagline}
+        </p>
       </div>
     </Fragment>
   );

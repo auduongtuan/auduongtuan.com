@@ -87,14 +87,11 @@ export default function Document() {
           crossOrigin="true"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
           rel="stylesheet"
         />
-
-        {/* <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Work+Sans:wght@600;700&display=swap" rel="stylesheet" /> */}
-        {/* <link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap" rel="stylesheet" />*/}
       </Head>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased text-primary">
         <Main />
         <NextScript />
       </body>

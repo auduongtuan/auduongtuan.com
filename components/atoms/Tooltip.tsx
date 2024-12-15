@@ -82,7 +82,7 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <div className="px-2 py-1 text-sm font-medium text-white transition-all duration-300 bg-blue-800 rounded-lg shadow-md ease">
+                    <div className="px-2 py-1 font-mono text-sm font-medium text-white transition-all duration-300 bg-blue-800 rounded-lg shadow-md ease">
                       {content}
                     </div>
                   </Transition.Child>

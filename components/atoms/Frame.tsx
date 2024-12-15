@@ -181,7 +181,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
         <div className="absolute top-0 left-0 z-10 w-full h-full pointer-events-none rounded-xl"></div>
         <header
           className={twMerge(
-            "font-display flex items-center justify-between",
+            "font-sans flex items-center justify-between",
             inverted ? "bg-slate-100" : "bg-slate-800",
             draggable && "cursor-move",
             "px-3 py-1.5 rounded-t-xl border-b border-black/10 z-[1] "

@@ -45,9 +45,9 @@ export default function Footer() {
             </Fade>
 
             <div className="col-span-12 lg:col-span-6 lg:row-span-1 lg:justify-self-end lg:self-center">
-              <Fade slide show={inView} delay={100} as="p">
+              <Fade slide show={inView} delay={100} as="div">
                 <p className="text-sm text-secondary">Let&apos;s connect </p>
-                <div className="flex items-center gap-4 text-lg font-medium leading-relaxed font-display md:text-xl lg:text-2xl md:leading-relaxed lg:leading-relaxed">
+                <div className="flex items-center gap-4 font-mono text-lg font-medium leading-relaxed md:text-xl lg:text-2xl md:leading-relaxed lg:leading-relaxed">
                   <Tooltip content="Say hi to me">
                     <InlineLink href="mailto:hi@auduongtuan.com" className="">
                       hi@auduongtuan.com
