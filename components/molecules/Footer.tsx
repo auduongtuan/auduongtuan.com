@@ -129,10 +129,12 @@ export default function Footer() {
 
                   <p>
                     Texts are set in{" "}
-                    <InlineLink href="https://fonts.google.com/specimen/Hanken+Grotesk">
-                      Hanken Grotesk
-                    </InlineLink>{" "}
-                    by Hanken Design Co.
+                    <InlineLink href="https://rsms.me/inter/">Inter</InlineLink>{" "}
+                    and{" "}
+                    <InlineLink href="https://fonts.google.com/specimen/Roboto+Mono">
+                      Roboto Mono
+                    </InlineLink>
+                    .
                   </p>
                   <div className="flex mt-6 flex-gap-x-2">
                     <Button
