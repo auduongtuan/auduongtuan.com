@@ -3,6 +3,7 @@ import useSWR from "swr";
 import axios from "axios";
 import Tooltip from "@atoms/Tooltip";
 import Skeleton from "@atoms/Skeleton";
+import { cn } from "@lib/utils/cn";
 
 type Emoji = string;
 interface CounterValue {
@@ -117,15 +118,16 @@ const ReactButton = ({
             className="inline-flex items-center px-3 py-2 space-x-2 transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1 md:px-4 md:py-2 hover:border-blue-600 justify-items-center hover:bg-surface/40 group"
             onClick={sendReaction}
           >
-            <span className="block text-base transition-all duration-100 scale-100 group-hover:scale-125 md:text-2xl ">
+            <span className="block text-base transition-all duration-100 scale-100 group-hover:scale-125 md:text-2xl">
               {emoji}
             </span>
             <span
-              className={`block text-sm ${
+              className={cn(
+                `block text-sm font-mono`,
                 emoji in counter && counter[emoji].reacted
                   ? "font-semibold text-blue-700"
                   : "font-medium text-tertiary"
-              }`}
+              )}
             >
               {emoji in counter ? counter[emoji].quantity : 0}
             </span>

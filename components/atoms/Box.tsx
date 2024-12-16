@@ -28,12 +28,14 @@ const Box = ({
       {...rest}
     >
       {caption ? (
-        <div className="flex flex-col justify-center h-full">
+        <figure className="flex flex-col justify-center h-full">
           <div className="flex items-center justify-center flex-grow [&>*:first-child]:mt-0">
             {renderChildren()}
           </div>
-          <h4 className="font-medium text-center">{caption}</h4>
-        </div>
+          <figcaption className="mt-6 text-sm text-center text-secondary">
+            {caption}
+          </figcaption>
+        </figure>
       ) : (
         renderChildren()
       )}

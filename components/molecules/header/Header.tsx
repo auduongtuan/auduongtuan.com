@@ -71,11 +71,11 @@ export default function Header() {
             <Fade delay={200}>
               <p className="relative z-30 mt-4 font-mono tracking-tight text-center body-text text-secondary lg:mt-6">
                 <Balancer className="max-w-[40rem]" ratio={1}>
-                  Wearing <GifText {...setupGif(0)}>designer</GifText>{" "}
+                  Wearing <GifText {...setupGif(0)}>🧑‍🎨 designer</GifText>{" "}
                   <span className="text-divider">/</span>{" "}
-                  <GifText {...setupGif(1)}>developer</GifText>{" "}
+                  <GifText {...setupGif(1)}>👨‍💻 developer</GifText>{" "}
                   <span className="text-divider">/</span>{" "}
-                  <GifText {...setupGif(2)}>whatever</GifText> hats to bring
+                  <GifText {...setupGif(2)}>🦄 whatever</GifText> hats to bring
                   exceptional digital products to life.
                 </Balancer>
                 {/* (maybe a{" "}
