@@ -61,9 +61,10 @@ const Headline = () => {
         className="w-full col-span-1 col-start-1 row-span-1 row-start-1 text-center place-items-center"
         slide
       >
-        I design and build
+        part-time software builder,
+        <br /> full-time dreamer.
       </Fade>
-      <div className="relative z-20 col-span-1 col-start-1 row-span-1 row-start-2 w-ful">
+      {/* <div className="relative z-20 col-span-1 col-start-1 row-span-1 row-start-2 w-ful">
         <span
           className="inline-block transition-all duration-200 ease-bounce"
           style={startTextStyle}
@@ -92,7 +93,7 @@ const Headline = () => {
         >
           automate tools.
         </span>
-      </div>
+      </div> */}
       {/* <div
         className="row-start-2 row-span-1 col-start-1 col-span-1 self-end h-2 md:h-3 lg:h-4 bg-transparent bottom-0.5 lg:bottom-1 transition-all duration-[800ms] relative z-10"
         ref={underline}
