@@ -99,7 +99,7 @@
   .h1 {
     /* tracking-tight */
     /* @apply text-4xl md:text-5xl lg:text-6xl font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-sans; */
-    @apply text-4xl md:text-5xl lg:text-[3.75rem] font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-sans;
+    @apply text-[1.75rem] md:text-5xl lg:text-[3.75rem] font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-sans;
   }
   h2,
   .h2 {

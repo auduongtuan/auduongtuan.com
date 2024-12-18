@@ -60,9 +60,9 @@ const ProjectItem = memo(
           >
             <header className="flex items-center">
               <div className="grow">
-                <h2 className="text-2xl">
+                <h2 className="h3">
                   <Balancer>
-                    {project.platform == "web" ? (
+                    {project.caseStudy ? (
                       <Link href={`/project/${project.slug}`} legacyBehavior>
                         {project.title}
                       </Link>
@@ -71,7 +71,7 @@ const ProjectItem = memo(
                     )}
                   </Balancer>
                 </h2>
-                <p className="md:mt-1 muted-text">
+                <p className="mt-0.5 md:mt-1 muted-text">
                   {new Date(project.date).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",

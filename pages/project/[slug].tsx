@@ -27,16 +27,17 @@ export default function ProjectView({
     return <h1>Loading...</h1>;
   }
 
-  if (!project || !project.caseStudy) {
-    return (
-      <>
-        <Head>
-          <meta name="robots" content="noindex" />
-        </Head>
-        <DefaultErrorPage statusCode={404} />
-      </>
-    );
-  }
+  // if (!project || !project.caseStudy) {
+  //   console.log(project);
+  //   return (
+  //     <>
+  //       <Head>
+  //         <meta name="robots" content="noindex" />
+  //       </Head>
+  //       <DefaultErrorPage statusCode={404} />
+  //     </>
+  //   );
+  // }
   return (
     <ProjectSinglePage
       project={project}
@@ -87,9 +88,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
   // const paths = projectSlugs.map((slug) => ({
   //   params: { slug: slug },
   // }));
-  const paths = projects.map((project) => ({
-    params: { slug: project.slug },
-  }));
+  const paths = projects
+    .filter((project) => project.caseStudy)
+    .map((project) => ({
+      params: { slug: project.slug },
+    }));
   // We'll pre-render only these paths at build time.
   // { fallback: blocking } will server-render pages
   // on-demand if the path doesn't exist.
