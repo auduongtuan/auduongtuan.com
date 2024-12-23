@@ -8,6 +8,7 @@ export type NotionNowItem = {
   content: string;
   link: string | undefined;
   thumbnail: string | null;
+  type: "youtube" | "spotify" | "other";
 };
 
 export async function getNotionNowItems(): Promise<NotionNowItem[]> {
@@ -48,6 +49,11 @@ export async function getNotionNowItems(): Promise<NotionNowItem[]> {
         title: getProperty(page, "Title", "title"),
         link: getProperty(page, "Link", "url"),
         content: getProperty(page, "Content", "rich_text"),
+        type: youtubeRegex.test(link)
+          ? "youtube"
+          : spotifyRegex.test(link)
+          ? "spotify"
+          : "other",
         thumbnail,
       };
     })
