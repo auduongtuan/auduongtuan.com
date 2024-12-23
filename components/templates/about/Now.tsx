@@ -16,21 +16,26 @@ const Now = ({ items }: { items: NotionNowItem[] }) => {
           key={`now-${i}`}
         >
           <p className="text-sm mt-0.5 text-tertiary">{item.title}</p>
-          <div className="mt-1.5 font-mono tracking-tight leading-tight text-md body-text flex items-center gap-4">
-            {item.thumbnail && (
-              <div className="w-[100px] h-[100px] flex items-center justify-center">
+          <div className="flex items-center gap-5 mt-2 font-mono leading-tight tracking-tight text-md body-text">
+            {(item.thumbnail || item.link) && (
+              <div className={cn("w-[100px] flex items-center justify-center")}>
                 <img
-                  src={item.thumbnail}
+                  src={
+                    item.thumbnail || "/api/website-thumbnail?url=" + item.link
+                  }
                   alt={item.content}
                   width="100"
-                  height="100"
+                  height={item.type == "youtube" ? 90 : 100}
                   className="rounded-md"
                 />
               </div>
             )}
             {item.link ? (
               <div className="flex flex-col gap-2">
-                <InlineLink className="inline-flex max-w-full" href={item.link}>
+                <InlineLink
+                  className="inline-flex whitespace-normal"
+                  href={item.link}
+                >
                   {item.content}
                 </InlineLink>
               </div>
