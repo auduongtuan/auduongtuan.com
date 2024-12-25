@@ -22,6 +22,7 @@ export default async function handler(req, res) {
 
     res.setHeader("Content-Type", response.headers.get("content-type"));
     res.setHeader("Content-Length", buffer.length);
+    res.setHeader("Cache-Control", "s-maxage=86400");
     res.end(buffer);
   } catch (error) {
     if (error instanceof Error) {
