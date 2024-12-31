@@ -6,16 +6,24 @@ import { getPosts, getPostContent, Post } from "@lib/notion";
 import PostPage from "@templates/post/PostPage";
 import CryptoJS from "crypto-js";
 import { isDevEnvironment } from "@lib/utils";
-
-const PASSWORD = process.env.BLOG_PASSWORD as string;
+import { getPassword } from "@lib/notion/password";
 
 type BlogProps = {
   post: Post;
   postContent: any;
   posts: Post[];
+  passwordInfo: {
+    hint: string;
+    length: number;
+  };
 };
 
-export default function Blog({ post, postContent, posts }: BlogProps) {
+export default function Blog({
+  post,
+  postContent,
+  posts,
+  passwordInfo,
+}: BlogProps) {
   const router = useRouter();
 
   if (router.isFallback) {
@@ -31,7 +39,14 @@ export default function Blog({ post, postContent, posts }: BlogProps) {
       </>
     );
   }
-  return <PostPage post={post} postContent={postContent} posts={posts} />;
+  return (
+    <PostPage
+      post={post}
+      postContent={postContent}
+      posts={posts}
+      passwordInfo={passwordInfo}
+    />
+  );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -62,12 +77,23 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   }
   // Get the Notion page data and all child block data
   let postContent: any = null;
+  let passwordInfo = { hint: "", length: 0 };
   if (post) {
     const rawPostContent = await getPostContent(post.id);
-    if (post.meta.protected) {
+    if (post.meta.protected && post.meta.passwordId) {
+      const passsword = post.meta.passwordId
+        ? await getPassword(post.meta.passwordId)
+        : undefined;
       const json = JSON.stringify(rawPostContent);
-      const encrypted = CryptoJS.AES.encrypt(json, PASSWORD).toString();
-      postContent = encrypted;
+      if (passsword) {
+        const encrypted = CryptoJS.AES.encrypt(
+          json,
+          passsword.value
+        ).toString();
+        postContent = encrypted;
+        passwordInfo.hint = passsword.hint;
+        passwordInfo.length = passsword.value.length;
+      }
     } else {
       postContent = rawPostContent;
     }
@@ -79,6 +105,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
       post,
       postContent,
       posts,
+      passwordInfo,
     },
     revalidate: 120,
   };

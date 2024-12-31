@@ -15,15 +15,18 @@ import { useEffect } from "react";
 import Balancer from "react-wrap-balancer";
 import { twMerge } from "tailwind-merge";
 import OtherPostList from "./OtherPostList";
+import { PasswordInfo } from "@lib/notion/password";
 
 const PostSinglePage = ({
   post,
   postContent,
   posts,
+  passwordInfo,
 }: {
   post: Post;
   posts: Post[];
   postContent: any;
+  passwordInfo: PasswordInfo;
 }) => {
   const { ref } = useHeaderInView(true);
   const { decryptedContent } = usePasswordProtectStore();
@@ -108,30 +111,34 @@ const PostSinglePage = ({
       <Fade className="relative" delay={200} key={post.slug + "_content"}>
         <ContentMenu />
         <div className="pt-8 md:pt-9 content-container p-content blog-content">
-          <div className="text-primary [&>*:first-child]:mt-0">
-            {post.meta.protected ? (
-              <>
-                <Transition
-                  show={decryptedContent != null}
-                  enter="transition-all duration-1000"
-                  enterFrom="opacity-0"
-                  enterTo="opacity-100"
-                >
-                  {parseBlocks(decryptedContent)}
-                </Transition>
-                <Transition
-                  show={decryptedContent == null}
-                  leave="transition-opacity duration-300"
-                  leaveFrom="opacity-100"
-                  leaveTo="opacity-0"
-                >
-                  <PasswordProtect encryptedContent={postContent} mode="post" />
-                </Transition>
-              </>
-            ) : (
-              parseBlocks(postContent)
-            )}
-          </div>
+          {post.meta.protected ? (
+            <>
+              <Transition
+                show={decryptedContent != null}
+                enter="transition-all duration-1000"
+                enterFrom="opacity-0"
+                enterTo="opacity-100"
+                className={"text-primary [&>*:first-child]:mt-0"}
+              >
+                {parseBlocks(decryptedContent)}
+              </Transition>
+              <Transition
+                show={decryptedContent == null}
+                leave="transition-opacity duration-300"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+                className={"text-primary [&>*:first-child]:mt-0"}
+              >
+                <PasswordProtect
+                  encryptedContent={postContent}
+                  mode="post"
+                  passwordInfo={passwordInfo}
+                />
+              </Transition>
+            </>
+          ) : (
+            parseBlocks(postContent)
+          )}
         </div>
       </Fade>
       <section className="relative border-t border-gray-200 bg-surface p-content">

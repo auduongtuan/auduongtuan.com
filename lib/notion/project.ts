@@ -27,7 +27,6 @@ export type NotionProject = {
   tools: string[];
   roles: string[];
   protected: boolean;
-  halfDisplay: boolean;
   achievements?: string[];
   background?: string;
   team?: string[];
@@ -42,6 +41,7 @@ export type NotionProject = {
   };
   assets: NotionAssets;
   coverTitle?: string;
+  passwordId?: string;
   // [key: string]: unknown;
 };
 
@@ -139,6 +139,7 @@ export async function getNotionProjects(
         },
         assets: assets,
         coverTitle: getProperty(page, "Cover Title", "rich_text"),
+        passwordId: getProperty(page, "Password", "relation")[0] || null,
       };
     })
   );

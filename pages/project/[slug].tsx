@@ -1,25 +1,21 @@
 import {
   NotionProject,
   getNotionProjectContent,
-  getNotionProjects,
   getNotionProjectsWithCache,
 } from "@lib/notion";
-import { isDevEnvironment } from "@lib/utils";
+import { getPassword } from "@lib/notion/password";
 import ProjectSinglePage, {
   ProjectSinglePageProps,
 } from "@templates/project/ProjectSinglePage";
 import CryptoJS from "crypto-js";
 import { GetStaticPaths, GetStaticProps } from "next";
-import DefaultErrorPage from "next/error";
-import Head from "next/head";
 import { useRouter } from "next/router";
-
-const PASSWORD = process.env.PROJECT_PASSWORD as string;
 
 export default function ProjectView({
   project,
   projects,
   notionContent,
+  passwordInfo,
 }: ProjectSinglePageProps) {
   const router = useRouter();
 
@@ -43,6 +39,7 @@ export default function ProjectView({
       project={project}
       projects={projects}
       notionContent={notionContent}
+      passwordInfo={passwordInfo}
     />
   );
 }
@@ -61,13 +58,24 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     };
   }
   let notionContent;
+  let passwordInfo = {
+    hint: "",
+    length: 0,
+  };
   // Get the Notion page data and all child block data
   const rawNotionContent = await getNotionProjectContent(project.id);
   // TBD: Encrypt the content if the post is protected
   if (project.protected) {
     const json = JSON.stringify(rawNotionContent);
-    const encrypted = CryptoJS.AES.encrypt(json, PASSWORD).toString();
-    notionContent = encrypted;
+    const password = project.passwordId
+      ? await getPassword(project.passwordId)
+      : undefined;
+    if (password) {
+      const encrypted = CryptoJS.AES.encrypt(json, password.value).toString();
+      notionContent = encrypted;
+      passwordInfo.hint = password.hint;
+      passwordInfo.length = password.value.length;
+    }
   } else {
     notionContent = rawNotionContent;
   }
@@ -77,6 +85,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       project: project,
       projects: projects,
       notionContent,
+      passwordInfo,
     },
     revalidate: 120,
   };

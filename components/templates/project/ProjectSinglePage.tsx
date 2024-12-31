@@ -5,11 +5,13 @@ import { useEffect } from "react";
 import ProjectSingleContent from "./ProjectSingleContent";
 import ProjectSingleFooter from "./ProjectSingleFooter";
 import { ProjectSingleHeader } from "./ProjectSingleHeader";
+import { PasswordInfo } from "@lib/notion/password";
 export interface ProjectSinglePageProps {
   project: NotionProject;
   projects: NotionProject[];
   mdxContent?: any;
   notionContent?: any;
+  passwordInfo: PasswordInfo;
 }
 
 const ProjectSinglePage = ({
@@ -17,6 +19,7 @@ const ProjectSinglePage = ({
   projects,
   mdxContent,
   notionContent,
+  passwordInfo,
 }: ProjectSinglePageProps) => {
   const { setProject, setProjects } = useProjectStore();
   useEffect(() => {
@@ -34,7 +37,11 @@ const ProjectSinglePage = ({
         tagline={project.tagline}
       />
       <ProjectSingleHeader project={project} />
-      <ProjectSingleContent project={project} notionContent={notionContent} />
+      <ProjectSingleContent
+        project={project}
+        notionContent={notionContent}
+        passwordInfo={passwordInfo}
+      />
       <ProjectSingleFooter project={project} projects={projects} />
     </div>
   );

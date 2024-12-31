@@ -4,14 +4,21 @@ import { GetServerSideProps } from "next";
 import DefaultErrorPage from "next/error";
 import { getPosts, getPostContent, Post } from "@lib/notion";
 import PostPage from "@templates/post/PostPage";
+import { PasswordInfo } from "@lib/notion/password";
 
 type BlogProps = {
   post: Post;
   postContent: any;
   posts: Post[];
+  passwordInfo: PasswordInfo;
 };
 
-export default function Blog({ post, postContent, posts }: BlogProps) {
+export default function Blog({
+  post,
+  postContent,
+  posts,
+  passwordInfo,
+}: BlogProps) {
   const router = useRouter();
   if (router.isFallback) {
     return <h1>Loading...</h1>;
@@ -26,7 +33,14 @@ export default function Blog({ post, postContent, posts }: BlogProps) {
       </>
     );
   }
-  return <PostPage post={post} postContent={postContent} posts={posts} />;
+  return (
+    <PostPage
+      post={post}
+      postContent={postContent}
+      posts={posts}
+      passwordInfo={passwordInfo}
+    />
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
@@ -59,6 +73,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       post,
       postContent,
       posts,
+      passwordInfo: {
+        hint: "",
+        length: 0,
+      },
     },
   };
 };
