@@ -35,7 +35,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
         </div>
       </header>
       <section className="">
-        <div className="flex flex-col main-container p-content">
+        <div className="flex flex-col main-container py-section-vertical">
           {posts.map((post, i) => {
             return (
               <Fade delay={70 * (i + 1)} key={post.id}>

@@ -158,6 +158,30 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
           </Code>
         );
         break;
+      case "column_list":
+        content.push(
+          <div
+            key={block.id}
+            className="flex flex-col gap-8 md:flex-row full mt-content-node"
+          >
+            {block.children.map((column) => (
+              <div
+                key={column.id}
+                className="grow basis-0 [&>*:first-child]:mt-0"
+              >
+                {column.children && parseBlocks(column.children, assets)}
+              </div>
+            ))}
+          </div>
+        );
+        break;
+      case "column":
+        content.push(
+          <div key={block.id} className="">
+            {block.children && parseBlocks(block.children, assets)}
+          </div>
+        );
+        break;
       default:
         break;
     }

@@ -15,9 +15,14 @@ const ContentMenu = () => {
   const [visibleInfo, setVisibleInfo] = useState<VisibleInfo[]>([]);
 
   useEffect(() => {
-    const headingsTemp = Array.from(
-      document.querySelectorAll("h2")
+    let headingsTemp = Array.from(
+      document.querySelectorAll(".content-blocks-grid h2")
     ) as HTMLElement[];
+    if (headingsTemp.length == 0) {
+      headingsTemp = Array.from(
+        document.querySelectorAll(".content-blocks-grid h3")
+      ) as HTMLElement[];
+    }
     setHeadings(headingsTemp);
     const setupHeading = () => {
       let visibleInfoTemp: VisibleInfo[] = [];
@@ -29,17 +34,18 @@ const ContentMenu = () => {
           i != headingsTemp.length - 1
             ? headingsTemp[i + 1].getBoundingClientRect().top + window.scrollY
             : parentEl?.offsetTop + parentEl?.clientHeight;
-        let nextSibling = heading.nextElementSibling;
-        let count = 0;
-        while (
-          nextSibling &&
-          nextSibling.tagName != "H2" &&
-          nextSibling.tagName != "h2"
-        ) {
-          count++;
-          nextSibling = nextSibling.nextElementSibling;
-        }
-        heading.style.gridRow = `span ${count}`;
+        // uncomment because we do not need to calculate the length of the heading
+        // let nextSibling = heading.nextElementSibling;
+        // let count = 0;
+        // while (
+        //   nextSibling &&
+        //   nextSibling.tagName != "H2" &&
+        //   nextSibling.tagName != "h2"
+        // ) {
+        //   count++;
+        //   nextSibling = nextSibling.nextElementSibling;
+        // }
+        // heading.style.gridRow = `span ${count}`;
         visibleInfoTemp.push({ start: start, end: end, length: end - start });
       });
       setVisibleInfo(visibleInfoTemp);
@@ -90,7 +96,7 @@ const ContentMenu = () => {
   }, [headings, visibleInfo]);
 
   return (
-    <div className="absolute top-0 bottom-0 left-0 h-full p-content">
+    <div className="absolute top-0 bottom-0 left-0 h-full py-section-vertical">
       <Fade
         as="aside"
         className={`w-60 hidden 2xl:block sticky top-1/2`}

@@ -22,7 +22,7 @@ const ProjectSingleContent = ({
   return (
     <div
       // remove bg color for clearer content
-      className="relative p-content"
+      className="relative py-section-vertical"
       key={project.slug + "_content"}
       // style={{
       //   background:
@@ -38,28 +38,26 @@ const ProjectSingleContent = ({
               enter="transition-all duration-1000"
               enterFrom="opacity-0"
               enterTo="opacity-100"
+              className={"content-blocks-grid"}
             >
-              <div className="project-grid">
-                {parseBlocks(decryptedContent, project.assets)}
-              </div>
+              {parseBlocks(decryptedContent, project.assets)}
             </Transition>
             <Transition
               show={decryptedContent == null}
               leave="transition-opacity duration-300"
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
+              className={"content-container"}
             >
-              <div className="content-container">
-                <PasswordProtect
-                  encryptedContent={notionContent}
-                  mode="project"
-                  passwordInfo={passwordInfo}
-                />
-              </div>
+              <PasswordProtect
+                encryptedContent={notionContent}
+                mode="project"
+                passwordInfo={passwordInfo}
+              />
             </Transition>
           </>
         ) : (
-          <div className="project-grid">
+          <div className="content-blocks-grid">
             {parseBlocks(notionContent, project.assets)}
           </div>
         )}

@@ -21,7 +21,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
       ref={ref}
       className="z-10 w-full border-b text-primary bg-surface border-divider"
     >
-      <div className="flex justify-center p-0 lg:px-container main-container p-header">
+      <div className="flex justify-center p-0 lg:px-section-horizontal main-container p-header">
         <Fade
           duration={100}
           className="hidden w-8 lg:block p-header grow-0 shrink"

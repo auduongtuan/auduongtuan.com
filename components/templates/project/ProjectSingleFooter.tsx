@@ -17,7 +17,7 @@ const ProjectSingleFooter = ({
 
   return (
     <Fragment>
-      <div className="relative border-t border-gray-200 bg-surface p-content">
+      <div className="relative border-t border-gray-200 bg-surface py-section-vertical">
         <div className="main-container">
           {isShown && (
             <ReactionAndComment
