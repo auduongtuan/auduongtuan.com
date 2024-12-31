@@ -49,18 +49,18 @@ const PostSinglePage = ({
           post.meta.icon?.type == "emoji" ? post.meta.icon.emoji : undefined
         }
       />
-      <header ref={ref} className="z-10 w-full " key={post.slug + "_header"}>
-        <div className="flex justify-center p-0 lg:px-container main-container">
-          <Fade
-            duration={100}
-            className="hidden w-8 lg:block p-header grow-0 shrink"
-          >
+      <div className="z-10 w-full " key={post.slug + "_header"}>
+        <header
+          ref={ref}
+          className="flex justify-center px-0 pb-8 md:pb-12 lg:px-section-horizontal main-container p-header"
+        >
+          <Fade duration={100} className="hidden grow shrink basis-0">
             <BackToPreviousPage
               defaultLink="/blog"
               defaultLinkLabel="Back to Blog"
             />
           </Fade>
-          <div className="pb-0 grow content-container p-header">
+          <div className="pb-0 grow shrink-0 basis-auto content-container">
             <div className="grid grid-cols-1 gap-2 md:gap-4 ">
               <div className="flex items-center flex-gap-4">
                 <div className="grow">
@@ -86,11 +86,13 @@ const PostSinglePage = ({
                   </Fade>
                 ) : null}
               </div>
-              <Fade className="flex flex-wrap mt-2 space-x-2" delay={200}>
-                {post.meta.tags.map((tag, i) => (
-                  <Tag key={`tag-${i}`}>{tag}</Tag>
-                ))}
-              </Fade>
+              {post.meta.tags.length > 0 && (
+                <Fade className="flex flex-wrap mt-2 space-x-2" delay={200}>
+                  {post.meta.tags.map((tag, i) => (
+                    <Tag key={`tag-${i}`}>{tag}</Tag>
+                  ))}
+                </Fade>
+              )}
               <Fade
                 className="mt-1 font-mono text-tertiary muted-text"
                 delay={200}
@@ -105,12 +107,16 @@ const PostSinglePage = ({
               </Fade>
             </div>
           </div>
-          <div className="hidden w-8 lg:block p-header grow-0 shrink"></div>
-        </div>
-      </header>
-      <Fade className="relative" delay={200} key={post.slug + "_content"}>
+          <div className="hidden grow shrink basis-0"></div>
+        </header>
+      </div>
+      <Fade
+        className="relative pb-section-vertical"
+        delay={200}
+        key={post.slug + "_content"}
+      >
         <ContentMenu />
-        <div className="pt-8 md:pt-9 content-container p-content blog-content">
+        <div className="main-container">
           {post.meta.protected ? (
             <>
               <Transition
@@ -118,16 +124,20 @@ const PostSinglePage = ({
                 enter="transition-all duration-1000"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
-                className={"text-primary [&>*:first-child]:mt-0"}
+                className={
+                  "text-primary [&>*:first-child]:mt-0 content-blocks-grid"
+                }
               >
-                {parseBlocks(decryptedContent)}
+                {parseBlocks(decryptedContent, post.assets)}
               </Transition>
               <Transition
                 show={decryptedContent == null}
                 leave="transition-opacity duration-300"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
-                className={"text-primary [&>*:first-child]:mt-0"}
+                className={
+                  "text-primary [&>*:first-child]:mt-0 content-container"
+                }
               >
                 <PasswordProtect
                   encryptedContent={postContent}
@@ -137,11 +147,13 @@ const PostSinglePage = ({
               </Transition>
             </>
           ) : (
-            parseBlocks(postContent)
+            <div className="content-blocks-grid">
+              {parseBlocks(postContent, post.assets)}
+            </div>
           )}
         </div>
       </Fade>
-      <section className="relative border-t border-gray-200 bg-surface p-content">
+      <section className="relative border-t border-gray-200 bg-surface py-section-vertical">
         <div className="main-container">
           <Transition
             show={isShown}

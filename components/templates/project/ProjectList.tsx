@@ -92,7 +92,11 @@ export default function ProjectList({
 
   return (
     <section id="works">
-      <Fade className="main-container p-content" delay={500} duration={200}>
+      <Fade
+        className="main-container py-section-vertical"
+        delay={500}
+        duration={200}
+      >
         <div className="flex flex-col mb-8 md:flex-row flex-gap-4 md:justify-between md:items-center">
           <div className="flex items-center sub-heading">Selected works</div>
           <div>

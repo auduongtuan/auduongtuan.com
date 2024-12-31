@@ -20,6 +20,11 @@ module.exports = {
           "inset 0px 1px 1px rgba(0, 0, 0, 0.08), inset 0px 2px 1px rgba(0, 0, 0, 0.06), inset 0px 4px 4px rgba(0, 0, 0, 0.06)",
         "button-inner": "0px 2px 0px 0px rgba(255, 255, 255, 0.25) inset",
       },
+      spacing: {
+        "section-vertical": "var(--section-vertical-padding)",
+        "section-horizontal": "var(--section-horizontal-padding)",
+        "content-node-spacing": "var(--content-node-spacing)",
+      },
       fontFamily: {
         // "display": ['Work Sans', ],
         sans: ["Inter", "Helvetica", "Arial", "sans-serif"],
