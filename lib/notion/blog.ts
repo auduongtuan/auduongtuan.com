@@ -16,9 +16,10 @@ export interface Post {
     title: string;
     icon?: PageIcon;
     date: string;
-    protected: boolean;
     tags: string[];
     excerpt?: string;
+    protected: boolean;
+    passwordId?: string;
   };
   assets: NotionAssets;
 }
@@ -72,6 +73,7 @@ export async function getPosts(includeUnpublished?: boolean) {
           tags: getProperty(page, "Tags", "multi_select"),
           excerpt: getProperty(page, "Excerpt", "rich_text"),
           icon: "icon" in page ? page.icon : undefined,
+          passwordId: getProperty(page, "Password", "relation")[0] || null,
         },
         assets: assets,
       };

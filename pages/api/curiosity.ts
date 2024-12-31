@@ -1,18 +1,18 @@
+// simple tracking system
 import { NextApiRequest, NextApiResponse } from "next";
-import { createComment, getComments } from "@lib/notion/comment";
+import { createTracking } from "@lib/notion/tracking";
 
 const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   // Create comment
   if (req.method === "POST") {
     try {
       const data = {
-        name: req.body.name,
+        event: req.body.event,
         content: req.body.content,
-        email: req.body.email,
         page: req.body.page,
         header: JSON.stringify(req.headers),
       };
-      await createComment(data);
+      await createTracking(data);
       return res.status(200).json({
         data: data,
       });
@@ -24,10 +24,14 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       });
     }
-  }
-  // Get comments
-  if (req.method === "GET") {
-    return res.status(200).json(await getComments(req.query.page));
+  } else {
+    return res.status(404).json({
+      error: {
+        code: 404,
+        message: "Not found",
+      },
+    });
   }
 };
+
 export default notionAPI;

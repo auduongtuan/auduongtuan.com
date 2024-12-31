@@ -84,6 +84,12 @@ export function getProperty(
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
+  propType: "relation"
+): string[];
+
+export function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
   propType:
     | "checkbox"
     | "date"
@@ -94,6 +100,7 @@ export function getProperty(
     | "files"
     | "url"
     | "number"
+    | "relation"
 ) {
   if (
     "properties" in page &&
@@ -124,6 +131,9 @@ export function getProperty(
         break;
       case "files":
         returnValue = data;
+        break;
+      case "relation":
+        returnValue = data.map((item) => item.id);
         break;
       default:
         returnValue = data;

@@ -128,7 +128,7 @@ export default function ProjectList({
           <div className="grid grid-cols-12 gap-6">
             {shownProjects.map((project, i) => (
               <ProjectItem
-                key={`${project.slug}-${i}`}
+                key={`{project.slug}-${i}`}
                 index={i}
                 project={project}
                 projects={shownProjects}

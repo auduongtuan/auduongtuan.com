@@ -1,7 +1,8 @@
 import { Client } from "@notionhq/client";
-import { breakRichTextChunks } from "./notion/helpers";
+import { breakRichTextChunks } from "./helpers";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const REACTION_DATABASE_ID = process.env.REACTION_DATABASE_ID as string;
+
 export async function getReactions({ page, ip }) {
   if (!page) return {};
   const response = await notion.databases.query({

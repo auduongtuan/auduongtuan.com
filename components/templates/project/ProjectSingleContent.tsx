@@ -5,15 +5,18 @@ import parseBlocks from "@notion/parseBlocks";
 import usePasswordProtectStore from "@store/usePasswordProtectStore";
 import { Transition } from "@headlessui/react";
 import PasswordProtect from "@molecules/PasswordProtect";
+import { PasswordInfo } from "@lib/notion/password";
 
 // add key to make it re-render with animation
 // https://stackoverflow.com/questions/63186710/how-to-trigger-a-css-animation-on-every-time-a-react-component-re-renders
 const ProjectSingleContent = ({
   project,
   notionContent,
+  passwordInfo,
 }: {
   project: NotionProject;
   notionContent: any;
+  passwordInfo: PasswordInfo;
 }) => {
   const { decryptedContent } = usePasswordProtectStore();
   return (
@@ -50,6 +53,7 @@ const ProjectSingleContent = ({
                 <PasswordProtect
                   encryptedContent={notionContent}
                   mode="project"
+                  passwordInfo={passwordInfo}
                 />
               </div>
             </Transition>
