@@ -8,6 +8,8 @@ type PillButtonProps<T extends React.ElementType> = {
   external?: boolean;
   active?: boolean;
   size?: "small" | "medium";
+  className?: string;
+  inverted?: boolean;
 } & React.ComponentPropsWithRef<T>;
 
 const PillButton = forwardRef(
@@ -22,8 +24,8 @@ const PillButton = forwardRef(
       inverted = false,
       className,
       ...rest
-    },
-    ref: React.ForwardedRef<React.ElementType<T>>
+    }: PillButtonProps<T>,
+    ref: React.ForwardedRef<HTMLElement>
   ) => {
     const externalAttrs = external
       ? { target: "_blank", rel: "noreferrer" }
@@ -36,18 +38,16 @@ const PillButton = forwardRef(
     return href ? (
       <a
         href={href}
-        {...externalAttrs}
         className={buttonStyles}
-        {...rest}
+        {...(rest as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
         ref={ref as React.RefObject<HTMLElementTagNameMap["a"]>}
       >
         {children}
       </a>
     ) : (
       <button
-        {...externalAttrs}
         className={buttonStyles}
-        {...rest}
+        {...(rest as React.ButtonHTMLAttributes<HTMLButtonElement>)}
         ref={ref as React.RefObject<HTMLElementTagNameMap["button"]>}
       >
         {children}
