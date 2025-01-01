@@ -28,7 +28,7 @@ function HoverGif({
   children,
   label,
 }: {
-  text: React.ReactElement<any>;
+  text: React.ReactElement;
   label: string;
   children: React.ReactNode;
 }) {

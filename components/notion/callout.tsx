@@ -69,7 +69,7 @@ export const parseCallout = (
   lastBlockIndex: { value: number },
   assets?: NotionAssets
 ) => {
-  let rendered: React.ReactElement<any> | null = null;
+  let rendered: React.ReactElement | null = null;
   let gridBlocks: BlockObjectResponseWithChildren[] = [];
   while (
     blocks[lastBlockIndex.value] &&
