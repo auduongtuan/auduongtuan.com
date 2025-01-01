@@ -12,7 +12,7 @@ import {
 import { Transition } from "@headlessui/react";
 export interface TooltipProps {
   content?: string;
-  children?: ReactElement;
+  children?: ReactElement<any>;
 }
 const Tooltip = forwardRef<HTMLElement, TooltipProps>(
   ({ content, children, ...props }, forwardedRef) => {
@@ -44,7 +44,7 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
         return obj;
       }, {});
 
-    const childrenWithProps = React.cloneElement(children as ReactElement, {
+    const childrenWithProps = React.cloneElement(children as ReactElement<any>, {
       ref: (el: HTMLElement) => {
         refs.setReference(el);
         if (typeof forwardedRef === "function") {
