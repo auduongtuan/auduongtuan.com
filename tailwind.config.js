@@ -23,11 +23,16 @@ module.exports = {
       spacing: {
         "section-vertical": "var(--section-vertical-padding)",
         "section-horizontal": "var(--section-horizontal-padding)",
+        "subsection-vertical": "var(--subsection-vertical-padding)",
         // element -> node -> group -> section
         "content-element": "var(--detail-node-spacing)",
         "content-node": "var(--content-node-spacing)",
         "content-group": "var(--content-group-spacing)",
         "content-section": "var(--content-section-spacing)",
+        "main-content-gap":
+          "calc((var(--main-width) - var(--content-width))/2)",
+        main: "var(--main-width)",
+        content: "var(--content-width)",
       },
       fontFamily: {
         // "display": ['Work Sans', ],

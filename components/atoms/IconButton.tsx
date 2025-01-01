@@ -1,14 +1,15 @@
-import { forwardRef } from "react";
+import { forwardRef, JSX } from "react";
 import { twMerge } from "tailwind-merge";
 
 type IconButtonProps<T extends React.ElementType> = {
   tooltip?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   href?: string;
   external?: boolean;
   size?: "small" | "medium";
   inverted?: boolean;
-} & React.ComponentPropsWithRef<T>;
+  as?: T;
+} & React.ComponentPropsWithoutRef<T>;
 
 const IconButton = forwardRef(
   <T extends React.ElementType = "button">(
@@ -20,9 +21,10 @@ const IconButton = forwardRef(
       size = "small",
       inverted = false,
       className,
+      as,
       ...rest
     }: IconButtonProps<T>,
-    ref: React.ForwardedRef<React.ElementType<T>>
+    ref: React.Ref<HTMLButtonElement | HTMLAnchorElement>
   ) => {
     const externalAttrs = external
       ? { target: "_blank", rel: "noreferrer" }
@@ -41,7 +43,7 @@ const IconButton = forwardRef(
         {...externalAttrs}
         className={buttonStyles}
         {...rest}
-        ref={ref as unknown as React.RefObject<HTMLElementTagNameMap["a"]>}
+        ref={ref as React.Ref<HTMLAnchorElement>}
       >
         {children}
       </a>
@@ -50,12 +52,13 @@ const IconButton = forwardRef(
         {...externalAttrs}
         className={buttonStyles}
         {...rest}
-        ref={ref as unknown as React.RefObject<HTMLButtonElement>}
+        ref={ref as React.Ref<HTMLButtonElement>}
       >
         {children}
       </button>
     );
   }
 );
+
 IconButton.displayName = "IconButton";
 export default IconButton;

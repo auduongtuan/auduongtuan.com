@@ -9,6 +9,7 @@ import { twMerge } from "tailwind-merge";
 import Tooltip from "@atoms/Tooltip";
 import { NotionProject } from "@lib/notion";
 import BackToPreviousPage from "@molecules/BackToPreviousPage";
+import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
 interface ProjectSingleHeaderProps {
   project: NotionProject;
 }
@@ -21,18 +22,10 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
       ref={ref}
       className="z-10 w-full border-b text-primary bg-surface border-divider"
     >
-      <div className="flex justify-center p-0 lg:px-section-horizontal main-container p-header">
-        <Fade
-          duration={100}
-          className="hidden w-8 lg:block p-header grow-0 shrink"
-        >
-          <BackToPreviousPage
-            defaultLink="/"
-            defaultLinkLabel="Back to Works"
-          />
-        </Fade>
+      {/* <div className="flex justify-center p-0 lg:px-section-horizontal main-container p-header"> */}
+      <HeaderWithBackButton backLink="/" backLinkLabel="Back to Works">
         <div
-          className="grid grid-cols-12 grow content-container p-header gap-x-4"
+          className="grid grid-cols-12 gap-x-4"
           key={project.slug + "_header"}
         >
           <div className="flex flex-wrap items-center col-span-12 flex-gap-x-4">
@@ -68,7 +61,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                     </IconButton>
                   </Tooltip>
                 )}
-                {project.achievements && (
+                {project.achievements && project.achievements.length > 0 && (
                   <div className="flex flex-gap-4">
                     {project.achievements.map((achievement, i) => (
                       <Badge key={i} index={i} content={achievement} />
@@ -107,8 +100,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
             </Fade>
           </div>
         </div>
-        <div className="hidden w-8 lg:block p-header grow-0 shrink"></div>
-      </div>
+      </HeaderWithBackButton>
     </header>
   );
 };
