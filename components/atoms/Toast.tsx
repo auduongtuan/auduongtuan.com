@@ -1,6 +1,6 @@
 import { Fragment, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { Transition } from "@headlessui/react";
+import { Transition, TransitionChild } from "@headlessui/react";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 interface ToastProps extends React.HTMLProps<HTMLDivElement> {
@@ -26,9 +26,10 @@ const Toast = ({ children, type, afterLeave }: ToastProps) => {
     ? ReactDOM.createPortal(
         <Transition
           show={visible}
+          as="div"
           className="fixed left-0 z-50 flex items-center justify-center w-full bottom-10"
         >
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="transition-all duration-200"
             enterFrom="opacity-0 translate-y-10"
@@ -51,7 +52,7 @@ const Toast = ({ children, type, afterLeave }: ToastProps) => {
               )}
               <div className="pl-4 text-base font-medium">{children}</div>
             </div>
-          </Transition.Child>
+          </TransitionChild>
         </Transition>,
         document.querySelector("#toast-root") as HTMLElement
       )

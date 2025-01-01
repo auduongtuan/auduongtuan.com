@@ -113,8 +113,11 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                   <InlineLink
                     href={"#"}
                     onClick={(e) => {
+                      console.log("test");
                       e.preventDefault();
-                      var rect = contentRef.current?.getBoundingClientRect();
+                      e.stopPropagation();
+                      let rect = contentRef.current?.getBoundingClientRect();
+                      // console.log(rect);
                       if (!rect) return;
                       event({
                         action: "view_about_photo",

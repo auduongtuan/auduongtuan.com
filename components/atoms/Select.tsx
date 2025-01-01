@@ -1,11 +1,11 @@
 import {
-  autoUpdate,
-  flip,
-  offset,
-  shift,
-  useFloating,
-} from "@floating-ui/react";
-import { Listbox, ListboxProps } from "@headlessui/react";
+  Listbox,
+  ListboxProps,
+  ListboxButton,
+  Label,
+  ListboxOptions,
+  ListboxOption,
+} from "@headlessui/react";
 import { useControlledState } from "@hooks/useControlledState";
 import ReactDOM from "react-dom";
 import { FiCheck, FiChevronDown } from "react-icons/fi";
@@ -52,22 +52,6 @@ const Select = <TType, TActualType>({
           option.value === (selected as unknown as TActualType | undefined)
       )
     : undefined;
-  const { x, y, refs, strategy, context } = useFloating({
-    placement: "bottom-start",
-    middleware: [
-      shift(),
-      offset(4),
-      flip(),
-      // size({
-      //   apply({ rects, elements }) {
-      //     Object.assign(elements.floating.style, {
-      //       width: `${rects.reference.width}px`,
-      //     });
-      //   },
-      // }),
-    ],
-    whileElementsMounted: autoUpdate,
-  });
 
   const renderValueFn = () => {
     if (multiple) {
@@ -97,13 +81,8 @@ const Select = <TType, TActualType>({
       {...rest}
     >
       <div className="flex items-center">
-        {label && (
-          <Listbox.Label className={"shrink-0 mr-3 muted-text"}>
-            {label}
-          </Listbox.Label>
-        )}
-        <Listbox.Button
-          ref={refs.setReference}
+        {label && <Label className={"shrink-0 mr-3 muted-text"}>{label}</Label>}
+        <ListboxButton
           className={twMerge(
             "flex w-full items-center justify-between rounded-lg border border-control bg-background px-3 py-1.5 text-base ring-offset-background placeholder:text-muted focus:outline-none focus-visible:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             buttonClassName
@@ -114,22 +93,17 @@ const Select = <TType, TActualType>({
           )}
           <span className="truncate">{renderValueFn()}</span>
           <FiChevronDown className="w-4 h-4 ml-2 opacity-50 shrink-0" />
-        </Listbox.Button>
+        </ListboxButton>
         {isBrowser
           ? ReactDOM.createPortal(
-              <Listbox.Options
-                ref={refs.setFloating}
+              <ListboxOptions
                 className={twMerge(
-                  "rounded-md border border-control bg-surface text-primary shadow-lg p-1 focus:outline-none grid grid-cols-1 gap-0.5 z-popup"
+                  "[--anchor-gap:4px] rounded-md border border-control bg-surface text-primary shadow-lg p-1 focus:outline-none grid grid-cols-1 gap-0.5 z-popup"
                 )}
-                style={{
-                  position: strategy,
-                  top: y ?? "",
-                  left: x ?? "",
-                }}
+                anchor="bottom start"
               >
                 {options.map((option, i) => (
-                  <Listbox.Option
+                  <ListboxOption
                     key={
                       typeof option.value == "string"
                         ? option.value
@@ -140,8 +114,8 @@ const Select = <TType, TActualType>({
                       "flex w-full cursor-default select-none items-center rounded-md py-1.5 pl-2 pr-2 text-base outline-none",
                       " data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
                       multiple
-                        ? "ui-selected:bg-transparent ui-selected:hover:bg-accent-subtlest ui-active:bg-accent-subtlest"
-                        : "ui-selected:bg-accent ui-selected:text-oncolor ui-active:ui-not-selected:bg-subtle"
+                        ? "data-[selected]:bg-transparent data-[selected]:hover:bg-accent-subtlest data-[active]:bg-accent-subtlest"
+                        : "data-[selected]:bg-accent data-[selected]:text-oncolor data-[active]:[&:not([data-selected])]:bg-subtle"
                     )}
                   >
                     {multiple && (
@@ -162,14 +136,14 @@ const Select = <TType, TActualType>({
                     {!multiple && (
                       <FiCheck
                         className={twMerge(
-                          "ml-1 opacity-0 ui-selected:opacity-100 shrink-0",
+                          "ml-1 opacity-0 data-[selected]:opacity-100 shrink-0",
                           multiple && "text-accent"
                         )}
                       />
                     )}
-                  </Listbox.Option>
+                  </ListboxOption>
                 ))}
-              </Listbox.Options>,
+              </ListboxOptions>,
               document.querySelector("body") as HTMLElement
             )
           : null}
