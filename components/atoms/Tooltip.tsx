@@ -9,7 +9,7 @@ import {
   useFocus,
   useInteractions,
 } from "@floating-ui/react";
-import { Transition } from "@headlessui/react";
+import { Transition, TransitionChild } from "@headlessui/react";
 export interface TooltipProps {
   content?: string;
   children?: ReactElement;
@@ -77,7 +77,7 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
                   }}
                   {...getFloatingProps()}
                 >
-                  <Transition.Child
+                  <TransitionChild
                     enter="transition-opacity duration-300"
                     enterFrom="opacity-0"
                     enterTo="opacity-100"
@@ -88,7 +88,7 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
                     <div className="px-2 py-1 font-mono text-sm font-medium text-white transition-all duration-300 bg-blue-800 rounded-lg shadow-md ease">
                       {content}
                     </div>
-                  </Transition.Child>
+                  </TransitionChild>
                 </div>
               </Transition>,
               document.querySelector("body") as HTMLElement

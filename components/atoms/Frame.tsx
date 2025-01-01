@@ -1,6 +1,5 @@
 import React, { MouseEventHandler } from "react";
 import useBreakpoint from "@hooks/useBreakpoint";
-import Draggable from "react-draggable";
 import {
   FiChevronLeft,
   FiChevronRight,
@@ -11,6 +10,7 @@ import {
 } from "react-icons/fi";
 import Tooltip from "./Tooltip";
 import { twMerge } from "tailwind-merge";
+import { useDraggable } from "@hooks/useDraggable";
 
 export interface BaseFrameProps extends React.ComponentPropsWithoutRef<"div"> {
   inverted?: boolean;
@@ -75,7 +75,11 @@ export const BaseFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
         </div>
       );
     };
-    return draggable ? <Draggable>{renderFrame()}</Draggable> : renderFrame();
+    return draggable ? (
+      <Draggable offsetParent={document.body}>{renderFrame()}</Draggable>
+    ) : (
+      renderFrame()
+    );
   }
 );
 BaseFrame.displayName = "BaseFrame";
@@ -168,10 +172,19 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
     ref
   ) => {
     const bp = useBreakpoint();
+    const draggleRef = useDraggable();
     const renderFrame = () => (
       <div
         // ref={innerRef}
-        ref={ref}
+        // ref={ref}
+        ref={(el) => {
+          draggleRef.current = el;
+          if (typeof ref === "function") {
+            ref(el);
+          } else if (ref) {
+            ref.current = el;
+          }
+        }}
         className={twMerge(
           `w-full flex flex-col relative border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg`,
           className
@@ -226,7 +239,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
         </main>
       </div>
     );
-    return draggable ? <Draggable>{renderFrame()}</Draggable> : renderFrame();
+    return renderFrame();
   }
 );
 PhotoFrame.displayName = "PhotoFrame";

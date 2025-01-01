@@ -2,6 +2,7 @@ import Link from "next/link";
 import ExternalLink from "./ExternalLink";
 import { forwardRef } from "react";
 import { cn } from "@lib/utils/cn";
+
 interface InlineLinkProps
   extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap"> {
   href: string;
@@ -26,9 +27,11 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
     ref
   ) => {
     // get the internal link (without /)
-    let checkInternal = href.match(
-      /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i
-    );
+    let checkInternal =
+      href != "#" &&
+      href.match(
+        /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i
+      );
     const Component = checkInternal ? Link : ExternalLink;
     const linkStyles = cn(
       "inline-flex gap-2 items-center",

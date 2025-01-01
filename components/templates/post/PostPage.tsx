@@ -124,6 +124,7 @@ const PostSinglePage = ({
                 enter="transition-all duration-1000"
                 enterFrom="opacity-0"
                 enterTo="opacity-100"
+                as="div"
                 className={
                   "text-primary [&>*:first-child]:mt-0 content-blocks-grid"
                 }
@@ -135,6 +136,7 @@ const PostSinglePage = ({
                 leave="transition-opacity duration-300"
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
+                as="div"
                 className={
                   "text-primary [&>*:first-child]:mt-0 content-container"
                 }
@@ -160,6 +162,7 @@ const PostSinglePage = ({
             enter="transition-all duration-1000"
             enterFrom="opacity-0"
             enterTo="opacity-100"
+            as="div"
           >
             <ReactionAndComment
               page={`blog/${post.slug}`}

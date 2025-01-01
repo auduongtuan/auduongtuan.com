@@ -1,6 +1,13 @@
 import { Fragment, useEffect } from "react";
-import { Dialog as HDialog, Transition } from "@headlessui/react";
+import {
+  Dialog as HDialog,
+  DialogPanel as HDialogPanel,
+  DialogTitle as HDialogTitle,
+  Transition,
+  TransitionChild,
+} from "@headlessui/react";
 import useAppStore from "@store/useAppStore";
+
 function Dialog({ children, open, onClose, title, ...rest }) {
   const { setPauseScrollEvent } = useAppStore();
   useEffect(() => {
@@ -13,7 +20,7 @@ function Dialog({ children, open, onClose, title, ...rest }) {
     <Transition show={open} as={Fragment}>
       <HDialog onClose={onClose} className="relative z-modal" {...rest}>
         {/* The backdrop, rendered as a fixed sibling to the panel container */}
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-200"
           enterFrom="opacity-0"
@@ -23,9 +30,9 @@ function Dialog({ children, open, onClose, title, ...rest }) {
           leaveTo="opacity-0"
         >
           <div className="fixed inset-0 bg-black/60" aria-hidden="true" />
-        </Transition.Child>
+        </TransitionChild>
         {/* Full-screen container to center the panel */}
-        <Transition.Child
+        <TransitionChild
           as={Fragment}
           enter="ease-out duration-200"
           enterFrom="opacity-0 scale-95"
@@ -36,10 +43,10 @@ function Dialog({ children, open, onClose, title, ...rest }) {
         >
           <div className="fixed inset-0 flex items-center justify-center p-4">
             {/* The actual HDialog panel  */}
-            <HDialog.Panel
+            <HDialogPanel
               className={`w-full max-w-md flex flex-col border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg`}
             >
-              <HDialog.Title
+              <HDialogTitle
                 as="header"
                 className={` flex items-center justify-between bg-slate-100
           px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)] relative`}
@@ -66,12 +73,12 @@ function Dialog({ children, open, onClose, title, ...rest }) {
                 {/* <FiZoomOut className="text-slate-400" />
                 <FiZoomIn className="text-slate-400" /> */}
                 {/* </div> */}
-              </HDialog.Title>
+              </HDialogTitle>
 
               <main className="flex-grow-0 bg-surface">{children}</main>
-            </HDialog.Panel>
+            </HDialogPanel>
           </div>
-        </Transition.Child>
+        </TransitionChild>
       </HDialog>
     </Transition>
   );

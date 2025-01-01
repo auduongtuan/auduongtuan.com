@@ -23,7 +23,11 @@ module.exports = {
       spacing: {
         "section-vertical": "var(--section-vertical-padding)",
         "section-horizontal": "var(--section-horizontal-padding)",
-        "content-node-spacing": "var(--content-node-spacing)",
+        // element -> node -> group -> section
+        "content-element": "var(--detail-node-spacing)",
+        "content-node": "var(--content-node-spacing)",
+        "content-group": "var(--content-group-spacing)",
+        "content-section": "var(--content-section-spacing)",
       },
       fontFamily: {
         // "display": ['Work Sans', ],
@@ -124,7 +128,6 @@ module.exports = {
   plugins: [
     require("@tailwindcss/typography"),
     require("tailwindcss-animation-delay"),
-    require("@headlessui/tailwindcss"),
     plugin(function ({ addVariant }) {
       addVariant(
         "sm-only",

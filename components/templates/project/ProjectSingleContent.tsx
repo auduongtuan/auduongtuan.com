@@ -38,6 +38,7 @@ const ProjectSingleContent = ({
               enter="transition-all duration-1000"
               enterFrom="opacity-0"
               enterTo="opacity-100"
+              as={"div"}
               className={"content-blocks-grid"}
             >
               {parseBlocks(decryptedContent, project.assets)}
@@ -47,6 +48,7 @@ const ProjectSingleContent = ({
               leave="transition-opacity duration-300"
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
+              as={"div"}
               className={"content-container"}
             >
               <PasswordProtect
