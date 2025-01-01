@@ -36,10 +36,19 @@ export const BaseFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
     },
     ref
   ) => {
+    const draggleRef = useDraggable();
     const renderFrame = () => {
       return (
         <div
           className={`w-full flex flex-col border-0 z-40 relative bg-surface rounded-xl translate-z-0 shadow-lg ${className}`}
+          ref={(el) => {
+            draggleRef.current = el;
+            if (typeof ref === "function") {
+              ref(el);
+            } else if (ref) {
+              ref.current = el;
+            }
+          }}
           {...rest}
         >
           <div className="pointer-events-none border-solid border border-black/20 rounded-t-[11px] w-full h-full z-10 rounded-xl absolute top-0 left-0"></div>
@@ -75,11 +84,7 @@ export const BaseFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
         </div>
       );
     };
-    return draggable ? (
-      <Draggable offsetParent={document.body}>{renderFrame()}</Draggable>
-    ) : (
-      renderFrame()
-    );
+    return renderFrame();
   }
 );
 BaseFrame.displayName = "BaseFrame";
@@ -171,7 +176,6 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
     },
     ref
   ) => {
-    const bp = useBreakpoint();
     const draggleRef = useDraggable();
     const renderFrame = () => (
       <div
