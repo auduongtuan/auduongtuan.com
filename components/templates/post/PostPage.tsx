@@ -60,7 +60,7 @@ const PostSinglePage = ({
               defaultLinkLabel="Back to Blog"
             />
           </Fade>
-          <div className="pb-0 grow shrink-0 basis-auto content-container">
+          <div className="pb-0 grow shrink basis-auto content-container">
             <div className="grid grid-cols-1 gap-2 md:gap-4 ">
               <div className="flex items-center flex-gap-4">
                 <div className="grow">
