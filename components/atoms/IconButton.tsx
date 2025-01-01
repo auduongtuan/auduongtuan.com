@@ -1,5 +1,6 @@
 import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
+
 type IconButtonProps<T extends React.ElementType> = {
   tooltip?: string;
   children: React.ReactNode;
@@ -8,8 +9,9 @@ type IconButtonProps<T extends React.ElementType> = {
   size?: "small" | "medium";
   inverted?: boolean;
 } & React.ComponentPropsWithRef<T>;
+
 const IconButton = forwardRef(
-  <T extends "a" | "button">(
+  <T extends React.ElementType = "button">(
     {
       tooltip,
       href,
@@ -19,7 +21,7 @@ const IconButton = forwardRef(
       inverted = false,
       className,
       ...rest
-    },
+    }: IconButtonProps<T>,
     ref: React.ForwardedRef<React.ElementType<T>>
   ) => {
     const externalAttrs = external
@@ -39,7 +41,7 @@ const IconButton = forwardRef(
         {...externalAttrs}
         className={buttonStyles}
         {...rest}
-        ref={ref as React.RefObject<HTMLElementTagNameMap["a"]>}
+        ref={ref as unknown as React.RefObject<HTMLElementTagNameMap["a"]>}
       >
         {children}
       </a>
@@ -48,7 +50,7 @@ const IconButton = forwardRef(
         {...externalAttrs}
         className={buttonStyles}
         {...rest}
-        ref={ref as React.RefObject<HTMLElementTagNameMap["button"]>}
+        ref={ref as unknown as React.RefObject<HTMLButtonElement>}
       >
         {children}
       </button>

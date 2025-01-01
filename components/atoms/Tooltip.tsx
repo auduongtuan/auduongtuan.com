@@ -37,27 +37,30 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
       setMounted(true);
       return () => setMounted(false);
     }, []);
-    const allChildEvents = Object.keys(children?.props)
+    const allChildEvents = Object.keys(children?.props as object)
       .filter((eventName) => eventName.startsWith("on"))
       .reduce((obj, eventName) => {
-        obj[eventName] = children?.props[eventName];
+        obj[eventName] = (children?.props as Record<string, any>)[eventName];
         return obj;
       }, {});
 
-    const childrenWithProps = React.cloneElement(children as ReactElement, {
-      ref: (el: HTMLElement) => {
-        refs.setReference(el);
-        if (typeof forwardedRef === "function") {
-          forwardedRef(el);
-        } else {
-          if (forwardedRef) forwardedRef.current = el;
-        }
-      },
-      // ...getReferenceProps(),
-      ...getReferenceProps(allChildEvents),
-      "aria-label": content,
-      ...props,
-    });
+    const childrenWithProps = React.cloneElement(
+      children as ReactElement<any>,
+      {
+        ref: (el: HTMLElement) => {
+          refs.setReference(el);
+          if (typeof forwardedRef === "function") {
+            forwardedRef(el);
+          } else {
+            if (forwardedRef) forwardedRef.current = el;
+          }
+        },
+        // ...getReferenceProps(),
+        ...getReferenceProps(allChildEvents),
+        "aria-label": content,
+        ...props,
+      }
+    );
 
     return (
       <React.Fragment>

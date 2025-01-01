@@ -96,7 +96,7 @@ const ReactButton = ({
             // console.log(res);
           })
           .catch((err) => {
-            console.error(err);
+            // console.error(err);
           });
       }
     },
@@ -139,10 +139,7 @@ const ReactButton = ({
 };
 
 const Reaction = ({ page }) => {
-  const [counter, dispatch] = useReducer<React.Reducer<Counter, CounterAction>>(
-    counterReducer,
-    {}
-  );
+  const [counter, dispatch] = useReducer(counterReducer, {});
   const { data, isLoading } = useSWR(
     ["/api/reaction", page],
     ([url, page]) =>

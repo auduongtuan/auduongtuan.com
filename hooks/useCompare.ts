@@ -8,7 +8,7 @@ export function useCompare(val) {
 
 // Helper hook
 export function usePrevious(value) {
-  const ref = useRef();
+  const ref = useRef(undefined);
   useEffect(() => {
     ref.current = value;
   }, [value]);

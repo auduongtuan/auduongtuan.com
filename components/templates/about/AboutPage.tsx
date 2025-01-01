@@ -54,8 +54,8 @@ function HoverGif({
     open: showGif,
     whileElementsMounted: autoUpdate,
   });
-  const el = React.cloneElement(text, {
-    onMouseEnter: (e) => {
+  const el = React.cloneElement(text as React.ReactElement<any>, {
+    onMouseEnter: (e: React.MouseEvent) => {
       setShowGif(true);
       event({
         action: "hover_gif",
