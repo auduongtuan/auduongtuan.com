@@ -11,6 +11,7 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import useAppStore from "@store/useAppStore";
 import Sidebar from "@molecules/Sidebar";
+import { useViewportAndScrollbarWidths } from "@hooks/useViewportAndScrollbarWidths";
 // import { IBM_Plex_Sans } from "@next/font/google";
 // const ibm = IBM_Plex_Sans({
 //   subsets: ["latin", "latin-ext", "vietnamese"],
@@ -21,6 +22,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 TimeAgo.addLocale(en);
 function MyApp({ Component, pageProps }: AppProps) {
+  useViewportAndScrollbarWidths();
   const router = useRouter();
   useEffect(() => {
     smoothscroll.polyfill();

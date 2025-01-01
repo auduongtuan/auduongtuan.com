@@ -128,13 +128,13 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                       setShowImage(true);
                     }}
                   >
-                    Tuan{" "}
-                    <CustomImage
+                    Tuan 👨‍💻
+                    {/* <CustomImage
                       src="/favicon/apple-icon-180x180.png"
                       width={24}
                       height={24}
                       className="inline w-6 h-6"
-                    ></CustomImage>
+                    ></CustomImage> */}
                   </InlineLink>
                 </Tooltip>
                 . I&apos;m a{" "}

@@ -4,8 +4,9 @@ import Tag from "@atoms/Tag";
 import { Transition } from "@headlessui/react";
 import useHeaderInView from "@hooks/useHeaderInView";
 import { Post } from "@lib/notion";
-import BackToPreviousPage from "@molecules/BackToPreviousPage";
+import { PasswordInfo } from "@lib/notion/password";
 import ContentMenu from "@molecules/ContentMenu";
+import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
 import PasswordProtect from "@molecules/PasswordProtect";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import parseBlocks from "@notion/parseBlocks";
@@ -15,7 +16,6 @@ import { useEffect } from "react";
 import Balancer from "react-wrap-balancer";
 import { twMerge } from "tailwind-merge";
 import OtherPostList from "./OtherPostList";
-import { PasswordInfo } from "@lib/notion/password";
 
 const PostSinglePage = ({
   post,
@@ -49,66 +49,58 @@ const PostSinglePage = ({
           post.meta.icon?.type == "emoji" ? post.meta.icon.emoji : undefined
         }
       />
-      <div className="z-10 w-full " key={post.slug + "_header"}>
-        <header
-          ref={ref}
-          className="flex justify-center px-0 pb-8 md:pb-12 lg:px-section-horizontal main-container p-header"
+      <div className="z-10 w-full" ref={ref} key={post.slug + "_header"}>
+        <HeaderWithBackButton
+          backLink="/blog"
+          backLinkLabel="Back to blog"
+          smallBottomPadding
         >
-          <Fade duration={100} className="hidden grow shrink basis-0">
-            <BackToPreviousPage
-              defaultLink="/blog"
-              defaultLinkLabel="Back to Blog"
-            />
-          </Fade>
-          <div className="pb-0 grow shrink basis-auto content-container">
-            <div className="grid grid-cols-1 gap-2 md:gap-4 ">
-              <div className="flex items-center flex-gap-4">
-                <div className="grow">
-                  <Balancer>
-                    <Fade
-                      as="h1"
-                      className="col-span-1 text-2xl leading-tight text-primary grow md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
-                      slide
-                      duration={100}
-                    >
-                      {post.meta.title}
-                    </Fade>
-                  </Balancer>
-                </div>
-                {post.meta.icon && post.meta.icon.type == "emoji" ? (
+          <div className="grid grid-cols-1 gap-2 md:gap-4 ">
+            <div className="flex items-center flex-gap-4">
+              <div className="grow shrink basis-0">
+                <Balancer>
                   <Fade
-                    as="span"
-                    delay={100}
+                    as="h1"
+                    className="col-span-1 text-2xl leading-tight text-primary grow md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
+                    slide
                     duration={100}
-                    className="text-3xl md:text-4xl"
                   >
-                    {post.meta.icon.emoji}
+                    {post.meta.title}
                   </Fade>
-                ) : null}
+                </Balancer>
               </div>
-              {post.meta.tags.length > 0 && (
-                <Fade className="flex flex-wrap mt-2 space-x-2" delay={200}>
-                  {post.meta.tags.map((tag, i) => (
-                    <Tag key={`tag-${i}`}>{tag}</Tag>
-                  ))}
+              {post.meta.icon && post.meta.icon.type == "emoji" ? (
+                <Fade
+                  as="span"
+                  delay={100}
+                  duration={100}
+                  className="text-3xl md:text-4xl"
+                >
+                  {post.meta.icon.emoji}
                 </Fade>
-              )}
-              <Fade
-                className="mt-1 font-mono text-tertiary muted-text"
-                delay={200}
-              >
-                Posted on{" "}
-                {post.meta.date &&
-                  new Date(post.meta.date).toLocaleDateString("en-US", {
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-              </Fade>
+              ) : null}
             </div>
+            {post.meta.tags.length > 0 && (
+              <Fade className="flex flex-wrap mt-2 space-x-2" delay={200}>
+                {post.meta.tags.map((tag, i) => (
+                  <Tag key={`tag-${i}`}>{tag}</Tag>
+                ))}
+              </Fade>
+            )}
+            <Fade
+              className="mt-1 font-mono text-tertiary muted-text"
+              delay={200}
+            >
+              Posted on{" "}
+              {post.meta.date &&
+                new Date(post.meta.date).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+            </Fade>
           </div>
-          <div className="hidden grow shrink basis-0"></div>
-        </header>
+        </HeaderWithBackButton>
       </div>
       <Fade
         className="relative pb-section-vertical"
@@ -116,7 +108,7 @@ const PostSinglePage = ({
         key={post.slug + "_content"}
       >
         <ContentMenu />
-        <div className="main-container">
+        <div className="px-0 main-container">
           {post.meta.protected ? (
             <>
               <Transition

@@ -54,6 +54,23 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
           } else {
             if (forwardedRef) forwardedRef.current = el;
           }
+          // setup ref for children
+          if (
+            children?.props &&
+            typeof children?.props == "object" &&
+            "ref" in children?.props
+          ) {
+            if (typeof children?.props.ref === "function") {
+              children?.props.ref(el);
+            } else {
+              if (
+                children?.props.ref &&
+                typeof children?.props.ref == "object" &&
+                "current" in children?.props.ref
+              )
+                children.props.ref.current = el;
+            }
+          }
         },
         // ...getReferenceProps(),
         ...getReferenceProps(allChildEvents),

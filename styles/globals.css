@@ -33,10 +33,11 @@
   --control: rgb(var(--base-fg) / 0.15);
   --divider: rgb(var(--base-fg) / 0.1);
   --underline: rgb(var(--base-fg) / 0.15);
-  --main-width: 70rem;
-  --content-width: 52rem;
+  --main-width: min(var(--viewport-width), 70rem);
+  --content-width: min(var(--viewport-width), 52rem);
   --section-horizontal-padding: 1rem;
   --section-vertical-padding: 2rem;
+  --subsection-vertical-padding: 1.5rem;
   --content-element-spacing: 0.5rem;
   --content-node-spacing: 1rem;
   --content-group-spacing: 2rem;
@@ -44,6 +45,7 @@
   @screen md {
     --section-horizontal-padding: 1.5rem;
     --section-vertical-padding: 4rem;
+    --subsection-vertical-padding: 3rem;
     --content-element-spacing: 1rem;
     --content-node-spacing: 1.25rem;
     --content-group-spacing: 3rem;
@@ -51,8 +53,8 @@
   }
   @screen lg {
     --content-node-spacing: 1.875rem;
-    --content-group-spacing: 4rem;
-    --content-section-spacing: 6rem;
+    --content-group-spacing: 3.5rem;
+    --content-section-spacing: 4.5rem;
   }
 }
 
@@ -138,7 +140,7 @@
     @apply text-base leading-relaxed md:text-lg md:leading-relaxed;
   }
   .p-header {
-    @apply pt-20 pb-14 md:pt-28 md:pb-20 lg:pt-36 lg:pb-28;
+    @apply pt-[calc(var(--section-vertical-padding)+3.75rem)] pb-[calc(var(--section-vertical-padding)+1.5rem)];
   }
   .p-homepage-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
@@ -153,20 +155,12 @@
   .muted-text {
     @apply text-sm md:text-sm text-tertiary font-mono tracking-tight;
   }
-
-  .max-w-main-container {
-    /* @apply max-w-full lg:w-[76rem]; */
-    @apply max-w-full lg:w-[var(--main-width)];
-  }
   .main-container {
     @apply px-section-horizontal mx-auto;
-    @apply max-w-main-container;
-  }
-  .max-w-content-container {
-    @apply max-w-[var(--content-width)];
+    @apply max-w-main;
   }
   .content-container {
-    @apply max-w-content-container px-section-horizontal mx-auto;
+    @apply max-w-content px-section-horizontal mx-auto;
   }
   .content-grid-item {
     > * *:first-child {

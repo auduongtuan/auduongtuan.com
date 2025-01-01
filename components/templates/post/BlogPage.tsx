@@ -10,7 +10,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
   return (
     <>
       <header ref={ref} className="z-10 w-full text-primary bg-surface ">
-        <div className="pt-20 pb-8 border-b main-container md:pt-24 md:pb-10 lg:pt-28 lg:pb-12 border-divider">
+        <div className="border-b main-container p-header border-divider pb-subsection-vertical">
           <div className="grid grid-cols-12 gap-2 md:gap-4">
             <Fade
               as="h1"
