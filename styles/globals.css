@@ -139,6 +139,9 @@
   .body-text {
     @apply text-base leading-relaxed md:text-lg md:leading-relaxed;
   }
+  .small-body-text {
+    @apply text-sm leading-relaxed md:text-base md:leading-relaxed;
+  }
   .p-header {
     @apply pt-[calc(var(--section-vertical-padding)+3.75rem)] pb-[calc(var(--section-vertical-padding)+1.5rem)];
   }

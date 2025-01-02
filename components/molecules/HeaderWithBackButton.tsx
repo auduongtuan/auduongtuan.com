@@ -1,7 +1,8 @@
 import Fade from "@atoms/Fade";
 import BackToPreviousPage from "./BackToPreviousPage";
-import { forwardRef } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { cn } from "@lib/utils/cn";
+import { getElementContentWidth } from "@lib/utils/getElementContentWidth";
 
 const HeaderWithBackButton = forwardRef<
   HTMLDivElement,
@@ -21,6 +22,21 @@ const HeaderWithBackButton = forwardRef<
     },
     ref
   ) => {
+    const [showBackButton, setShowBackButton] = useState(false);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    useEffect(() => {
+      function checkParentWidth() {
+        if (buttonRef.current) {
+          const parentEl = buttonRef.current.parentElement;
+          if (!parentEl) return;
+          const parentWidth = getElementContentWidth(parentEl);
+          setShowBackButton(parentWidth > buttonRef.current.clientWidth + 16);
+        }
+      }
+      checkParentWidth();
+      window.addEventListener("resize", checkParentWidth);
+      return () => window.removeEventListener("resize", checkParentWidth);
+    }, [buttonRef.current]);
     return (
       <div
         ref={ref}
@@ -32,20 +48,22 @@ const HeaderWithBackButton = forwardRef<
       >
         <Fade
           duration={100}
-          className="min-w-0 grow basis-0"
-          data-back-to-previous-spacer
+          className={cn("min-w-0 grow basis-0", !showBackButton && "invisible")}
         >
           <BackToPreviousPage
             defaultLink={backLink}
             defaultLinkLabel={backLinkLabel}
+            ref={buttonRef}
           />
         </Fade>
         <div className="pb-0 mx-0 w-content px-section-horizontal grow-0 shrink-0 basis-auto">
           {children}
         </div>
         <div
-          className="min-w-0 md:block grow basis-0"
-          data-back-to-previous-spacer
+          className={cn(
+            "min-w-0  grow basis-0",
+            !showBackButton && "invisible"
+          )}
         ></div>
       </div>
     );
