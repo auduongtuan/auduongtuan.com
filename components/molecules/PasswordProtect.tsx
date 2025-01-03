@@ -71,10 +71,10 @@ const PasswordProtect = ({
       <div className="flex w-full flex-gap-4">
         <div className="grow">
           <h3>This {mode} is password-protected</h3>
-          <p className="mt-4 font-mono text-base text-secondary">
+          <p className="mt-4 font-mono small-body-text text-secondary">
             Please input the password below to view this {mode}.
           </p>
-          <p className="mt-2 font-mono text-base text-secondary">
+          <p className="mt-2 font-mono small-body-text text-secondary">
             Password hint:
             <br />
             {passwordInfo.length > 0 ? passwordInfo.hint : "No hint available"}
