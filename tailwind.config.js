@@ -119,11 +119,16 @@ module.exports = {
             transform: "translateX(100%)",
           },
         },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
       },
       animation: {
         "slide-in-fast": "slide-in 200ms ease-in forwards",
         "fade-in-fast": "fade-in 400ms ease-in-out forwards",
         "spin-slow": "spin 3s linear infinite",
+        "caret-blink": "caret-blink 1.2s ease-out infinite",
       },
       animationDelay: {
         450: "450ms",

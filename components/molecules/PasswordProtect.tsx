@@ -1,5 +1,5 @@
 import CryptoJS from "crypto-js";
-import { useEffect } from "react";
+import { useEffect, useId } from "react";
 import TextField from "@atoms/TextField";
 import { FiLock } from "react-icons/fi";
 import usePasswordProtectStore, {
@@ -8,6 +8,7 @@ import usePasswordProtectStore, {
 import { PasswordInfo } from "@lib/notion/password";
 import { event } from "@lib/gtag";
 import axios from "axios";
+import PasswordField from "@atoms/PasswordField";
 
 const PasswordProtect = ({
   encryptedContent,
@@ -20,7 +21,7 @@ const PasswordProtect = ({
 }) => {
   const { password, setPassword, setDecryptedContent, error, setError } =
     usePasswordProtectStore();
-
+  const id = useId();
   useEffect(() => {
     if (password.length == passwordInfo.length) {
       try {
@@ -83,16 +84,15 @@ const PasswordProtect = ({
         <FiLock className="shrink-0 text-[24px] md:text-[32px] text-gray-400"></FiLock>
       </div>
       <div className="mt-6">
-        <TextField
+        <PasswordField
           type="text"
+          key={id}
           // inputMode="numeric"
           // autoComplete="one-time-code"
           pattern={`\d{${passwordInfo.length}}`}
           maxLength={passwordInfo.length}
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          // placeholder="Enter password"
-          placeholder={"• ".repeat(passwordInfo.length).trim()}
           required
           className="text-lg"
           error={error != null}
