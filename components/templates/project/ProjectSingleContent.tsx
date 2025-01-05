@@ -1,6 +1,6 @@
 import ContentMenu from "@molecules/ContentMenu";
 import Fade from "@atoms/Fade";
-import { NotionProject } from "@lib/notion";
+import { Project } from "@lib/notion";
 import parseBlocks from "@notion/parseBlocks";
 import usePasswordProtectStore from "@store/usePasswordProtectStore";
 import { Transition } from "@headlessui/react";
@@ -14,7 +14,7 @@ const ProjectSingleContent = ({
   notionContent,
   passwordInfo,
 }: {
-  project: NotionProject;
+  project: Project;
   notionContent: any;
   passwordInfo: PasswordInfo;
 }) => {

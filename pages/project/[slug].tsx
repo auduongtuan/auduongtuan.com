@@ -1,8 +1,4 @@
-import {
-  NotionProject,
-  getNotionProjectContent,
-  getNotionProjectsWithCache,
-} from "@lib/notion";
+import { Project, getProjectContent, getProjectsWithCache } from "@lib/notion";
 import { getPassword } from "@lib/notion/password";
 import ProjectSinglePage, {
   ProjectSinglePageProps,
@@ -47,9 +43,9 @@ export default function ProjectView({
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const slug = params?.slug as string;
   // Get all posts from the Notion database
-  const projects = await getNotionProjectsWithCache();
+  const projects = await getProjectsWithCache();
   // Find the post with a matching slug property
-  let project: NotionProject | undefined = projects.find(
+  let project: Project | undefined = projects.find(
     (proj) => proj.slug === slug
   );
   if (!project) {
@@ -63,7 +59,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     length: 0,
   };
   // Get the Notion page data and all child block data
-  const rawNotionContent = await getNotionProjectContent(project.id);
+  const rawNotionContent = await getProjectContent(project.id);
   // TBD: Encrypt the content if the post is protected
   if (project.protected) {
     const json = JSON.stringify(rawNotionContent);
@@ -92,7 +88,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const projects = await getNotionProjectsWithCache();
+  const projects = await getProjectsWithCache();
   // old mdx paths
   // const paths = projectSlugs.map((slug) => ({
   //   params: { slug: slug },

@@ -7,11 +7,10 @@ import Fade from "@atoms/Fade";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { twMerge } from "tailwind-merge";
 import Tooltip from "@atoms/Tooltip";
-import { NotionProject } from "@lib/notion";
-import BackToPreviousPage from "@molecules/BackToPreviousPage";
+import { Project } from "@lib/notion";
 import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
 interface ProjectSingleHeaderProps {
-  project: NotionProject;
+  project: Project;
 }
 
 export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {

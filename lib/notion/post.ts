@@ -7,7 +7,9 @@ import {
   parseNotionPageAssets,
   NotionAssets,
 } from "@lib/notion";
+import { isDevEnvironment } from "@lib/utils";
 import { isFullPage } from "@notionhq/client";
+import cacheData from "memory-cache";
 
 export interface Post {
   id: string;
@@ -22,6 +24,22 @@ export interface Post {
     passwordId?: string;
   };
   assets: NotionAssets;
+}
+
+export async function getPostsWithCache() {
+  let posts: Post[];
+  if (isDevEnvironment) {
+    const cache = cacheData.get("posts");
+    if (cache) {
+      posts = cache;
+    } else {
+      posts = await getPosts(isDevEnvironment);
+      cacheData.put("posts", posts, 24 * 1000 * 60 * 60);
+    }
+  } else {
+    posts = await getPosts(isDevEnvironment);
+  }
+  return posts;
 }
 
 export async function getPosts(includeUnpublished?: boolean) {

@@ -12,9 +12,10 @@ interface NavigationProps {
 }
 
 const menuItems = [
-  { pathname: "/", href: "/#works", name: "Works" },
+  { pathname: "/", href: "/", name: "Home" },
   { pathname: "/about", href: "/about", name: "About" },
-  { pathname: "/", href: "/blog", name: "Blog" },
+  { pathname: "/work", href: "/work", name: "Work" },
+  { pathname: "/blog", href: "/blog", name: "Blog" },
 ];
 
 const Navigation = React.memo(
@@ -122,7 +123,7 @@ const Navigation = React.memo(
           leaveTo="opacity-0 -translate-y-12"
         >
           <div className={`fixed z-40 w-full h-full bg-surface`}>
-            <div className="main-container font-sans">
+            <div className="font-sans main-container">
               <ul className="flex flex-col w-full pt-16 flex-gap-y-2">
                 {menuItems.map((item, i) => (
                   <li key={i} className="w-full">

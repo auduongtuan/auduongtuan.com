@@ -4,15 +4,12 @@ import { FiLock } from "react-icons/fi";
 import Tag from "@atoms/Tag";
 import clsx from "clsx";
 
-type OtherPostListItemProps = {
+type MiniPostCardProps = {
   post: Post;
   className?: string;
 };
 
-const OtherPostListItem = ({
-  post,
-  className = "",
-}: OtherPostListItemProps) => {
+const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
   const inner = (
     <a
       className={clsx(
@@ -60,4 +57,4 @@ const OtherPostListItem = ({
   );
 };
 
-export default OtherPostListItem;
+export default MiniPostCard;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Post } from "@lib/notion";
-import PostListItem from "./PostListItem";
+import PostCard from "@molecules/post/PostCard";
 export type PostListProps = {
   posts: Post[];
 };
@@ -10,7 +10,7 @@ export default function PostList({ posts }: PostListProps) {
       <div className="main-container">
         <h2>Blog</h2>
         {posts.map((post, i) => (
-          <PostListItem post={post} key={i} />
+          <PostCard post={post} key={i} />
         ))}
       </div>
     </section>

@@ -7,7 +7,7 @@ import BrowserFrame from "@atoms/Frame";
 import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
 import useVisibleRatio from "@hooks/useVisiblePercentage";
-import { NotionProject } from "@lib/notion";
+import { Project } from "@lib/notion";
 import { parseInternalLink } from "@lib/utils";
 import ScrollableTagList from "@molecules/ScrollableTagList";
 import Link from "next/link";
@@ -16,14 +16,14 @@ import { FiEye } from "react-icons/fi";
 import Balancer from "react-wrap-balancer";
 import { twMerge } from "tailwind-merge";
 
-export type NotionProjectItemProps = {
-  project: NotionProject;
-  projects: NotionProject[];
+export type ProjectCardProps = {
+  project: Project;
+  projects: Project[];
   index: number;
 };
 
-const ProjectItem = memo(
-  ({ project, projects, index, ...rest }: NotionProjectItemProps) => {
+const ProjectCard = memo(
+  ({ project, projects, index, ...rest }: ProjectCardProps) => {
     const { ref, visibleRatio } = useVisibleRatio();
     const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
@@ -32,7 +32,6 @@ const ProjectItem = memo(
         ref={ref}
         className={twMerge(
           "rounded-2xl p-4 md:p-6 lg:p-6 text-primary",
-          !isHalf ? "col-span-12" : "col-span-12 md:col-span-6",
           "transition-all ease duration-400 bg-card"
         )}
         style={{
@@ -189,5 +188,5 @@ const ProjectItem = memo(
   }
 );
 
-ProjectItem.displayName = "NotionProjectItem";
-export default ProjectItem;
+ProjectCard.displayName = "NotionProjectItem";
+export default ProjectCard;

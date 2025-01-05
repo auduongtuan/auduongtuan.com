@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
-import { NotionProject } from "@lib/notion";
+import { Project } from "@lib/notion";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import OtherProjectList from "./OtherProjectList";
 import usePasswordProtectStore from "@store/usePasswordProtectStore";
 interface ProjectSingleFooterProps {
-  projects: NotionProject[];
-  project: NotionProject;
+  projects: Project[];
+  project: Project;
 }
 
 const ProjectSingleFooter = ({

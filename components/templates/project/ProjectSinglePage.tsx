@@ -1,5 +1,5 @@
 import HeadMeta from "@atoms/HeadMeta";
-import { NotionProject } from "@lib/notion";
+import { Project } from "@lib/notion";
 import useProjectStore from "@store/useProjectStore";
 import { useEffect } from "react";
 import ProjectSingleContent from "./ProjectSingleContent";
@@ -7,8 +7,8 @@ import ProjectSingleFooter from "./ProjectSingleFooter";
 import { ProjectSingleHeader } from "./ProjectSingleHeader";
 import { PasswordInfo } from "@lib/notion/password";
 export interface ProjectSinglePageProps {
-  project: NotionProject;
-  projects: NotionProject[];
+  project: Project;
+  projects: Project[];
   mdxContent?: any;
   notionContent?: any;
   passwordInfo: PasswordInfo;

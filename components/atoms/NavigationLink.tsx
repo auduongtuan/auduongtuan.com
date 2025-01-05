@@ -59,7 +59,7 @@ const NavigationLink = ({
     router.asPath == href ||
     router.pathname == href.split("#")[0] ||
     router.pathname.includes(href + "/") ||
-    (href.includes("#works") && router.pathname.includes("/project/"));
+    (href.includes("/work") && router.pathname.includes("/project/"));
   const anchorClassName = cn(
     logo && "tracking-wide uppercase",
     "font-normal font-mono inline-block text-base rounded-xl",
