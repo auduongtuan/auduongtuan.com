@@ -67,7 +67,7 @@ export const BaseFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
               {startContent}
             </div>
             {middleContent}
-            <div className="flex items-center justify-end flex-grow flex-gap-2 basis-0 justify-self-end">
+            <div className="flex items-center justify-end flex-grow gap-2 basis-0 justify-self-end">
               {/* <FiGrid className="hidden md:inline-block text-slate-400" />
               <FiPlus className="hidden md:inline-block text-slate-400" /> */}
               {endContent}
@@ -204,7 +204,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
             "px-3 py-1.5 rounded-t-xl border-b border-black/10 z-[1] "
           )}
         >
-          <div className="flex items-center flex-grow flex-gap-2 basis-0">
+          <div className="flex items-center flex-grow gap-2 basis-0">
             {closeTooltipContent ? (
               <Tooltip content={closeTooltipContent}>
                 <button
@@ -228,7 +228,7 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
           >
             {name}
           </div>
-          <div className="flex items-center justify-end flex-grow flex-gap-2 basis-0 justify-self-end">
+          <div className="flex items-center justify-end flex-grow gap-2 basis-0 justify-self-end">
             <FiZoomOut className="text-slate-400" />
             <FiZoomIn className="text-slate-400" />
           </div>

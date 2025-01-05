@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import ProjectCard from "@molecules/project/ProjectCard";
 import Fade from "@atoms/Fade";
 import Select from "@atoms/Select";
-import { Project } from "@lib/notion";
+import { Project, ProjectGroup } from "@lib/notion";
 import {
   PiClockCounterClockwiseBold,
   PiLightbulbBold,
@@ -11,11 +11,19 @@ import {
 } from "react-icons/pi";
 import { event } from "@lib/gtag";
 import SectionTitle from "@molecules/SectionTitle";
+import { FiInfo } from "react-icons/fi";
+import Tooltip from "@atoms/Tooltip";
+import { trackEvent } from "@lib/utils";
+import { set } from "lodash";
 
 export default function ProjectList({
   projects,
+  projectGroups,
   className,
-}: { projects: Project[] } & React.ComponentPropsWithoutRef<"section">) {
+}: {
+  projects: Project[];
+  projectGroups: ProjectGroup[];
+} & React.ComponentPropsWithoutRef<"section">) {
   const [sortBy, setSortBy] = useState("group");
   const sortOptions = [
     {
@@ -62,19 +70,29 @@ export default function ProjectList({
   };
 
   const shownProjects = projects.sort(sortingFunction);
-
-  const projectGroups = useMemo(
+  const projectInGroups = useMemo(
     () =>
       shownProjects.reduce((acc, project) => {
         if (!project.group) return acc;
-        if (!acc[project.group]) {
-          acc[project.group] = [];
+        if (!acc[project.group.id]) {
+          acc[project.group.id] = [];
         }
-        acc[project.group].push(project);
+        acc[project.group.id].push(project);
         return acc;
       }, {} as Record<string, Project[]>),
     [shownProjects]
   );
+  const [sent, setSent] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (sent.length > 0) {
+      trackEvent({
+        event: "view_project_group_description",
+        content: sent[sent.length - 1],
+        page: "/work",
+      });
+    }
+  }, [sent.length]);
 
   return (
     <section id="works" className={className}>
@@ -93,21 +111,40 @@ export default function ProjectList({
         />
 
         {sortBy == "group" ? (
-          Object.keys(projectGroups).map((group) => (
-            <section key={group}>
-              <h2 className="mb-4 text-base font-normal muted-text">{group}</h2>
-              <div className="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 md:mb-8">
-                {projectGroups[group].map((project, i) => (
-                  <ProjectCard
-                    key={`${project.slug}-${i}`}
-                    index={i}
-                    project={project}
-                    projects={shownProjects}
-                  />
-                ))}
-              </div>
-            </section>
-          ))
+          Object.keys(projectInGroups).map((groupId) => {
+            console.log(groupId);
+            const group = projectGroups.find((g) => g.id == groupId);
+            if (!group) return null;
+            return (
+              <section key={groupId}>
+                <h2 className="flex items-center mb-4 text-base font-normal muted-text">
+                  <span>{group.name}</span>
+                  {group.description && (
+                    <Tooltip
+                      content={group.description}
+                      onOpenChange={(open) => {
+                        if (open === true && !sent.includes(group.name)) {
+                          setSent([...sent, group.name]);
+                        }
+                      }}
+                    >
+                      <FiInfo className="inline-block w-4 h-4 ml-2 hover:text-accent" />
+                    </Tooltip>
+                  )}
+                </h2>
+                <div className="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 md:mb-8">
+                  {projectInGroups[groupId].map((project, i) => (
+                    <ProjectCard
+                      key={`${project.slug}-${i}`}
+                      index={i}
+                      project={project}
+                      projects={shownProjects}
+                    />
+                  ))}
+                </div>
+              </section>
+            );
+          })
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {shownProjects.map((project, i) => (

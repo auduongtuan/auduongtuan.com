@@ -10,19 +10,23 @@ import {
   useInteractions,
 } from "@floating-ui/react";
 import { Transition, TransitionChild } from "@headlessui/react";
-export interface TooltipProps {
+export interface TooltipProps extends React.ComponentPropsWithoutRef<"div"> {
   content?: string;
   children?: ReactElement;
+  onOpenChange?: (open: boolean) => void;
 }
 const Tooltip = forwardRef<HTMLElement, TooltipProps>(
-  ({ content, children, ...props }, forwardedRef) => {
+  ({ content, children, onOpenChange, ...props }, forwardedRef) => {
     const [show, setShow] = useState(false);
     const { x, y, refs, strategy, context } = useFloating({
       placement: "top",
       middleware: [shift(), offset(4)],
       whileElementsMounted: autoUpdate,
       open: show,
-      onOpenChange: setShow,
+      onOpenChange: (open) => {
+        setShow(open);
+        if (onOpenChange) onOpenChange(open);
+      },
     });
     const hover = useHover(context);
     const focus = useFocus(context);
@@ -93,6 +97,7 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
                     left: x ?? "",
                   }}
                   {...getFloatingProps()}
+                  {...props}
                 >
                   <TransitionChild
                     enter="transition-opacity duration-300"
@@ -102,7 +107,7 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <div className="px-2 py-1 font-mono text-sm font-medium text-white transition-all duration-300 bg-blue-800 rounded-lg shadow-md ease">
+                    <div className="inline-flex px-2 py-1 font-mono text-sm font-medium text-white transition-all duration-300 bg-blue-800 rounded-lg shadow-md max-w-[48ch] ease">
                       {content}
                     </div>
                   </TransitionChild>

@@ -3,7 +3,6 @@ import { useEffect, useRef } from "react";
 export function useDraggable() {
   const element = useRef<HTMLElement | null>(null);
   useEffect(() => {
-    console.log("ele", element.current);
     if (!element.current) return;
 
     var pos1 = 0,

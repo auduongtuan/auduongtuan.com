@@ -89,7 +89,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
             ref={ref}
             {...rest}
             className={cn(
-              "absolute top-0 left-0 w-full h-full  bg-transparent focus:outline-none",
+              "absolute top-0 left-0 w-full h-full  bg-transparent focus:outline-none opacity-0",
               "text-transparent placeholder-transparent [&::selection]:bg-transparent"
             )}
             value={value}
@@ -110,7 +110,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
           />
         </div>
         {errorMessage && (
-          <div className="flex items-start justify-start mt-1 text-red-500 password-red-600 flex-gap-x-2">
+          <div className="flex items-start justify-start mt-1 text-red-500 password-red-600 gap-x-2">
             <FiAlertTriangle className="mt-1" />
             <p>{errorMessage}</p>
           </div>

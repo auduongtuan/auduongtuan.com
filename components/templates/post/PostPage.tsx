@@ -56,7 +56,7 @@ const PostSinglePage = ({
           smallBottomPadding
         >
           <div className="grid grid-cols-1 gap-2 md:gap-4 ">
-            <div className="flex items-center flex-gap-4">
+            <div className="flex items-center gap-4">
               <div className="grow shrink basis-0">
                 <Balancer>
                   <Fade

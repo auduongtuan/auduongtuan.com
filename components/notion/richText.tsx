@@ -48,7 +48,7 @@ export const richTextObject = (
           <Button
             key={`${blockId}-${i}`}
             href={textItem.text.link.url}
-            external
+            showPopoutIcon
             icon={
               textItem.text.content == "Download" ? <FiDownload /> : undefined
             }

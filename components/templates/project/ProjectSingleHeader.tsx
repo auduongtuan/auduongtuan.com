@@ -9,6 +9,7 @@ import { twMerge } from "tailwind-merge";
 import Tooltip from "@atoms/Tooltip";
 import { Project } from "@lib/notion";
 import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
+import Button from "@atoms/Button";
 interface ProjectSingleHeaderProps {
   project: Project;
 }
@@ -27,7 +28,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
           className="grid grid-cols-12 gap-x-4"
           key={project.slug + "_header"}
         >
-          <div className="flex flex-wrap items-center col-span-12 flex-gap-x-4">
+          <div className="flex flex-wrap items-center col-span-12 gap-x-4 gap-y-2">
             <Fade duration={200} slide className="flex-grow">
               <h1 className="font-sans text-3xl tracking-tight md:text-4xl lg:text-5xl">
                 {project.title}
@@ -49,19 +50,22 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                 delay={400}
               >
                 {project.link && (
-                  <Tooltip content="View website">
-                    <IconButton
-                      size={bp == "sm" ? "small" : "medium"}
-                      // inverted
-                      href={project.link ? project.link : "#"}
-                      external
-                    >
-                      <FiEye />
-                    </IconButton>
-                  </Tooltip>
+                  <Button href={project.link} secondary showPopoutIcon>
+                    View website
+                  </Button>
+                  // <Tooltip content="View website">
+                  //   <IconButton
+                  //     size={bp == "sm" ? "small" : "medium"}
+                  //     // inverted
+                  //     href={project.link ? project.link : "#"}
+                  //     external
+                  //   >
+                  //     <FiEye />
+                  //   </IconButton>
+                  // </Tooltip>
                 )}
                 {project.achievements && project.achievements.length > 0 && (
-                  <div className="flex flex-gap-4">
+                  <div className="flex gap-4">
                     {project.achievements.map((achievement, i) => (
                       <Badge key={i} index={i} content={achievement} />
                     ))}

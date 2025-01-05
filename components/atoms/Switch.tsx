@@ -6,7 +6,7 @@ const Switch = ({ checked, onChange, label }) => {
 
   return (
     <HSwitch.Group>
-      <div className="flex items-center flex-gap-2">
+      <div className="flex items-center gap-2">
         <HSwitch checked={checked} onChange={onChange} as={Fragment}>
           {({ checked }) => (
             /* Use the `checked` state to conditionally style the button. */

@@ -16,7 +16,7 @@ const Checkbox = ({ checked, onChange, label, ...rest }: CheckboxProps) => {
   // const [enabled, setEnabled] = useState(false)
 
   return (
-    <Field className="flex items-center flex-gap-2">
+    <Field className="flex items-center gap-2">
       <HCheckbox checked={checked} onChange={onChange} {...rest}>
         {({ checked }) => (
           /* Use the `checked` state to conditionally style the button. */

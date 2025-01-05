@@ -34,7 +34,7 @@ const PostCard = ({
         )}
       >
         <div className="col-span-3 row-start-2 md:row-start-auto">
-          <aside className="flex flex-col pl-10 mt-12 font-mono text-xl md:pl-0 flex-gap-2">
+          <aside className="flex flex-col gap-2 pl-10 font-mono text-xl md:pl-0">
             <p className={clsx("mt-1 muted-text ")}>
               {post.meta.date &&
                 new Date(post.meta.date).toLocaleDateString("en-US", {

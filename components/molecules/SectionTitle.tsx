@@ -19,7 +19,7 @@ const SectionTitle = forwardRef<HTMLElement, SectionTitleProps>(
         <div className="flex items-center sub-heading grow shrink-0">
           {title}
         </div>
-        <div className="flex items-center justify-end flex-gap-x-4 flex-gap-y-2 grow-0 shrink-0 ">
+        <div className="flex items-center justify-end gap-x-4 gap-y-2 grow-0 shrink-0 ">
           {action && action}
         </div>
       </header>

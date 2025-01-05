@@ -18,7 +18,7 @@ const Bookmark = ({ block }) => {
           </p>
         ) : null}
         {block.bookmark.meta.title && (
-          <p className="text-xs mt-1 inline-flex flex-gap-x-2">
+          <p className="text-xs mt-1 inline-flex gap-x-2">
             {/* <img
             src={block.bookmark.meta.icon}
             width="16"

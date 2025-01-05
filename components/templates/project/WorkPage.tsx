@@ -1,15 +1,16 @@
 import Header from "@molecules/header/Header";
 import Footer from "@molecules/Footer";
-import { Project } from "@lib/notion/project";
+import { Project, ProjectGroup } from "@lib/notion/project";
 import ProjectList from "@templates/project/ProjectList";
 import { useHeaderInView } from "@hooks";
 import Fade from "@atoms/Fade";
 
 export type WorksPageProps = {
   projects: Project[];
+  projectGroups: ProjectGroup[];
 };
 
-export default function WorkPage({ projects }: WorksPageProps) {
+export default function WorkPage({ projects, projectGroups }: WorksPageProps) {
   const { ref } = useHeaderInView();
   return (
     <div className="bg-surface">
@@ -38,7 +39,11 @@ export default function WorkPage({ projects }: WorksPageProps) {
           </div>
         </div>
       </header>
-      <ProjectList projects={projects} className="pb-subsection-vertical" />
+      <ProjectList
+        projects={projects}
+        projectGroups={projectGroups}
+        className="pb-subsection-vertical"
+      />
       <Footer />
     </div>
   );
