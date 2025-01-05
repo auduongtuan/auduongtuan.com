@@ -105,7 +105,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
             </Button>
           </div>
         </section>
-        <footer className="flex items-center justify-between mt-6 flex-gap-x-3"></footer>
+        <footer className="flex items-center justify-between mt-6 gap-x-3"></footer>
       </form>
     </Fragment>
   );

@@ -13,7 +13,7 @@ const ScrollableTagList = ({
 }: ScrollableTagListProps) => {
   return (
     <FadeScrollableContainer background={background} {...rest}>
-      <div className="flex items-start flex-gap-2">
+      <div className="flex items-start gap-2">
         {tags.map((tag, i) => (
           <Tag key={`tag-${i}`} className="shrink-0">
             {tag}

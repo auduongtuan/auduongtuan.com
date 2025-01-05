@@ -157,7 +157,7 @@ const Reaction = ({ page }) => {
     dispatch({ type: "load", payload: { ...defaultData, ...data } });
   }, [data]);
   return (
-    <div className="w-full flex flex-gap-x-2 md:flex-gap-x-3 flex-gap-y-2 items-center h-[60px]">
+    <div className="w-full flex gap-x-2 md:gap-x-3 gap-y-2 items-center h-[60px]">
       {Object.keys(reactionList).map((emoji, i) => (
         <ReactButton
           key={`emoji-${i}`}

@@ -1,14 +1,13 @@
 import CryptoJS from "crypto-js";
 import { useEffect, useId } from "react";
-import TextField from "@atoms/TextField";
 import { FiLock } from "react-icons/fi";
 import usePasswordProtectStore, {
   PasswordProtectError,
 } from "@store/usePasswordProtectStore";
 import { PasswordInfo } from "@lib/notion/password";
 import { event } from "@lib/gtag";
-import axios from "axios";
 import PasswordField from "@atoms/PasswordField";
+import { trackEvent } from "@lib/utils";
 
 const PasswordProtect = ({
   encryptedContent,
@@ -36,7 +35,7 @@ const PasswordProtect = ({
               category: "post_page",
               label: "Enter correct password",
             });
-            axios.post("/api/curiosity", {
+            trackEvent({
               event: "enter_correct_password",
               content: password,
               page: window.location.pathname,
@@ -52,7 +51,7 @@ const PasswordProtect = ({
           category: "post_page",
           label: "Enter incorrect password",
         });
-        axios.post("/api/curiosity", {
+        trackEvent({
           event: "enter_incorrect_password",
           content: password,
           page: window.location.pathname,
@@ -69,7 +68,7 @@ const PasswordProtect = ({
 
   return (
     <div className="p-6 border-2 border-gray-200 border-dashed rounded-md">
-      <div className="flex w-full flex-gap-4">
+      <div className="flex w-full gap-4">
         <div className="grow">
           <h3>This {mode} is password-protected</h3>
           <p className="mt-4 font-mono small-body-text text-secondary">

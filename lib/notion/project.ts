@@ -11,6 +11,14 @@ import { isDevEnvironment } from "@lib/utils";
 import cacheData from "memory-cache";
 
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
+const PROJECT_GROUP_DATABASE_ID = process.env
+  .PROJECT_GROUP_DATABASE_ID as string;
+
+export type ProjectGroup = {
+  id: string;
+  name: string;
+  description: string;
+};
 
 export type Project = {
   id: string;
@@ -33,7 +41,7 @@ export type Project = {
   link?: string;
   linkCta?: string;
   postSlug?: string;
-  group?: string;
+  group?: ProjectGroup;
   points: {
     engineering: number;
     product: number;
@@ -59,6 +67,25 @@ export async function getProjectsWithCache() {
     projects = await getProjects(isDevEnvironment);
   }
   return projects;
+}
+
+export async function getProjectGroups(): Promise<ProjectGroup[]> {
+  const projectGroupResponse = await notion.databases.query({
+    database_id: PROJECT_GROUP_DATABASE_ID,
+  });
+  const projectGroups = (await Promise.all(
+    projectGroupResponse.results
+      .map(async (page) => {
+        if (!isFullPage(page)) return undefined;
+        return {
+          id: page.id,
+          name: getProperty(page, "Name", "title"),
+          description: getProperty(page, "Description", "rich_text"),
+        };
+      })
+      .filter((page) => typeof page != "undefined")
+  )) as ProjectGroup[];
+  return projectGroups;
 }
 
 export async function getProjects(
@@ -88,7 +115,8 @@ export async function getProjects(
       },
     });
   }
-  const response = await notion.databases.query({
+  const projectGroups = await getProjectGroups();
+  const projectResponse = await notion.databases.query({
     database_id: PROJECT_DATABASE_ID,
     filter: filterQuery,
     sorts: [
@@ -100,7 +128,7 @@ export async function getProjects(
   });
 
   const projects = await Promise.all(
-    response.results.map(async (page) => {
+    projectResponse.results.map(async (page) => {
       if (!isFullPage(page)) return undefined;
       const assets = await parseNotionPageAssets(page);
       const achievementsText = getProperty(page, "Achievements", "rich_text");
@@ -111,6 +139,7 @@ export async function getProjects(
               .map((item) => item.trim())
               .filter((achievement) => achievement)
           : [];
+      const groupId = getProperty(page, "Group", "relation")[0];
 
       return {
         id: page.id,
@@ -131,7 +160,6 @@ export async function getProjects(
         point: getProperty(page, "Point", "number"),
         background: getProperty(page, "Background", "rich_text"),
         protected: getProperty(page, "Protected", "checkbox"),
-        group: getProperty(page, "Group", "select"),
         points: {
           engineering: getProperty(page, "Engineering Point", "number") || 0,
           product: getProperty(page, "Product Point", "number") || 0,
@@ -140,6 +168,9 @@ export async function getProjects(
         assets: assets,
         coverTitle: getProperty(page, "Cover Title", "rich_text"),
         passwordId: getProperty(page, "Password", "relation")[0] || null,
+        group: groupId
+          ? projectGroups.find((group) => group.id == groupId)
+          : undefined,
       };
     })
   );

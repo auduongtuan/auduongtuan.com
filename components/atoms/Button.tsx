@@ -3,6 +3,7 @@ import React from "react";
 import { FiArrowRight, FiDownload, FiArrowUpRight } from "react-icons/fi";
 import { FaSpinner } from "react-icons/fa";
 import { twMerge } from "tailwind-merge";
+import { parseInternalLink } from "@lib/utils";
 export interface ButtonProps {
   href?: string;
   className?: string;
@@ -10,7 +11,7 @@ export interface ButtonProps {
   children: React.ReactNode;
   arrow?: boolean;
   disabled?: boolean;
-  external?: boolean;
+  showPopoutIcon?: boolean;
   icon?: React.ReactNode;
   loading?: boolean;
   secondary?: boolean;
@@ -26,7 +27,7 @@ const Button = ({
   colorful = false,
   arrow = false,
   disabled = false,
-  external = false,
+  showPopoutIcon = false,
   icon,
   loading = false,
   secondary = false,
@@ -49,18 +50,19 @@ const Button = ({
     className
   );
   let defaultIcon: React.ReactNode;
-  if (external) {
+  if (showPopoutIcon) {
     defaultIcon = <FiArrowUpRight />;
   } else if (arrow) {
     defaultIcon = <FiArrowRight />;
   }
+  const checkExternal = href && parseInternalLink(href) === null;
 
   let renderIcon: React.ReactNode = icon ? icon : defaultIcon;
   if (loading) {
     renderIcon = <FaSpinner className="animate-spin" />;
   }
   if (href) {
-    return external ? (
+    return checkExternal ? (
       <a
         href={href}
         className={buttonStyles}

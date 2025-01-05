@@ -102,7 +102,7 @@ const ContentMenu = () => {
         className={`w-60 hidden 2xl:block sticky top-1/2`}
         delay={100}
       >
-        <ul className="flex flex-col flex-gap-y-1 group">
+        <ul className="flex flex-col gap-y-1 group">
           {headings &&
             headings.length > 2 &&
             headings.map((heading, i) => (

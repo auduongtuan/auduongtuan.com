@@ -94,7 +94,7 @@ const Navigation = React.memo(
                     <FiMenu className="w-6 h-6" />
                   </button>
                 )}
-                <ul className="items-center hidden md:flex flex-gap-8">
+                <ul className="items-center hidden md:flex gap-8">
                   {menuItems.map((item, i) => (
                     <li key={i}>
                       <NavigationLink
@@ -124,7 +124,7 @@ const Navigation = React.memo(
         >
           <div className={`fixed z-40 w-full h-full bg-surface`}>
             <div className="font-sans main-container">
-              <ul className="flex flex-col w-full pt-16 flex-gap-y-2">
+              <ul className="flex flex-col w-full pt-16 gap-y-2">
                 {menuItems.map((item, i) => (
                   <li key={i} className="w-full">
                     <NavigationLink

@@ -136,7 +136,7 @@ export default function Footer() {
                     </InlineLink>
                     .
                   </p>
-                  <div className="flex mt-6 flex-gap-x-2">
+                  <div className="flex mt-6 gap-x-2">
                     <Button
                       href="/blog/enhance-skills-building-personal-websites"
                       arrow

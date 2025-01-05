@@ -83,7 +83,7 @@ const ProjectCard = memo(
                 delay={400}
               >
                 {project.achievements && (
-                  <div className="flex flex-gap-4">
+                  <div className="flex gap-4">
                     {project.achievements.map((achievement, i) => (
                       <Badge
                         size="small"
@@ -120,7 +120,7 @@ const ProjectCard = memo(
                 <Button
                   scroll={false}
                   href={project.link ? project.link : "#"}
-                  external={true}
+                  showPopoutIcon={true}
                 >
                   View website
                 </Button>
@@ -138,7 +138,7 @@ const ProjectCard = memo(
             className={twMerge(
               "col-span-12",
               !isHalf ? "md:col-start-6 md:col-span-7" : "row-start-1",
-              "flex justify-stretch items-stretch flex-gap-8 md:flex-gap-4 lg:flex-gap-8"
+              "flex justify-stretch items-stretch gap-8 md:gap-4 lg:gap-8"
             )}
             slide
             show={visibleRatio > 0.4}

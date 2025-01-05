@@ -51,7 +51,7 @@ function Dialog({ children, open, onClose, title, ...rest }) {
                 className={` flex items-center justify-between bg-slate-100
           px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)] relative`}
               >
-                <div className="absolute flex items-center flex-grow flex-gap-2 basis-0">
+                <div className="absolute flex items-center flex-grow gap-2 basis-0">
                   <button
                     aria-label="Close it"
                     className="block w-2 h-2 rounded cursor-pointer bg-slate-400 hover:bg-red-500 active:bg-red-700"

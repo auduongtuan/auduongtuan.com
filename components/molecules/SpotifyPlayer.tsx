@@ -9,7 +9,7 @@ const SpotifyPlayer = () => {
   return (
     <>
       {data ? (
-        <div className="flex items-center flex-gap-3">
+        <div className="flex items-center gap-3">
           <CustomImage
             className={twMerge(
               `rounded-full overflow-hidden ${
@@ -34,10 +34,7 @@ const SpotifyPlayer = () => {
           </div>
         </div>
       ) : (
-        <Skeleton.Wrapper
-          loaded={false}
-          className="flex items-center flex-gap-3"
-        >
+        <Skeleton.Wrapper loaded={false} className="flex items-center gap-3">
           <Skeleton className="w-12 h-12 rounded-full" type="inline"></Skeleton>
           <div className="flex-1">
             <Skeleton

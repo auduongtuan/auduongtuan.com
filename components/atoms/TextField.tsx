@@ -29,7 +29,7 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
           {...rest}
         />
         {errorMessage && (
-          <div className="flex items-start justify-start mt-1 text-red-600 flex-gap-x-2">
+          <div className="flex items-start justify-start mt-1 text-red-600 gap-x-2">
             <FiAlertTriangle className="mt-1" />
             <p>{errorMessage}</p>
           </div>
