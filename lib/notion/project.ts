@@ -12,7 +12,7 @@ import cacheData from "memory-cache";
 
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
 
-export type NotionProject = {
+export type Project = {
   id: string;
   slug: string;
   title: string;
@@ -45,25 +45,25 @@ export type NotionProject = {
   // [key: string]: unknown;
 };
 
-export async function getNotionProjectsWithCache() {
-  let projects: NotionProject[];
+export async function getProjectsWithCache() {
+  let projects: Project[];
   if (isDevEnvironment) {
     const cache = cacheData.get("projects");
     if (cache) {
       projects = cache;
     } else {
-      projects = await getNotionProjects(isDevEnvironment);
+      projects = await getProjects(isDevEnvironment);
       cacheData.put("projects", projects, 24 * 1000 * 60 * 60);
     }
   } else {
-    projects = await getNotionProjects(isDevEnvironment);
+    projects = await getProjects(isDevEnvironment);
   }
   return projects;
 }
 
-export async function getNotionProjects(
+export async function getProjects(
   includeUnpublished?: boolean
-): Promise<NotionProject[]> {
+): Promise<Project[]> {
   let filterQuery: any = {
     and: [
       {
@@ -144,9 +144,9 @@ export async function getNotionProjects(
     })
   );
 
-  return projects.filter((page) => page) as NotionProject[];
+  return projects.filter((page) => page) as Project[];
 }
 
-export const getNotionProjectContent = async (id: string) => {
+export const getProjectContent = async (id: string) => {
   return await getNotionPageContent(id);
 };

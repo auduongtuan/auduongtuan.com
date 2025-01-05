@@ -2,6 +2,7 @@ import { AppFrame } from "@atoms/Frame";
 import InlineLink from "@atoms/InlineLink";
 import { NotionNowItem } from "@lib/notion/now";
 import { cn } from "@lib/utils/cn";
+import Image from "next/image";
 
 const Now = ({ items }: { items: NotionNowItem[] }) => {
   return (
@@ -19,7 +20,7 @@ const Now = ({ items }: { items: NotionNowItem[] }) => {
           <div className="flex items-center gap-5 mt-2 font-mono leading-tight tracking-tight text-md body-text">
             {(item.thumbnail || item.link) && (
               <div className={cn("w-[100px] flex items-center justify-center")}>
-                <img
+                <Image
                   src={
                     item.thumbnail || "/api/website-thumbnail?url=" + item.link
                   }

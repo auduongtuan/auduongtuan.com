@@ -66,7 +66,7 @@ export default function Header() {
     >
       <div className="main-container p-header">
         <div className="flex items-center justify-center">
-          <div className="lg:max-w-[50rem] ">
+          <div className="lg:max-w-[50rem]  py-4 md:py-6">
             <Headline />
             <Fade delay={200}>
               <p className="relative z-30 mt-4 font-mono tracking-tight text-center body-text text-secondary lg:mt-6">

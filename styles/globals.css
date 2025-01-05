@@ -20,8 +20,8 @@
   --bg-button-primary-hover: var(--accent-bolder);
   --bg-button-primary-pressed: var(--accent-boldest);
   --bg-button-secondary: rgb(var(--base-fg) / 0.1);
-  --bg-button-secondary-hover: var(--bg-button-primary-hover);
-  --bg-button-secondary-pressed: var(--bg-button-primary-pressed);
+  --bg-button-secondary-hover: rgb(var(--base-fg) / 0.12);
+  --bg-button-secondary-pressed: rgb(var(--base-fg) / 0.2);
   --bg-button-secondary-activated: rgb(var(--base-fg) / 0.2);
 
   --fg-oncolor: rgb(var(--base-bg));

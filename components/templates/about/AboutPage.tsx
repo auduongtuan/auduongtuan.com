@@ -113,7 +113,6 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                   <InlineLink
                     href={"#"}
                     onClick={(e) => {
-                      console.log("test");
                       e.preventDefault();
                       e.stopPropagation();
                       let rect = contentRef.current?.getBoundingClientRect();

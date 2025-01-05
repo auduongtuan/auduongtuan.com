@@ -16,6 +16,14 @@ module.exports = {
       },
       {
         protocol: "https",
+        hostname: "*.youtube.com",
+      },
+      {
+        protocol: "https",
+        hostname: "*.spotifycdn.com",
+      },
+      {
+        protocol: "https",
         hostname: "*.cloudinary.com",
       },
       {

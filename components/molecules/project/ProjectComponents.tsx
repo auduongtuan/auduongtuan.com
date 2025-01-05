@@ -1,14 +1,14 @@
-import React from "react";
-import BrowserFrame from "@atoms/Frame";
 import Box, { EmojiBox, VideoBox } from "@atoms/Box";
-import Note from "@atoms/Note";
-import { Grid, Col } from "@atoms/Grid";
 import CustomImage, { CustomImageProps } from "@atoms/CustomImage";
 import CustomVideo, { CustomVideoProps } from "@atoms/CustomVideo";
-import InlineLink from "@atoms/InlineLink";
-import Persona, { PersonaProps } from "@atoms/Persona";
 import Figure from "@atoms/Figure";
+import BrowserFrame from "@atoms/Frame";
+import { Col, Grid } from "@atoms/Grid";
+import InlineLink from "@atoms/InlineLink";
+import Note from "@atoms/Note";
+import Persona, { PersonaProps } from "@atoms/Persona";
 import Vimeo from "@atoms/Vimeo";
+import React from "react";
 
 const ProjectComponents = (slug: string) => ({
   h2: ({ children }: { children: React.ReactNode }) => (

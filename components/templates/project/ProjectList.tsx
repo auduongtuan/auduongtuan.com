@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import ProjectItem from "./ProjectItem";
+import ProjectCard from "@molecules/project/ProjectCard";
 import Fade from "@atoms/Fade";
 import Select from "@atoms/Select";
-import { NotionProject } from "@lib/notion";
+import { Project } from "@lib/notion";
 import {
   PiClockCounterClockwiseBold,
   PiLightbulbBold,
@@ -10,13 +10,12 @@ import {
   PiWrenchBold,
 } from "react-icons/pi";
 import { event } from "@lib/gtag";
+import SectionTitle from "@molecules/SectionTitle";
 
 export default function ProjectList({
   projects,
-}: {
-  projects: NotionProject[];
-}) {
-  const [scrollPosition, setScrollPosition] = useState(0);
+  className,
+}: { projects: Project[] } & React.ComponentPropsWithoutRef<"section">) {
   const [sortBy, setSortBy] = useState("group");
   const sortOptions = [
     {
@@ -49,12 +48,7 @@ export default function ProjectList({
     });
   };
 
-  const handleScroll = () => {
-    const position = window.pageYOffset;
-    setScrollPosition(position);
-  };
-
-  const sortingFunction = (a: NotionProject, b: NotionProject) => {
+  const sortingFunction = (a: Project, b: Project) => {
     if (sortBy == "group") {
       return b.date?.localeCompare(a.date);
     }
@@ -67,14 +61,6 @@ export default function ProjectList({
       : b.date?.localeCompare(a.date);
   };
 
-  useEffect(() => {
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [sortBy]);
-
   const shownProjects = projects.sort(sortingFunction);
 
   const projectGroups = useMemo(
@@ -86,39 +72,33 @@ export default function ProjectList({
         }
         acc[project.group].push(project);
         return acc;
-      }, {} as Record<string, NotionProject[]>),
+      }, {} as Record<string, Project[]>),
     [shownProjects]
   );
 
   return (
-    <section id="works">
-      <Fade
-        className="main-container py-section-vertical"
-        delay={500}
-        duration={200}
-      >
-        <div className="flex flex-col mb-8 md:flex-row flex-gap-4 md:justify-between md:items-center">
-          <div className="flex items-center sub-heading">Selected works</div>
-          <div>
-            <div className="flex flex-wrap items-center flex-gap-x-4 flex-gap-y-2 ">
-              <Select
-                label="Sort by"
-                value={sortBy}
-                buttonClassName={"max-w-[240px]"}
-                onChange={setSortByAndTrack}
-                options={sortOptions}
-              />
-            </div>
-          </div>
-        </div>
+    <section id="works" className={className}>
+      <Fade className="main-container" delay={500} duration={200}>
+        <SectionTitle
+          title="Selected projects"
+          action={
+            <Select
+              label="Sort by"
+              value={sortBy}
+              buttonClassName={"max-w-[240px]"}
+              onChange={setSortByAndTrack}
+              options={sortOptions}
+            />
+          }
+        />
 
         {sortBy == "group" ? (
           Object.keys(projectGroups).map((group) => (
             <section key={group}>
               <h2 className="mb-4 text-base font-normal muted-text">{group}</h2>
-              <div className="grid grid-cols-12 gap-6 mb-6 md:mb-8">
+              <div className="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 md:mb-8">
                 {projectGroups[group].map((project, i) => (
-                  <ProjectItem
+                  <ProjectCard
                     key={`${project.slug}-${i}`}
                     index={i}
                     project={project}
@@ -129,9 +109,9 @@ export default function ProjectList({
             </section>
           ))
         ) : (
-          <div className="grid grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {shownProjects.map((project, i) => (
-              <ProjectItem
+              <ProjectCard
                 key={`{project.slug}-${i}`}
                 index={i}
                 project={project}

@@ -1,5 +1,5 @@
 import { Post } from "@lib/notion";
-import PostListItem from "./PostListItem";
+import PostCard from "@molecules/post/PostCard";
 import useHeaderInView from "@hooks/useHeaderInView";
 import Footer from "@molecules/Footer";
 import Fade from "@atoms/Fade";
@@ -39,7 +39,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
           {posts.map((post, i) => {
             return (
               <Fade delay={70 * (i + 1)} key={post.id}>
-                <PostListItem post={post} />
+                <PostCard post={post} />
                 {i != posts.length - 1 && <div className="mt-10 md:mt-16" />}
                 {/* {i != posts.length - 1 && <div className="my-6 border-b border-gray-300 border-dashed md:my-8"></div>} */}
               </Fade>

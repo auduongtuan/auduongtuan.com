@@ -5,21 +5,34 @@ import { FiLock } from "react-icons/fi";
 import Tag from "@atoms/Tag";
 import clsx from "clsx";
 import Balancer from "react-wrap-balancer";
+import { cn } from "@lib/utils/cn";
 
-type PostListItemProps = {
+type PostCardProps = {
   post: Post;
   className?: string;
+  layout?: "horizontal" | "vertical";
 };
 
-const PostListItem = ({ post, className = "" }: PostListItemProps) => {
+const PostCard = ({
+  post,
+  className = "",
+  layout = "horizontal",
+}: PostCardProps) => {
   const inner = (
     <a
       className={clsx(
         "-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100 flex flex-col",
+
         className
       )}
     >
-      <div className="grid grid-cols-1 gap-x-3 gap-y-3 md:gap-y-4 md:grid-cols-12">
+      <div
+        className={cn(
+          layout == "horizontal"
+            ? "grid grid-cols-1 gap-x-3 gap-y-3 md:gap-y-4 md:grid-cols-12"
+            : "flex gap-3 flex-col"
+        )}
+      >
         <div className="col-span-3 row-start-2 md:row-start-auto">
           <aside className="flex flex-col pl-10 mt-12 font-mono text-xl md:pl-0 flex-gap-2">
             <p className={clsx("mt-1 muted-text ")}>
@@ -68,4 +81,4 @@ const PostListItem = ({ post, className = "" }: PostListItemProps) => {
   );
 };
 
-export default PostListItem;
+export default PostCard;

@@ -1,18 +1,18 @@
 import { create } from "zustand";
-import { NotionProject } from "@lib/notion";
+import { Project } from "@lib/notion";
 
 export interface ProjectState {
-  project: NotionProject | null;
-  projects: NotionProject[] | null;
-  setProject: (project: NotionProject) => void;
-  setProjects: (projects: NotionProject[]) => void;
+  project: Project | null;
+  projects: Project[] | null;
+  setProject: (project: Project) => void;
+  setProjects: (projects: Project[]) => void;
 }
 
 const useProjectStore = create<ProjectState>((set) => ({
   project: null,
   projects: null,
-  setProject: (project: NotionProject) => set((state) => ({ project })),
-  setProjects: (projects: NotionProject[]) => set((state) => ({ projects })),
+  setProject: (project: Project) => set((state) => ({ project })),
+  setProjects: (projects: Project[]) => set((state) => ({ projects })),
 }));
 
 export default useProjectStore;

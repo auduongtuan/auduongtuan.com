@@ -1,17 +1,24 @@
 import Header from "@molecules/header/Header";
 import Footer from "@molecules/Footer";
-import { NotionProject } from "@lib/notion/project";
-import ProjectList from "@templates/project/ProjectList";
+import MiniProjectList from "@templates/home/MiniProjectList";
+import MiniPostList from "@templates/home/MiniPostList";
+import Services from "@templates/home/Services";
+import { Post, Project } from "@lib/notion";
 
 export type HomePageProps = {
-  notionProjects: NotionProject[];
+  projects: Project[];
+  posts: Post[];
 };
 
-export default function HomePage({ notionProjects }: HomePageProps) {
+export default function HomePage({ projects, posts }: HomePageProps) {
   return (
     <div className="bg-surface">
       <Header />
-      <ProjectList projects={notionProjects} />
+      <div className="flex flex-col py-section-vertical gap-section-vertical">
+        {/* <Services></Services> */}
+        <MiniProjectList projects={projects} />
+        <MiniPostList posts={posts} />
+      </div>
       <Footer />
     </div>
   );

@@ -61,7 +61,7 @@ export function getExtFromUrl(url: string): string {
     const ext = (url && url.split("?")[0].split(".").pop()) || "";
     return ext;
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     return "";
   }
 }
