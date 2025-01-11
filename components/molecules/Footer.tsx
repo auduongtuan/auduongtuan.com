@@ -13,6 +13,7 @@ import {
 } from "react-icons/pi";
 import { useInView } from "react-intersection-observer";
 import SpotifyPlayer from "./SpotifyPlayer";
+import { trackEvent } from "@lib/utils";
 
 export default function Footer() {
   const { ref, inView } = useInView({
@@ -83,6 +84,10 @@ export default function Footer() {
                     action: "view_colophon",
                     category: "engagement",
                     label: "View Colophon",
+                  });
+                  trackEvent({
+                    event: "view_colophon",
+                    page: window.location.pathname,
                   });
                   setIsOpen((open) => !open);
                 }}

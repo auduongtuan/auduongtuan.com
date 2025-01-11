@@ -2,7 +2,6 @@ import Fade from "@atoms/Fade";
 import HeadMeta from "@atoms/HeadMeta";
 import Tag from "@atoms/Tag";
 import { Transition } from "@headlessui/react";
-import useHeaderInView from "@hooks/useHeaderInView";
 import { Post } from "@lib/notion";
 import { PasswordInfo } from "@lib/notion/password";
 import ContentMenu from "@molecules/ContentMenu";
@@ -28,7 +27,6 @@ const PostSinglePage = ({
   postContent: any;
   passwordInfo: PasswordInfo;
 }) => {
-  const { ref } = useHeaderInView(true);
   const { decryptedContent } = usePasswordProtectStore();
   const { setPost, setPostContent, setPosts } = usePostStore();
   const isShown = !post.meta.protected || decryptedContent != null;
@@ -49,7 +47,7 @@ const PostSinglePage = ({
           post.meta.icon?.type == "emoji" ? post.meta.icon.emoji : undefined
         }
       />
-      <div className="z-10 w-full" ref={ref} key={post.slug + "_header"}>
+      <div className="z-10 w-full" key={post.slug + "_header"}>
         <HeaderWithBackButton
           backLink="/blog"
           backLinkLabel="Back to blog"

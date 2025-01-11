@@ -16,8 +16,8 @@ export default function HomePage({ projects, posts }: HomePageProps) {
       <Header />
       <div className="flex flex-col py-section-vertical gap-section-vertical">
         {/* <Services></Services> */}
-        <MiniProjectList projects={projects} />
         <MiniPostList posts={posts} />
+        <MiniProjectList projects={projects} />
       </div>
       <Footer />
     </div>

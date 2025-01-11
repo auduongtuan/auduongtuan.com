@@ -143,7 +143,7 @@
     @apply text-sm leading-relaxed md:text-base md:leading-relaxed;
   }
   .p-header {
-    @apply pt-[calc(var(--section-vertical-padding)+3.75rem)] pb-[calc(var(--section-vertical-padding)+1.5rem)];
+    @apply pt-[calc(var(--section-vertical-padding)+3.75rem)] pb-[calc(var(--section-vertical-padding))];
   }
   .p-homepage-header {
     @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];

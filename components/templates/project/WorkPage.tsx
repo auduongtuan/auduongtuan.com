@@ -2,7 +2,6 @@ import Header from "@molecules/header/Header";
 import Footer from "@molecules/Footer";
 import { Project, ProjectGroup } from "@lib/notion/project";
 import ProjectList from "@templates/project/ProjectList";
-import { useHeaderInView } from "@hooks";
 import Fade from "@atoms/Fade";
 
 export type WorksPageProps = {
@@ -11,10 +10,9 @@ export type WorksPageProps = {
 };
 
 export default function WorkPage({ projects, projectGroups }: WorksPageProps) {
-  const { ref } = useHeaderInView();
   return (
     <div className="bg-surface">
-      <header ref={ref} className="z-10 w-full text-primary bg-surface ">
+      <header className="z-10 w-full text-primary bg-surface ">
         <div className="main-container p-header pb-section-vertical">
           <div className="grid grid-cols-12 gap-2 md:gap-4">
             <Fade

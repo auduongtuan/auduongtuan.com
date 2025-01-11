@@ -22,7 +22,7 @@ export function trackEvent(obj: {
   content?: string;
   page?: string;
 }) {
-  axios.post("/api/curiosity", obj);
+  if (!isDevEnvironment) axios.post("/api/curiosity", obj);
 }
 
 export const isDevEnvironment =
