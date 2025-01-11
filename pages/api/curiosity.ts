@@ -8,8 +8,8 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const data = {
         event: req.body.event,
-        content: req.body.content,
-        page: req.body.page,
+        content: req.body.content || "",
+        page: req.body.page || "",
         header: JSON.stringify(req.headers),
       };
       await createTracking(data);
