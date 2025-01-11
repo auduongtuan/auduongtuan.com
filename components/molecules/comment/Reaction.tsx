@@ -67,6 +67,7 @@ export interface ReactButtonProps {
   page: string;
   dispatch: Dispatch<CounterAction>;
   isLoading: boolean;
+  size: "medium" | "small";
 }
 const ReactButton = ({
   name,
@@ -74,6 +75,7 @@ const ReactButton = ({
   counter,
   dispatch,
   isLoading,
+  size,
   page,
 }: ReactButtonProps) => {
   const sendReaction = useCallback(
@@ -115,15 +117,26 @@ const ReactButton = ({
           }
         >
           <button
-            className="inline-flex items-center px-3 py-2 space-x-2 transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1 md:px-4 md:py-2 hover:border-blue-600 justify-items-center hover:bg-surface/40 group"
+            className={cn(
+              size == "medium"
+                ? "px-3 py-2 space-x-2 md:px-4 md:py-2"
+                : "px-2 py-1 space-x-1 md:px-3 md:py-1",
+              "inline-flex items-center  transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1  hover:border-blue-600 justify-items-center hover:bg-surface/40 group"
+            )}
             onClick={sendReaction}
           >
-            <span className="block text-base transition-all duration-100 scale-100 group-hover:scale-125 md:text-2xl">
+            <span
+              className={cn(
+                "block text-base transition-all duration-100 scale-100 group-hover:scale-125",
+                size == "medium" ? "md:text-2xl" : "md:text-base"
+              )}
+            >
               {emoji}
             </span>
             <span
               className={cn(
-                `block text-sm font-mono`,
+                `block font-mono`,
+                size == "medium" ? "text-sm" : "text-xs",
                 emoji in counter && counter[emoji].reacted
                   ? "font-semibold text-blue-700"
                   : "font-medium text-tertiary"
@@ -138,7 +151,15 @@ const ReactButton = ({
   );
 };
 
-const Reaction = ({ page }) => {
+const Reaction = ({
+  page,
+  size = "medium",
+  className = "",
+}: {
+  page: string;
+  size?: "medium" | "small";
+  className?: string;
+}) => {
   const [counter, dispatch] = useReducer(counterReducer, {});
   const { data, isLoading } = useSWR(
     ["/api/reaction", page],
@@ -157,7 +178,12 @@ const Reaction = ({ page }) => {
     dispatch({ type: "load", payload: { ...defaultData, ...data } });
   }, [data]);
   return (
-    <div className="w-full flex gap-x-2 md:gap-x-3 gap-y-2 items-center h-[60px]">
+    <div
+      className={cn(
+        "w-full flex gap-x-2 md:gap-x-3 gap-y-2 items-center flex-wrap",
+        className
+      )}
+    >
       {Object.keys(reactionList).map((emoji, i) => (
         <ReactButton
           key={`emoji-${i}`}
@@ -167,6 +193,7 @@ const Reaction = ({ page }) => {
           isLoading={isLoading}
           counter={counter}
           dispatch={dispatch}
+          size={size}
         ></ReactButton>
       ))}
     </div>

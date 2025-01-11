@@ -20,6 +20,7 @@ import Now from "./Now";
 import { NotionNowItem } from "@lib/notion/now";
 import Footer from "@molecules/Footer";
 import { trackEvent } from "@lib/utils";
+import Reaction from "@molecules/comment/Reaction";
 
 function HoverGif({
   text,
@@ -97,15 +98,27 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
       <main className="z-10 w-full text-primary bg-surface">
         <div className="main-container p-header">
           <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-y-8 md:gap-x-12">
-            <div className="relative self-stretch col-span-12 md:col-span-5">
-              <Fade delay={50} className="">
+            <div className="relative flex items-start self-stretch justify-center col-span-12 md:justify-start md:col-span-5">
+              <Fade
+                delay={50}
+                className="inline-flex flex-col items-start justify-start gap-3 p-4 border rounded-lg border-divider"
+              >
                 <CustomImage
                   src="/portrait.jpg"
                   alt="Tuan's portrait"
                   width={1920}
                   height={2556}
-                  className="rounded-lg"
+                  className="self-stretch rounded-md max-w-[20rem]"
                 />
+                <div className="font-mono">
+                  <p className="font-semibold">@auduongtuan</p>
+                  <p className="mt-1 text-xs">
+                    Lập xuân đua nở hoa đào 🌸
+                    <br />
+                    Tim cậu liệu có ai vào hay chưa? 😳
+                  </p>
+                </div>
+                <Reaction page="/about" size="small" className="inline-flex" />
               </Fade>
             </div>
             <div
