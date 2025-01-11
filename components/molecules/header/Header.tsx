@@ -3,16 +3,15 @@ import Button from "@atoms/Button";
 import CustomVideo from "@atoms/CustomVideo";
 import Headline from "./Headline";
 import { PhotoFrame } from "@atoms/Frame";
-import useHeaderInView from "@hooks/useHeaderInView";
 import Fade from "@atoms/Fade";
 import GifText from "./GifText";
 import Balancer from "react-wrap-balancer";
 import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react";
 import { event } from "@lib/gtag";
 import { Transition } from "@headlessui/react";
+import { trackEvent } from "@lib/utils";
 
 export default function Header() {
-  const { ref } = useHeaderInView();
   const [activeGif, setActiveGif] = useState<number | null>(null);
   const { refs, floatingStyles } = useFloating({
     placement: "bottom",
@@ -51,6 +50,11 @@ export default function Header() {
           category: "engagement",
           label: gifs[gifIndex].name,
         });
+        trackEvent({
+          event: "hover_gif",
+          content: gifs[gifIndex].name,
+          page: window.location.pathname,
+        });
       },
       onMouseLeave: () => {
         setActiveGif(null);
@@ -60,10 +64,7 @@ export default function Header() {
   };
 
   return (
-    <header
-      ref={ref}
-      className="z-10 w-full border-b bg-surface text-primary border-b-divider"
-    >
+    <header className="z-10 w-full bg-surface text-primary ">
       <div className="main-container p-header">
         <div className="flex items-center justify-center">
           <div className="lg:max-w-[50rem]  py-4 md:py-6">

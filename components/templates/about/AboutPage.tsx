@@ -13,15 +13,13 @@ import {
   useFloating,
 } from "@floating-ui/react";
 import { Portal } from "@headlessui/react";
-import useHeaderInView from "@hooks/useHeaderInView";
 import { event } from "@lib/gtag";
 import { useRef, useState } from "react";
 import { RiCrossFill } from "react-icons/ri";
-import { cvLink } from "./content";
 import Now from "./Now";
-import TuanPhoto from "./TuanPhoto";
 import { NotionNowItem } from "@lib/notion/now";
 import Footer from "@molecules/Footer";
+import { trackEvent } from "@lib/utils";
 
 function HoverGif({
   text,
@@ -62,6 +60,11 @@ function HoverGif({
         category: "about_page",
         label: label,
       });
+      trackEvent({
+        event: "hover_gif",
+        content: label,
+        page: window.location.pathname,
+      });
     },
     onMouseLeave: () => {
       setShowGif(false);
@@ -85,29 +88,36 @@ function HoverGif({
 }
 
 export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
-  const { ref } = useHeaderInView();
   const contentRef = useRef<HTMLDivElement>(null);
-  const [showImage, setShowImage] = useState(false);
-  const [position, setPosition] = useState([0, 0]);
+  // const [showImage, setShowImage] = useState(false);
+  // const [position, setPosition] = useState([0, 0]);
 
   return (
     <div className="bg-surface">
-      <main
-        ref={ref}
-        className="z-10 w-full overflow-hidden text-primary bg-surface"
-      >
+      <main className="z-10 w-full text-primary bg-surface">
         <div className="main-container p-header">
-          <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-y-8 md:gap-x-8">
+          <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-y-8 md:gap-x-12">
+            <div className="relative self-stretch col-span-12 md:col-span-5">
+              <Fade delay={50} className="">
+                <CustomImage
+                  src="/portrait.jpg"
+                  alt="Tuan's portrait"
+                  width={1920}
+                  height={2556}
+                  className="rounded-lg"
+                />
+              </Fade>
+            </div>
             <div
               ref={contentRef}
-              className="col-span-12 lg:col-span-8 lg:col-start-3 text-lg md:text-xl lg:text-xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-4 [&_h3:not(:first-child)]:mt-6 lg:[&_h3:not(:first-child)]:mt-10 "
+              className="col-span-12 md:col-span-7 text-lg md:text-xl lg:text-xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-4 [&_h3:not(:first-child)]:mt-6 lg:[&_h3:not(:first-child)]:mt-10 "
             >
               <Fade delay={150} as="p">
                 Xin chào!
               </Fade>
               <Fade delay={200} as="p">
-                My name is{" "}
-                <Tooltip
+                My name is Au Duong Tuan
+                {/* <Tooltip
                   content={showImage ? "Close my photo" : "Open my photo"}
                 >
                   <InlineLink
@@ -128,15 +138,15 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                     }}
                   >
                     Tuan 👨‍💻
-                    {/* <CustomImage
+                   <CustomImage
                       src="/favicon/apple-icon-180x180.png"
                       width={24}
                       height={24}
                       className="inline w-6 h-6"
-                    ></CustomImage> */}
+                    ></CustomImage> 
                   </InlineLink>
-                </Tooltip>
-                . I&apos;m a{" "}
+                </Tooltip>*/}
+                . I&apos;m a software{" "}
                 <Tooltip content="View more information about this role">
                   <InlineLink href="/blog/ux-design-engineer">
                     {/* versatile software professional */}design engineer
@@ -208,8 +218,8 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 >
                   BioTuring
                 </InlineLink>
-                . Previously, I had worked on Design systems and Design ops at
-                companies like{" "}
+                . Previously, I had worked on products, design systems and
+                design ops at companies like{" "}
                 <InlineLink
                   className="text-[#05295d]"
                   href="https://aperia.com"
@@ -235,8 +245,8 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                     height={480}
                   />
                 </HoverGif>
-                <RiCrossFill className="inline w-4 h-4 mb-1 text-secondary" />.{" "}
-                <span>Curious for more details?</span>{" "}
+                <RiCrossFill className="inline w-4 h-4 mb-1 text-secondary" />.
+                {/* <span>Curious for more details?</span>{" "}
                 <InlineLink
                   href={cvLink}
                   onClick={() => {
@@ -248,8 +258,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                   }}
                 >
                   Download my CV
-                </InlineLink>
-                .
+                </InlineLink>. */}
               </Fade>
               {/* <div className="col-span-12 lg:col-span-4 lg:col-start-9"> */}
               <Fade as="h3" delay={450} className="mt-4 md:mt-8 sub-heading">
@@ -268,7 +277,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
               {/* </div> */}
             </div>
           </div>
-          <Portal>
+          {/* <Portal>
             <div
               className="absolute w-0 z-80"
               style={{ left: position[0], top: position[1] }}
@@ -286,7 +295,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 />
               </Fade>
             </div>
-          </Portal>
+          </Portal> */}
         </div>
       </main>
       {/* <AboutContent /> */}

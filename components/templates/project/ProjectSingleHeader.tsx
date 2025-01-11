@@ -1,7 +1,6 @@
 import { FiEye } from "react-icons/fi";
 import IconButton from "@atoms/IconButton";
 import Badge from "@atoms/Badge";
-import useHeaderInView from "@hooks/useHeaderInView";
 import Balancer from "react-wrap-balancer";
 import Fade from "@atoms/Fade";
 import useBreakpoint from "@hooks/useBreakpoint";
@@ -15,13 +14,9 @@ interface ProjectSingleHeaderProps {
 }
 
 export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
-  const { ref } = useHeaderInView();
   const bp = useBreakpoint();
   return (
-    <header
-      ref={ref}
-      className="z-10 w-full border-b text-primary bg-surface border-divider"
-    >
+    <header className="z-10 w-full border-b text-primary bg-surface border-divider">
       {/* <div className="flex justify-center p-0 lg:px-section-horizontal main-container p-header"> */}
       <HeaderWithBackButton backLink="/" backLinkLabel="Back to Works">
         <div

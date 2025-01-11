@@ -12,6 +12,7 @@ import en from "javascript-time-ago/locale/en";
 import useAppStore from "@store/useAppStore";
 import Sidebar from "@molecules/Sidebar";
 import { useViewportAndScrollbarWidths } from "@hooks/useViewportAndScrollbarWidths";
+import { trackEvent } from "@lib/utils";
 // import { IBM_Plex_Sans } from "@next/font/google";
 // const ibm = IBM_Plex_Sans({
 //   subsets: ["latin", "latin-ext", "vietnamese"],
@@ -25,10 +26,20 @@ function MyApp({ Component, pageProps }: AppProps) {
   useViewportAndScrollbarWidths();
   const router = useRouter();
   useEffect(() => {
+    trackEvent({
+      event: "page_view",
+      page: window.location.pathname,
+    });
+  }, []);
+  useEffect(() => {
     smoothscroll.polyfill();
     if (isProduction) {
       const handleRouteChange = (url) => {
         gtag.pageview(url);
+        trackEvent({
+          event: "page_view",
+          page: url,
+        });
       };
       router.events.on("routeChangeComplete", handleRouteChange);
       return () => {
@@ -79,7 +90,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         }
       `}</style>
       <main className="">
-        <Navigation hideOnScroll={true} fixed={true} />
+        <Navigation />
         <div id="toast-root"></div>
         {/* <div className="flex items-stretch justify-stretch content-stretch"> */}
         {/* <Sidebar /> */}

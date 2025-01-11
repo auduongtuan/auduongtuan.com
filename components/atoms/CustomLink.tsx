@@ -31,9 +31,6 @@ const CustomLink: React.FC<CustomLinkProps> = ({
   const handleOnClick = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
       e.preventDefault();
-      const scrollX = window.pageXOffset;
-      const scrollY = window.pageYOffset;
-
       const location = window.location;
       const urlParts = href.split("#");
       if (location.pathname === urlParts[0]) {

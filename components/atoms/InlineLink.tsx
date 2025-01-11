@@ -2,6 +2,7 @@ import Link from "next/link";
 import ExternalLink from "./ExternalLink";
 import { forwardRef } from "react";
 import { cn } from "@lib/utils/cn";
+import { trackEvent } from "@lib/utils";
 
 interface InlineLinkProps
   extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap"> {
@@ -22,6 +23,7 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
       dark = false,
       underline = true,
       wrap = false,
+      onClick,
       ...rest
     },
     ref
@@ -51,6 +53,16 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
         ref={ref}
         href={link as string}
         className={linkStyles}
+        onClick={(e) => {
+          if (link != "#") {
+            trackEvent({
+              event: "link_click",
+              content: link,
+              page: window.location.pathname,
+            });
+          }
+          if (onClick) onClick(e);
+        }}
         {...rest}
       >
         {children}

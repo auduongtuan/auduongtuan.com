@@ -17,7 +17,7 @@ const Now = ({ items }: { items: NotionNowItem[] }) => {
           key={`now-${i}`}
         >
           <p className="text-sm mt-0.5 text-tertiary">{item.title}</p>
-          <div className="flex items-center gap-5 mt-2 font-mono leading-tight tracking-tight text-md body-text">
+          <div className="flex items-center gap-5 mt-2 font-mono text-sm leading-tight tracking-tight md:text-base">
             {(item.thumbnail || item.link) && (
               <div className={cn("w-[100px] flex items-center justify-center")}>
                 <Image

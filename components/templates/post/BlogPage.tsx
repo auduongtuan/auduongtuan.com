@@ -1,15 +1,12 @@
 import { Post } from "@lib/notion";
 import PostCard from "@molecules/post/PostCard";
-import useHeaderInView from "@hooks/useHeaderInView";
 import Footer from "@molecules/Footer";
 import Fade from "@atoms/Fade";
 
 export default function BlogPage({ posts }: { posts: Post[] }) {
-  const { ref } = useHeaderInView();
-
   return (
     <>
-      <header ref={ref} className="z-10 w-full text-primary bg-surface ">
+      <header className="z-10 w-full text-primary bg-surface ">
         <div className="border-b main-container p-header border-divider pb-subsection-vertical">
           <div className="grid grid-cols-12 gap-2 md:gap-4">
             <Fade
