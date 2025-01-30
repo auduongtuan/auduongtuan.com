@@ -66,7 +66,11 @@ const OGImage = async function (req: NextRequest) {
                 display: "flex",
               }}
             >
-              <img src={logoUrl} style={{ width: 100, height: 100 }} />
+              <img
+                src={logoUrl}
+                alt="Logo"
+                style={{ width: 100, height: 100 }}
+              />
             </div>
           )}
           {!logoUrl && emoji && (

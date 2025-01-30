@@ -23,7 +23,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
               className="flex flex-col border-gray-200 md:odd:border-r md:px-6 md:py-4 "
               key={postItem.id}
             >
-              <MiniPostCard post={postItem} className="flex-grow" />
+              <MiniPostCard post={postItem} className="grow" />
             </div>
           ))}
         </div>

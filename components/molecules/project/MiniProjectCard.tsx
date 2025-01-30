@@ -19,7 +19,7 @@ const MiniProjectCard = ({ project }: { project: Project }) => {
         </div>
       )}
       <div>
-        <h3 className="text-lg leading-tight">{project.title}</h3>
+        <h3 className="text-lg leading-tight h3">{project.title}</h3>
         <p className="mt-0.5 text-sm text-secondary line-clamp-2">
           {project.tagline}
         </p>
@@ -27,7 +27,7 @@ const MiniProjectCard = ({ project }: { project: Project }) => {
     </Fragment>
   );
   const classname =
-    "bg-card col-span-6 md:col-span-3 lg:col-span-2 text-primary p-3 md:p-3.5 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:!opacity-100 hover:scale-[1.02] active:scale-[1.01] hover:outline-blue-800 hover:outline-2";
+    "bg-card col-span-6 md:col-span-3 lg:col-span-2 text-primary p-3 md:p-3.5 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:opacity-100! hover:scale-[1.02] active:scale-[1.01]";
   return project.caseStudy || internalLink ? (
     <Link
       href={project.caseStudy ? `/project/${project.slug}` : internalLink}

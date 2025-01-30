@@ -34,15 +34,15 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
         >
           <div
             className={cn(
-              "w-full px-3 py-2 password-base leading-tight text-primary font-mono font-medium transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none group-data-[focus]:border-blue-600 group-data-[focus]:shadow-sm group-data-[focus]:shadow-blue-400/40",
+              "w-full px-3 py-2 password-base leading-tight text-primary font-mono font-medium transition-all duration-200 border-2 border-gray-300 rounded-lg outline-hidden group-data-focus:border-blue-600 group-data-focus:shadow-xs group-data-focus:shadow-blue-400/40",
               error &&
-                "border-red-300 group-data-[focus]:border-red-600 group-data-[focus]:shadow-sm group-data-[focus]:shadow-red-400/40",
+                "border-red-300 group-data-focus:border-red-600 group-data-focus:shadow-xs group-data-focus:shadow-red-400/40",
               className
             )}
           >
             <div className="relative flex items-center">
               <div
-                className="absolute top-0 left-0 h-full rounded-sm bg-blue-600/20"
+                className="absolute top-0 left-0 h-full rounded-xs bg-blue-600/20"
                 style={{
                   marginLeft: `-${gap / 2}px`,
                   width: `${
@@ -89,7 +89,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
             ref={ref}
             {...rest}
             className={cn(
-              "absolute top-0 left-0 w-full h-full  bg-transparent focus:outline-none opacity-0",
+              "absolute top-0 left-0 w-full h-full  bg-transparent focus:outline-hidden opacity-0",
               "text-transparent placeholder-transparent [&::selection]:bg-transparent"
             )}
             value={value}

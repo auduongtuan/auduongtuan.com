@@ -16,7 +16,7 @@ export const useViewportAndScrollbarWidths = () => {
       document.body.removeChild(scrollDiv);
 
       // Get Viewport Width
-      const viewportWidth = window.innerWidth;
+      const viewportWidth = document.body.clientWidth;
 
       // Set CSS variables
       document.documentElement.style.setProperty(

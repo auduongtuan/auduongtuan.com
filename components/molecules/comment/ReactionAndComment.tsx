@@ -25,7 +25,7 @@ const ReactionAndComment = ({
     <Fragment>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-4 gap-y-6 md:gap-x-6 md:gap-y-8">
         <div className="col-span-1">
-          <h3 className="mb-4 sub-heading">Give your reaction</h3>
+          <h3 className="mb-4 subheading">Give your reaction</h3>
           <div>
             <Reaction page={page} />
           </div>

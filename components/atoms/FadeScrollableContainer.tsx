@@ -34,7 +34,7 @@ const FadeScrollableContainer = ({
     <div className={twMerge("relative w-full", className)}>
       {showStart && (
         <span
-          className="absolute top-0 left-0 block w-4 h-full bg-gradient-to-r from-inherit to-transparent"
+          className="absolute top-0 left-0 block w-4 h-full bg-linear-to-r from-inherit to-transparent"
           style={
             {
               "--tw-gradient-from": background,
@@ -44,7 +44,7 @@ const FadeScrollableContainer = ({
       )}
       {showEnd && (
         <span
-          className="absolute top-0 right-0 block w-4 h-full bg-gradient-to-r from-transparent to-inherit"
+          className="absolute top-0 right-0 block w-4 h-full bg-linear-to-r from-transparent to-inherit"
           style={
             {
               "--tw-gradient-to": background,

@@ -38,9 +38,9 @@ const CommentSuggestion = ({
       loaded={list.length > 0}
     >
       <Skeleton type="block" className="rounded-full"></Skeleton>
-      <Skeleton.Content className="flex-shrink w-full">
+      <Skeleton.Content className="shrink w-full">
         <div className="flex justify-stretch">
-          <div className="mr-1.5 flex flex-grow-0 flex-shrink-0">
+          <div className="mr-1.5 flex grow-0 shrink-0">
             <Tooltip content="Use English">
               <PillButton
                 active={useEnglish}
@@ -50,9 +50,9 @@ const CommentSuggestion = ({
               </PillButton>
             </Tooltip>
           </div>
-          <div className="flex-grow flex-shrink min-w-0">
+          <div className="grow shrink min-w-0">
             <FadeScrollableContainer background="#FFFFFF">
-              <div className="flex flex-grow -mr-1.5">
+              <div className="flex grow -mr-1.5">
                 {list.map((content, index) => (
                   <PillButton
                     key={content}

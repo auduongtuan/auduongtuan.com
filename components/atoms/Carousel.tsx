@@ -57,14 +57,14 @@ const Carousel = ({
         </IconButton>
         {/* <div className="overflow-x-auto"> */}
         <div
-          className="scrollbar-hidden snap-mandatory gap-2 snap-x overflow-x-auto transition-all duration-150 flex [&>*]:w-full [&>*]:grow-0 [&>*]:shrink-0"
+          className="scrollbar-hidden snap-mandatory gap-2 snap-x overflow-x-auto transition-all duration-150 flex *:w-full *:grow-0 *:shrink-0"
           ref={scrollRef}
         >
           {Children.map(children, (child, i) => {
             return (
               <div
                 key={i}
-                className="flex-shrink-0"
+                className="shrink-0"
                 style={
                   isSSR
                     ? { scrollSnapAlign: "start" }

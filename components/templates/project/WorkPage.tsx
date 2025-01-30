@@ -17,7 +17,7 @@ export default function WorkPage({ projects, projectGroups }: WorksPageProps) {
           <div className="grid grid-cols-12 gap-2 md:gap-4">
             <Fade
               as="h1"
-              className="col-span-12 md:col-span-8"
+              className="col-span-12 h1 md:col-span-8"
               slide
               duration={100}
             >

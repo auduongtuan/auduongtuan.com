@@ -18,7 +18,11 @@ function Dialog({ children, open, onClose, title, ...rest }) {
   }, [open, setPauseScrollEvent]);
   return (
     <Transition show={open} as={Fragment}>
-      <HDialog onClose={onClose} className="relative z-modal" {...rest}>
+      <HDialog
+        onClose={onClose}
+        className="relative z-(--stack-modal)"
+        {...rest}
+      >
         {/* The backdrop, rendered as a fixed sibling to the panel container */}
         <TransitionChild
           as={Fragment}
@@ -49,16 +53,16 @@ function Dialog({ children, open, onClose, title, ...rest }) {
               <HDialogTitle
                 as="header"
                 className={` flex items-center justify-between bg-slate-100
-          px-3 py-1.5 rounded-t-[11px] z-[1] shadow-[0_0_0_1px_rgba(0,0,0,0.06)] relative`}
+          px-3 py-1.5 rounded-t-[11px] z-1 shadow-[0_0_0_1px_rgba(0,0,0,0.06)] relative`}
               >
-                <div className="absolute flex items-center flex-grow gap-2 basis-0">
+                <div className="absolute flex items-center grow gap-2 basis-0">
                   <button
                     aria-label="Close it"
-                    className="block w-2 h-2 rounded cursor-pointer bg-slate-400 hover:bg-red-500 active:bg-red-700"
+                    className="block w-2 h-2 rounded-sm cursor-pointer bg-slate-400 hover:bg-red-500 active:bg-red-700"
                     onClick={onClose}
                   ></button>
-                  {/* <span className="block w-2 h-2 rounded bg-slate-400"></span>
-                <span className="block w-2 h-2 rounded bg-slate-400"></span> */}
+                  {/* <span className="block w-2 h-2 rounded-sm bg-slate-400"></span>
+                <span className="block w-2 h-2 rounded-sm bg-slate-400"></span> */}
                   {/* <FiChevronLeft className="ml-3 text-slate-400" />
             <FiChevronRight className="text-slate-600" /> */}
                 </div>
@@ -69,13 +73,13 @@ function Dialog({ children, open, onClose, title, ...rest }) {
                 >
                   {title}
                 </div>
-                {/* <div className="flex items-center justify-end flex-grow gap-2 basis-0 justify-self-end"> */}
+                {/* <div className="flex items-center justify-end grow gap-2 basis-0 justify-self-end"> */}
                 {/* <FiZoomOut className="text-slate-400" />
                 <FiZoomIn className="text-slate-400" /> */}
                 {/* </div> */}
               </HDialogTitle>
 
-              <main className="flex-grow-0 bg-surface">{children}</main>
+              <main className="grow-0 bg-surface">{children}</main>
             </HDialogPanel>
           </div>
         </TransitionChild>

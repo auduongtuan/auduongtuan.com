@@ -29,7 +29,7 @@ export function useDraggable() {
       pos2 = pos4 - e.clientY;
       pos3 = e.clientX;
       pos4 = e.clientY;
-      console.log(pos1, pos2, pos3, pos4);
+      // console.log(pos1, pos2, pos3, pos4);
       // set the element's new position:
       element.current.style.top = element.current.offsetTop - pos2 + "px";
       element.current.style.left = element.current.offsetLeft - pos1 + "px";

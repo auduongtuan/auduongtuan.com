@@ -53,7 +53,7 @@ const Persona = ({
       >
         {imageTag}
       </div>
-      {name && <h3>{name}</h3>}
+      {name && <h3 className="font-medium leading-normal body-text">{name}</h3>}
       {children}
     </Box>
   );

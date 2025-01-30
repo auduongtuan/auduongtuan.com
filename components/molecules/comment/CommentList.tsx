@@ -46,7 +46,7 @@ const CommentList = ({ comments, wording }) => {
         <>
           {comments.length > 0 && (
             <div>
-              <h3 className="mb-4 sub-heading">
+              <h3 className="mb-4 subheading">
                 {comments.length}{" "}
                 {comments.length == 1 ? "comment" : "comments"}
               </h3>
@@ -62,7 +62,7 @@ const CommentList = ({ comments, wording }) => {
                   return (
                     <div key={`comment-${i}`} className="flex space-x-3">
                       <span
-                        className={`rounded-full w-8 h-8 text-sm flex items-center justify-center flex-shrink-0 mt-2 ${avatarColor}`}
+                        className={`rounded-full w-8 h-8 text-sm flex items-center justify-center shrink-0 mt-2 ${avatarColor}`}
                       >
                         {hasName ? (
                           getInitials(name)
@@ -96,7 +96,7 @@ const CommentList = ({ comments, wording }) => {
               }`}
             >
               <GiPostStamp className="text-6xl text-tertiary" />
-              <h5 className="mt-4 sub-heading">No {wording.plural} yet.</h5>
+              <h5 className="mt-4 subheading">No {wording.plural} yet.</h5>
               <p className="mt-1 text-sm text-secondary">
                 {`Why don't you `}
                 <Tooltip content="A nostalgia trend of Yahoo 360 era">
@@ -115,14 +115,14 @@ const CommentList = ({ comments, wording }) => {
           <div className="flex space-x-3">
             <Skeleton
               type="inline"
-              className={`rounded-full w-8 h-8 flex-shrink-0 mt-2`}
+              className={`rounded-full w-8 h-8 shrink-0 mt-2`}
             />
             <Skeleton className="w-full h-16 rounded-xl" type="inline" />
           </div>
           <div className="flex space-x-3">
             <Skeleton
               type="inline"
-              className={`rounded-full w-8 h-8 flex-shrink-0`}
+              className={`rounded-full w-8 h-8 shrink-0`}
             />
             <Skeleton className="w-full h-16 rounded-xl" type="inline" />
           </div>

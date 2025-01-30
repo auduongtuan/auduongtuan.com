@@ -89,7 +89,7 @@ const ChatConcept = () => {
       <div className="flex items-center gap-4 px-6 py-6">
         <textarea
           placeholder="Send me a message"
-          className="relative flex-grow block w-full h-12 px-3 py-2 text-base leading-tight text-primary transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 focus:z-10"
+          className="relative grow block w-full h-12 px-3 py-2 text-base leading-tight text-primary transition-all duration-200 border-2 border-gray-300 rounded-lg outline-hidden focus:border-blue-600 focus:shadow-xs focus:shadow-blue-400/40 focus:z-10"
         />
         <IconButton className="shrink-0 grow-0">
           <FiSend />

@@ -10,7 +10,7 @@ const OtherProjectList = ({
 }) => {
   return (
     <>
-      <h3 className="sub-heading">Other projects</h3>
+      <h3 className="subheading">Other projects</h3>
       <div className="grid grid-cols-6 gap-4 mt-6 md:gap-6 group">
         {projects
           .filter((project) => project.slug != currentProject.slug)
