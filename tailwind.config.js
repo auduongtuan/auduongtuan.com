@@ -136,8 +136,8 @@ module.exports = {
     },
   },
   plugins: [
-    require("@tailwindcss/typography"),
-    require("tailwindcss-animation-delay"),
+    // require("@tailwindcss/typography"),
+    // require("tailwindcss-animation-delay"),
     plugin(function ({ addVariant }) {
       addVariant(
         "sm-only",
