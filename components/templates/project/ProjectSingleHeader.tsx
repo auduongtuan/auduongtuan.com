@@ -18,7 +18,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
   return (
     <header className="z-10 w-full border-b text-primary bg-surface border-divider">
       {/* <div className="flex justify-center p-0 lg:px-section-horizontal main-container p-header"> */}
-      <HeaderWithBackButton backLink="/" backLinkLabel="Back to Works">
+      <HeaderWithBackButton backLink="/work" backLinkLabel="Back to Work">
         <div
           className="grid grid-cols-12 gap-x-4"
           key={project.slug + "_header"}
