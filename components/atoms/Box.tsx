@@ -29,7 +29,7 @@ const Box = ({
     >
       {caption ? (
         <figure className="flex flex-col justify-center h-full">
-          <div className="flex items-center justify-center flex-grow [&>*:first-child]:mt-0">
+          <div className="flex items-center justify-center grow [&>*:first-child]:mt-0">
             {renderChildren()}
           </div>
           <figcaption className="mt-6 text-sm text-center text-secondary">
@@ -60,7 +60,7 @@ export const EmojiBox = ({
         </div>
       )}
       {children && (
-        <div className="w-full [&_.body-text]:!text-base [&_.mt-content-node]:mt-2">
+        <div className="w-full [&_.body-text]:text-base! [&_.mt-content-node]:mt-2">
           {children}
         </div>
       )}

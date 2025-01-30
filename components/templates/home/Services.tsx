@@ -20,7 +20,7 @@ export default function Services() {
             <p className="mt-1">
               Product ideation, design, copywriting, and prototyping.
             </p>
-            <div className="mt-4 muted-text sub-heading">Stack</div>
+            <div className="mt-4 muted-text subheading">Stack</div>
             <ul className="mt-2">
               <li>Figma</li>
               <li>Sketch</li>
@@ -36,7 +36,7 @@ export default function Services() {
             <p className="mt-1">
               Custom websites, web apps, and e-commerce solutions.
             </p>
-            <div className="mt-4 muted-text sub-heading">Stack</div>
+            <div className="mt-4 muted-text subheading">Stack</div>
             <ul className="mt-2">
               <li>Framer, Webflow</li>
               <li>WordPress, PHP, MySQL</li>

@@ -84,7 +84,7 @@ const Select = <TType, TActualType>({
         {label && <Label className={"shrink-0 mr-3 muted-text"}>{label}</Label>}
         <ListboxButton
           className={twMerge(
-            "flex w-full items-center justify-between rounded-lg border border-control bg-background px-3 py-1.5 text-base ring-offset-background placeholder:text-muted focus:outline-none focus-visible:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+            "flex w-full items-center justify-between rounded-lg border border-control bg-background px-3 py-1.5 text-base ring-offset-background placeholder:text-muted focus:outline-hidden focus-visible:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
             buttonClassName
           )}
         >
@@ -98,7 +98,7 @@ const Select = <TType, TActualType>({
           ? ReactDOM.createPortal(
               <ListboxOptions
                 className={twMerge(
-                  "[--anchor-gap:4px] rounded-md border border-control bg-surface text-primary shadow-lg p-1 focus:outline-none grid grid-cols-1 gap-0.5 z-popup"
+                  "[--anchor-gap:4px] rounded-md border border-control bg-surface text-primary shadow-lg p-1 focus:outline-hidden grid grid-cols-1 gap-0.5 z-(--stack-popup)"
                 )}
                 anchor="bottom start"
               >
@@ -111,11 +111,11 @@ const Select = <TType, TActualType>({
                     }
                     value={option.value}
                     className={twMerge(
-                      "flex w-full cursor-default select-none items-center rounded-md py-1.5 pl-2 pr-2 text-base outline-none",
-                      " data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+                      "flex w-full cursor-default select-none items-center rounded-md py-1.5 pl-2 pr-2 text-base outline-hidden",
+                      " data-disabled:pointer-events-none data-disabled:opacity-50",
                       multiple
-                        ? "data-[selected]:bg-transparent data-[selected]:hover:bg-accent-subtlest data-[active]:bg-accent-subtlest"
-                        : "data-[selected]:bg-accent data-[selected]:text-oncolor data-[active]:[&:not([data-selected])]:bg-subtle"
+                        ? "data-selected:bg-transparent data-selected:hover:bg-accent-subtlest data-active:bg-accent-subtlest"
+                        : "data-selected:bg-accent data-selected:text-oncolor data-active:[&:not([data-selected])]:bg-subtle"
                     )}
                   >
                     {multiple && (
@@ -136,7 +136,7 @@ const Select = <TType, TActualType>({
                     {!multiple && (
                       <FiCheck
                         className={twMerge(
-                          "ml-1 opacity-0 data-[selected]:opacity-100 shrink-0",
+                          "ml-1 opacity-0 data-selected:opacity-100 shrink-0",
                           multiple && "text-accent"
                         )}
                       />

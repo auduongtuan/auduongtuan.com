@@ -57,17 +57,17 @@ export const BaseFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
               `flex items-center justify-between`,
               inverted ? "bg-slate-100" : "bg-slate-800",
               draggable && "cursor-move",
-              "px-3 py-1.5  rounded-t-[11px] z-[1]"
+              "px-3 py-1.5  rounded-t-[11px] z-1"
             )}
           >
-            <div className="flex items-center flex-grow basis-0">
+            <div className="flex items-center grow basis-0">
               <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
               <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
               <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
               {startContent}
             </div>
             {middleContent}
-            <div className="flex items-center justify-end flex-grow gap-2 basis-0 justify-self-end">
+            <div className="flex items-center justify-end grow gap-2 basis-0 justify-self-end">
               {/* <FiGrid className="hidden md:inline-block text-slate-400" />
               <FiPlus className="hidden md:inline-block text-slate-400" /> */}
               {endContent}
@@ -75,7 +75,7 @@ export const BaseFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
           </header>
           <main
             className={twMerge(
-              "overflow-hidden p-0 rounded-b-xl flex-grow-0 leading-[0] [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
+              "overflow-hidden p-0 rounded-b-xl grow-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
               mainClassname
             )}
           >
@@ -201,10 +201,10 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
             "font-sans flex items-center justify-between",
             inverted ? "bg-slate-100" : "bg-slate-800",
             draggable && "cursor-move",
-            "px-3 py-1.5 rounded-t-xl border-b border-black/10 z-[1] "
+            "px-3 py-1.5 rounded-t-xl border-b border-black/10 z-1 "
           )}
         >
-          <div className="flex items-center flex-grow gap-2 basis-0">
+          <div className="flex items-center grow gap-2 basis-0">
             {closeTooltipContent ? (
               <Tooltip content={closeTooltipContent}>
                 <button
@@ -228,14 +228,14 @@ export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
           >
             {name}
           </div>
-          <div className="flex items-center justify-end flex-grow gap-2 basis-0 justify-self-end">
+          <div className="flex items-center justify-end grow gap-2 basis-0 justify-self-end">
             <FiZoomOut className="text-slate-400" />
             <FiZoomIn className="text-slate-400" />
           </div>
         </header>
         <main
           className={twMerge(
-            "flex-grow-0 leading-[0] [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
+            "grow-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
             mainClassname
           )}
         >

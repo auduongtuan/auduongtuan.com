@@ -59,7 +59,7 @@ const PostSinglePage = ({
                 <Balancer>
                   <Fade
                     as="h1"
-                    className="col-span-1 text-2xl leading-tight text-primary grow md:text-3xl md:leading-tight lg:text-4xl lg:leading-tight"
+                    className="col-span-1 text-primary grow h1"
                     slide
                     duration={100}
                   >

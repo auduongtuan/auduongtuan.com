@@ -14,7 +14,6 @@ import SectionTitle from "@molecules/SectionTitle";
 import { FiInfo } from "react-icons/fi";
 import Tooltip from "@atoms/Tooltip";
 import { trackEvent } from "@lib/utils";
-import { set } from "lodash";
 
 export default function ProjectList({
   projects,
@@ -54,6 +53,11 @@ export default function ProjectList({
       category: "engagement",
       label: sortOptions.find((option) => option.value == value)?.name!,
     });
+    trackEvent({
+      event: "sort_projects",
+      content: sortOptions.find((option) => option.value == value)?.name!,
+      page: "/work",
+    });
   };
 
   const sortingFunction = (a: Project, b: Project) => {
@@ -92,7 +96,7 @@ export default function ProjectList({
         page: "/work",
       });
     }
-  }, [sent.length]);
+  }, [sent, sent.length]);
 
   return (
     <section id="works" className={className}>
@@ -112,7 +116,6 @@ export default function ProjectList({
 
         {sortBy == "group" ? (
           Object.keys(projectInGroups).map((groupId) => {
-            console.log(groupId);
             const group = projectGroups.find((g) => g.id == groupId);
             if (!group) return null;
             return (

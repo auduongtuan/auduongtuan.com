@@ -172,7 +172,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
             disciplines helps me to solve problems in creative, organized
             and programmatic ways. */}
               </Fade>
-              <Fade as="h3" delay={250} className="sub-heading">
+              <Fade as="h3" delay={250} className="subheading">
                 How I got started
               </Fade>
               <Fade delay={250} as="p">
@@ -220,7 +220,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 </InlineLink>
                 .
               </Fade>
-              <Fade as="h3" delay={300} className="sub-heading">
+              <Fade as="h3" delay={300} className="subheading">
                 My professional work
               </Fade>
               <Fade delay={350} as="p">
@@ -274,7 +274,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 </InlineLink>. */}
               </Fade>
               {/* <div className="col-span-12 lg:col-span-4 lg:col-start-9"> */}
-              <Fade as="h3" delay={450} className="mt-4 md:mt-8 sub-heading">
+              <Fade as="h3" delay={450} className="mt-4 md:mt-8 subheading">
                 Now ⏰{" "}
               </Fade>
               <Fade as="p" delay={450}>

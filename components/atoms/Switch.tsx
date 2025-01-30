@@ -15,7 +15,7 @@ const Switch = ({ checked, onChange, label }) => {
                 checked
                   ? "bg-blue-600 focus:ring-[3px] focus:ring-blue-600/20"
                   : "bg-slate-300 focus:ring-2 focus:ring-blue-600"
-              } relative inline-flex h-6 w-11 items-center rounded-full border-transparent focus:shadow-sm focus:shadow-blue-400/40 outline-none bg-clip-padding`}
+              } relative inline-flex h-6 w-11 items-center rounded-full border-transparent focus:shadow-xs focus:shadow-blue-400/40 outline-hidden bg-clip-padding`}
             >
               <span className="sr-only">{label}</span>
               <span

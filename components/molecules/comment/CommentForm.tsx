@@ -49,7 +49,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
   };
   return (
     <Fragment>
-      <h3 className="mb-4 sub-heading">{wording.cta}</h3>
+      <h3 className="mb-4 subheading">{wording.cta}</h3>
       {state.sent && (
         <Toast type="success" afterLeave={() => setState({ sent: false })}>
           Message sent. Thank for your {wording.singular}.
@@ -72,7 +72,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                 formContentRef(e);
                 messageRef.current = e;
               }}
-              className="relative block w-full h-32 px-3 py-2 text-base leading-tight text-primary transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none md:rounded-b-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40 focus:z-10"
+              className="relative block w-full h-32 px-3 py-2 text-base leading-tight transition-all duration-200 border-2 border-gray-300 rounded-lg text-primary outline-hidden md:rounded-b-none focus:border-blue-600 focus:shadow-xs focus:shadow-blue-400/40 focus:z-10"
             />
           </div>
 
@@ -96,7 +96,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
               />
             </div>
             <Button
-              className="relative focus:z-10 mt-4 md:-mt-[2px] sm-only:w-full sm-only:justify-center md:rounded-t-none md:rounded-bl-none"
+              className="relative focus:z-10 mt-4 md:-mt-[2px] w-full md:w-auto justify-center md:rounded-t-none md:rounded-bl-none"
               type="submit"
               loading={state.loading}
               icon={<FiSend />}

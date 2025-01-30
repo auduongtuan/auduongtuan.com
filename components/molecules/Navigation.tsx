@@ -45,7 +45,7 @@ const Navigation = React.memo(() => {
   // https://paco.me/writing/disable-theme-transitions
 
   const NavigationStyles = twMerge(
-    "w-full top-0 z-[42] transition-transform duration-150 fixed",
+    "w-full top-0 z-42 transition-transform duration-150 fixed",
     "bg-navigation backdrop-blur-md text-primary",
     "border-b border-divider",
     hidden && "-translate-y-full"

@@ -20,9 +20,9 @@ const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
         <input
           id={id}
           className={twMerge(
-            "w-full px-3 py-2 text-base leading-tight text-primary transition-all duration-200 border-2 border-gray-300 rounded-lg outline-none focus:border-blue-600 focus:shadow-sm focus:shadow-blue-400/40",
+            "w-full px-3 py-2 text-base leading-tight text-primary transition-all duration-200 border-2 border-gray-300 rounded-lg outline-hidden focus:border-blue-600 focus:shadow-xs focus:shadow-blue-400/40",
             error &&
-              "border-red-300 focus:border-red-600 focus:shadow-sm focus:shadow-red-400/40",
+              "border-red-300 focus:border-red-600 focus:shadow-xs focus:shadow-red-400/40",
             className
           )}
           ref={ref}

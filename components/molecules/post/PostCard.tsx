@@ -52,7 +52,7 @@ const PostCard = ({
               : null}
           </span>
           <div className="grow">
-            <h2 className={clsx("flex items-start space-x-3 text-xl")}>
+            <h2 className={clsx("flex items-start space-x-3 h4")}>
               <Balancer ratio={0.67}>{post.meta.title}</Balancer>
               {post.meta.protected && (
                 <FiLock className="mt-1 text-tertiary"></FiLock>

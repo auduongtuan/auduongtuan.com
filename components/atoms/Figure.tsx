@@ -17,7 +17,7 @@ const Figure = ({
     <div
       className={twMerge(
         borderRadius && "rounded-xl",
-        "overflow-hidden translate-z-0 leading-[0]"
+        "overflow-hidden translate-z-0 leading-0"
       )}
     >
       {children}

@@ -107,7 +107,7 @@ const ContentMenu = () => {
             headings.length > 2 &&
             headings.map((heading, i) => (
               <li key={i} className="grid items-center grid-cols-1">
-                <div className="col-start-1 row-start-1 w-8 ml-2 transition-all duration-350 ease-bounce group-hover:scale-x-[3] group-hover:opacity-0 origin-left">
+                <div className="col-start-1 row-start-1 w-8 ml-2 transition-all duration-350 ease-bounce group-hover:scale-x-3 group-hover:opacity-0 origin-left">
                   <span
                     className={`block h-[2px] rounded ${
                       i == active ? "bg-gray-900" : "bg-gray-300"

@@ -16,7 +16,7 @@ const SectionTitle = forwardRef<HTMLElement, SectionTitleProps>(
           className
         )}
       >
-        <div className="flex items-center sub-heading grow shrink-0">
+        <div className="flex items-center subheading grow shrink-0">
           {title}
         </div>
         <div className="flex items-center justify-end gap-x-4 gap-y-2 grow-0 shrink-0 ">

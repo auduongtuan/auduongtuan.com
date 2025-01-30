@@ -78,7 +78,7 @@ const ProjectCard = memo(
                 </p>
               </div>
               <Fade
-                className={twMerge("flex-shrink-0 flex-grow-0")}
+                className={twMerge("shrink-0 grow-0")}
                 duration={300}
                 delay={400}
               >
