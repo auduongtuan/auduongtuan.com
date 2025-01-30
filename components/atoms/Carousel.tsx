@@ -83,7 +83,7 @@ const Carousel = ({
             <button
               key={i}
               className={twMerge(
-                "size-3 rounded-full mx-2 font-bold text-transparent text-white bg-button-secondary hover:bg-button-secondary-hover active:bg-button-secondary-pressed text-[0] block",
+                "size-3 rounded-full mx-2 font-bold text-transparent bg-button-secondary hover:bg-button-secondary-hover active:bg-button-secondary-pressed block",
                 activePageIndex === i && "bg-button-secondary-activated"
               )}
               onClick={() => goTo(i)}
