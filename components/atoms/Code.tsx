@@ -36,9 +36,7 @@ const Code = ({
         document.execCommand("copy");
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
-      } catch (err) {
-        console.error("Fallback: Copy failed", err);
-      }
+      } catch (err) {}
       document.body.removeChild(textArea);
     }
   };
