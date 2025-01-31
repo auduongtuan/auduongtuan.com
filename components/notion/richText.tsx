@@ -67,9 +67,7 @@ export const richTextObject = (
           <InlineLink
             key={`${blockId}-${i}`}
             href={textItem.text.link.url}
-            className={`${
-              textItem.annotations.bold ? "font-semibold" : ""
-            } text-slate-700`}
+            className={`${textItem.annotations.bold ? "font-semibold" : ""}`}
             wrap
           >
             {textItem.text.content}

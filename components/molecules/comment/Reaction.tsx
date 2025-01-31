@@ -121,7 +121,7 @@ const ReactButton = ({
               size == "medium"
                 ? "px-3 py-2 space-x-2 md:px-4 md:py-2"
                 : "px-2 py-1 space-x-1 md:px-3 md:py-1",
-              "inline-flex items-center  transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1  hover:border-blue-600 justify-items-center hover:bg-surface/40 group"
+              "inline-flex items-center  transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1  hover:border-accent justify-items-center hover:bg-surface/40 group"
             )}
             onClick={sendReaction}
           >
