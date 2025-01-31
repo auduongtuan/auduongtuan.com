@@ -23,7 +23,7 @@ const Checkbox = ({ checked, onChange, label, ...rest }: CheckboxProps) => {
           <button
             className={twMerge(
               checked
-                ? "bg-accent focus:ring-[3px] focus:ring-blue-600/20"
+                ? "bg-accent focus:ring-[3px] focus:ring-accent/20"
                 : "bg-surface border border-control focus:ring-2 focus:ring-accent",
               "relative flex h-4 w-4 items-center justify-center rounded-xs focus:shadow-xs focus:shadow-blue-400/40 outline-hidden bg-clip-padding"
             )}

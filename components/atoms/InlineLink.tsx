@@ -39,7 +39,7 @@ const InlineLink = forwardRef<HTMLAnchorElement, InlineLinkProps>(
       "inline-flex gap-2 items-center",
       underline && "underline underline-offset-4",
       !wrap && "whitespace-nowrap break-words hover:decoration-transparent",
-      wrap && "hover:decoration-blue-500",
+      wrap && "hover:decoration-accent",
       "transition-all duration-100",
       "-mx-2 px-2 -my-1 py-1 rounded-xl",
       dark ? "decoration-slate-600" : "decoration-underline",

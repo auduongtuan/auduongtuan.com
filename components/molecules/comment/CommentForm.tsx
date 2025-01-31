@@ -72,7 +72,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                 formContentRef(e);
                 messageRef.current = e;
               }}
-              className="relative block w-full h-32 px-3 py-2 text-base leading-tight transition-all duration-200 border-2 border-gray-300 rounded-lg text-primary outline-hidden md:rounded-b-none focus:border-blue-600 focus:shadow-xs focus:shadow-blue-400/40 focus:z-10"
+              className="relative block w-full h-32 px-3 py-2 text-base leading-tight transition-all duration-200 border-2 border-gray-300 rounded-lg text-primary outline-hidden md:rounded-b-none focus:border-accent focus:shadow-xs focus:shadow-blue-400/40 focus:z-10"
             />
           </div>
 

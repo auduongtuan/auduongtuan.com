@@ -34,7 +34,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
         >
           <div
             className={cn(
-              "w-full px-3 py-2 password-base leading-tight text-primary font-mono font-medium transition-all duration-200 border-2 border-gray-300 rounded-lg outline-hidden group-data-focus:border-blue-600 group-data-focus:shadow-xs group-data-focus:shadow-blue-400/40",
+              "w-full px-3 py-2 password-base leading-tight text-primary font-mono font-medium transition-all duration-200 border-2 border-gray-300 rounded-lg outline-hidden group-data-focus:border-accent group-data-focus:shadow-xs group-data-focus:shadow-blue-400/40",
               error &&
                 "border-red-300 group-data-focus:border-red-600 group-data-focus:shadow-xs group-data-focus:shadow-red-400/40",
               className
@@ -42,7 +42,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
           >
             <div className="relative flex items-center">
               <div
-                className="absolute top-0 left-0 h-full rounded-xs bg-blue-600/20"
+                className="absolute top-0 left-0 h-full rounded-xs bg-accent/20"
                 style={{
                   marginLeft: `-${gap / 2}px`,
                   width: `${
@@ -66,7 +66,7 @@ const PasswordField = forwardRef<HTMLInputElement, PasswordFieldProps>(
                 <span className="relative flex items-center justify-center w-0 pointer-events-none animate-caret-blink">
                   <span
                     className={cn(
-                      "h-8 bg-blue-600 w-0.5 absolute rounded-full ",
+                      "h-8 bg-accent w-0.5 absolute rounded-full ",
                       error && "bg-red-600"
                     )}
                   />

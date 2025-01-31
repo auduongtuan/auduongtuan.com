@@ -38,7 +38,7 @@ const Button = ({
   //   if (colorful) className += ;
   const buttonStyles = twMerge(
     "font-mono py-2 px-4 rounded-lg font-semibold text-sm uppercase inline-block transition-all duration-200 ease-out",
-    "focus-visible:ring-2 ring-blue-600 outline-hidden ",
+    "focus-visible:ring-2 ring-accent outline-hidden ",
     "inline-flex items-center",
     // "[&_svg]:ml-2 [&_svg]:translate-y-0 [&_svg]:translate-x-0 [&_svg]:duration-300 [&_svg]:transition-transform [&_svg]:block [&:hover_svg]:translate-y-0 [&:hover_svg]:translate-x-1",
     colorful
