@@ -261,7 +261,14 @@
   }
 
   li {
-    @apply mt-2 first:-mt-1 md:first:-mt-2;
+    /* @apply mt-2 first:-mt-1 md:first:-mt-2; */
+    @apply mt-content-element first:-mt-1 md:first:-mt-2;
+    ol,
+    ul,
+    blockquote,
+    p {
+      @apply mt-content-element;
+    }
   }
 
   h2 {

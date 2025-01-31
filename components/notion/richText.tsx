@@ -25,12 +25,18 @@ export const richTextObject = (
       textItem.text &&
       textItem.text.link == null
     ) {
-      const Tag = textItem.annotations.bold ? "strong" : "span";
+      const Tag = textItem.annotations.bold
+        ? "strong"
+        : textItem.annotations.code
+        ? "code"
+        : "span";
       return (
         <Tag
           className={twMerge(
             textItem.annotations.bold == true ? "font-semibold" : "",
-            textItem.annotations.color == "red" && "text-red-600"
+            textItem.annotations.color == "red" && "text-red-600",
+            textItem.annotations.code &&
+              "bg-pill rounded-md p-1 text-[0.8em] font-medium text-secondary font-mono"
           )}
           key={`${blockId}-${i}`}
         >
