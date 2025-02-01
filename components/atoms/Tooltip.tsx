@@ -120,5 +120,7 @@ const Tooltip = forwardRef<HTMLElement, TooltipProps>(
     );
   }
 );
+
 Tooltip.displayName = "Tooltip";
+
 export default Tooltip;

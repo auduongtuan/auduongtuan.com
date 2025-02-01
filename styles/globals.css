@@ -151,33 +151,33 @@
 }
 
 @utility hero-text {
-  @apply text-[1.75rem] md:text-5xl lg:text-[3.75rem] font-semibold leading-[1.11] md:leading-[1.11] lg:leading-[1.11] font-sans;
+  @apply font-sans text-[1.75rem] leading-[1.11] font-semibold md:text-5xl md:leading-[1.11] lg:text-[3.75rem] lg:leading-[1.11];
 }
 
 @utility h1 {
-  @apply font-semibold font-sans text-[1.75rem] tracking-tight leading-[1.1] md:text-4xl lg:text-5xl;
+  @apply font-sans text-[1.75rem] leading-[1.1] font-semibold tracking-tight md:text-4xl lg:text-5xl;
 }
 
 @utility h2 {
-  @apply text-2xl md:text-3xl leading-tight md:leading-tight font-semibold font-sans;
+  @apply font-sans text-2xl leading-tight font-semibold md:text-3xl md:leading-tight;
 }
 
 @utility h3 {
-  @apply text-lg md:text-2xl leading-tight md:leading-tight font-semibold font-sans;
+  @apply font-sans text-lg leading-tight font-semibold md:text-2xl md:leading-tight;
 }
 
 @utility h4 {
-  @apply text-base md:text-lg font-semibold font-sans;
+  @apply font-sans text-lg font-semibold md:text-xl;
 }
 
 @utility h5 {
-  @apply text-xs md:text-sm font-sans font-medium uppercase tracking-wide;
+  @apply font-sans text-xs font-medium tracking-wide uppercase md:text-sm;
 }
 
 @utility big-body-text {
   /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-sans; */
   /* tracking-tight */
-  @apply leading-normal md:leading-normal lg:leading-normal text-base md:text-xl;
+  @apply text-base leading-normal md:text-xl md:leading-normal lg:leading-normal;
 }
 
 @utility body-text {
@@ -200,19 +200,19 @@
 }
 
 @utility page-description {
-  @apply font-mono tracking-tight body-text text-secondary;
+  @apply body-text text-secondary font-mono tracking-tight;
 }
 
 @utility subheading {
-  @apply font-mono text-sm md:text-base font-normal tracking-wide uppercase text-tertiary;
+  @apply text-tertiary font-mono text-sm font-normal tracking-wide uppercase md:text-base;
 }
 
 @utility subheading2 {
-  @apply font-mono text-sm md:text-sm font-normal tracking-wide uppercase text-tertiary;
+  @apply text-tertiary font-mono text-sm font-normal tracking-wide uppercase md:text-sm;
 }
 
 @utility muted-text {
-  @apply text-sm md:text-sm text-tertiary font-mono tracking-tight;
+  @apply text-tertiary font-mono text-sm tracking-tight md:text-sm;
 }
 
 @utility main-container {
@@ -271,7 +271,7 @@
     }
   }
 
-  h2 {
+  h2:not(:first-child) {
     /* @apply mt-0 pt-12 md:pt-16 lg:pt-20 md:pr-2; */
     /* @apply lg:col-span-1 lg:col-start-1 text-slate-900; */
     @apply mt-content-section;
@@ -291,10 +291,6 @@
   .content-node {
     @apply mt-content-node;
   }
-
-  /* h3 + p, p + p, p + ul {
-      @apply mt-content-node;
-    } */
 
   h4 + p,
   h4 + blockquote,
@@ -344,7 +340,7 @@
 
   .persona-1 {
     .image {
-      @apply rounded-md overflow-hidden;
+      @apply overflow-hidden rounded-md;
     }
     h3 {
       @apply mt-content-node;
@@ -357,13 +353,13 @@
     p,
     ul,
     li {
-      @apply text-base md:text-base leading-7;
+      @apply text-base leading-7 md:text-base;
     }
     li {
       @apply mt-1 first:mt-0;
     }
     .image {
-      @apply float-right ml-4 mb-4 overflow-hidden;
+      @apply float-right mb-4 ml-4 overflow-hidden;
       * {
         max-width: 100%;
       }
@@ -374,18 +370,18 @@
     h4 {
       @apply subheading2;
     }
-    /* > *:not(.image) { */
-    /* &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5) { */
-    /* width: calc(100% - 160px); */
-    /* & + p {
-              @apply col-span-2 col-start-1;
-            } */
-    /* } */
-    /* } */
   }
 }
 
 @layer base {
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+  button:disabled,
+  [role="button"]:disabled {
+    cursor: default;
+  }
   :root {
     --base-fg: 17 22 39;
     --base-bg: 255 255 255;
@@ -472,12 +468,9 @@
     /* letter-spacing: -0.005em; */
   }
   pre {
-    @apply w-full rounded-md overflow-hidden font-mono;
+    @apply w-full overflow-hidden rounded-md font-mono;
   }
   figcaption {
     @apply font-mono;
   }
-}
-
-@layer utilities {
 }

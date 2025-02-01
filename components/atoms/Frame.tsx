@@ -1,5 +1,4 @@
 import React, { MouseEventHandler } from "react";
-import useBreakpoint from "@hooks/useBreakpoint";
 import {
   FiChevronLeft,
   FiChevronRight,
