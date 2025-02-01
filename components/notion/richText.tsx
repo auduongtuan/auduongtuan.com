@@ -15,11 +15,15 @@ const escapedNewLineToLineBreakTag = (string) => {
 
 export const richTextObject = (
   richTextObject: RichTextItemResponse[],
-  blockId?: string
+  blockId?: string,
+  filter?: (content: string) => string,
 ) => {
   return richTextObject.map((item, i) => {
     if (item.type !== "text") return null;
     const textItem = item as TextRichTextItemResponse;
+    const textContent = filter
+      ? filter(textItem.text.content)
+      : textItem.text.content;
     if (
       textItem.type == "text" &&
       textItem.text &&
@@ -28,19 +32,19 @@ export const richTextObject = (
       const Tag = textItem.annotations.bold
         ? "strong"
         : textItem.annotations.code
-        ? "code"
-        : "span";
+          ? "code"
+          : "span";
       return (
         <Tag
           className={twMerge(
             textItem.annotations.bold == true ? "font-semibold" : "",
             textItem.annotations.color == "red" && "text-red-600",
             textItem.annotations.code &&
-              "bg-pill rounded-md p-1 text-[0.8em] font-medium text-secondary font-mono"
+              "bg-pill text-secondary rounded-md p-1 font-mono text-[0.8em] font-medium",
           )}
           key={`${blockId}-${i}`}
         >
-          {escapedNewLineToLineBreakTag(textItem.text.content)}
+          {escapedNewLineToLineBreakTag(textContent)}
         </Tag>
       );
     } else if (textItem.text.link) {
@@ -59,7 +63,7 @@ export const richTextObject = (
               textItem.text.content == "Download" ? <FiDownload /> : undefined
             }
           >
-            {textItem.text.content}
+            {textContent}
           </Button>
         );
       } else {
@@ -70,7 +74,7 @@ export const richTextObject = (
             className={`${textItem.annotations.bold ? "font-semibold" : ""}`}
             wrap
           >
-            {textItem.text.content}
+            {textContent}
           </InlineLink>
         );
       }
@@ -78,9 +82,9 @@ export const richTextObject = (
   });
 };
 
-export const richTextBlock = (block) => {
+export const richTextBlock = (block, filter?: (content: string) => string) => {
   if (block[block.type] && block[block.type].rich_text) {
-    return richTextObject(block[block.type].rich_text, block.id);
+    return richTextObject(block[block.type].rich_text, block.id, filter);
   } else {
     return null;
   }

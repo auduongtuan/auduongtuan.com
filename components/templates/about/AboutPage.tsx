@@ -95,20 +95,20 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
 
   return (
     <div className="bg-surface">
-      <main className="z-10 w-full text-primary bg-surface">
+      <main className="text-primary bg-surface z-10 w-full">
         <div className="main-container p-header">
-          <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-y-8 md:gap-x-12">
-            <div className="relative flex items-start self-stretch justify-center col-span-12 md:justify-start md:col-span-5">
+          <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-x-12 md:gap-y-8">
+            <div className="relative col-span-12 flex items-start justify-center self-stretch md:col-span-5 md:justify-start">
               <Fade
                 delay={50}
-                className="inline-flex flex-col items-start justify-start gap-3 p-4 border rounded-lg border-divider"
+                className="border-divider inline-flex flex-col items-start justify-start gap-3 rounded-lg border p-4"
               >
                 <CustomImage
                   src="/portrait.jpg"
                   alt="Tuan's portrait"
                   width={1920}
                   height={2556}
-                  className="self-stretch rounded-md max-w-[20rem]"
+                  className="max-w-[20rem] self-stretch rounded-md"
                 />
                 <div className="font-mono">
                   <p className="font-semibold">@auduongtuan</p>
@@ -123,7 +123,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
             </div>
             <div
               ref={contentRef}
-              className="col-span-12 md:col-span-7 text-lg md:text-xl lg:text-xl leading-relaxed md:leading-relaxed lg:leading-relaxed font-display [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-4 [&_h3:not(:first-child)]:mt-6 lg:[&_h3:not(:first-child)]:mt-10 "
+              className="font-display col-span-12 text-lg leading-relaxed md:col-span-7 md:text-xl md:leading-relaxed lg:text-xl lg:leading-relaxed [&_h3:not(:first-child)]:mt-6 lg:[&_h3:not(:first-child)]:mt-10 [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-4"
             >
               <Fade delay={150} as="p">
                 Xin chào!
@@ -258,7 +258,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                     height={480}
                   />
                 </HoverGif>
-                <RiCrossFill className="inline w-4 h-4 mb-1 text-secondary" />.
+                <RiCrossFill className="text-secondary mb-1 inline h-4 w-4" />.
                 {/* <span>Curious for more details?</span>{" "}
                 <InlineLink
                   href={cvLink}
@@ -274,7 +274,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 </InlineLink>. */}
               </Fade>
               {/* <div className="col-span-12 lg:col-span-4 lg:col-start-9"> */}
-              <Fade as="h3" delay={450} className="mt-4 md:mt-8 subheading">
+              <Fade as="h3" delay={450} className="subheading mt-4 md:mt-8">
                 Now ⏰{" "}
               </Fade>
               <Fade as="p" delay={450}>

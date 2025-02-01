@@ -67,20 +67,19 @@ const PasswordProtect = ({
   ]);
 
   return (
-    <div className="p-6 border-2 border-gray-200 border-dashed rounded-md">
+    <div className="rounded-md border-2 border-dashed border-gray-200 p-6">
       <div className="flex w-full gap-4">
         <div className="grow">
-          <h3>This {mode} is password-protected</h3>
-          <p className="mt-4 font-mono small-body-text text-secondary">
+          <h3 className="h3">This {mode} is password-protected</h3>
+          <p className="small-body-text text-secondary mt-2">
             Please input the password below to view this {mode}.
           </p>
-          <p className="mt-2 font-mono small-body-text text-secondary">
-            Password hint:
-            <br />
+          <h4 className="subheading mt-content-node">Password hint:</h4>
+          <p className="small-body-text mt-2 font-mono">
             {passwordInfo.length > 0 ? passwordInfo.hint : "No hint available"}
           </p>
         </div>
-        <FiLock className="shrink-0 text-[24px] md:text-[32px] text-gray-400"></FiLock>
+        <FiLock className="shrink-0 text-[24px] text-gray-400 md:text-[32px]"></FiLock>
       </div>
       <div className="mt-6">
         <PasswordField

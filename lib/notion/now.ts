@@ -9,6 +9,7 @@ export type NotionNowItem = {
   link: string | undefined;
   thumbnail: string | null;
   type: "youtube" | "spotify" | "other";
+  archived: boolean;
 };
 
 export async function getNotionNowItems(): Promise<NotionNowItem[]> {
@@ -55,6 +56,7 @@ export async function getNotionNowItems(): Promise<NotionNowItem[]> {
           ? "spotify"
           : "other",
         thumbnail,
+        archived: getProperty(page, "Archived", "checkbox") || false,
       };
     })
   );

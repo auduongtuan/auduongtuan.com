@@ -20,7 +20,7 @@ const HeaderWithBackButton = forwardRef<
       backLinkLabel,
       smallBottomPadding = false,
     },
-    ref
+    ref,
   ) => {
     const [showBackButton, setShowBackButton] = useState(false);
     const buttonRef = useRef<HTMLButtonElement>(null);
@@ -41,9 +41,9 @@ const HeaderWithBackButton = forwardRef<
       <div
         ref={ref}
         className={cn(
-          "flex justify-center main-container p-header",
+          "main-container p-header flex justify-center",
           smallBottomPadding && "pb-subsection-vertical",
-          className
+          className,
         )}
       >
         <Fade
@@ -56,18 +56,15 @@ const HeaderWithBackButton = forwardRef<
             ref={buttonRef}
           />
         </Fade>
-        <div className="pb-0 mx-0 w-content px-section-horizontal grow-0 shrink-0 basis-auto">
+        <div className="w-content px-section-horizontal mx-0 shrink-0 grow-0 basis-auto pb-0">
           {children}
         </div>
         <div
-          className={cn(
-            "min-w-0  grow basis-0",
-            !showBackButton && "invisible"
-          )}
+          className={cn("min-w-0 grow basis-0", !showBackButton && "invisible")}
         ></div>
       </div>
     );
-  }
+  },
 );
 
 HeaderWithBackButton.displayName = "HeaderWithBackButton";
