@@ -1,73 +1,100 @@
-import FadeScrollableContainer from "@atoms/FadeScrollableContainer";
 import PillButton from "@atoms/PillButton";
 import Skeleton from "@atoms/Skeleton";
 import Tooltip from "@atoms/Tooltip";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { FiGlobe } from "react-icons/fi";
-
-function shuffleArray(array: string[], num: number) {
-  const shuffled = array.sort(() => 0.5 - Math.random());
-  // Get sub-array of first n elements after shuffled
-  let selected = shuffled.slice(0, num);
-  return selected;
-}
-const vnPosList = ["Đỉnh 💯", "Xinh xỉu 😍", "Keo quá 🫦"];
-const enPosList = ["Awesome 👍", "Love this 💯", "Beautiful 🫦"];
-const vnNegList = ["Thường thôi", "Hơi xu"];
-const enNegList = ["Not my type", "Meh"];
+import { RiAiGenerate2 } from "react-icons/ri";
 
 const CommentSuggestion = ({
   onButtonClick,
+  page,
 }: {
   onButtonClick: (content: string) => void;
+  page: string;
 }) => {
   const [list, setList] = useState<string[]>([]);
   const [useEnglish, setUseEnglish] = useState(false);
 
-  // Shuffle array
   useEffect(() => {
-    const posList = shuffleArray(useEnglish ? enPosList : vnPosList, 3);
-    const negList = shuffleArray(useEnglish ? enNegList : vnNegList, 2);
-    setList([...posList, ...negList]);
-  }, [useEnglish]);
+    setList([]);
+    const list = axios
+      .get("/api/comment-suggestion", {
+        params: {
+          page: process.env.NEXT_PUBLIC_PRODUCTION_WEB_URL + page,
+          language: useEnglish ? "english" : "vietnamese",
+        },
+      })
+      .then((res) => {
+        setList(
+          (res.data as string[][])[Math.floor(Math.random() * res.data.length)],
+        );
+      });
+  }, [useEnglish, page]);
 
   return (
-    <Skeleton.Wrapper
-      block
-      className={`flex w-full h-[36px] mb-4`}
-      loaded={list.length > 0}
-    >
-      <Skeleton type="block" className="rounded-full"></Skeleton>
-      <Skeleton.Content className="shrink w-full">
-        <div className="flex justify-stretch">
-          <div className="mr-1.5 flex grow-0 shrink-0">
-            <Tooltip content="Use English">
+    <div>
+      <p className="muted-text mb-2 flex items-center gap-2">
+        <Tooltip
+          content={"AI-generated content powered by Gemini. Use cautiously."}
+        >
+          <RiAiGenerate2 className="hover:text-accent inline-block h-4 w-4" />
+        </Tooltip>
+        Suggestion{" "}
+        <Tooltip
+          content={useEnglish ? "Switch to Vietnamese" : "Switch to English"}
+        >
+          <button
+            // active={useEnglish}
+            onClick={() => setUseEnglish(!useEnglish)}
+            className="self-end"
+          >
+            {useEnglish ? "🇺🇸" : "🇻🇳"}
+          </button>
+        </Tooltip>
+      </p>
+      <Skeleton.Wrapper
+        block
+        className={`mb-4 flex w-full flex-col`}
+        loaded={list.length > 0}
+      >
+        <Skeleton.Group className="flex w-full grow flex-wrap gap-1">
+          {[
+            "w-32",
+            "w-16",
+            "w-24",
+            "w-20",
+            "w-18",
+            "w-20",
+            "w-18",
+            "w-32",
+            "w-16",
+            "w-20",
+            "w-36",
+            "w-28",
+            "w-24",
+          ].map((width, index) => (
+            <Skeleton
+              key={index}
+              type="inline"
+              className={`h-8 ${width} rounded-full`}
+            ></Skeleton>
+          ))}
+        </Skeleton.Group>
+        <Skeleton.Content className="w-full shrink">
+          <div className="flex grow flex-wrap gap-1">
+            {list.map((content, index) => (
               <PillButton
-                active={useEnglish}
-                onClick={() => setUseEnglish(!useEnglish)}
+                key={content}
+                size="small"
+                onClick={() => onButtonClick(content)}
               >
-                <FiGlobe />
+                {content}
               </PillButton>
-            </Tooltip>
+            ))}
           </div>
-          <div className="grow shrink min-w-0">
-            <FadeScrollableContainer background="#FFFFFF">
-              <div className="flex grow -mr-1.5">
-                {list.map((content, index) => (
-                  <PillButton
-                    key={content}
-                    className="mr-1.5"
-                    onClick={() => onButtonClick(content)}
-                  >
-                    {content}
-                  </PillButton>
-                ))}
-              </div>
-            </FadeScrollableContainer>
-          </div>
-        </div>
-      </Skeleton.Content>
-    </Skeleton.Wrapper>
+        </Skeleton.Content>
+      </Skeleton.Wrapper>
+    </div>
   );
 };
 

@@ -10,7 +10,13 @@ import CommentSuggestion from "./CommentSuggestion";
 const CommentForm = ({ page, wording, onSubmit }) => {
   const [state, setState] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
-    { open: false, loading: false, sent: false, error: false, anonymous: false }
+    {
+      open: false,
+      loading: false,
+      sent: false,
+      error: false,
+      anonymous: false,
+    },
   );
   const { register, handleSubmit, resetField, getValues } = useForm();
   const messageRef = useRef<HTMLTextAreaElement | null>(null);
@@ -49,18 +55,18 @@ const CommentForm = ({ page, wording, onSubmit }) => {
   };
   return (
     <Fragment>
-      <h3 className="mb-4 subheading">{wording.cta}</h3>
+      <h3 className="subheading mb-4">{wording.cta}</h3>
       {state.sent && (
         <Toast type="success" afterLeave={() => setState({ sent: false })}>
           Message sent. Thank for your {wording.singular}.
         </Toast>
       )}
-      <CommentSuggestion onButtonClick={quickComment} />
+      <CommentSuggestion onButtonClick={quickComment} page={page} />
       <form
         onSubmit={handleSubmit(submitHandler)}
         className={state.loading ? "pointer-events-none animate-pulse" : ""}
       >
-        <section className="grid grid-cols-1 gap-0 ">
+        <section className="grid grid-cols-1 gap-0">
           <div>
             <textarea
               id="content-input"
@@ -72,23 +78,23 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                 formContentRef(e);
                 messageRef.current = e;
               }}
-              className="relative block w-full h-32 px-3 py-2 text-base leading-tight transition-all duration-200 border-2 border-gray-300 rounded-lg text-primary outline-hidden md:rounded-b-none focus:border-accent focus:shadow-xs focus:shadow-blue-400/40 focus:z-10"
+              className="text-primary focus:border-accent relative block h-32 w-full rounded-lg border-2 border-gray-300 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:z-10 focus:shadow-xs focus:shadow-blue-400/40 md:rounded-b-none"
             />
           </div>
 
           <div className="md:flex">
-            <div className="mt-2 md:-mr-[2px] md:-mt-[2px] grow">
+            <div className="mt-2 grow md:-mt-[2px] md:-mr-[2px]">
               <TextField
                 type="text"
-                className="relative md:rounded-t-none md:rounded-br-none focus:z-10"
+                className="relative focus:z-10 md:rounded-t-none md:rounded-br-none"
                 // label="Your name (optional)"
                 placeholder="Your name (optional)"
                 {...register("name")}
               />
             </div>
-            <div className="mt-2 md:-mr-[2px] md:-mt-[2px] grow">
+            <div className="mt-2 grow md:-mt-[2px] md:-mr-[2px]">
               <TextField
-                className="relative md:rounded-none focus:z-10"
+                className="relative focus:z-10 md:rounded-none"
                 type="email"
                 placeholder="Your email (optional)"
                 // placeholder="example@gmail.com"
@@ -96,7 +102,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
               />
             </div>
             <Button
-              className="relative focus:z-10 mt-4 md:-mt-[2px] w-full md:w-auto justify-center md:rounded-t-none md:rounded-bl-none"
+              className="relative mt-4 w-full justify-center focus:z-10 md:-mt-[2px] md:w-auto md:rounded-t-none md:rounded-bl-none"
               type="submit"
               loading={state.loading}
               icon={<FiSend />}
@@ -105,7 +111,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
             </Button>
           </div>
         </section>
-        <footer className="flex items-center justify-between mt-6 gap-x-3"></footer>
+        <footer className="mt-6 flex items-center justify-between gap-x-3"></footer>
       </form>
     </Fragment>
   );

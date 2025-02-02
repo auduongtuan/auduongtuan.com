@@ -14,36 +14,31 @@ const SkeletonDisplay = ({
     "flex items-center justify-center",
     "bg-slate-900/[0.075]",
     type != "inline" ? "absolute top-0 left-0 w-full h-full z-10" : "relative",
-    className
+    className,
   );
   const context = useContext(SkeletonContext);
   return !context.loaded ? (
     <span role="status" className={skeletonSTyles}>
-      <span
-        className="
-          absolute
-          top-0
-          left-0 
-          z-5
-          before:absolute before:inset-0
-          before:-translate-x-full
-          before:animate-[shimmer_2s_infinite]
-          before:bg-linear-to-r
-          before:from-transparent before:via-white/40 before:to-transparent
-          isolate
-          overflow-hidden
-          w-full
-          h-full
-        "
-      ></span>
+      <span className="absolute top-0 left-0 isolate z-5 h-full w-full overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-linear-to-r before:from-transparent before:via-white/40 before:to-transparent"></span>
       {type == "image" && (
-        <FiImage className="w-12 h-12 max-w-[calc(100%-28px)] text-slate-900 opacity-[0.15]"></FiImage>
+        <FiImage className="h-12 w-12 max-w-[calc(100%-28px)] text-slate-900 opacity-[0.15]"></FiImage>
       )}
       {type == "video" && (
-        <FiVideo className="w-12 h-12 max-w-[calc(100%-28px)] text-slate-900 opacity-[0.15]"></FiVideo>
+        <FiVideo className="h-12 w-12 max-w-[calc(100%-28px)] text-slate-900 opacity-[0.15]"></FiVideo>
       )}
     </span>
   ) : null;
+};
+
+const SkeletonGroup = ({
+  className = "",
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) => {
+  const context = useContext(SkeletonContext);
+  return !context.loaded ? <div className={className}>{children}</div> : null;
 };
 
 interface SkeletonWrapperProps<T extends React.ElementType> {
@@ -65,7 +60,7 @@ const SkeletonContent = ({
   const skeletonContentStyles = twMerge(
     "block transition-opacity duration-100 ease-in",
     context.loaded ? "opacity-100" : "opacity-0",
-    className
+    className,
   );
   return context.loaded || (!context.loaded && !unmount) ? (
     <Component className={skeletonContentStyles} {...rest}>
@@ -101,5 +96,7 @@ const SkeletonWrapper = <T extends React.ElementType = "div">({
 const Skeleton = Object.assign(SkeletonDisplay, {
   Wrapper: SkeletonWrapper,
   Content: SkeletonContent,
+  Group: SkeletonGroup,
 });
+
 export default Skeleton;
