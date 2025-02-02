@@ -29,7 +29,7 @@ const CommentSuggestion = ({
           (res.data as string[][])[Math.floor(Math.random() * res.data.length)],
         );
       });
-  }, [useEnglish]);
+  }, [useEnglish, page]);
 
   return (
     <div>
