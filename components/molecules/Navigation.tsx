@@ -45,37 +45,37 @@ const Navigation = React.memo(() => {
   // https://paco.me/writing/disable-theme-transitions
 
   const NavigationStyles = twMerge(
-    "w-full top-0 z-42 transition-transform duration-150 fixed",
+    "w-full top-0 left-0 z-42 transition-transform duration-150 sticky",
     "bg-navigation backdrop-blur-md text-primary",
     "border-b border-divider",
-    hidden && "-translate-y-full"
+    hidden && "-translate-y-full",
   );
   return (
-    <div>
+    <>
       <header className={NavigationStyles}>
-        <nav className="flex items-center justify-between py-2 text-base font-semibold font-sans text-display md:text-xl main-container md:py-3.5">
+        <nav className="text-display main-container flex items-center justify-between py-2 font-sans text-base font-semibold md:py-3.5 md:text-xl">
           {/* logo */}
           <NavigationLink href="/" logo callback={() => setMenuOpened(false)}>
             Au Duong Tuan
           </NavigationLink>
           {menuOpened ? (
             <button
-              className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer text-primary hover:bg-surface-raised`}
+              className={`text-primary hover:bg-surface-raised -mx-2 inline-block cursor-pointer rounded-xl px-2 py-1`}
               onClick={() => setMenuOpened(false)}
             >
-              <FiX className="w-6 h-6" />
+              <FiX className="h-6 w-6" />
             </button>
           ) : (
             <>
               {(bp == "md" || bp == "sm") && (
                 <button
-                  className={`inline-block -mx-2 px-2 py-1 rounded-xl  cursor-pointer ${"text-primary hover:bg-surface-raised"}`}
+                  className={`-mx-2 inline-block cursor-pointer rounded-xl px-2 py-1 ${"text-primary hover:bg-surface-raised"}`}
                   onClick={() => setMenuOpened(true)}
                 >
-                  <FiMenu className="w-6 h-6" />
+                  <FiMenu className="h-6 w-6" />
                 </button>
               )}
-              <ul className="items-center hidden gap-8 md:flex">
+              <ul className="hidden items-center gap-8 md:flex">
                 {menuItems.map((item, i) => (
                   <li key={i}>
                     <NavigationLink pathname={item.pathname} href={item.href}>
@@ -99,15 +99,15 @@ const Navigation = React.memo(() => {
         leaveFrom="opacity-1 translate-y-0"
         leaveTo="opacity-0 -translate-y-12"
       >
-        <div className={`fixed z-40 w-full h-full bg-surface`}>
-          <div className="font-sans main-container">
-            <ul className="flex flex-col w-full pt-16 gap-y-2">
+        <div className={`bg-surface fixed z-40 h-full w-full`}>
+          <div className="main-container font-sans">
+            <ul className="flex w-full flex-col gap-y-2 pt-16">
               {menuItems.map((item, i) => (
                 <li key={i} className="w-full">
                   <NavigationLink
                     pathname={item.pathname}
                     href={item.href}
-                    className="block w-full px-4 py-4 text-left "
+                    className="block w-full px-4 py-4 text-left"
                     callback={() => setMenuOpened(false)}
                   >
                     {item.name}
@@ -118,7 +118,7 @@ const Navigation = React.memo(() => {
           </div>
         </div>
       </Transition>
-    </div>
+    </>
   );
 });
 

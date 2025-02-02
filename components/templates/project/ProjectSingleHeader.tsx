@@ -13,28 +13,29 @@ interface ProjectSingleHeaderProps {
 export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
   const bp = useBreakpoint();
   return (
-    <header className="z-10 w-full border-b text-primary bg-surface border-divider">
-      {/* <div className="flex justify-center p-0 lg:px-section-horizontal main-container p-header"> */}
+    <header className="text-primary bg-surface border-divider z-10 w-full border-b">
+      {/* <div className="flex justify-center p-0 lg:px-section-horizontal main-container py-section-vertical"> */}
       <HeaderWithBackButton backLink="/work" backLinkLabel="Back to Work">
         <div
           className="grid grid-cols-12 gap-x-4"
           key={project.slug + "_header"}
         >
-          <div className="flex flex-wrap items-center col-span-12 gap-x-4 gap-y-2">
+          <div className="col-span-12 flex flex-wrap items-center gap-x-4 gap-y-2">
             <Fade duration={200} slide className="grow">
               <h1 className="h1">{project.title}</h1>
-              <p className="mt-1 md:mt-2 muted-text">
+              <p className="muted-text mt-1 md:mt-2">
                 {new Date(project.date).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "long",
                 })}
               </p>
             </Fade>
-            {(project.link || project.achievements) && (
+            {(project.link ||
+              (project.achievements && project.achievements.length > 0)) && (
               <Fade
                 className={twMerge(
-                  "shrink-0 grow-0 flex",
-                  project.achievements && bp == "sm" && "mt-2 w-full"
+                  "flex shrink-0 grow-0",
+                  project.achievements && bp == "sm" && "mt-2 w-full",
                 )}
                 duration={300}
                 delay={400}
@@ -43,16 +44,6 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                   <Button href={project.link} secondary showPopoutIcon>
                     View website
                   </Button>
-                  // <Tooltip content="View website">
-                  //   <IconButton
-                  //     size={bp == "sm" ? "small" : "medium"}
-                  //     // inverted
-                  //     href={project.link ? project.link : "#"}
-                  //     external
-                  //   >
-                  //     <FiEye />
-                  //   </IconButton>
-                  // </Tooltip>
                 )}
                 {project.achievements && project.achievements.length > 0 && (
                   <div className="flex gap-4">
@@ -64,11 +55,11 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
               </Fade>
             )}
           </div>
-          <Fade as="p" delay={200} className={`col-span-12 mt-4 body-text`}>
+          <Fade as="p" delay={200} className={`body-text col-span-12 mt-4`}>
             <Balancer ratio={0.36}>{project.description}</Balancer>
           </Fade>
 
-          <div className="flex col-span-12 mt-6 space-4 md:mt-8">
+          <div className="space-4 col-span-12 mt-6 flex md:mt-8">
             <Fade className="grow" delay={350}>
               <h5 className="subheading2">My contribution</h5>
               <ul className="leading-tight">

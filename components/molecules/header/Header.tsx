@@ -64,13 +64,13 @@ export default function Header() {
   };
 
   return (
-    <header className="z-10 w-full bg-surface text-primary ">
-      <div className="main-container p-header">
+    <header className="bg-surface text-primary z-10 w-full">
+      <div className="main-container py-section-vertical">
         <div className="flex items-center justify-center">
-          <div className="lg:max-w-[50rem]  py-4 md:py-6">
+          <div className="py-4 md:py-6 lg:max-w-[50rem]">
             <Headline />
             <Fade delay={200}>
-              <p className="relative z-30 mt-4 font-mono tracking-tight text-center body-text text-secondary lg:mt-6">
+              <p className="body-text text-secondary relative z-30 mt-4 text-center font-mono tracking-tight lg:mt-6">
                 <Balancer className="max-w-[40rem]" ratio={1}>
                   Wearing <GifText {...setupGif(0)}>🧑‍🎨 designer</GifText>{" "}
                   <span className="text-divider">/</span>{" "}

@@ -89,7 +89,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           --main-font: "IBM Plex Sans", sans-serif;
         }
       `}</style>
-      <main className="">
+      <main className="relative">
         <Navigation />
         <div id="toast-root"></div>
         {/* <div className="flex items-stretch justify-stretch content-stretch"> */}

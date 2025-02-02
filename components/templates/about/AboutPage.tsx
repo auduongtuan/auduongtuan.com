@@ -96,7 +96,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
   return (
     <div className="bg-surface">
       <main className="text-primary bg-surface z-10 w-full">
-        <div className="main-container p-header">
+        <div className="main-container py-section-vertical">
           <div className="grid grid-cols-12 gap-x-4 gap-y-8 md:gap-x-12 md:gap-y-8">
             <div className="relative col-span-12 flex items-start justify-center self-stretch md:col-span-5 md:justify-start">
               <Fade

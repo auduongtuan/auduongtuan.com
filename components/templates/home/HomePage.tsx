@@ -14,7 +14,7 @@ export default function HomePage({ projects, posts }: HomePageProps) {
   return (
     <div className="bg-surface">
       <Header />
-      <div className="flex flex-col py-section-vertical gap-section-vertical">
+      <div className="py-section-vertical gapy-section-vertical flex flex-col">
         {/* <Services></Services> */}
         <MiniPostList posts={posts} />
         <MiniProjectList projects={projects} />

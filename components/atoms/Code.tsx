@@ -42,12 +42,12 @@ const Code = ({
   };
 
   return (
-    <div className={cn("text-[0.8em] relative group", className)}>
+    <div className={cn("group relative text-[0.9em]", className)}>
       <Tooltip content={copied ? "Copied!" : "Copy"}>
         <IconButton
           size="small"
           onClick={handleCopy}
-          className="absolute transition-all opacity-0 right-3 top-3 group-hover:opacity-100"
+          className="absolute top-3 right-3 opacity-0 transition-all group-hover:opacity-100"
         >
           <FiCopy />
         </IconButton>
