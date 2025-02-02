@@ -35,14 +35,14 @@ const CommentSuggestion = ({
     <div>
       <p className="muted-text mb-2 flex items-center gap-2">
         <Tooltip
-          content={
-            "This is AI-generated content. Powered by Gemini. Use with caution!"
-          }
+          content={"AI-generated content powered by Gemini. Use cautiously."}
         >
           <RiAiGenerate2 className="hover:text-accent inline-block h-4 w-4" />
         </Tooltip>
         Suggestion{" "}
-        <Tooltip content="Switch to English">
+        <Tooltip
+          content={useEnglish ? "Switch to Vietnamese" : "Switch to English"}
+        >
           <button
             // active={useEnglish}
             onClick={() => setUseEnglish(!useEnglish)}
