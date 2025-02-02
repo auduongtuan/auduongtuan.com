@@ -150,6 +150,9 @@
   scrollbar-width: none; /* Firefox */
 }
 
+/* Typography */
+/*------------------------------*/
+
 @utility hero-text {
   @apply font-sans text-[1.75rem] leading-[1.11] font-semibold md:text-5xl md:leading-[1.11] lg:text-[3.75rem] lg:leading-[1.11];
 }
@@ -189,14 +192,6 @@
 
 @utility small-body-text {
   @apply text-sm leading-relaxed md:text-base md:leading-relaxed;
-}
-
-@utility p-header {
-  @apply pt-[calc(var(--section-vertical-padding)+3.75rem)] pb-[calc(var(--section-vertical-padding))];
-}
-
-@utility p-homepage-header {
-  @apply pt-20 pb-14 md:pt-28 md:pb-24 lg:pt-[10vw] lg:pb-[10vw];
 }
 
 @utility page-description {
@@ -267,7 +262,9 @@
     ul,
     blockquote,
     p {
-      @apply mt-content-element;
+      &:not(:first-child) {
+        @apply mt-content-element;
+      }
     }
   }
 
@@ -413,8 +410,10 @@
     --control: rgb(var(--base-fg) / 0.15);
     --divider: rgb(var(--base-fg) / 0.1);
     --underline: rgb(var(--base-fg) / 0.15);
-    --main-width: min(var(--viewport-width), 70rem);
-    --content-width: min(var(--viewport-width), 52rem);
+    /* --main-width: min(var(--viewport-width), 70rem);
+    --content-width: min(var(--viewport-width), 52rem); */
+    --main-width: min(100vw, 70rem);
+    --content-width: min(100vw, 52rem);
     --section-horizontal-padding: 1rem;
     --section-vertical-padding: 2rem;
     --subsection-vertical-padding: 1.5rem;

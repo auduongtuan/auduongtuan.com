@@ -6,18 +6,18 @@ import Fade from "@atoms/Fade";
 export default function BlogPage({ posts }: { posts: Post[] }) {
   return (
     <>
-      <header className="z-10 w-full text-primary bg-surface ">
-        <div className="border-b main-container p-header border-divider pb-subsection-vertical">
+      <header className="text-primary bg-surface z-10 w-full">
+        <div className="main-container py-section-vertical border-divider pb-subsection-vertical border-b">
           <div className="grid grid-cols-12 gap-2 md:gap-4">
             <Fade
               as="h1"
-              className="col-span-12 h1 md:col-span-8"
+              className="h1 col-span-12 md:col-span-8"
               slide
               duration={100}
             >
               Blog
             </Fade>
-            <div className="self-end col-span-12 md:col-span-8">
+            <div className="col-span-12 self-end md:col-span-8">
               <Fade
                 as="p"
                 className="page-description"
@@ -32,7 +32,7 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
         </div>
       </header>
       <section className="">
-        <div className="flex flex-col main-container py-section-vertical">
+        <div className="main-container py-section-vertical flex flex-col">
           {posts.map((post, i) => {
             return (
               <Fade delay={70 * (i + 1)} key={post.id}>

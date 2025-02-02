@@ -12,18 +12,18 @@ export type WorksPageProps = {
 export default function WorkPage({ projects, projectGroups }: WorksPageProps) {
   return (
     <div className="bg-surface">
-      <header className="z-10 w-full text-primary bg-surface ">
-        <div className="main-container p-header pb-section-vertical">
+      <header className="text-primary bg-surface z-10 w-full">
+        <div className="main-container py-section-vertical">
           <div className="grid grid-cols-12 gap-2 md:gap-4">
             <Fade
               as="h1"
-              className="col-span-12 h1 md:col-span-8"
+              className="h1 col-span-12 md:col-span-8"
               slide
               duration={100}
             >
               Work
             </Fade>
-            <div className="self-end col-span-12 md:col-span-8">
+            <div className="col-span-12 self-end md:col-span-8">
               <Fade
                 as="p"
                 className="page-description"

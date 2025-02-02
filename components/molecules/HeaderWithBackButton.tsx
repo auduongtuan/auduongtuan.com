@@ -41,7 +41,7 @@ const HeaderWithBackButton = forwardRef<
       <div
         ref={ref}
         className={cn(
-          "main-container p-header flex justify-center",
+          "main-container py-section-vertical flex justify-center",
           smallBottomPadding && "pb-subsection-vertical",
           className,
         )}

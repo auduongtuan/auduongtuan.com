@@ -1,9 +1,8 @@
 {
-  "name": "port-v3",
+  "name": "auduongtuan.com",
   "private": true,
-  "version": "3.6.0",
+  "version": "3.6.1",
   "scripts": {
-    "old-dev": "next-remote-watch ./content/projects",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
