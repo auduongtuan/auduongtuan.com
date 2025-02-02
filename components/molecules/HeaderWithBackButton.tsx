@@ -36,7 +36,7 @@ const HeaderWithBackButton = forwardRef<
       checkParentWidth();
       window.addEventListener("resize", checkParentWidth);
       return () => window.removeEventListener("resize", checkParentWidth);
-    }, [buttonRef.current]);
+    }, [buttonRef]);
     return (
       <div
         ref={ref}

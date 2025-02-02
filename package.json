@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@floating-ui/react": "^0.25.4",
+    "@google/generative-ai": "^0.21.0",
     "@headlessui/react": "^2.2.0",
     "@notionhq/client": "^2.2.15",
     "@tailwindcss/postcss": "^4.0.1",

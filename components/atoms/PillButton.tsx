@@ -1,5 +1,5 @@
+import { cn } from "@lib/utils/cn";
 import { forwardRef } from "react";
-import { twMerge } from "tailwind-merge";
 
 type PillButtonProps<T extends React.ElementType> = {
   tooltip?: string;
@@ -25,15 +25,16 @@ const PillButton = forwardRef(
       className,
       ...rest
     }: PillButtonProps<T>,
-    ref: React.ForwardedRef<HTMLElement>
+    ref: React.ForwardedRef<HTMLElement>,
   ) => {
     const externalAttrs = external
       ? { target: "_blank", rel: "noreferrer" }
       : {};
-    const buttonStyles = twMerge(
+    const buttonStyles = cn(
       "shrink-0 text-secondary inline-flex items-center transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1 px-3 py-1 hover:border-accent justify-items-center hover:bg-surface/40 group",
       active && "border-accent text-accent",
-      className
+      size === "small" && "text-sm px-2.5 py-1",
+      className,
     );
     return href ? (
       <a
@@ -53,7 +54,7 @@ const PillButton = forwardRef(
         {children}
       </button>
     );
-  }
+  },
 );
 
 PillButton.displayName = "PillButton";
