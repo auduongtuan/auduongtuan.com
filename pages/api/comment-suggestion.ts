@@ -16,15 +16,11 @@ const commentSuggestionAPI = async (
     ) {
       return res.status(400).json({ error: "Invalid page URL" });
     }
-    const language = req.query.language as string;
-    const id = "comment-suggestion_" + page + "_" + language;
+    const id = "comment-suggestion_" + page;
     let data = cacheData.get(id);
     if (!data) {
       const days = 31;
-      data = await getCommentSuggestion(
-        req.query.page as string,
-        req.query.language as string,
-      );
+      data = await getCommentSuggestion(req.query.page as string);
       cacheData.put(id, data, days * 24 * 1000 * 60 * 60);
     }
     return res.status(200).json(data);

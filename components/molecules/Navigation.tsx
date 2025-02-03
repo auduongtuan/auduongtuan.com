@@ -101,7 +101,7 @@ const Navigation = React.memo(() => {
       >
         <div className={`bg-surface fixed z-40 h-full w-full`}>
           <div className="main-container font-sans">
-            <ul className="flex w-full flex-col gap-y-2 pt-16">
+            <ul className="py-section-vertical flex w-full flex-col gap-y-2">
               {menuItems.map((item, i) => (
                 <li key={i} className="w-full">
                   <NavigationLink
