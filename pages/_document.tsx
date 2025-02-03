@@ -21,6 +21,17 @@ export default function Document() {
           sizes="16x16"
           href="/favicon-16x16.png"
         />
+        {/* https://www.smashingmagazine.com/2023/12/new-css-viewport-units-not-solve-classic-scrollbar-problem/ */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              new ResizeObserver(() => {
+                let vw = document.documentElement.clientWidth / 100;
+                document.documentElement.style.setProperty('--vw', vw+'px');
+              }).observe(document.documentElement);
+            `,
+          }}
+        />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="msapplication-TileColor" content="#333333" />
         <meta name="theme-color" content="#333333" />
@@ -35,7 +46,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="font-sans antialiased text-primary">
+      <body className="text-primary font-sans antialiased">
         <Main />
         <NextScript />
       </body>

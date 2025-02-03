@@ -410,10 +410,10 @@
     --control: rgb(var(--base-fg) / 0.15);
     --divider: rgb(var(--base-fg) / 0.1);
     --underline: rgb(var(--base-fg) / 0.15);
-    /* --main-width: min(var(--viewport-width), 70rem);
-    --content-width: min(var(--viewport-width), 52rem); */
-    --main-width: min(100vw, 70rem);
-    --content-width: min(100vw, 52rem);
+    --main-width: min(calc(var(--vw, 1vw) * 100), 70rem);
+    --content-width: min(calc(var(--vw, 1vw) * 100), 52rem);
+    /* --main-width: min(100vw, 70rem);
+    --content-width: min(100vw, 52rem); */
     --section-horizontal-padding: 1rem;
     --section-vertical-padding: 2rem;
     --subsection-vertical-padding: 1.5rem;
@@ -460,12 +460,6 @@
 }
 
 @layer components {
-  /* html {
-    scroll-behavior: smooth;
-  } */
-  body {
-    /* letter-spacing: -0.005em; */
-  }
   pre {
     @apply w-full overflow-hidden rounded-md font-mono;
   }
