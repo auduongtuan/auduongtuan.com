@@ -1,9 +1,18 @@
 import PillButton from "@atoms/PillButton";
 import Skeleton from "@atoms/Skeleton";
 import Tooltip from "@atoms/Tooltip";
+import { type CommentSuggestion } from "@lib/commentSuggestion";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { RiAiGenerate2 } from "react-icons/ri";
+
+function getComments(
+  suggestion: CommentSuggestion,
+  language: "vietnamese" | "english",
+) {
+  const sets = suggestion[language] as string[][];
+  return sets[Math.floor(Math.random() * sets.length)] || [];
+}
 
 const CommentSuggestion = ({
   onButtonClick,
@@ -12,24 +21,26 @@ const CommentSuggestion = ({
   onButtonClick: (content: string) => void;
   page: string;
 }) => {
-  const [list, setList] = useState<string[]>([]);
+  const [suggestion, setSuggestion] = useState<CommentSuggestion>({
+    vietnamese: [],
+    english: [],
+  });
   const [useEnglish, setUseEnglish] = useState(false);
-
+  const comments = getComments(
+    suggestion,
+    useEnglish ? "english" : "vietnamese",
+  );
   useEffect(() => {
-    setList([]);
-    const list = axios
+    axios
       .get("/api/comment-suggestion", {
         params: {
           page: process.env.NEXT_PUBLIC_PRODUCTION_WEB_URL + page,
-          language: useEnglish ? "english" : "vietnamese",
         },
       })
       .then((res) => {
-        setList(
-          (res.data as string[][])[Math.floor(Math.random() * res.data.length)],
-        );
+        setSuggestion({ ...res.data });
       });
-  }, [useEnglish, page]);
+  }, [page]);
 
   return (
     <div>
@@ -55,7 +66,7 @@ const CommentSuggestion = ({
       <Skeleton.Wrapper
         block
         className={`mb-4 flex w-full flex-col`}
-        loaded={list.length > 0}
+        loaded={comments.length > 0}
       >
         <Skeleton.Group className="flex w-full grow flex-wrap gap-1">
           {[
@@ -82,7 +93,7 @@ const CommentSuggestion = ({
         </Skeleton.Group>
         <Skeleton.Content className="w-full shrink">
           <div className="flex grow flex-wrap gap-1">
-            {list.map((content, index) => (
+            {comments.map((content, index) => (
               <PillButton
                 key={content}
                 size="small"
