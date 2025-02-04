@@ -342,6 +342,9 @@
     h3 {
       @apply mt-content-node;
     }
+    h4 {
+      @apply subheading2;
+    }
   }
 
   .persona-2 {

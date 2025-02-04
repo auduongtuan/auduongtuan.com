@@ -5,7 +5,7 @@ import {
   RichTextItemResponse,
   TextRichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 
 const escapedNewLineToLineBreakTag = (string) => {
   return string.split("\n").map((item, index) => {
@@ -24,30 +24,33 @@ export const richTextObject = (
     const textContent = filter
       ? filter(textItem.text.content)
       : textItem.text.content;
-    if (
-      textItem.type == "text" &&
-      textItem.text &&
-      textItem.text.link == null
-    ) {
-      const Tag = textItem.annotations.bold
-        ? "strong"
-        : textItem.annotations.code
-          ? "code"
-          : "span";
-      return (
+    let innerText: React.ReactNode = textContent;
+    if (textItem.type == "text" && textItem.text) {
+      const Tag = textItem.annotations.strikethrough
+        ? "s"
+        : textItem.annotations.bold
+          ? "strong"
+          : textItem.annotations.code
+            ? "code"
+            : "span";
+      innerText = (
         <Tag
-          className={twMerge(
+          className={cn(
             textItem.annotations.bold == true ? "font-semibold" : "",
             textItem.annotations.color == "red" && "text-red-600",
+            textItem.annotations.italic && "italic",
+            textItem.annotations.underline && "underline",
             textItem.annotations.code &&
               "bg-pill text-secondary rounded-md p-1 font-mono text-[0.8em] font-medium",
+            textItem.annotations.strikethrough && "line-through",
           )}
           key={`${blockId}-${i}`}
         >
           {escapedNewLineToLineBreakTag(textContent)}
         </Tag>
       );
-    } else if (textItem.text.link) {
+    }
+    if (textItem.text.link) {
       if (
         (richTextObject.length == 1 &&
           textItem.text.content.startsWith("Download")) ||
@@ -63,7 +66,7 @@ export const richTextObject = (
               textItem.text.content == "Download" ? <FiDownload /> : undefined
             }
           >
-            {textContent}
+            {innerText}
           </Button>
         );
       } else {
@@ -71,13 +74,14 @@ export const richTextObject = (
           <InlineLink
             key={`${blockId}-${i}`}
             href={textItem.text.link.url}
-            className={`${textItem.annotations.bold ? "font-semibold" : ""}`}
             wrap
           >
-            {textContent}
+            {innerText}
           </InlineLink>
         );
       }
+    } else {
+      return innerText;
     }
   });
 };
