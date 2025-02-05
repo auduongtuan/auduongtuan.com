@@ -31,8 +31,8 @@ const ProjectCard = memo(
       <div
         ref={ref}
         className={twMerge(
-          "rounded-2xl p-4 md:p-6 lg:p-6 text-primary",
-          "transition-all ease duration-400 bg-card"
+          "text-primary rounded-2xl p-4 md:p-6 lg:p-6",
+          "ease bg-card transition-all duration-400",
         )}
         style={{
           // backgroundColor: project.background,
@@ -42,8 +42,8 @@ const ProjectCard = memo(
       >
         <div
           className={twMerge(
-            "grid items-center justify-end h-full grid-cols-12 gap-4 gap-y-8",
-            isHalf && "grid-rows-[1fr_auto]"
+            "grid h-full grid-cols-12 items-center justify-end gap-4 gap-y-8",
+            isHalf && "grid-rows-[1fr_auto]",
           )}
         >
           <Fade
@@ -51,26 +51,24 @@ const ProjectCard = memo(
             show={visibleRatio > 0.4}
             slide
             className={twMerge(
-              `col-span-12 transition-all duration-200 ease-bounce intro`,
+              `ease-bounce intro col-span-12 transition-all duration-200`,
               !isHalf
-                ? "row-start-2 md:row-start-1 md:col-span-4"
-                : "row-start-2"
+                ? "row-start-2 md:col-span-4 md:row-start-1"
+                : "row-start-2",
             )}
           >
             <header className="flex items-center">
               <div className="grow">
                 <h2 className="h3">
-                  <Balancer>
-                    {project.caseStudy ? (
-                      <Link href={`/project/${project.slug}`} legacyBehavior>
-                        {project.title}
-                      </Link>
-                    ) : (
-                      project.title
-                    )}
-                  </Balancer>
+                  {project.caseStudy ? (
+                    <Link href={`/project/${project.slug}`} legacyBehavior>
+                      <Balancer> {project.title}</Balancer>
+                    </Link>
+                  ) : (
+                    <Balancer>{project.title}</Balancer>
+                  )}
                 </h2>
-                <p className="mt-0.5 md:mt-1 muted-text">
+                <p className="muted-text mt-0.5 md:mt-1">
                   {new Date(project.date).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -96,7 +94,7 @@ const ProjectCard = memo(
                 )}
               </Fade>
             </header>
-            <p className="mt-2 body-text md:mt-3 text-secondary">
+            <p className="body-text text-secondary mt-2 md:mt-3">
               <Balancer ratio={0.67}>{project.tagline}</Balancer>
             </p>
             <ScrollableTagList
@@ -105,7 +103,7 @@ const ProjectCard = memo(
               className="mt-4"
             />
 
-            <div className="flex mt-6 space-x-4 md:mt-5">
+            <div className="mt-6 flex space-x-4 md:mt-5">
               {project.caseStudy && (
                 <Button scroll={false} href={`/project/${project.slug}`} arrow>
                   View project
@@ -137,8 +135,8 @@ const ProjectCard = memo(
           <Fade
             className={twMerge(
               "col-span-12",
-              !isHalf ? "md:col-start-6 md:col-span-7" : "row-start-1",
-              "flex justify-stretch items-stretch gap-8 md:gap-4 lg:gap-8"
+              !isHalf ? "md:col-span-7 md:col-start-6" : "row-start-1",
+              "flex items-stretch justify-stretch gap-8 md:gap-4 lg:gap-8",
             )}
             slide
             show={visibleRatio > 0.4}
@@ -169,7 +167,7 @@ const ProjectCard = memo(
                   </BrowserFrame>
                 ) : (
                   <div
-                    className={`relative transition-all ease-bounce w-full `}
+                    className={`ease-bounce relative w-full transition-all`}
                     key={coverMedia.url}
                   >
                     <CustomImage
@@ -179,13 +177,13 @@ const ProjectCard = memo(
                       height={coverMedia.height}
                     />
                   </div>
-                )
+                ),
               )}
           </Fade>
         </div>
       </div>
     );
-  }
+  },
 );
 
 ProjectCard.displayName = "NotionProjectItem";

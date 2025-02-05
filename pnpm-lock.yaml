@@ -30,6 +30,9 @@ importers:
       '@types/crypto-js':
         specifier: ^4.2.2
         version: 4.2.2
+      '@types/fetch-meta-tags':
+        specifier: ^1.0.4
+        version: 1.0.4
       '@types/react-dom':
         specifier: 19.0.2
         version: 19.0.2(@types/react@19.0.2)
@@ -63,9 +66,6 @@ importers:
       javascript-time-ago:
         specifier: ^2.5.11
         version: 2.5.11
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
       memory-cache:
         specifier: ^0.2.0
         version: 0.2.0
@@ -94,14 +94,14 @@ importers:
         specifier: ^5.4.0
         version: 5.4.0(react@19.0.0)
       react-intersection-observer:
-        specifier: ^8.34.0
-        version: 8.34.0(react@19.0.0)
+        specifier: ^9.15.1
+        version: 9.15.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       react-snap-carousel:
-        specifier: ^0.4.1
-        version: 0.4.1(react@19.0.0)
+        specifier: ^0.5.1
+        version: 0.5.1(react@19.0.0)
       react-wrap-balancer:
-        specifier: ^0.3.0
-        version: 0.3.0(react@19.0.0)
+        specifier: ^1.1.1
+        version: 1.1.1(react@19.0.0)
       sharp:
         specifier: ^0.30.7
         version: 0.30.7
@@ -127,9 +127,6 @@ importers:
       '@types/gtag.js':
         specifier: ^0.0.10
         version: 0.0.10
-      '@types/lodash':
-        specifier: ^4.17.13
-        version: 4.17.13
       '@types/memory-cache':
         specifier: ^0.2.6
         version: 0.2.6
@@ -590,6 +587,9 @@ packages:
   '@types/estree@1.0.6':
     resolution: {integrity: sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw==}
 
+  '@types/fetch-meta-tags@1.0.4':
+    resolution: {integrity: sha512-dy/lvY3oo6Hg/Akvv/2syYC06lnltM4XztegU4c304l4LD3++NMvGwaLIbcXaVcn1aDgenIv1iyJD8GuYP/AAg==}
+
   '@types/gtag.js@0.0.10':
     resolution: {integrity: sha512-98Hy7woUb3jMAMXkZQwfIOYNyfxmI0+U4m0PpCGdnd/FHk0tDpQFCqgXdNkdEoXsKkcGya/2Gew1cAJjKJspVw==}
 
@@ -598,9 +598,6 @@ packages:
 
   '@types/json5@0.0.29':
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
-
-  '@types/lodash@4.17.13':
-    resolution: {integrity: sha512-lfx+dftrEZcdBPczf9d0Qv0x+j/rfNCMuC6OcfXmO8gkfeNAY88PgKUbvG56whcN23gc27yenwF6oJZXGFpYxg==}
 
   '@types/memory-cache@0.2.6':
     resolution: {integrity: sha512-G+9tuwWqss2hvX+T/RNY9CY8qSvuCx8uwnl+tXQWwXtBelXUGcn4j6zknDR+2EfdrgBsMZik0jCKNlDEHIBONQ==}
@@ -2086,23 +2083,27 @@ packages:
     peerDependencies:
       react: '*'
 
-  react-intersection-observer@8.34.0:
-    resolution: {integrity: sha512-TYKh52Zc0Uptp5/b4N91XydfSGKubEhgZRtcg1rhTKABXijc4Sdr1uTp5lJ8TN27jwUsdXxjHXtHa0kPj704sw==}
+  react-intersection-observer@9.15.1:
+    resolution: {integrity: sha512-vGrqYEVWXfH+AGu241uzfUpNK4HAdhCkSAyFdkMb9VWWXs6mxzBLpWCxEy9YcnDNY2g9eO6z7qUtTBdA9hc8pA==}
     peerDependencies:
-      react: ^15.0.0 || ^16.0.0 || ^17.0.0|| ^18.0.0
+      react: ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^17.0.0 || ^18.0.0 || ^19.0.0
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
 
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
-  react-snap-carousel@0.4.1:
-    resolution: {integrity: sha512-JLQj6Or8FGLXRAGBrxcT13Ah9lv+5cQRvxiLfkPlAkGO6KYmtDu29wbpmUxh+9BN1lMjHEIviwFSlLoGK9YAoA==}
+  react-snap-carousel@0.5.1:
+    resolution: {integrity: sha512-t8FMtBUUIi65ie2B1ton1ew3LxONMNBeJXOZUCmg9lGZnT25H8vEj8Z0+UeWVmT9mgSdEKTnySWVWWeCzE90KA==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
-  react-wrap-balancer@0.3.0:
-    resolution: {integrity: sha512-UlnQvCvSRW0jh8uILic2LJs4tV0KjOO+P70ookE5qRpfZvsKmY8KLcV8s7TBPB6cuVYkoH7+fbqankFrFata8w==}
+  react-wrap-balancer@1.1.1:
+    resolution: {integrity: sha512-AB+l7FPRWl6uZ28VcJ8skkwLn2+UC62bjiw8tQUrZPlEWDVnR9MG0lghyn7EyxuJSsFEpht4G+yh2WikEqQ/5Q==}
     peerDependencies:
-      react: ^18.0.0
+      react: '>=16.8.0 || ^17.0.0 || ^18'
 
   react@19.0.0:
     resolution: {integrity: sha512-V8AVnmPIICiWpGfm6GLzCR/W5FXLchHop40W4nXBmdlEceh16rCN8O8LNWm5bh5XUX91fh7KpA+W0TgMKmgTpQ==}
@@ -2878,13 +2879,13 @@ snapshots:
 
   '@types/estree@1.0.6': {}
 
+  '@types/fetch-meta-tags@1.0.4': {}
+
   '@types/gtag.js@0.0.10': {}
 
   '@types/json-schema@7.0.15': {}
 
   '@types/json5@0.0.29': {}
-
-  '@types/lodash@4.17.13': {}
 
   '@types/memory-cache@0.2.6': {}
 
@@ -4521,17 +4522,19 @@ snapshots:
     dependencies:
       react: 19.0.0
 
-  react-intersection-observer@8.34.0(react@19.0.0):
+  react-intersection-observer@9.15.1(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       react: 19.0.0
+    optionalDependencies:
+      react-dom: 19.0.0(react@19.0.0)
 
   react-is@16.13.1: {}
 
-  react-snap-carousel@0.4.1(react@19.0.0):
+  react-snap-carousel@0.5.1(react@19.0.0):
     dependencies:
       react: 19.0.0
 
-  react-wrap-balancer@0.3.0(react@19.0.0):
+  react-wrap-balancer@1.1.1(react@19.0.0):
     dependencies:
       react: 19.0.0
 

@@ -7,7 +7,7 @@ import {
   PartialPageObjectResponse,
   VideoBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { get } from "lodash";
+import { get } from "@lib/utils/common";
 
 export type PageIcon = PageObjectResponse["icon"];
 
@@ -30,7 +30,7 @@ export type NotionAssets = {
 export function getPageFileUrl(
   pageId: string,
   prop: string,
-  order: number = 0
+  order: number = 0,
 ) {
   return (
     `/api/notion-asset/page/${pageId}/${prop}` + (order ? `/${order}` : "")
@@ -46,7 +46,7 @@ export async function getPageIconFile(page: PageObjectResponse) {
     return await getMediaFromCloudinary(
       `page_${page.id}_icon`,
       "image",
-      page.icon.file.url
+      page.icon.file.url,
     );
   }
   return null;
@@ -99,7 +99,7 @@ export async function getMediaFromCloudinary(
   public_id: string,
   type: MediaType,
   url: string,
-  renew: boolean | string = false
+  renew: boolean | string = false,
 ) {
   let info: UploadApiResponse;
   const newUpload = async () => {
@@ -144,7 +144,7 @@ export async function getMediaFromBlock(
   block:
     | FileBlockObjectResponse
     | ImageBlockObjectResponse
-    | VideoBlockObjectResponse
+    | VideoBlockObjectResponse,
 ) {
   if (block.type == "image" || block.type == "video") {
     const url = getFileUrl(block[block.type]);
@@ -157,7 +157,7 @@ export async function getMediaFromBlock(
       public_id,
       type,
       url,
-      block.last_edited_time
+      block.last_edited_time,
     );
   } else {
     throw new Error("Block is not an image, video, or file");
@@ -166,7 +166,7 @@ export async function getMediaFromBlock(
 
 export async function getMediaFromProperty(
   page: PageObjectResponse,
-  prop: string
+  prop: string,
 ): Promise<NotionMedia[]> {
   const files = getProperty(page, prop, "files");
   if (!files) return [];
@@ -180,7 +180,7 @@ export async function getMediaFromProperty(
         public_id,
         type,
         url,
-        page.last_edited_time
+        page.last_edited_time,
       );
       // let width = 0;
       // let height = 0;
@@ -196,6 +196,6 @@ export async function getMediaFromProperty(
       // }
 
       // })
-    })
+    }),
   );
 }

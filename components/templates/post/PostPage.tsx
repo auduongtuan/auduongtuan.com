@@ -53,19 +53,17 @@ const PostSinglePage = ({
           backLinkLabel="Back to blog"
           smallBottomPadding
         >
-          <div className="grid grid-cols-1 gap-2 md:gap-4 ">
+          <div className="grid grid-cols-1 gap-2 md:gap-4">
             <div className="flex items-center gap-4">
-              <div className="grow shrink basis-0">
-                <Balancer>
-                  <Fade
-                    as="h1"
-                    className="col-span-1 text-primary grow h1"
-                    slide
-                    duration={100}
-                  >
-                    {post.meta.title}
-                  </Fade>
-                </Balancer>
+              <div className="shrink grow basis-0">
+                <Fade
+                  as="h1"
+                  className="text-primary h1 col-span-1 grow"
+                  slide
+                  duration={100}
+                >
+                  <Balancer>{post.meta.title}</Balancer>
+                </Fade>
               </div>
               {post.meta.icon && post.meta.icon.type == "emoji" ? (
                 <Fade
@@ -79,14 +77,14 @@ const PostSinglePage = ({
               ) : null}
             </div>
             {post.meta.tags.length > 0 && (
-              <Fade className="flex flex-wrap mt-2 space-x-2" delay={200}>
+              <Fade className="mt-2 flex flex-wrap space-x-2" delay={200}>
                 {post.meta.tags.map((tag, i) => (
                   <Tag key={`tag-${i}`}>{tag}</Tag>
                 ))}
               </Fade>
             )}
             <Fade
-              className="mt-1 font-mono text-tertiary muted-text"
+              className="text-tertiary muted-text mt-1 font-mono"
               delay={200}
             >
               Posted on{" "}
@@ -101,12 +99,12 @@ const PostSinglePage = ({
         </HeaderWithBackButton>
       </div>
       <Fade
-        className="relative pb-section-vertical"
+        className="pb-section-vertical relative"
         delay={200}
         key={post.slug + "_content"}
       >
         <ContentMenu />
-        <div className="px-0 main-container">
+        <div className="main-container px-0">
           {post.meta.protected ? (
             <>
               <Transition
@@ -116,7 +114,7 @@ const PostSinglePage = ({
                 enterTo="opacity-100"
                 as="div"
                 className={
-                  "text-primary [&>*:first-child]:mt-0 content-blocks-grid"
+                  "text-primary content-blocks-grid [&>*:first-child]:mt-0"
                 }
               >
                 {parseBlocks(decryptedContent, post.assets)}
@@ -128,7 +126,7 @@ const PostSinglePage = ({
                 leaveTo="opacity-0"
                 as="div"
                 className={
-                  "text-primary [&>*:first-child]:mt-0 content-container"
+                  "text-primary content-container [&>*:first-child]:mt-0"
                 }
               >
                 <PasswordProtect
@@ -145,7 +143,7 @@ const PostSinglePage = ({
           )}
         </div>
       </Fade>
-      <section className="relative border-t border-gray-200 bg-surface py-section-vertical">
+      <section className="bg-surface py-section-vertical relative border-t border-gray-200">
         <div className="main-container">
           <Transition
             show={isShown}
@@ -169,7 +167,7 @@ const PostSinglePage = ({
             className={twMerge(
               "relative",
               isShown &&
-                "pt-10 mt-10 border-t border-gray-200 md:mt-16 md:pt-12"
+                "mt-10 border-t border-gray-200 pt-10 md:mt-16 md:pt-12",
             )}
           >
             <OtherPostList post={post} posts={posts}></OtherPostList>

@@ -1,43 +1,48 @@
-import { forwardRef, useId } from "react";
+import { useId } from "react";
 import { FiAlertTriangle } from "react-icons/fi";
 import { twMerge } from "tailwind-merge";
-interface TextFieldProps extends React.ComponentPropsWithoutRef<"input"> {
+interface TextFieldProps extends React.ComponentPropsWithRef<"input"> {
   label?: string;
   error?: boolean;
   errorMessage?: React.ReactNode;
 }
 
-const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
-  ({ className, label, error, errorMessage, ...rest }, ref) => {
-    const id = useId();
-    return (
-      <>
-        {label && (
-          <label htmlFor={id} className="block text-base text-primary">
-            {label}
-          </label>
+const TextField = ({
+  ref,
+  className,
+  label,
+  error,
+  errorMessage,
+  ...rest
+}: TextFieldProps) => {
+  const id = useId();
+  return (
+    <>
+      {label && (
+        <label htmlFor={id} className="text-primary block text-base">
+          {label}
+        </label>
+      )}
+      <input
+        id={id}
+        className={twMerge(
+          "text-primary focus:border-accent w-full rounded-lg border-2 border-gray-300 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:shadow-xs focus:shadow-blue-400/40",
+          error &&
+            "border-red-300 focus:border-red-600 focus:shadow-xs focus:shadow-red-400/40",
+          className,
         )}
-        <input
-          id={id}
-          className={twMerge(
-            "w-full px-3 py-2 text-base leading-tight text-primary transition-all duration-200 border-2 border-gray-300 rounded-lg outline-hidden focus:border-accent focus:shadow-xs focus:shadow-blue-400/40",
-            error &&
-              "border-red-300 focus:border-red-600 focus:shadow-xs focus:shadow-red-400/40",
-            className
-          )}
-          ref={ref}
-          {...rest}
-        />
-        {errorMessage && (
-          <div className="flex items-start justify-start mt-1 text-red-600 gap-x-2">
-            <FiAlertTriangle className="mt-1" />
-            <p>{errorMessage}</p>
-          </div>
-        )}
-      </>
-    );
-  }
-);
+        ref={ref}
+        {...rest}
+      />
+      {errorMessage && (
+        <div className="mt-1 flex items-start justify-start gap-x-2 text-red-600">
+          <FiAlertTriangle className="mt-1" />
+          <p>{errorMessage}</p>
+        </div>
+      )}
+    </>
+  );
+};
 
 TextField.displayName = "TextField";
 
