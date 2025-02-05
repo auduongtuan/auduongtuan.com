@@ -8,7 +8,7 @@ import {
   getNotionPageContent,
 } from "@lib/notion";
 import { isDevEnvironment } from "@lib/utils";
-import cacheData from "memory-cache";
+import { cache } from "@lib/utils/cache";
 
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
 const PROJECT_GROUP_DATABASE_ID = process.env
@@ -56,12 +56,12 @@ export type Project = {
 export async function getProjectsWithCache() {
   let projects: Project[];
   if (isDevEnvironment) {
-    const cache = cacheData.get("projects");
-    if (cache) {
-      projects = cache;
+    const cacheData = cache.get("projects") as Project[];
+    if (cacheData) {
+      projects = cacheData;
     } else {
       projects = await getProjects(isDevEnvironment);
-      cacheData.put("projects", projects, 24 * 1000 * 60 * 60);
+      cache.set("projects", projects, 24 * 1000 * 60 * 60);
     }
   } else {
     projects = await getProjects(isDevEnvironment);
@@ -83,13 +83,13 @@ export async function getProjectGroups(): Promise<ProjectGroup[]> {
           description: getProperty(page, "Description", "rich_text"),
         };
       })
-      .filter((page) => typeof page != "undefined")
+      .filter((page) => typeof page != "undefined"),
   )) as ProjectGroup[];
   return projectGroups;
 }
 
 export async function getProjects(
-  includeUnpublished?: boolean
+  includeUnpublished?: boolean,
 ): Promise<Project[]> {
   let filterQuery: any = {
     and: [
@@ -118,7 +118,7 @@ export async function getProjects(
   const projectGroups = await getProjectGroups();
   const projectResponse = await notion.databases.query({
     database_id: PROJECT_DATABASE_ID,
-    filter: filterQuery,
+    // filter: filterQuery,
     sorts: [
       {
         property: "Date",
@@ -172,7 +172,7 @@ export async function getProjects(
           ? projectGroups.find((group) => group.id == groupId)
           : undefined,
       };
-    })
+    }),
   );
 
   return projects.filter((page) => page) as Project[];

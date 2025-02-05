@@ -62,7 +62,7 @@ const ProjectCard = memo(
                 <h2 className="h3">
                   {project.caseStudy ? (
                     <Link href={`/project/${project.slug}`} legacyBehavior>
-                      <Balancer> {project.title}</Balancer>
+                      <Balancer>{project.title}</Balancer>
                     </Link>
                   ) : (
                     <Balancer>{project.title}</Balancer>

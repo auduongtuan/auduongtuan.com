@@ -9,8 +9,8 @@ import {
 } from "@lib/notion";
 import { isDevEnvironment } from "@lib/utils";
 import { isFullPage } from "@notionhq/client";
-import cacheData from "memory-cache";
 
+import { cache } from "@lib/utils/cache";
 export interface Post {
   id: string;
   slug: string;
@@ -29,12 +29,12 @@ export interface Post {
 export async function getPostsWithCache() {
   let posts: Post[];
   if (isDevEnvironment) {
-    const cache = cacheData.get("posts");
-    if (cache) {
-      posts = cache;
+    const cacheData = cache.get("posts") as Post[];
+    if (cacheData) {
+      posts = cacheData;
     } else {
       posts = await getPosts(isDevEnvironment);
-      cacheData.put("posts", posts, 24 * 1000 * 60 * 60);
+      cache.set("posts", posts, 24 * 1000 * 60 * 60);
     }
   } else {
     posts = await getPosts(isDevEnvironment);
@@ -95,7 +95,7 @@ export async function getPosts(includeUnpublished?: boolean) {
         },
         assets: assets,
       };
-    })
+    }),
   );
   return posts.filter((page) => page) as Post[];
 }

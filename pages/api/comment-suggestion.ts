@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { getCommentSuggestion } from "@lib/commentSuggestion";
 
-import cacheData from "memory-cache";
+import { cache } from "@lib/utils/cache";
 
 const commentSuggestionAPI = async (
   req: NextApiRequest,
@@ -17,11 +17,11 @@ const commentSuggestionAPI = async (
       return res.status(400).json({ error: "Invalid page URL" });
     }
     const id = "comment-suggestion_" + page;
-    let data = cacheData.get(id);
+    let data = cache.get(id);
     if (!data) {
       const days = 31;
       data = await getCommentSuggestion(req.query.page as string);
-      cacheData.put(id, data, days * 24 * 1000 * 60 * 60);
+      cache.set(id, data, days * 24 * 1000 * 60 * 60);
     }
     return res.status(200).json(data);
   }
