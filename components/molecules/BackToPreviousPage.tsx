@@ -1,9 +1,7 @@
 import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
-import { getElementContentWidth } from "@lib/utils/getElementContentWidth";
 import useAppStore from "@store/useAppStore";
 import { useRouter } from "next/router";
-import { forwardRef, useEffect, useRef } from "react";
 import { FiArrowLeft } from "react-icons/fi";
 
 type BackToPreviousPageProps = React.ComponentPropsWithoutRef<"button"> & {
@@ -11,10 +9,13 @@ type BackToPreviousPageProps = React.ComponentPropsWithoutRef<"button"> & {
   defaultLinkLabel: string;
 };
 
-const BackToPreviousPage = forwardRef<
-  HTMLButtonElement,
-  BackToPreviousPageProps
->(({ defaultLink, defaultLinkLabel }, ref) => {
+const BackToPreviousPage = ({
+  ref,
+  defaultLink,
+  defaultLinkLabel,
+}: BackToPreviousPageProps & {
+  ref?: React.RefObject<HTMLButtonElement>;
+}) => {
   const router = useRouter();
 
   const hasHistory = useAppStore((state) => state.hasHistory);
@@ -39,7 +40,7 @@ const BackToPreviousPage = forwardRef<
       </IconButton>
     </Tooltip>
   );
-});
+};
 
 BackToPreviousPage.displayName = "BackToPreviousPage";
 

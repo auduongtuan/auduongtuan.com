@@ -8,7 +8,7 @@ import GifText from "./GifText";
 import Balancer from "react-wrap-balancer";
 import { autoUpdate, offset, shift, useFloating } from "@floating-ui/react";
 import { event } from "@lib/gtag";
-import { Transition } from "@headlessui/react";
+import { Transition, TransitionChild } from "@headlessui/react";
 import { trackEvent } from "@lib/utils";
 
 export default function Header() {
@@ -59,7 +59,7 @@ export default function Header() {
       onMouseLeave: () => {
         setActiveGif(null);
       },
-      ref: activeGif == gifIndex ? refs.setReference : null,
+      ref: activeGif == gifIndex ? refs.setReference : undefined,
     };
   };
 
@@ -111,7 +111,7 @@ export default function Header() {
                 key={gif.name}
                 show={activeGif !== null && activeGif === i}
               >
-                <Transition.Child
+                <TransitionChild
                   enter="transition-all duration-200"
                   enterFrom="opacity-0 translate-y-10"
                   enterTo="opacity-100 translate-y-0"
@@ -127,7 +127,7 @@ export default function Header() {
                       height={gif.size[1]}
                     />
                   </PhotoFrame>
-                </Transition.Child>
+                </TransitionChild>
               </Transition>
             ))}
           </div>

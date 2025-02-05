@@ -11,24 +11,30 @@ interface NavigationAnchorProps {
 }
 type AnchorProps = React.HTMLProps<HTMLAnchorElement>;
 
-const NavigationAnchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
-  ({ onClick, href, className, children }, ref) => {
-    return (
-      <a
-        href={href}
-        onClick={(e) => {
-          onClick && onClick(e);
-          e.preventDefault();
-          // window.scrollTo(0,0);
-        }}
-        ref={ref}
-        className={className}
-      >
-        {children}
-      </a>
-    );
-  }
-);
+const NavigationAnchor = ({
+  ref,
+  onClick,
+  href,
+  className,
+  children,
+}: AnchorProps & {
+  ref?: React.RefObject<HTMLAnchorElement>;
+}) => {
+  return (
+    <a
+      href={href}
+      onClick={(e) => {
+        onClick && onClick(e);
+        e.preventDefault();
+        // window.scrollTo(0,0);
+      }}
+      ref={ref}
+      className={className}
+    >
+      {children}
+    </a>
+  );
+};
 NavigationAnchor.displayName = "NavigationAnchor";
 
 const NavigationLink = ({
@@ -68,7 +74,7 @@ const NavigationLink = ({
       ? "text-white hover:bg-surface/10"
       : "text-primary hover:bg-surface-raised",
     isActive(router) && !logo ? activeStyle : "",
-    className
+    className,
   );
 
   return (

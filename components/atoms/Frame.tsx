@@ -19,136 +19,145 @@ export interface BaseFrameProps extends React.ComponentPropsWithoutRef<"div"> {
   middleContent?: React.ReactNode;
   endContent?: React.ReactNode;
 }
-export const BaseFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
-  (
-    {
-      children,
-      title,
-      inverted = false,
-      mainClassname,
-      className = "",
-      draggable = false,
-      startContent,
-      middleContent,
-      endContent,
-      ...rest
-    },
-    ref
-  ) => {
-    const draggleRef = useDraggable();
-    const renderFrame = () => {
-      return (
-        <div
-          className={`w-full flex flex-col border-0 z-40 relative bg-surface rounded-xl translate-z-0 shadow-lg ${className}`}
-          ref={(el) => {
-            draggleRef.current = el;
-            if (typeof ref === "function") {
-              ref(el);
-            } else if (ref) {
-              ref.current = el;
-            }
-          }}
-          {...rest}
+export const BaseFrame = ({
+  ref,
+  children,
+  title,
+  inverted = false,
+  mainClassname,
+  className = "",
+  draggable = false,
+  startContent,
+  middleContent,
+  endContent,
+  ...rest
+}: BaseFrameProps & {
+  ref?: React.RefObject<HTMLDivElement>;
+}) => {
+  const draggleRef = useDraggable();
+  const renderFrame = () => {
+    return (
+      <div
+        className={`bg-surface relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0 shadow-lg ${className}`}
+        ref={(el) => {
+          draggleRef.current = el;
+          if (ref && el) {
+            ref.current = el;
+          }
+        }}
+        {...rest}
+      >
+        <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full rounded-xl rounded-t-[11px] border border-solid border-black/20"></div>
+        <header
+          className={twMerge(
+            `flex items-center justify-between`,
+            inverted ? "bg-slate-100" : "bg-slate-800",
+            draggable && "cursor-move",
+            "z-1 rounded-t-[11px] px-3 py-1.5",
+          )}
         >
-          <div className="pointer-events-none border-solid border border-black/20 rounded-t-[11px] w-full h-full z-10 rounded-xl absolute top-0 left-0"></div>
-          <header
-            className={twMerge(
-              `flex items-center justify-between`,
-              inverted ? "bg-slate-100" : "bg-slate-800",
-              draggable && "cursor-move",
-              "px-3 py-1.5  rounded-t-[11px] z-1"
-            )}
-          >
-            <div className="flex items-center grow basis-0">
-              <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
-              <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
-              <span className="block w-2.5 h-2.5 mr-1.5 rounded-full bg-slate-400"></span>
-              {startContent}
-            </div>
-            {middleContent}
-            <div className="flex items-center justify-end grow gap-2 basis-0 justify-self-end">
-              {/* <FiGrid className="hidden md:inline-block text-slate-400" />
-              <FiPlus className="hidden md:inline-block text-slate-400" /> */}
-              {endContent}
-            </div>
-          </header>
-          <main
-            className={twMerge(
-              "overflow-hidden p-0 rounded-b-xl grow-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
-              mainClassname
-            )}
-          >
-            {children}
-          </main>
-        </div>
-      );
-    };
-    return renderFrame();
-  }
-);
+          <div className="flex grow basis-0 items-center">
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
+            {startContent}
+          </div>
+          {middleContent}
+          <div className="flex grow basis-0 items-center justify-end gap-2 justify-self-end">
+            {/* <FiGrid className="hidden md:inline-block text-slate-400" />
+            <FiPlus className="hidden md:inline-block text-slate-400" /> */}
+            {endContent}
+          </div>
+        </header>
+        <main
+          className={twMerge(
+            "grow-0 overflow-hidden rounded-b-xl p-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
+            mainClassname,
+          )}
+        >
+          {children}
+        </main>
+      </div>
+    );
+  };
+  return renderFrame();
+};
 BaseFrame.displayName = "BaseFrame";
 
 export interface AppFrameProps extends BaseFrameProps {
   title?: string;
 }
 
-export const AppFrame = React.forwardRef<HTMLDivElement, BaseFrameProps>(
-  ({ middleContent, title, ...rest }, ref) => {
-    const middleContentRender = () => (
-      <div className="text-xs text-white/80 text-center min-h-[20px] px-4 py-[2px] rounded-md inline-block justify-self-center w-[60%] md:w-1/2">
-        {title && title.replace(/(^\w+:|^)\/\//, "")}
-      </div>
-    );
-    return (
-      <BaseFrame {...rest} ref={ref} middleContent={middleContentRender()} />
-    );
-  }
-);
+export const AppFrame = ({
+  ref,
+  middleContent,
+  title,
+  ...rest
+}: BaseFrameProps & {
+  ref?: React.RefObject<HTMLDivElement>;
+}) => {
+  const middleContentRender = () => (
+    <div className="inline-block min-h-[20px] w-[60%] justify-self-center rounded-md px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
+      {title && title.replace(/(^\w+:|^)\/\//, "")}
+    </div>
+  );
+  return (
+    <BaseFrame {...rest} ref={ref} middleContent={middleContentRender()} />
+  );
+};
 AppFrame.displayName = "AppFrame";
 
 export interface BrowserFrameProps extends BaseFrameProps {
   url?: string;
 }
-const BrowserFrame = React.forwardRef<HTMLDivElement, BrowserFrameProps>(
-  ({ startContent, endContent, middleContent, title, url, ...rest }, ref) => {
-    const startContentRender = () => (
-      <>
-        <FiChevronLeft className="hidden ml-2 mr-1 md:inline-block text-slate-400" />
-        <FiChevronRight className="hidden md:inline-block text-slate-600" />
-        {startContent}
-      </>
-    );
-    const middleContentRender = () => (
-      <>
-        <div className="bg-surface/20 text-xs text-white/80 text-center min-h-[20px] px-4 py-[2px] rounded-md inline-block justify-self-center w-[60%] md:w-1/2">
-          {url && (
-            <a href={url} target="_blank" rel="noreferrer">
-              {(title || url).replace(/(^\w+:|^)\/\//, "")}
-            </a>
-          )}
-        </div>
-        {middleContent}
-      </>
-    );
-    const endContentRender = () => (
-      <>
-        <FiGrid className="hidden md:inline-block text-slate-400" />
-        <FiPlus className="hidden md:inline-block text-slate-400" />
-        {endContent}
-      </>
-    );
+const BrowserFrame = ({
+  ref,
+  startContent,
+  endContent,
+  middleContent,
+  title,
+  url,
+  ...rest
+}: BrowserFrameProps & {
+  ref?: React.RefObject<HTMLDivElement>;
+}) => {
+  const startContentRender = () => (
+    <>
+      <FiChevronLeft className="mr-1 ml-2 hidden text-slate-400 md:inline-block" />
+      <FiChevronRight className="hidden text-slate-600 md:inline-block" />
+      {startContent}
+    </>
+  );
+  const middleContentRender = () => (
+    <>
+      <div className="bg-surface/20 inline-block min-h-[20px] w-[60%] justify-self-center rounded-md px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
+        {url && (
+          <a href={url} target="_blank" rel="noreferrer">
+            {(title || url).replace(/(^\w+:|^)\/\//, "")}
+          </a>
+        )}
+      </div>
+      {middleContent}
+    </>
+  );
+  const endContentRender = () => (
+    <>
+      <FiGrid className="hidden text-slate-400 md:inline-block" />
+      <FiPlus className="hidden text-slate-400 md:inline-block" />
+      {endContent}
+    </>
+  );
 
-    return (
-      <BaseFrame
-        {...rest}
-        ref={ref}
-        startContent={startContentRender()}
-        middleContent={middleContentRender()}
-        endContent={endContentRender()}
-      />
-    );
-  }
-);
+  return (
+    <BaseFrame
+      {...rest}
+      ref={ref}
+      startContent={startContentRender()}
+      middleContent={middleContentRender()}
+      endContent={endContentRender()}
+    />
+  );
+};
 
 BrowserFrame.displayName = "BrowserFrame";
 
@@ -159,92 +168,90 @@ export interface PhotoFrameProps extends React.HTMLProps<HTMLDivElement> {
   closeTooltipContent?: string;
   mainClassname?: string;
 }
-export const PhotoFrame = React.forwardRef<HTMLDivElement, PhotoFrameProps>(
-  (
-    {
-      children,
-      inverted = false,
-      name,
-      className = "",
-      onClose,
-      closeTooltipContent,
-      mainClassname,
-      draggable,
-      as,
-      ...rest
-    },
-    ref
-  ) => {
-    const draggleRef = useDraggable();
-    const renderFrame = () => (
-      <div
-        // ref={innerRef}
-        // ref={ref}
-        ref={(el) => {
-          draggleRef.current = el;
-          if (typeof ref === "function") {
-            ref(el);
-          } else if (ref) {
-            ref.current = el;
-          }
-        }}
+export const PhotoFrame = ({
+  ref,
+  children,
+  inverted = false,
+  name,
+  className = "",
+  onClose,
+  closeTooltipContent,
+  mainClassname,
+  draggable,
+  as,
+  ...rest
+}: PhotoFrameProps & {
+  ref?: React.RefObject<HTMLDivElement>;
+}) => {
+  const draggleRef = useDraggable();
+  const renderFrame = () => (
+    <div
+      // ref={innerRef}
+      // ref={ref}
+      ref={(el) => {
+        draggleRef.current = el;
+        if (typeof ref === "function") {
+          ref(el);
+        } else if (ref && el) {
+          ref.current = el;
+        }
+      }}
+      className={twMerge(
+        `relative flex w-full translate-z-0 flex-col overflow-hidden rounded-xl border border-solid border-black/20 shadow-lg`,
+        className,
+      )}
+      {...rest}
+    >
+      <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full rounded-xl"></div>
+      <header
         className={twMerge(
-          `w-full flex flex-col relative border-solid border border-black/20 rounded-xl overflow-hidden translate-z-0 shadow-lg`,
-          className
+          "flex items-center justify-between font-sans",
+          inverted ? "bg-slate-100" : "bg-slate-800",
+          draggable && "cursor-move",
+          "z-1 rounded-t-xl border-b border-black/10 px-3 py-1.5",
         )}
-        {...rest}
       >
-        <div className="absolute top-0 left-0 z-10 w-full h-full pointer-events-none rounded-xl"></div>
-        <header
-          className={twMerge(
-            "font-sans flex items-center justify-between",
-            inverted ? "bg-slate-100" : "bg-slate-800",
-            draggable && "cursor-move",
-            "px-3 py-1.5 rounded-t-xl border-b border-black/10 z-1 "
+        <div className="flex grow basis-0 items-center gap-2">
+          {closeTooltipContent ? (
+            <Tooltip content={closeTooltipContent}>
+              <button
+                aria-label="Close it"
+                className="block h-2.5 w-2.5 cursor-pointer rounded-full bg-slate-400 hover:bg-red-500 active:bg-red-700"
+                onClick={onClose}
+              ></button>
+            </Tooltip>
+          ) : (
+            <span className="block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
           )}
+          <span className="block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
+          <span className="block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
+          {/* <FiChevronLeft className="ml-3 text-slate-400" />
+      <FiChevronRight className="text-slate-600" /> */}
+        </div>
+        <div
+          className={`text-sm font-semibold ${
+            inverted ? "text-slate-700" : "text-white/80"
+          } w-full px-8 py-[2px]`}
         >
-          <div className="flex items-center grow gap-2 basis-0">
-            {closeTooltipContent ? (
-              <Tooltip content={closeTooltipContent}>
-                <button
-                  aria-label="Close it"
-                  className="block w-2.5 h-2.5 rounded-full cursor-pointer bg-slate-400 hover:bg-red-500 active:bg-red-700"
-                  onClick={onClose}
-                ></button>
-              </Tooltip>
-            ) : (
-              <span className="block w-2.5 h-2.5 rounded-full bg-slate-400"></span>
-            )}
-            <span className="block w-2.5 h-2.5 rounded-full bg-slate-400"></span>
-            <span className="block w-2.5 h-2.5 rounded-full bg-slate-400"></span>
-            {/* <FiChevronLeft className="ml-3 text-slate-400" />
-        <FiChevronRight className="text-slate-600" /> */}
-          </div>
-          <div
-            className={`text-sm font-semibold ${
-              inverted ? "text-slate-700" : "text-white/80"
-            } px-8 py-[2px] w-full`}
-          >
-            {name}
-          </div>
-          <div className="flex items-center justify-end grow gap-2 basis-0 justify-self-end">
-            <FiZoomOut className="text-slate-400" />
-            <FiZoomIn className="text-slate-400" />
-          </div>
-        </header>
-        <main
-          className={twMerge(
-            "grow-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
-            mainClassname
-          )}
-        >
-          {children}
-        </main>
-      </div>
-    );
-    return renderFrame();
-  }
-);
+          {name}
+        </div>
+        <div className="flex grow basis-0 items-center justify-end gap-2 justify-self-end">
+          <FiZoomOut className="text-slate-400" />
+          <FiZoomIn className="text-slate-400" />
+        </div>
+      </header>
+      <main
+        className={twMerge(
+          "grow-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
+          mainClassname,
+        )}
+      >
+        {children}
+      </main>
+    </div>
+  );
+  return renderFrame();
+};
 PhotoFrame.displayName = "PhotoFrame";
 
 export default BrowserFrame;

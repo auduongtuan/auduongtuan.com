@@ -1,31 +1,34 @@
 import Button from "@atoms/Button";
 import { cn } from "@lib/utils/cn";
-import { forwardRef } from "react";
 
 type SectionTitleProps = {
   action?: React.ReactNode;
   title: React.ReactNode;
 } & React.ComponentPropsWithoutRef<"header">;
 
-const SectionTitle = forwardRef<HTMLElement, SectionTitleProps>(
-  ({ action, title, className, ...rest }, ref) => {
-    return (
-      <header
-        className={cn(
-          "flex pb-3 mb-8 border-b  gap-x-4 gap-y-2 flex-wrap  md:items-center border-divider",
-          className
-        )}
-      >
-        <div className="flex items-center subheading grow shrink-0">
-          {title}
-        </div>
-        <div className="flex items-center justify-end gap-x-4 gap-y-2 grow-0 shrink-0 ">
-          {action && action}
-        </div>
-      </header>
-    );
-  }
-);
+const SectionTitle = ({
+  ref,
+  action,
+  title,
+  className,
+  ...rest
+}: SectionTitleProps & {
+  ref?: React.RefObject<HTMLElement>;
+}) => {
+  return (
+    <header
+      className={cn(
+        "border-divider mb-8 flex flex-wrap gap-x-4 gap-y-2 border-b pb-3 md:items-center",
+        className,
+      )}
+    >
+      <div className="subheading flex shrink-0 grow items-center">{title}</div>
+      <div className="flex shrink-0 grow-0 items-center justify-end gap-x-4 gap-y-2">
+        {action && action}
+      </div>
+    </header>
+  );
+};
 
 SectionTitle.displayName = "SectionTitle";
 
