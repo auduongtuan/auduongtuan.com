@@ -4,14 +4,14 @@ export function checkInternal(href: string) {
   const check =
     href != "#" &&
     href.match(
-      /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i
+      /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i,
     );
   return Boolean(check);
 }
 
 export function parseInternalLink(url: string): string | null {
   let check = url.match(
-    /^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i
+    /^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i,
   );
   if (check) return check[1];
   return null;

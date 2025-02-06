@@ -1,58 +1,52 @@
-import { AppFrame } from "@atoms/Frame";
 import InlineLink from "@atoms/InlineLink";
 import { NotionNowItem } from "@lib/notion/now";
 import { cn } from "@lib/utils/cn";
 import Image from "next/image";
 
+const NowItem = ({ item }: { item: NotionNowItem }) => {
+  return (
+    <div
+      className={cn("rounded-md bg-slate-100 px-3 py-3 md:col-span-6 md:px-4")}
+    >
+      <p className="text-tertiary mt-0.5 text-sm">{item.title}</p>
+      <div className="mt-2 flex items-center gap-5 font-mono text-sm leading-tight tracking-tight md:text-base">
+        {item.thumbnail && item.link && (
+          <div className={cn("flex w-[100px] items-center justify-center")}>
+            <Image
+              src={item.thumbnail?.url}
+              alt={item.content}
+              width={item.thumbnail?.width}
+              height={item.thumbnail?.height}
+              className="rounded-md"
+            />
+          </div>
+        )}
+        {item.link ? (
+          <div className="flex flex-col gap-2">
+            <InlineLink
+              className="inline-flex whitespace-normal"
+              href={item.link}
+            >
+              {item.content}
+            </InlineLink>
+          </div>
+        ) : (
+          <p className="truncate">{item.content}</p>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Now = ({ items }: { items: NotionNowItem[] }) => {
   return (
-    // <AppFrame title="Now" draggable>
     <div className="grid grid-cols-1 gap-4 leading-normal md:grid-cols-6">
       {items
         .filter((item) => !item.archived)
         .map((item, i) => (
-          <div
-            className={cn(
-              "px-3 py-3 rounded-md md:px-4 bg-slate-100 md:col-span-6"
-              // i == 2 ? "md:col-span-6" : "md:col-span-3"
-            )}
-            key={`now-${i}`}
-          >
-            <p className="text-sm mt-0.5 text-tertiary">{item.title}</p>
-            <div className="flex items-center gap-5 mt-2 font-mono text-sm leading-tight tracking-tight md:text-base">
-              {(item.thumbnail || item.link) && (
-                <div
-                  className={cn("w-[100px] flex items-center justify-center")}
-                >
-                  <Image
-                    src={
-                      item.thumbnail ||
-                      "/api/website-thumbnail?url=" + item.link
-                    }
-                    alt={item.content}
-                    width="100"
-                    height={item.type == "youtube" ? 90 : 100}
-                    className="rounded-md"
-                  />
-                </div>
-              )}
-              {item.link ? (
-                <div className="flex flex-col gap-2">
-                  <InlineLink
-                    className="inline-flex whitespace-normal"
-                    href={item.link}
-                  >
-                    {item.content}
-                  </InlineLink>
-                </div>
-              ) : (
-                <p className="truncate">{item.content}</p>
-              )}
-            </div>
-          </div>
+          <NowItem item={item} key={`now-${i}`} />
         ))}
     </div>
-    // </AppFrame>
   );
 };
 
