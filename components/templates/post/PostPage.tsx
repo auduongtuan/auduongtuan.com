@@ -50,7 +50,7 @@ const PostSinglePage = ({
       <div className="z-10 w-full" key={post.slug + "_header"}>
         <HeaderWithBackButton
           backLink="/blog"
-          backLinkLabel="Back to blog"
+          backLinkLabel="Back to Blog"
           smallBottomPadding
         >
           <div className="grid grid-cols-1 gap-2 md:gap-4">
