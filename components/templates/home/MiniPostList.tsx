@@ -17,15 +17,18 @@ export default function PostList({ posts }: { posts: Post[] }) {
           }
         />
 
-        <div className="grid grid-cols-1 gap-6 mt-6 md:mt-2 md:grid-cols-2 md:gap-0 md:-mx-6 group">
-          {posts.slice(0, 6).map((postItem) => (
-            <div
-              className="flex flex-col border-gray-200 md:odd:border-r md:px-6 md:py-4 "
-              key={postItem.id}
-            >
-              <MiniPostCard post={postItem} className="grow" />
-            </div>
-          ))}
+        <div className="group mt-6 grid grid-cols-1 gap-6 md:-mx-6 md:mt-2 md:grid-cols-2 md:gap-0">
+          {posts
+            .filter((post) => !post.meta.protected)
+            .slice(0, 6)
+            .map((postItem) => (
+              <div
+                className="flex flex-col border-gray-200 md:px-6 md:py-4 md:odd:border-r"
+                key={postItem.id}
+              >
+                <MiniPostCard post={postItem} className="grow" />
+              </div>
+            ))}
         </div>
       </Fade>
     </section>
