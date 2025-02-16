@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
 import Fade from "@atoms/Fade";
@@ -12,7 +12,7 @@ import {
   size,
   useFloating,
 } from "@floating-ui/react";
-import { Portal } from "@headlessui/react";
+import { Portal, Transition } from "@headlessui/react";
 import { event } from "@lib/gtag";
 import { useRef, useState } from "react";
 import { RiCrossFill } from "react-icons/ri";
@@ -21,6 +21,8 @@ import { NotionNowItem } from "@lib/notion/now";
 import Footer from "@molecules/Footer";
 import { trackEvent } from "@lib/utils";
 import Reaction from "@molecules/comment/Reaction";
+import IconButton from "@atoms/IconButton";
+import { FiRefreshCcw } from "react-icons/fi";
 
 function HoverGif({
   text,
@@ -77,22 +79,49 @@ function HoverGif({
       {el}
       <Portal>
         <div ref={refs.setFloating} className="z-40" style={floatingStyles}>
-          <Fade duration={100} show={showGif} slide>
+          <Transition
+            show={showGif}
+            enter="transition-all duration-200"
+            enterFrom="opacity-0 translate-y-10"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition-all duration-200"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-10"
+          >
             <PhotoFrame name={label} inverted>
               {children}
             </PhotoFrame>
-          </Fade>
+          </Transition>
         </div>
       </Portal>
     </>
   );
 }
 
+const FACTS = [
+  "I have a kind of dry skin, so if you want to give me a gift, consider a moisturizer 🧴",
+  "I used to be a big fan of the Marvel Cinematic Universe 🦸‍♂️. But now, I don't follow it much",
+  "I'm kinda short, around 1.68m tall 🙈 while I have 60cm head size and 42.5 EU shoe size",
+  "I'm a dog person 🐶",
+  "I'm kind of addicted to coffee ☕️. I can drink it all day long",
+  "My music taste is quite mishmash. I even listen to new generation of K-POP idol groups 🎶",
+  // "I'm a huge fan of the Japanese culture, especially the food 🍣",
+];
 export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
   const contentRef = useRef<HTMLDivElement>(null);
   // const [showImage, setShowImage] = useState(false);
   // const [position, setPosition] = useState([0, 0]);
-
+  const [factToDisplay, setFactToDisplay] = useState(-1);
+  const reloadFact = () => {
+    let newFact: number;
+    while (
+      (newFact = Math.floor(Math.random() * FACTS.length)) === factToDisplay
+    );
+    setFactToDisplay(newFact);
+  };
+  useEffect(() => {
+    reloadFact();
+  }, []);
   return (
     <div className="bg-surface">
       <main className="text-primary bg-surface z-10 w-full">
@@ -129,37 +158,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 Xin chào!
               </Fade>
               <Fade delay={200} as="p">
-                My name is Au Duong Tuan
-                {/* <Tooltip
-                  content={showImage ? "Close my photo" : "Open my photo"}
-                >
-                  <InlineLink
-                    href={"#"}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      let rect = contentRef.current?.getBoundingClientRect();
-                      // console.log(rect);
-                      if (!rect) return;
-                      event({
-                        action: "view_about_photo",
-                        category: "about_page",
-                        label: "View Tuan's photo",
-                      });
-                      setPosition([rect.left, rect.top + 40]);
-                      setShowImage(true);
-                    }}
-                  >
-                    Tuan 👨‍💻
-                   <CustomImage
-                      src="/favicon/apple-icon-180x180.png"
-                      width={24}
-                      height={24}
-                      className="inline w-6 h-6"
-                    ></CustomImage> 
-                  </InlineLink>
-                </Tooltip>*/}
-                . I&apos;m a software{" "}
+                My name is Au Duong Tuan . I&apos;m a software{" "}
                 <Tooltip content="View more information about this role">
                   <InlineLink href="/blog/ux-design-engineer">
                     {/* versatile software professional */}design engineer
@@ -167,10 +166,6 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 </Tooltip>
                 , transitioning between the roles of a designer, developer, or
                 any other hat required to bring my creative visions to life.
-                {/* I&apos;m Tuan - a software designer and developer. */}
-                {/* Proudly having many skills that span across a spectrum of
-            disciplines helps me to solve problems in creative, organized
-            and programmatic ways. */}
               </Fade>
               <Fade as="h3" delay={250} className="subheading">
                 How I got started
@@ -259,32 +254,50 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                   />
                 </HoverGif>
                 <RiCrossFill className="text-secondary mb-1 inline h-4 w-4" />.
-                {/* <span>Curious for more details?</span>{" "}
-                <InlineLink
-                  href={cvLink}
-                  onClick={() => {
-                    event({
-                      action: "download_cv",
-                      category: "about_page",
-                      label: "Download CV",
-                    });
-                  }}
-                >
-                  Download my CV
-                </InlineLink>. */}
               </Fade>
-              {/* <div className="col-span-12 lg:col-span-4 lg:col-start-9"> */}
-              <Fade as="h3" delay={450} className="subheading mt-4 md:mt-8">
+              <Fade
+                as="h3"
+                delay={450}
+                className="subheading flex items-center gap-2"
+              >
+                <span>Random fact</span>
+                <Tooltip content="Load another random fact">
+                  <IconButton
+                    size="small"
+                    onClick={() => {
+                      reloadFact();
+                      event({
+                        action: "reload_random_fact",
+                        category: "about_page",
+                        label: "Reload random fact",
+                      });
+                      trackEvent({
+                        event: "reload_random_fact",
+                        content: FACTS[factToDisplay],
+                        page: window.location.pathname,
+                      });
+                    }}
+                  >
+                    <FiRefreshCcw />
+                  </IconButton>
+                </Tooltip>
+              </Fade>
+              {factToDisplay >= 0 && (
+                <Fade as="p" delay={450}>
+                  {FACTS[factToDisplay]}
+                </Fade>
+              )}
+              <Fade as="h3" delay={500} className="subheading mt-4 md:mt-8">
                 Now ⏰{" "}
               </Fade>
-              <Fade as="p" delay={450}>
+              <Fade as="p" delay={500}>
                 {`This section updates what I'm doing, as inspired by `}
                 <InlineLink href="https://sive.rs/nowff">
                   Now page momment ↗
                 </InlineLink>
                 .
               </Fade>
-              <Fade delay={400} slide className="mt-4 md:mt-6">
+              <Fade delay={550} slide className="mt-4 md:mt-6">
                 <Now items={nowItems} />
               </Fade>
               {/* </div> */}
