@@ -18,8 +18,8 @@ const CommentForm = ({ page, wording, onSubmit }) => {
       anonymous: false,
     },
   );
-  const { register, handleSubmit, resetField, getValues } = useForm();
-  const messageRef = useRef<HTMLTextAreaElement | null>(null);
+  const { register, handleSubmit, resetField, getValues, setValue } = useForm();
+  // const messageRef = useRef<HTMLTextAreaElement | null>(null);
   const { ref: formContentRef, ...formContentRest } = register("content");
   // const [anonymous, setAnonymous]
   const submitHandler = (data: FieldValues) => {
@@ -47,11 +47,11 @@ const CommentForm = ({ page, wording, onSubmit }) => {
     }
   };
   const quickComment = (content: string) => {
-    if (messageRef.current) messageRef.current.value = content;
-    submitHandler({
-      ...getValues(),
-      content,
-    });
+    setValue("content", content);
+    // submitHandler({
+    //   ...getValues(),
+    //   content,
+    // });
   };
   return (
     <Fragment>
@@ -76,7 +76,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
               {...formContentRest}
               ref={(e) => {
                 formContentRef(e);
-                messageRef.current = e;
+                // messageRef.current = e;
               }}
               className="text-primary focus:border-accent relative block h-32 w-full rounded-lg border-2 border-gray-300 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:z-10 focus:shadow-xs focus:shadow-blue-400/40 md:rounded-b-none"
             />
