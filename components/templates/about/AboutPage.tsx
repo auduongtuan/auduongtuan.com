@@ -1,18 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
 import Fade from "@atoms/Fade";
-import { PhotoFrame } from "@atoms/Frame";
 import InlineLink from "@atoms/InlineLink";
 import Tooltip from "@atoms/Tooltip";
-import {
-  autoUpdate,
-  offset,
-  shift,
-  size,
-  useFloating,
-} from "@floating-ui/react";
-import { Portal, Transition } from "@headlessui/react";
 import { event } from "@lib/gtag";
 import { useRef, useState } from "react";
 import { RiCrossFill } from "react-icons/ri";
@@ -23,90 +14,20 @@ import { trackEvent } from "@lib/utils";
 import Reaction from "@molecules/comment/Reaction";
 import IconButton from "@atoms/IconButton";
 import { FiRefreshCcw } from "react-icons/fi";
-
-function HoverGif({
-  text,
-  children,
-  label,
-}: {
-  text: React.ReactElement;
-  label: string;
-  children: React.ReactNode;
-}) {
-  const [showGif, setShowGif] = useState(false);
-  const { refs, floatingStyles } = useFloating({
-    placement: "bottom",
-    middleware: [
-      offset(8),
-      shift({
-        padding: 8,
-      }),
-      size({
-        padding: 8,
-        apply({ availableWidth, availableHeight, elements }) {
-          // Change styles, e.g.
-          Object.assign(elements.floating.style, {
-            maxWidth: `${availableWidth}px`,
-            maxHeight: `${availableHeight}px`,
-          });
-        },
-      }),
-    ],
-    open: showGif,
-    whileElementsMounted: autoUpdate,
-  });
-  const el = React.cloneElement(text as React.ReactElement<any>, {
-    onMouseEnter: (e: React.MouseEvent) => {
-      setShowGif(true);
-      event({
-        action: "hover_gif",
-        category: "about_page",
-        label: label,
-      });
-      trackEvent({
-        event: "hover_gif",
-        content: label,
-        page: window.location.pathname,
-      });
-    },
-    onMouseLeave: () => {
-      setShowGif(false);
-    },
-    ref: refs.setReference,
-  });
-  return (
-    <>
-      {el}
-      <Portal>
-        <div ref={refs.setFloating} className="z-40" style={floatingStyles}>
-          <Transition
-            show={showGif}
-            enter="transition-all duration-200"
-            enterFrom="opacity-0 translate-y-10"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition-all duration-200"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-10"
-          >
-            <PhotoFrame name={label} inverted>
-              {children}
-            </PhotoFrame>
-          </Transition>
-        </div>
-      </Portal>
-    </>
-  );
-}
+import HoverGif from "@molecules/HoverGif";
 
 const FACTS = [
-  "I have a kind of dry skin, so if you want to give me a gift, consider a moisturizer 🧴",
-  "I used to be a big fan of the Marvel Cinematic Universe 🦸‍♂️. But now, I don't follow it much",
-  "I'm kinda short, around 1.68m tall 🙈 while I have 60cm head size and 42.5 EU shoe size",
-  "I'm a dog person 🐶",
-  "I'm kind of addicted to coffee ☕️. I can drink it all day long",
-  "My music taste is quite mishmash. I even listen to new generation of K-POP idol groups 🎶",
-  // "I'm a huge fan of the Japanese culture, especially the food 🍣",
+  "I have kinda dry skin, so if you want to give me a gift, consider a moisturizer 🧴. My favorite brands are Kiehl's and SOME BY MI.",
+  "I used to be a big fan of the Marvel Cinematic Universe 🦸‍♂️. But now, I don't follow it much.",
+  "I'm kinda short, around 1.68m tall 🙈, with a 60cm head circumference and 42.5 EU shoe size.",
+  "I'm a dog person 🐶.",
+  "My ethnicity is Hoa with my family roots in Guangdong. I think it's only around 25% in my DNA cause my paternal grandmother and mother are Vietnamese. Despite that, I don't speak Cantonese or Chinese. I wish to learn them in the near future.",
+  "I'm kind of addicted to coffee ☕️. I can drink it all day long.",
+  "My music taste is quite a mishmash. I even listen to the new generation of K-POP idol groups 🎶.",
+  "The first person who taught me how to use Photoshop to edit photos was my uncle. I was around 7 at that time.",
+  "I had a crush on a classmate for around 10 years. Everyone in my class recognized it, I confessed officially on the last day of high school.",
 ];
+
 export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
   const contentRef = useRef<HTMLDivElement>(null);
   // const [showImage, setShowImage] = useState(false);
@@ -158,7 +79,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 Xin chào!
               </Fade>
               <Fade delay={200} as="p">
-                My name is Au Duong Tuan . I&apos;m a software{" "}
+                My name is Au Duong Tuan. I&apos;m a software{" "}
                 <Tooltip content="View more information about this role">
                   <InlineLink href="/blog/ux-design-engineer">
                     {/* versatile software professional */}design engineer
@@ -168,7 +89,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 any other hat required to bring my creative visions to life.
               </Fade>
               <Fade as="h3" delay={250} className="subheading">
-                How I got started
+                How I got started to the industry
               </Fade>
               <Fade delay={250} as="p">
                 My journey began when I taught myself design and code while
@@ -300,31 +221,10 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
               <Fade delay={550} slide className="mt-4 md:mt-6">
                 <Now items={nowItems} />
               </Fade>
-              {/* </div> */}
             </div>
           </div>
-          {/* <Portal>
-            <div
-              className="absolute w-0 z-80"
-              style={{ left: position[0], top: position[1] }}
-            >
-              <Fade show={showImage} as="div" duration={100} slide>
-                <TuanPhoto
-                  onClose={() => {
-                    setShowImage(false);
-                    event({
-                      action: "close_about_photo",
-                      category: "about_page",
-                      label: "Close Tuan's photo",
-                    });
-                  }}
-                />
-              </Fade>
-            </div>
-          </Portal> */}
         </div>
       </main>
-      {/* <AboutContent /> */}
       <Footer></Footer>
     </div>
   );
