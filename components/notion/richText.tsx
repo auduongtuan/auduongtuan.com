@@ -13,6 +13,8 @@ const escapedNewLineToLineBreakTag = (string) => {
   });
 };
 
+export type { RichTextItemResponse };
+
 export const richTextObject = (
   richTextObject: RichTextItemResponse[],
   blockId?: string,

@@ -1,8 +1,10 @@
+import { richTextObject } from "@notion/richText";
 import {
   BlockObjectResponse,
   FileBlockObjectResponse,
   PageObjectResponse,
   PartialPageObjectResponse,
+  RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import fetchMeta from "fetch-meta-tags";
 import { NOTION_RICH_TEXT_LIMIT, notion } from "./base";
@@ -42,49 +44,69 @@ export function breakRichTextChunks(longText: string): {
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "rich_text" | "title" | "select"
+  propType: "rich_text" | "title",
+  plain: false,
+): RichTextItemResponse[];
+
+export function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
+  propType: "rich_text" | "title",
 ): string;
 
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "number"
+  propType: "rich_text" | "title",
+  plain: true,
+): string;
+
+export function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
+  propType: "select",
+): string;
+
+export function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
+  propType: "number",
 ): number;
 
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "checkbox"
+  propType: "checkbox",
 ): boolean;
 
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "url"
+  propType: "url",
 ): string;
 
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "date"
+  propType: "date",
 ): string;
 
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "multi_select"
+  propType: "multi_select",
 ): string[];
 
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "files"
+  propType: "files",
 ): FileBlockObjectResponse[];
 
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
-  propType: "relation"
+  propType: "relation",
 ): string[];
 
 export function getProperty(
@@ -100,7 +122,8 @@ export function getProperty(
     | "files"
     | "url"
     | "number"
-    | "relation"
+    | "relation",
+  plain: boolean = true,
 ) {
   if (
     "properties" in page &&
@@ -112,6 +135,10 @@ export function getProperty(
     let returnValue: any;
     switch (propType) {
       case "rich_text":
+        if (!plain) {
+          returnValue = data;
+          break;
+        }
         returnValue = data.map((item) => item?.plain_text || "").join("");
         break;
       case "title":
@@ -146,7 +173,7 @@ export function getProperty(
 
 export const getBlockChildren = async (
   id: string,
-  assets: { [key: string]: NotionMedia } = {}
+  assets: { [key: string]: NotionMedia } = {},
 ) => {
   const baseQuery = {
     block_id: id,
@@ -198,7 +225,7 @@ export const getBlockChildren = async (
       if (block.has_children) {
         block.children = await getBlockChildren(block.id, assets);
       }
-    })
+    }),
   );
   return results;
 };

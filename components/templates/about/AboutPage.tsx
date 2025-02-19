@@ -1,45 +1,49 @@
-import { useEffect } from "react";
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
 import Fade from "@atoms/Fade";
+import IconButton from "@atoms/IconButton";
 import InlineLink from "@atoms/InlineLink";
 import Tooltip from "@atoms/Tooltip";
 import { event } from "@lib/gtag";
-import { useRef, useState } from "react";
-import { RiCrossFill } from "react-icons/ri";
-import Now from "./Now";
+import { Fact } from "@lib/notion/fact";
 import { NotionNowItem } from "@lib/notion/now";
-import Footer from "@molecules/Footer";
 import { trackEvent } from "@lib/utils";
 import Reaction from "@molecules/comment/Reaction";
-import IconButton from "@atoms/IconButton";
-import { FiRefreshCcw } from "react-icons/fi";
+import Footer from "@molecules/Footer";
 import HoverGif from "@molecules/HoverGif";
+import { richTextObject } from "@notion/richText";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FiRefreshCcw } from "react-icons/fi";
+import { RiCrossFill } from "react-icons/ri";
+import Now from "./Now";
 
-const FACTS = [
-  "I have kinda dry skin, so if you want to give me a gift, consider a moisturizer 🧴. My favorite brands are Kiehl's and SOME BY MI.",
-  "I used to be a big fan of the Marvel Cinematic Universe 🦸‍♂️. But now, I don't follow it much.",
-  "I'm kinda short, around 1.68m tall 🙈, with a 60cm head circumference and 42.5 EU shoe size.",
-  "I'm a dog person 🐶.",
-  "My ethnicity is Hoa with my family roots in Guangdong. I think it's only around 25% in my DNA cause my paternal grandmother and mother are Vietnamese. Despite that, I don't speak Cantonese or Chinese. I wish to learn them in the near future.",
-  "I'm kind of addicted to coffee ☕️. I can drink it all day long.",
-  "My music taste is quite a mishmash. I even listen to the new generation of K-POP idol groups 🎶.",
-  "The first person who taught me how to use Photoshop to edit photos was my uncle. I was around 7 at that time.",
-  "I had a crush on a classmate for around 10 years. Everyone in my class recognized it, I confessed officially on the last day of high school.",
-];
-
-export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
+export default function AboutPage({
+  nowItems,
+  facts,
+}: {
+  nowItems: NotionNowItem[];
+  facts: Fact[];
+}) {
   const contentRef = useRef<HTMLDivElement>(null);
   // const [showImage, setShowImage] = useState(false);
   // const [position, setPosition] = useState([0, 0]);
   const [factToDisplay, setFactToDisplay] = useState(-1);
-  const reloadFact = () => {
-    let newFact: number;
-    while (
-      (newFact = Math.floor(Math.random() * FACTS.length)) === factToDisplay
-    );
-    setFactToDisplay(newFact);
-  };
+  const chooser = useMemo(() => {
+    const array = Array.from({ length: facts.length }, (_, i) => i);
+    let copy = array.slice(0);
+    return function () {
+      if (copy.length < 1) {
+        copy = array.slice(0);
+      }
+      var index = Math.floor(Math.random() * copy.length);
+      var item = copy[index];
+      copy.splice(index, 1);
+      return item;
+    };
+  }, [facts]);
+  const reloadFact = useCallback(() => {
+    setFactToDisplay(chooser());
+  }, [chooser]);
   useEffect(() => {
     reloadFact();
   }, []);
@@ -68,12 +72,16 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                     Tim cậu liệu có ai vào hay chưa? 😳
                   </p>
                 </div>
-                <Reaction page="/about" size="small" className="inline-flex" />
+                <Reaction
+                  page="/about#avatar"
+                  size="small"
+                  className="inline-flex"
+                />
               </Fade>
             </div>
             <div
               ref={contentRef}
-              className="font-display col-span-12 text-lg leading-relaxed md:col-span-7 md:text-xl md:leading-relaxed lg:text-xl lg:leading-relaxed [&_h3:not(:first-child)]:mt-6 lg:[&_h3:not(:first-child)]:mt-10 [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-4"
+              className="font-display col-span-12 text-lg leading-relaxed md:col-span-7 md:text-xl md:leading-relaxed lg:text-xl lg:leading-relaxed [&_h3:not(:first-child)]:mt-6 lg:[&_h3:not(:first-child)]:mt-13 [&_p:not(:first-child)]:mt-3 lg:[&_p:not(:first-child)]:mt-4"
             >
               <Fade delay={150} as="p">
                 Xin chào!
@@ -194,7 +202,7 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                       });
                       trackEvent({
                         event: "reload_random_fact",
-                        content: FACTS[factToDisplay],
+                        content: facts[factToDisplay].slug,
                         page: window.location.pathname,
                       });
                     }}
@@ -204,9 +212,18 @@ export default function AboutPage({ nowItems }: { nowItems: NotionNowItem[] }) {
                 </Tooltip>
               </Fade>
               {factToDisplay >= 0 && (
-                <Fade as="p" delay={450}>
-                  {FACTS[factToDisplay]}
-                </Fade>
+                <>
+                  <Fade as="p" delay={450}>
+                    {richTextObject(facts[factToDisplay].content)}
+                  </Fade>
+                  <Fade as="p" delay={450}>
+                    <Reaction
+                      page={`/about#${facts[factToDisplay].slug}`}
+                      size="small"
+                      className="inline-flex"
+                    />
+                  </Fade>
+                </>
               )}
               <Fade as="h3" delay={500} className="subheading mt-4 md:mt-8">
                 Now ⏰{" "}
