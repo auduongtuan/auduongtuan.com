@@ -1,23 +1,17 @@
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
 import Fade from "@atoms/Fade";
-import IconButton from "@atoms/IconButton";
 import InlineLink from "@atoms/InlineLink";
 import Tooltip from "@atoms/Tooltip";
-import { event } from "@lib/gtag";
 import { Fact } from "@lib/notion/fact";
 import { NotionNowItem } from "@lib/notion/now";
-import { trackEvent } from "@lib/utils";
-import Reaction from "@molecules/comment/Reaction";
 import Footer from "@molecules/Footer";
 import HoverGif from "@molecules/HoverGif";
-import { richTextObject } from "@notion/richText";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FiRefreshCcw } from "react-icons/fi";
+import { useRef } from "react";
 import { RiCrossFill } from "react-icons/ri";
-import Now from "./Now";
-import PhotoCards from "./PhotoCards";
-import RandomFacts from "./RandomFacts";
+import Now from "@molecules/about/Now";
+import PhotoCards from "@molecules/about/PhotoCards";
+import RandomFacts from "@molecules/about/RandomFacts";
 
 export default function AboutPage({
   nowItems,

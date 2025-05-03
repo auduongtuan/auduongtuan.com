@@ -38,6 +38,9 @@ importers:
       crypto-js:
         specifier: ^4.2.0
         version: 4.2.0
+      emoji-blast:
+        specifier: ^0.10.2
+        version: 0.10.2
       fetch-meta-tags:
         specifier: ^1.0.12
         version: 1.0.12
@@ -1234,6 +1237,10 @@ packages:
 
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
+
+  emoji-blast@0.10.2:
+    resolution: {integrity: sha512-3VrqajirPj8QeQxQeMHUfD+03H64XTEVPGRjxP5rjDCVEC5NGF3FgutMpU5scIOhcuzG23Qvs32k0Pnj+hRzGA==}
+    engines: {node: '>=18'}
 
   emoji-regex@10.4.0:
     resolution: {integrity: sha512-EC+0oUMY1Rqm4O6LLrgjtYDvcVYTy7chDnM4Q7030tP4Kwj3u/pR6gP9ygnp2CJMK5Gq+9Q2oqmrFJAz01DXjw==}
@@ -3679,6 +3686,8 @@ snapshots:
       gopd: 1.2.0
 
   ee-first@1.1.1: {}
+
+  emoji-blast@0.10.2: {}
 
   emoji-regex@10.4.0: {}
 

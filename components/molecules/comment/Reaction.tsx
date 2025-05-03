@@ -4,6 +4,7 @@ import axios from "axios";
 import Tooltip from "@atoms/Tooltip";
 import Skeleton from "@atoms/Skeleton";
 import { cn } from "@lib/utils/cn";
+import { emojiBlast } from "emoji-blast";
 
 type Emoji = string;
 interface CounterValue {
@@ -79,14 +80,27 @@ const ReactButton = ({
   page,
 }: ReactButtonProps) => {
   const sendReaction = useCallback(
-    (e) => {
+    (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
       if (emoji) {
         // setLoading(true);
         if (counter[emoji].reacted) {
           dispatch({ type: "undo", payload: emoji });
         } else {
           dispatch({ type: "react", payload: emoji });
+          emojiBlast({
+            emojis: [emoji],
+            physics: {
+              gravity: 0.2,
+            },
+            position: {
+              x,
+              y,
+            },
+          });
         }
         axios
           .post("/api/reaction", {
@@ -102,7 +116,7 @@ const ReactButton = ({
           });
       }
     },
-    [counter, dispatch, emoji, page]
+    [counter, dispatch, emoji, page],
   );
 
   return (
@@ -119,16 +133,16 @@ const ReactButton = ({
           <button
             className={cn(
               size == "medium"
-                ? "px-3 py-2 space-x-2 md:px-4 md:py-2"
-                : "px-2 py-1 space-x-1 md:px-3 md:py-1",
-              "inline-flex items-center  transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1  hover:border-accent justify-items-center hover:bg-surface/40 group"
+                ? "space-x-2 px-3 py-2 md:px-4 md:py-2"
+                : "space-x-1 px-2 py-1 md:px-3 md:py-1",
+              "hover:border-accent hover:bg-surface/40 group inline-flex flex-shrink-1 items-center justify-items-center rounded-full border-2 border-gray-300 transition-all duration-100 ease-out",
             )}
             onClick={sendReaction}
           >
             <span
               className={cn(
-                "block text-base transition-all duration-100 scale-100 group-hover:scale-125",
-                size == "medium" ? "md:text-2xl" : "md:text-base"
+                "block scale-100 text-base transition-all duration-100 group-hover:scale-125",
+                size == "medium" ? "md:text-2xl" : "md:text-base",
               )}
             >
               {emoji}
@@ -139,7 +153,7 @@ const ReactButton = ({
                 size == "medium" ? "text-sm" : "text-xs",
                 emoji in counter && counter[emoji].reacted
                   ? "font-semibold text-blue-700"
-                  : "font-medium text-tertiary"
+                  : "text-tertiary font-medium",
               )}
             >
               {emoji in counter ? counter[emoji].quantity : 0}
@@ -165,7 +179,7 @@ const Reaction = ({
     ["/api/reaction", page],
     ([url, page]) =>
       axios.get(url, { params: { page: page } }).then((res) => res.data),
-    { revalidateOnMount: true }
+    { revalidateOnMount: true },
   );
   useEffect(() => {
     const defaultData = Object.keys(reactionList).reduce((acc, crr) => {
@@ -180,8 +194,8 @@ const Reaction = ({
   return (
     <div
       className={cn(
-        "w-full flex gap-x-2 md:gap-x-3 gap-y-2 items-center flex-wrap",
-        className
+        "flex w-full flex-wrap items-center gap-x-2 gap-y-2 md:gap-x-3",
+        className,
       )}
     >
       {Object.keys(reactionList).map((emoji, i) => (

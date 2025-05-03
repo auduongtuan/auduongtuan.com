@@ -19,6 +19,7 @@
     "cloudinary": "^2.6.0",
     "clsx": "^2.1.1",
     "crypto-js": "^4.2.0",
+    "emoji-blast": "^0.10.2",
     "fetch-meta-tags": "^1.0.12",
     "highlight.js": "^11.11.1",
     "html-metadata-parser": "^2.0.4",
