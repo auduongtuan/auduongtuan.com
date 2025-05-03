@@ -1,22 +1,36 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
 import NavigationLink from "@atoms/NavigationLink";
-import useBreakpoint from "@hooks/useBreakpoint";
 import { Transition } from "@headlessui/react";
-import { twMerge } from "tailwind-merge";
+import useBreakpoint from "@hooks/useBreakpoint";
 import useAppStore from "@store/useAppStore";
+import { useRouter } from "next/router";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { FiMenu, FiX } from "react-icons/fi";
+import { twMerge } from "tailwind-merge";
 
 const menuItems = [
-  { pathname: "/", href: "/", name: "Home" },
-  { pathname: "/about", href: "/about", name: "About" },
-  { pathname: "/work", href: "/work", name: "Work" },
-  { pathname: "/blog", href: "/blog", name: "Blog" },
+  { href: "/", name: "Home" },
+  { href: "/about", name: "About" },
+  { href: "/work", name: "Work" },
+  { href: "/blog", name: "Blog" },
 ];
 
 const Navigation = React.memo(() => {
   const { menuOpened, pauseScrollEvent, setMenuOpened } = useAppStore();
   const [hidden, setHidden] = useState(false);
   const bp = useBreakpoint();
+
+  const router = useRouter();
+  const isActive = (href: string) =>
+    router.asPath == href ||
+    router.pathname == href.split("#")[0] ||
+    router.pathname.includes(href + "/") ||
+    (href.includes("/work") && router.pathname.includes("/project/"));
+  const [currentActive, setCurrentActive] = useState(
+    menuItems.find((item) => isActive(item.href))?.href,
+  );
+  useEffect(() => {
+    setCurrentActive(menuItems.find((item) => isActive(item.href))?.href);
+  }, [router]);
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
@@ -41,8 +55,30 @@ const Navigation = React.memo(() => {
     setMenuOpened(false);
   }, [bp, setMenuOpened]);
 
-  // may need to
-  // https://paco.me/writing/disable-theme-transitions
+  const menuRefs = useRef<Record<string, HTMLAnchorElement>>({});
+  // Add state for indicator style
+  const [indicatorStyle, setIndicatorStyle] = useState({
+    left: 0,
+    width: 0,
+    opacity: 0,
+  });
+
+  // Update indicator style when currentActive changes or after mount
+  useEffect(() => {
+    if (currentActive && menuRefs.current[currentActive]) {
+      setIndicatorStyle({
+        left: menuRefs.current[currentActive].offsetLeft + 6,
+        width: menuRefs.current[currentActive].offsetWidth - 12,
+        opacity: 1,
+      });
+    } else {
+      setIndicatorStyle({
+        left: 0,
+        width: 0,
+        opacity: 0,
+      });
+    }
+  }, [currentActive, bp]);
 
   const NavigationStyles = twMerge(
     "w-full top-0 left-0 z-42 transition-transform duration-150 sticky",
@@ -75,15 +111,34 @@ const Navigation = React.memo(() => {
                   <FiMenu className="h-6 w-6" />
                 </button>
               )}
-              <ul className="hidden items-center gap-8 md:flex">
-                {menuItems.map((item, i) => (
-                  <li key={i}>
-                    <NavigationLink pathname={item.pathname} href={item.href}>
-                      {item.name}
-                    </NavigationLink>
-                  </li>
-                ))}
-              </ul>
+              <div className="relative hidden items-center md:flex">
+                <ul className="flex items-center gap-8">
+                  {menuItems.map((item, i) => (
+                    <li key={i}>
+                      <NavigationLink
+                        href={item.href}
+                        isActive={currentActive == item.href}
+                        ref={(el) => {
+                          if (el) {
+                            menuRefs.current = {
+                              ...menuRefs.current,
+                              [item.href]: el,
+                            };
+                          }
+                        }}
+                      >
+                        {item.name}
+                      </NavigationLink>
+                    </li>
+                  ))}
+                </ul>
+                {currentActive && menuRefs.current[currentActive] && (
+                  <span
+                    className="bg-secondary absolute -bottom-3.75 h-1 w-0 origin-center rounded-t-full opacity-0 transition-all ease-in-out"
+                    style={indicatorStyle}
+                  ></span>
+                )}
+              </div>
             </>
           )}
         </nav>
@@ -105,10 +160,10 @@ const Navigation = React.memo(() => {
               {menuItems.map((item, i) => (
                 <li key={i} className="w-full">
                   <NavigationLink
-                    pathname={item.pathname}
                     href={item.href}
                     className="block w-full px-4 py-4 text-left"
                     callback={() => setMenuOpened(false)}
+                    isActive={currentActive == item.href}
                   >
                     {item.name}
                   </NavigationLink>

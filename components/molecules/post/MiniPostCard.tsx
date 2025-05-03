@@ -10,14 +10,16 @@ type MiniPostCardProps = {
 };
 
 const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
-  const inner = (
-    <a
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      key={post.slug}
       className={clsx(
-        "-m-4 rounded-lg p-4 transition-all duration-100 ease hover:bg-gray-100 flex",
-        className
+        "ease -m-4 flex rounded-lg p-4 transition-all duration-100 hover:bg-gray-100",
+        className,
       )}
     >
-      <span className="mr-4 text-xl md:text-xl grow-0 shrink-0">
+      <span className="mr-4 shrink-0 grow-0 text-xl md:text-xl">
         {post.meta.icon && post.meta.icon.type == "emoji"
           ? post.meta.icon.emoji
           : null}
@@ -25,20 +27,20 @@ const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
       <div className="flex flex-col">
         <h5
           className={clsx(
-            "grow inline-flex font-sans space-x-3 text-base md:text-lg font-semibold "
+            "inline-flex grow space-x-3 font-sans text-base font-semibold md:text-lg",
           )}
         >
           <span className="">{post.meta.title}</span>
           {post.meta.protected && (
-            <FiLock className="mt-1 text-tertiary shrink-0 grow-0"></FiLock>
+            <FiLock className="text-tertiary mt-1 shrink-0 grow-0"></FiLock>
           )}
         </h5>
-        <div className={clsx("flex space-x-2 mt-3 flex-wrap items-start")}>
+        <div className={clsx("mt-3 flex flex-wrap items-start space-x-2")}>
           {post.meta.tags.map((tag, i) => (
             <Tag key={`tag-${i}`}>{tag}</Tag>
           ))}
         </div>
-        <p className={clsx("mt-2 muted-text")}>
+        <p className={clsx("muted-text mt-2")}>
           Posted on{" "}
           {post.meta.date &&
             new Date(post.meta.date).toLocaleDateString("en-US", {
@@ -48,11 +50,6 @@ const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
             })}
         </p>
       </div>
-    </a>
-  );
-  return (
-    <Link href={`/blog/${post.slug}`} key={post.slug} legacyBehavior>
-      {inner}
     </Link>
   );
 };

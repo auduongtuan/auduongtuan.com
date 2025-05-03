@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import Script from "next/script";
 import { useEffect } from "react";
 import { Provider as BalancerProvider } from "react-wrap-balancer";
-import smoothscroll from "smoothscroll-polyfill";
 import Navigation from "../components/molecules/Navigation";
 import * as gtag from "../lib/gtag";
 import "../styles/globals.css";
@@ -25,9 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     });
   }, []);
   useEffect(() => {
-    smoothscroll.polyfill();
     if (isProduction) {
-      const handleRouteChange = (url) => {
+      const handleRouteChange = (url: string) => {
         gtag.pageview(url);
         trackEvent({
           event: "page_view",

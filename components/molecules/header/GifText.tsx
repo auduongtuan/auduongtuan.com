@@ -4,6 +4,7 @@ import Link from "next/link";
 export interface GifTextProps extends React.ComponentPropsWithRef<"a"> {
   external?: boolean;
 }
+
 const GifText = ({
   ref,
   children,
@@ -27,10 +28,8 @@ const GifText = ({
     );
   } else {
     return (
-      <Link href={href} legacyBehavior>
-        <a className={className} {...rest} ref={ref}>
-          {children}
-        </a>
+      <Link href={href} className={className} {...rest} ref={ref}>
+        {children}
       </Link>
     );
   }

@@ -61,7 +61,7 @@ const ProjectCard = memo(
               <div className="grow">
                 <h2 className="h3">
                   {project.caseStudy ? (
-                    <Link href={`/project/${project.slug}`} legacyBehavior>
+                    <Link href={`/project/${project.slug}`}>
                       <Balancer>{project.title}</Balancer>
                     </Link>
                   ) : (

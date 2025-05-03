@@ -18,8 +18,10 @@ const PostCard = ({
   className = "",
   layout = "horizontal",
 }: PostCardProps) => {
-  const inner = (
-    <a
+  return (
+    <Link
+      href={`/blog/${post.slug}`}
+      key={post.slug}
       className={clsx(
         "ease -m-4 flex flex-col rounded-lg p-4 transition-all duration-100 hover:bg-gray-100",
 
@@ -70,11 +72,6 @@ const PostCard = ({
           </div>
         </div>
       </div>
-    </a>
-  );
-  return (
-    <Link href={`/blog/${post.slug}`} key={post.slug} legacyBehavior>
-      {inner}
     </Link>
   );
 };
