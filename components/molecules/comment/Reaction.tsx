@@ -94,7 +94,11 @@ const ReactButton = ({
           emojiBlast({
             emojis: [emoji],
             physics: {
-              gravity: 0.2,
+              gravity: -0.5,
+              initialVelocities: {
+                y: { max: 9, min: 6.7 },
+                rotation: { max: -1, min: -2 },
+              },
             },
             position: {
               x,
