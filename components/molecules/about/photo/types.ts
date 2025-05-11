@@ -9,6 +9,6 @@ export interface Photo {
   id: number;
   name: string;
   description: string;
-  image: string;
+  image: string | string[];
   swipeDirection?: Direction;
 }

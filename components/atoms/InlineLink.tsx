@@ -32,14 +32,14 @@ const inlineLinkVariants = cva(
 interface InlineLinkProps
   extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap">,
     VariantProps<typeof inlineLinkVariants> {
-  href: string;
+  href?: string;
   className?: string;
   children: React.ReactNode;
 }
 
 const InlineLink = ({
   ref,
-  href,
+  href = "#",
   className = "",
   children,
   dark = false,

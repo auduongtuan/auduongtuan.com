@@ -1,7 +1,15 @@
 "use client";
-import { useAnimationsFinished, useWindowSize } from "@hooks";
+import { useAnimationsFinished, useBreakpoint, useWindowSize } from "@hooks";
 import { cn } from "@lib/utils/cn";
-import { CSSProperties, useCallback, useEffect, useRef, useState } from "react";
+import {
+  CSSProperties,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   calculateCardStackHeight,
   getStackCardTransform,
@@ -13,6 +21,7 @@ import { PHOTOS } from "./constants";
 import { Direction, Photo } from "./types";
 import { usePhotoStore } from "./photoStore";
 import { calculateGridLayoutHeight } from "./functions";
+import { shuffleArray } from "@lib/utils/common";
 
 export default function PhotoCards() {
   // For infinite scrolling, we maintain a queue of photos that's always being replenished
@@ -31,14 +40,27 @@ export default function PhotoCards() {
   const { hasSeenInstruction, markInstructionAsSeen } = useInstructionStore();
   const [showInstruction, setShowInstruction] = useState(false);
 
+  const randomSortedPhotos = useMemo(
+    () =>
+      shuffleArray(
+        PHOTOS.map((photo) => ({
+          ...photo,
+          image: Array.isArray(photo.image)
+            ? photo.image[Math.floor(Math.random() * photo.image.length)]
+            : photo.image,
+        })),
+      ),
+    [],
+  );
+
   // Instead of using currentIndex, we'll shift the array of displayPhotos
   useEffect(() => {
     // Initialize with double the photos to ensure smooth looping
     const doubledPhotos = [
-      ...PHOTOS,
-      ...PHOTOS.map((photo) => ({
+      ...randomSortedPhotos,
+      ...randomSortedPhotos.map((photo) => ({
         ...photo,
-        id: photo.id + PHOTOS.length, // Assign new IDs to avoid key conflicts
+        id: photo.id + randomSortedPhotos.length, // Assign new IDs to avoid key conflicts
       })),
     ];
     setDisplayPhotos(doubledPhotos);
@@ -47,7 +69,7 @@ export default function PhotoCards() {
     if (!hasSeenInstruction) {
       setShowInstruction(true);
     }
-  }, [hasSeenInstruction]);
+  }, [hasSeenInstruction, randomSortedPhotos]);
 
   // Handle when the active card is being swiped significantly
   const handleNextCardReady = () => {
@@ -90,9 +112,9 @@ export default function PhotoCards() {
 
       // Get the photo to add at the end for infinite scrolling
       // We use modulo to cycle through the initial photos
-      const nextPhotoIndex = viewedPhotos.length % PHOTOS.length;
+      const nextPhotoIndex = viewedPhotos.length % randomSortedPhotos.length;
       const nextPhoto = {
-        ...PHOTOS[nextPhotoIndex],
+        ...randomSortedPhotos[nextPhotoIndex],
         id: prevPhotos[prevPhotos.length - 1].id + 1, // Generate unique ID
       };
 
@@ -113,7 +135,9 @@ export default function PhotoCards() {
   };
 
   // We show at most 4 cards at a time for stack effect
-  const visiblePhotos = isExpanded ? PHOTOS : displayPhotos.slice(0, 4);
+  const visiblePhotos = isExpanded
+    ? randomSortedPhotos
+    : displayPhotos.slice(0, 4);
 
   const cardRefs = useRef<Record<number, HTMLDivElement>>({});
 
@@ -146,18 +170,21 @@ export default function PhotoCards() {
     animationsFinished(() => {
       setIsExpanding(false);
     });
-  }, [isExpanded]);
+  }, [isExpanded, animationsFinished, calculateHighestHeight, setIsExpanding]);
 
   useEffect(() => {
     setHighestHeight(calculateHighestHeight() + "px");
   }, [cardRefs.current]);
 
-  useEffect(() => {
-    if (isExpanded) return;
+  useLayoutEffect(() => {
+    // if (isExpanded) return;
     if (ref.current) {
-      setOriginalWidth(ref.current.offsetWidth);
+      setOriginalWidth(ref.current.parentElement?.offsetWidth || 0);
     }
-  }, [ref, width]);
+  }, [width]);
+
+  const breakpoint = useBreakpoint();
+  const columns = breakpoint === "sm" ? 1 : breakpoint === "md" ? 2 : 3;
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-2">
@@ -167,6 +194,7 @@ export default function PhotoCards() {
           {
             minHeight: `${highestHeight}`,
             "--original-width": `${originalWidth}px`,
+            "--columns": `${columns}`,
           } as CSSProperties
         }
         ref={ref}
@@ -191,7 +219,7 @@ export default function PhotoCards() {
               }
             }}
             className={cn(
-              "w-[calc(((var(--container-width)+var(--gap-x))*1)/3-var(--gap-x))] break-inside-avoid",
+              "w-[calc(((var(--container-width)+var(--gap-x))*1)/var(--columns)-var(--gap-x))] break-inside-avoid",
             )}
           />
         ))}

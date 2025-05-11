@@ -8,6 +8,7 @@ import { Transition } from "@headlessui/react";
 import { useWindowSize } from "@hooks";
 import { Fact } from "@lib/notion/fact";
 import { NotionNowItem } from "@lib/notion/now";
+import { trackEvent } from "@lib/utils";
 import { cn } from "@lib/utils/cn";
 import { getInnerDimensions } from "@lib/utils/getElementContentWidth";
 import Now from "@molecules/about/Now";
@@ -16,7 +17,7 @@ import { usePhotoStore } from "@molecules/about/photo/photoStore";
 import RandomFacts from "@molecules/about/RandomFacts";
 import Footer from "@molecules/Footer";
 import HoverGif from "@molecules/HoverGif";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FiGrid, FiInfo, FiLayers } from "react-icons/fi";
 import { RiCrossFill } from "react-icons/ri";
 
@@ -43,6 +44,20 @@ export default function AboutPage({
   const { isExpanded, setIsExpanded, setIsExpanding, isExpanding } =
     usePhotoStore();
 
+  const [aboutSectionExpanded, setAboutSectionExpanded] = useState(false);
+
+  useEffect(() => {
+    if (isExpanded) {
+      setTimeout(() => {
+        setAboutSectionExpanded(true);
+      }, 500);
+    } else {
+      // setTimeout(() => {
+      setAboutSectionExpanded(false);
+      // }, 200);
+    }
+  }, [isExpanded]);
+
   return (
     <div className="bg-surface overflow-x-hidden overflow-y-hidden">
       <main className="text-primary bg-surface z-10 w-full">
@@ -55,7 +70,7 @@ export default function AboutPage({
           >
             <div
               className={cn(
-                "relative col-span-12 flex shrink-0 grow-0 flex-col items-center justify-center gap-2 self-stretch transition-all duration-100 md:justify-start",
+                "relative flex w-full shrink-0 grow flex-col items-center justify-center self-stretch transition-all duration-100 md:grow-0 md:justify-start",
                 "transition-width duration-1000",
                 isExpanded
                   ? "md:w-full"
@@ -79,13 +94,21 @@ export default function AboutPage({
                     variant="ghost"
                     className="hidden md:block"
                     onClick={() => {
-                      if (isExpanding) return;
+                      // if (isExpanding) return;
                       if (isExpanded === true) {
                         setIsExpanded(false);
                         setIsExpanding(true);
+                        trackEvent({
+                          event: "collapse_photos",
+                          page: "/about",
+                        });
                       } else {
                         setIsExpanded(true);
                         setIsExpanding(true);
+                        trackEvent({
+                          event: "expand_photos",
+                          page: "/about",
+                        });
                       }
                     }}
                   >
@@ -93,6 +116,27 @@ export default function AboutPage({
                   </IconButton>
                 </Tooltip>
               </Fade>
+              <Transition
+                show={aboutSectionExpanded}
+                enter="transition-all duration-500"
+                enterFrom="opacity-0 max-h-0"
+                enterTo="opacity-100 max-h-40"
+                leave="transition-all duration-500"
+                leaveFrom="opacity-100 max-h-40"
+                leaveTo="opacity-0 max-h-0"
+                as="div"
+                className={"overflow-hidden"}
+              >
+                <p className="mx-auto block max-w-[65ch] pt-2 pb-6 text-center text-sm">
+                  <span className="font-medium">About this section:</span> I’m
+                  really into poetry. For me, writing a poem is like solving a
+                  puzzle—matching rhythm and words, like cracking code or
+                  tweaking a design until it clicks. I write poems to play, to
+                  think, or just to feel. This section is a small collection of
+                  those moods, moments, and me.
+                </p>
+              </Transition>
+
               <PhotoCards />
               {/* </Fade> */}
             </div>

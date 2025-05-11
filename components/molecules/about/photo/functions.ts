@@ -4,21 +4,21 @@ import {
   CARD_STACK_SCALE_OFFSET,
   CARD_STACK_TRANSLATE_Y_OFFSET,
 } from "./constants";
+import axios from "axios";
 
 export function giveReaction(emoji: string, photo: Photo) {
-  console.log("giveReaction", emoji, photo);
-  // axios
-  //   .post("/api/reaction", {
-  //     react: emoji,
-  //     page: "/about#photo-" + photo.id,
-  //     type: "ADD",
-  //   })
-  //   .then((res) => {
-  //     // console.log(res);
-  //   })
-  //   .catch((err) => {
-  //     // console.error(err);
-  //   });
+  axios
+    .post("/api/reaction", {
+      react: emoji,
+      page: "/about#photo-" + photo.id,
+      type: "ADD",
+    })
+    .then((res) => {
+      // console.log(res);
+    })
+    .catch((err) => {
+      // console.error(err);
+    });
 }
 
 export function swipeAction(direction: Direction, photo: Photo) {

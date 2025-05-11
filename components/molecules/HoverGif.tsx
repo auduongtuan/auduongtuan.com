@@ -14,6 +14,7 @@ import { Portal, Transition } from "@headlessui/react";
 import { event } from "@lib/gtag";
 import { useState } from "react";
 import { trackEvent } from "@lib/utils";
+import { useRouter } from "next/router";
 
 export default function HoverGif({
   text,
@@ -25,6 +26,7 @@ export default function HoverGif({
   children: React.ReactNode;
 }) {
   const [showGif, setShowGif] = useState(false);
+  const router = useRouter();
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom",
     middleware: [
@@ -50,13 +52,13 @@ export default function HoverGif({
       if (open) {
         event({
           action: "hover_gif",
-          category: "about_page",
+          category: router.pathname == "/about" ? "about_page" : "engagement",
           label: label,
         });
         trackEvent({
           event: "hover_gif",
           content: label,
-          page: window.location.pathname,
+          page: router.pathname,
         });
       }
     },

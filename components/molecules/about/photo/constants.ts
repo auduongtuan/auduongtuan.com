@@ -27,7 +27,7 @@ export const PHOTOS: Photo[] = [
     name: "Moody Tuấn",
     description:
       "dòng đời lắm buồn vương\nlạc chút thoắt lỡ đường\nchẳng biết sai hay đúng\ntrong ngoài hóa nhiễu nhương",
-    image: "/about/portrait4.jpg",
+    image: ["/about/portrait4.jpg", "/about/portrait10.jpg"],
   },
   {
     id: 5,
@@ -40,7 +40,7 @@ export const PHOTOS: Photo[] = [
     id: 6,
     name: "Artistic Tuấn",
     description:
-      "Bát tràng đồm gốm tinh hoa\nMón nào cũng muốn xuyết xoa đem về",
+      "Bát Tràng đồ gốm tinh hoa\nMón nào cũng muốn xuyết xoa đem về",
     image: "/about/portrait6.jpg",
   },
   {
@@ -54,14 +54,14 @@ export const PHOTOS: Photo[] = [
     id: 8,
     name: "Trầm-đoán Tuấn",
     description:
-      "Cung điện tráng lệ nguy nga\nTuấn bỗng trầm đoán sâu xa lạ thường",
+      "Cung điện tráng lệ nguy nga\nTuấn bỗng trầm đoán sâu xa lạ thường\nTrong lòng có nhiều vấn vương\nMặt ngoài tự vấn nào lương mới về",
     image: "/about/portrait8.jpg",
   },
   {
     id: 9,
-    name: "Tự do Tuấn",
+    name: "Happy Tuấn",
     description:
-      "Cung điện tráng lệ nguy nga\nTuấn bỗng trầm đoán sâu xa lạ thường",
+      "Hồ gươm dậy sớm, đón bình minh\nMặt nước an nhiên, cảnh lặng thinh\nHứng khởi trong lòng, ta vận động\nTrong ngoài vui khỏe, người tươi xinh",
     image: "/about/portrait9.jpg",
   },
 ];

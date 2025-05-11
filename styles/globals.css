@@ -117,10 +117,10 @@
   @keyframes shadow-grow {
     0%,
     100% {
-      box-shadow: 0 0 50px 50px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 50px 10px rgba(255, 255, 255, 0.8);
     }
     50% {
-      box-shadow: 0 0 50px 100px rgba(255, 255, 255, 0.8);
+      box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.8);
     }
   }
 

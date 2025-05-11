@@ -29,7 +29,7 @@ export default function RandomFacts({ facts }: { facts: Fact[] }) {
   }, [chooser]);
   useEffect(() => {
     reloadFact();
-  }, []);
+  }, [reloadFact]);
 
   return (
     <>

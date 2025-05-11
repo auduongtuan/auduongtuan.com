@@ -42,7 +42,7 @@ const NowItem = ({ item }: { item: NotionNowItem }) => {
 
 const Now = ({ items }: { items: NotionNowItem[] }) => {
   return (
-    <div className="grid grid-cols-2 gap-4 leading-normal md:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 leading-normal md:grid-cols-2">
       {items
         .filter((item) => !item.archived)
         .map((item, i) => (

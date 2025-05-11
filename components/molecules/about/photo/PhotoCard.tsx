@@ -64,24 +64,6 @@ export const PhotoCard = React.memo(
       photo,
     });
 
-    useEffect(() => {
-      const card = cardRef.current;
-      console.log("card", card);
-      if (!card) return;
-      if (!isExpanded) {
-        Object.assign(card.style, getCardStyle());
-        return;
-      }
-      const cardWidth = card.offsetWidth;
-      const cardHeight = card.offsetHeight;
-      const column = (index || 0) % 3;
-      const row = Math.floor((index || 0) / 3);
-      card.style.opacity = "1";
-      card.style.transform = "";
-      card.style.left = `calc((${cardWidth}px + var(--gap-x)) * ${column})`;
-      card.style.top = `calc((${cardHeight}px + var(--gap-y)) * ${row})`;
-    }, [isExpanded, index, cardRef.current]);
-
     const { width: cardWith } = useResizeObserver(cardRef);
 
     // Determine card styling based on whether it's active or a stacked card
@@ -132,6 +114,23 @@ export const PhotoCard = React.memo(
       }
     };
 
+    useEffect(() => {
+      const card = cardRef.current;
+      if (!card) return;
+      if (!isExpanded) {
+        Object.assign(card.style, getCardStyle());
+        return;
+      }
+      const cardWidth = card.offsetWidth;
+      const cardHeight = card.offsetHeight;
+      const column = (index || 0) % 3;
+      const row = Math.floor((index || 0) / 3);
+      card.style.opacity = "1";
+      card.style.transform = "";
+      card.style.left = `calc((${cardWidth}px + var(--gap-x)) * ${column})`;
+      card.style.top = `calc((${cardHeight}px + var(--gap-y)) * ${row})`;
+    }, [isExpanded, index, cardRef.current, getCardStyle]);
+
     return (
       <div
         data-card-type={isActive ? "active" : "stack"}
@@ -150,7 +149,7 @@ export const PhotoCard = React.memo(
       >
         <ReactionOverlay isActive={isActive} swipeDirection={swipeDirection} />
         <CustomImage
-          src={photo.image || "/portrait.jpg"}
+          src={Array.isArray(photo.image) ? photo.image[0] : photo.image}
           alt={`${photo.name}'s portrait`}
           width={1920}
           height={2556}
@@ -174,3 +173,5 @@ export const PhotoCard = React.memo(
     );
   },
 );
+
+PhotoCard.displayName = "PhotoCard";

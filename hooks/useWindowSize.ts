@@ -10,17 +10,30 @@ function useWindowSize() {
     width: undefined,
     height: undefined,
   });
+
   useEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        const target = entry.target as HTMLElement;
-        setWindowSize({
-          width: target.offsetWidth || target.clientWidth,
-          height: target.offsetHeight || target.clientHeight,
-        });
-      }
+    setWindowSize({
+      width: document.body.offsetWidth,
+      height: document.body.offsetHeight,
     });
-    resizeObserver.observe(document.documentElement);
+    const observerCallback: ResizeObserverCallback = (
+      entries: ResizeObserverEntry[],
+    ) => {
+      window.requestAnimationFrame((): void | undefined => {
+        if (!Array.isArray(entries) || !entries.length) {
+          return;
+        }
+        for (let entry of entries) {
+          const target = entry.target as HTMLElement;
+          setWindowSize({
+            width: target.offsetWidth || target.clientWidth,
+            height: target.offsetHeight || target.clientHeight,
+          });
+        }
+      });
+    };
+    const resizeObserver = new ResizeObserver(observerCallback);
+    resizeObserver.observe(document.body);
     return () => {
       resizeObserver.disconnect();
     };

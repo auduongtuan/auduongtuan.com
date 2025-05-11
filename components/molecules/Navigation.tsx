@@ -30,7 +30,7 @@ const Navigation = React.memo(() => {
   );
   useEffect(() => {
     setCurrentActive(menuItems.find((item) => isActive(item.href))?.href);
-  }, [router]);
+  }, [router, isActive]);
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
