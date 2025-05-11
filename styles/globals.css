@@ -451,8 +451,8 @@
 
     @media (width >= theme(--breakpoint-md)) {
       --section-horizontal-padding: 1.5rem;
-      --section-vertical-padding: 4rem;
-      --subsection-vertical-padding: 3rem;
+      --section-vertical-padding: 3rem;
+      --subsection-vertical-padding: 2.5rem;
       --content-element-spacing: 1rem;
       --content-node-spacing: 1.25rem;
       --content-group-spacing: 3rem;

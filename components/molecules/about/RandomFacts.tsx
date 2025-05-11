@@ -36,12 +36,13 @@ export default function RandomFacts({ facts }: { facts: Fact[] }) {
       <Fade
         as="h3"
         delay={450}
-        className="subheading section flex items-center gap-2"
+        className="subheading2 section flex items-center gap-2"
       >
         <span>Random fact</span>
         <Tooltip content="Load another random fact">
           <IconButton
             size="small"
+            variant="ghost"
             onClick={() => {
               reloadFact();
               event({
@@ -61,18 +62,18 @@ export default function RandomFacts({ facts }: { facts: Fact[] }) {
         </Tooltip>
       </Fade>
       {factToDisplay >= 0 && (
-        <>
-          <Fade as="p" delay={450} className="item">
+        <div className="item flex w-full flex-col gap-2 rounded-md bg-slate-100 px-3 py-3 font-mono text-sm leading-normal tracking-tight md:col-span-6 md:px-4">
+          <Fade as="p" delay={450} className="grow">
             {richTextObject(facts[factToDisplay].content)}
           </Fade>
-          <Fade as="div" delay={450} className="item">
+          <Fade as="div" delay={450} className="grow">
             <Reaction
               page={`/about#${facts[factToDisplay].slug}`}
               size="small"
               className="inline-flex"
             />
           </Fade>
-        </>
+        </div>
       )}
     </>
   );

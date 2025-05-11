@@ -5,19 +5,21 @@ import Image from "next/image";
 
 const NowItem = ({ item }: { item: NotionNowItem }) => {
   return (
-    <div
-      className={cn("rounded-md bg-slate-100 px-3 py-3 md:col-span-6 md:px-4")}
-    >
+    <div className={cn("rounded-md bg-slate-100 px-3 py-3 md:px-4")}>
       <p className="text-tertiary mt-0.5 text-sm">{item.title}</p>
       <div className="mt-2 flex items-center gap-5 font-mono text-sm leading-tight tracking-tight md:text-base">
         {item.thumbnail && item.link && (
-          <div className={cn("flex w-[100px] items-center justify-center")}>
+          <div
+            className={cn(
+              "flex w-[100px] shrink-0 items-center justify-center",
+            )}
+          >
             <Image
               src={item.thumbnail?.url}
               alt={item.content}
               width={item.thumbnail?.width}
               height={item.thumbnail?.height}
-              className="rounded-md"
+              className="w-full grow rounded-md"
             />
           </div>
         )}
@@ -40,7 +42,7 @@ const NowItem = ({ item }: { item: NotionNowItem }) => {
 
 const Now = ({ items }: { items: NotionNowItem[] }) => {
   return (
-    <div className="grid grid-cols-1 gap-4 leading-normal md:grid-cols-6">
+    <div className="grid grid-cols-2 gap-4 leading-normal md:grid-cols-2">
       {items
         .filter((item) => !item.archived)
         .map((item, i) => (

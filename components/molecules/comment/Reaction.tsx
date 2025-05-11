@@ -138,7 +138,7 @@ const ReactButton = ({
             className={cn(
               size == "medium"
                 ? "space-x-2 px-3 py-2 md:px-4 md:py-2"
-                : "space-x-1 px-2 py-1 md:px-3 md:py-1",
+                : "md:py-0.825 py-0.825 space-x-1 px-2 md:px-2.5",
               "hover:border-accent hover:bg-surface/40 group inline-flex flex-shrink-1 items-center justify-items-center rounded-full border-2 border-gray-300 transition-all duration-100 ease-out",
             )}
             onClick={sendReaction}
@@ -146,7 +146,7 @@ const ReactButton = ({
             <span
               className={cn(
                 "block scale-100 text-base transition-all duration-100 group-hover:scale-125",
-                size == "medium" ? "md:text-2xl" : "md:text-base",
+                size == "medium" ? "md:text-2xl" : "md:text-[0.75rem]",
               )}
             >
               {emoji}

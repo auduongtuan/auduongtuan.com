@@ -2,7 +2,7 @@ import Fade from "@atoms/Fade";
 import BackToPreviousPage from "./BackToPreviousPage";
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@lib/utils/cn";
-import { getElementContentWidth } from "@lib/utils/getElementContentWidth";
+import { getInnerDimensions } from "@lib/utils/getElementContentWidth";
 
 const HeaderWithBackButton = ({
   ref,
@@ -26,7 +26,7 @@ const HeaderWithBackButton = ({
       if (buttonRef.current) {
         const parentEl = buttonRef.current.parentElement;
         if (!parentEl) return;
-        const parentWidth = getElementContentWidth(parentEl);
+        const parentWidth = getInnerDimensions(parentEl).width;
         setShowBackButton(parentWidth > buttonRef.current.clientWidth + 16);
       }
     }

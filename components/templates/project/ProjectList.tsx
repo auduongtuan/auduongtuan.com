@@ -14,6 +14,7 @@ import SectionTitle from "@molecules/SectionTitle";
 import { FiInfo } from "react-icons/fi";
 import Tooltip from "@atoms/Tooltip";
 import { trackEvent } from "@lib/utils";
+import IconButton from "@atoms/IconButton";
 
 export default function ProjectList({
   projects,
@@ -69,22 +70,25 @@ export default function ProjectList({
     return bPoint > aPoint
       ? 1
       : bPoint < aPoint
-      ? -1
-      : b.date?.localeCompare(a.date);
+        ? -1
+        : b.date?.localeCompare(a.date);
   };
 
   const shownProjects = projects.sort(sortingFunction);
   const projectInGroups = useMemo(
     () =>
-      shownProjects.reduce((acc, project) => {
-        if (!project.group) return acc;
-        if (!acc[project.group.id]) {
-          acc[project.group.id] = [];
-        }
-        acc[project.group.id].push(project);
-        return acc;
-      }, {} as Record<string, Project[]>),
-    [shownProjects]
+      shownProjects.reduce(
+        (acc, project) => {
+          if (!project.group) return acc;
+          if (!acc[project.group.id]) {
+            acc[project.group.id] = [];
+          }
+          acc[project.group.id].push(project);
+          return acc;
+        },
+        {} as Record<string, Project[]>,
+      ),
+    [shownProjects],
   );
   const [sent, setSent] = useState<string[]>([]);
 
@@ -120,7 +124,7 @@ export default function ProjectList({
             if (!group) return null;
             return (
               <section key={groupId}>
-                <h2 className="flex items-center mb-4 text-base font-normal muted-text">
+                <h2 className="muted-text mb-4 flex items-center gap-2 text-base font-normal">
                   <span>{group.name}</span>
                   {group.description && (
                     <Tooltip
@@ -131,11 +135,14 @@ export default function ProjectList({
                         }
                       }}
                     >
-                      <FiInfo className="inline-block w-4 h-4 ml-2 hover:text-accent" />
+                      <IconButton variant="ghost" size={"small"}>
+                        <FiInfo />
+                      </IconButton>
+                      {/* <FiInfo className="inline-block w-4 h-4 ml-2 hover:text-accent" /> */}
                     </Tooltip>
                   )}
                 </h2>
-                <div className="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 md:mb-8">
+                <div className="mb-6 grid grid-cols-1 gap-6 md:mb-8 md:grid-cols-2">
                   {projectInGroups[groupId].map((project, i) => (
                     <ProjectCard
                       key={`${project.slug}-${i}`}

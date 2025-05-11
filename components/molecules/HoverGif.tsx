@@ -3,9 +3,12 @@ import { PhotoFrame } from "@atoms/Frame";
 import {
   autoUpdate,
   offset,
+  safePolygon,
   shift,
   size,
   useFloating,
+  useHover,
+  useInteractions,
 } from "@floating-ui/react";
 import { Portal, Transition } from "@headlessui/react";
 import { event } from "@lib/gtag";
@@ -22,7 +25,7 @@ export default function HoverGif({
   children: React.ReactNode;
 }) {
   const [showGif, setShowGif] = useState(false);
-  const { refs, floatingStyles } = useFloating({
+  const { refs, floatingStyles, context } = useFloating({
     placement: "bottom",
     middleware: [
       offset(8),
@@ -42,31 +45,44 @@ export default function HoverGif({
     ],
     open: showGif,
     whileElementsMounted: autoUpdate,
+    onOpenChange: (open) => {
+      setShowGif(open);
+      if (open) {
+        event({
+          action: "hover_gif",
+          category: "about_page",
+          label: label,
+        });
+        trackEvent({
+          event: "hover_gif",
+          content: label,
+          page: window.location.pathname,
+        });
+      }
+    },
   });
+  const hover = useHover(context, {
+    handleClose: safePolygon({
+      requireIntent: false,
+    }),
+  });
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
+
   const el = React.cloneElement(text as React.ReactElement<any>, {
-    onMouseEnter: (e: React.MouseEvent) => {
-      setShowGif(true);
-      event({
-        action: "hover_gif",
-        category: "about_page",
-        label: label,
-      });
-      trackEvent({
-        event: "hover_gif",
-        content: label,
-        page: window.location.pathname,
-      });
-    },
-    onMouseLeave: () => {
-      setShowGif(false);
-    },
     ref: refs.setReference,
+    ...getReferenceProps(),
   });
   return (
     <>
       {el}
       <Portal>
-        <div ref={refs.setFloating} className="z-40" style={floatingStyles}>
+        <div
+          ref={refs.setFloating}
+          className="z-40"
+          style={floatingStyles}
+          {...getFloatingProps()}
+        >
           <Transition
             show={showGif}
             enter="transition-all duration-200"
