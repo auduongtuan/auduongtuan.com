@@ -17,8 +17,8 @@ import { usePhotoStore } from "@molecules/about/photo/photoStore";
 import RandomFacts from "@molecules/about/RandomFacts";
 import Footer from "@molecules/Footer";
 import HoverGif from "@molecules/HoverGif";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { FiGrid, FiInfo, FiLayers } from "react-icons/fi";
+import { useCallback, useEffect, useState } from "react";
+import { FiInfo, FiMinus, FiPlus } from "react-icons/fi";
 import { RiCrossFill } from "react-icons/ri";
 
 export default function AboutPage({
@@ -81,7 +81,7 @@ export default function AboutPage({
               <Fade
                 delay={50}
                 as="p"
-                className="subheading2 inline-flex gap-2 pt-1.5 pb-2 text-center"
+                className="subheading2 inline-flex items-center justify-center gap-2 pt-1.5 pb-2 text-center"
               >
                 <span>
                   <s>50</s> 9 shades of Tuấn
@@ -92,7 +92,7 @@ export default function AboutPage({
                   <IconButton
                     size="small"
                     variant="ghost"
-                    className="hidden md:block"
+                    className="hidden md:flex"
                     onClick={() => {
                       // if (isExpanding) return;
                       if (isExpanded === true) {
@@ -112,7 +112,7 @@ export default function AboutPage({
                       }
                     }}
                   >
-                    {isExpanded ? <FiLayers /> : <FiGrid />}
+                    {isExpanded ? <FiMinus /> : <FiPlus />}
                   </IconButton>
                 </Tooltip>
               </Fade>

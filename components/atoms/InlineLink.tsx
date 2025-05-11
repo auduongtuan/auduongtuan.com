@@ -17,8 +17,8 @@ const inlineLinkVariants = cva(
         false: "whitespace-nowrap break-words hover:decoration-transparent",
       },
       dark: {
-        true: "decoration-slate-600 hover:bg-surface/10",
-        false: "decoration-underline hover:bg-surface-raised",
+        true: "decoration-adaptive-underline hover:bg-surface/10",
+        false: "decoration-adaptive-underline hover:bg-surface-raised",
       },
     },
     defaultVariants: {

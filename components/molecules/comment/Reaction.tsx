@@ -57,8 +57,8 @@ const reactionList = {
   "💖": "Love",
   "😆": "Haha",
   "😮": "Wow",
-  "💅": "Fabulous",
-  "🤨": "Hmmm",
+  "💅": "Slay",
+  "🤨": "Eww",
 };
 
 export interface ReactButtonProps {
@@ -138,7 +138,7 @@ const ReactButton = ({
             className={cn(
               size == "medium"
                 ? "space-x-2 px-3 py-2 md:px-4 md:py-2"
-                : "md:py-0.825 py-0.825 space-x-1 px-2 md:px-2.5",
+                : "space-x-1 px-2 py-[calc(var(--spacing)*0.5)] md:px-2.5 md:py-[calc(var(--spacing)*0.625)]",
               "hover:border-accent hover:bg-surface/40 group inline-flex flex-shrink-1 items-center justify-items-center rounded-full border-2 border-gray-300 transition-all duration-100 ease-out",
             )}
             onClick={sendReaction}
