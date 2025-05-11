@@ -3,7 +3,6 @@ import { useAnimationsFinished, useBreakpoint, useWindowSize } from "@hooks";
 import { cn } from "@lib/utils/cn";
 import {
   CSSProperties,
-  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -15,7 +14,7 @@ import {
   getStackCardTransform,
   swipeAction,
 } from "./functions";
-import { InstructionOverlay, useInstructionStore } from "./InstructionOverlay";
+import { InstructionOverlay } from "./InstructionOverlay";
 import { PhotoCard } from "./PhotoCard";
 import { PHOTOS } from "./constants";
 import { Direction, Photo } from "./types";
@@ -35,10 +34,6 @@ export default function PhotoCards() {
 
   // Store viewed cards
   const [viewedPhotos, setViewedPhotos] = useState<Photo[]>([]);
-
-  // Get instruction state from zustand store
-  const { hasSeenInstruction, markInstructionAsSeen } = useInstructionStore();
-  const [showInstruction, setShowInstruction] = useState(false);
 
   const randomSortedPhotos = useMemo(
     () =>
@@ -64,12 +59,7 @@ export default function PhotoCards() {
       })),
     ];
     setDisplayPhotos(doubledPhotos);
-
-    // Check if we should show the instruction overlay
-    if (!hasSeenInstruction) {
-      setShowInstruction(true);
-    }
-  }, [hasSeenInstruction, randomSortedPhotos]);
+  }, [randomSortedPhotos]);
 
   // Handle when the active card is being swiped significantly
   const handleNextCardReady = () => {
@@ -128,12 +118,6 @@ export default function PhotoCards() {
     swipeAction(direction, photo);
   };
 
-  // Handle closing the instruction overlay
-  const handleCloseInstruction = () => {
-    setShowInstruction(false);
-    markInstructionAsSeen();
-  };
-
   // We show at most 4 cards at a time for stack effect
   const visiblePhotos = isExpanded
     ? randomSortedPhotos
@@ -147,34 +131,18 @@ export default function PhotoCards() {
     subtree: true,
   });
 
-  const [highestHeight, setHighestHeight] = useState<string>("0");
   const [originalWidth, setOriginalWidth] = useState<number>(0);
 
   const { width } = useWindowSize();
 
-  const calculateHighestHeight = useCallback(() => {
-    const cards = Object.values(cardRefs.current);
-    if (isExpanded)
-      return calculateGridLayoutHeight(cards, {
-        columns: 3,
-        gapY: 32,
-      });
-    return calculateCardStackHeight(cards);
-  }, [isExpanded]);
-
   useEffect(() => {
     document.documentElement.style.setProperty("overflow-y", "scroll");
     // setHighestHeight("100vh");
-    setHighestHeight(calculateHighestHeight() + "px");
 
     animationsFinished(() => {
       setIsExpanding(false);
     });
-  }, [isExpanded, animationsFinished, calculateHighestHeight, setIsExpanding]);
-
-  useEffect(() => {
-    setHighestHeight(calculateHighestHeight() + "px");
-  }, [cardRefs.current]);
+  }, [isExpanded, animationsFinished, setIsExpanding]);
 
   useLayoutEffect(() => {
     // if (isExpanded) return;
@@ -184,7 +152,32 @@ export default function PhotoCards() {
   }, [width]);
 
   const breakpoint = useBreakpoint();
-  const columns = breakpoint === "sm" ? 1 : breakpoint === "md" ? 2 : 3;
+  const columns = useMemo(
+    () =>
+      !isExpanded
+        ? 3
+        : breakpoint === "sm"
+          ? 1
+          : breakpoint === "md" || breakpoint === "lg"
+            ? 2
+            : 3,
+    [breakpoint, isExpanded],
+  );
+
+  const highestHeight = useMemo(() => {
+    const cards = Object.values(cardRefs.current);
+    let height = 0;
+    if (isExpanded) {
+      height = calculateGridLayoutHeight(cards, {
+        columns: columns,
+        gapY: 32,
+      });
+      console.log("height in expanded", height);
+    } else {
+      height = calculateCardStackHeight(cards);
+    }
+    return height;
+  }, [isExpanded, columns]);
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-2">
@@ -192,8 +185,8 @@ export default function PhotoCards() {
         className={cn("relative w-full")}
         style={
           {
-            minHeight: `${highestHeight}`,
-            "--original-width": `${originalWidth}px`,
+            minHeight: `${highestHeight}px`,
+            "--original-width": `calc((var(--container-width) + var(--gap-x))/12 * 5 - var(--gap-x))`,
             "--columns": `${columns}`,
           } as CSSProperties
         }
@@ -223,12 +216,8 @@ export default function PhotoCards() {
             )}
           />
         ))}
-        {/* Instruction Overlay */}
-        {showInstruction && (
-          <InstructionOverlay onClose={handleCloseInstruction} />
-        )}
+        <InstructionOverlay />
       </div>
-      {/* <Button onClick={() => setIsExpanded((prev) => !prev)}>Show</Button> */}
     </div>
   );
 }

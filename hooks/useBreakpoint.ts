@@ -12,7 +12,8 @@ const useBreakpoint = () => {
   const { width } = useWindowSize();
   useEffect(() => {
     if (!width) return;
-    let bp = "lg";
+    let bp = "xl";
+    if (width < BREAKPOINTS.lg) bp = "lg";
     if (width < BREAKPOINTS.md) bp = "md";
     if (width < BREAKPOINTS.sm) bp = "sm";
     setBreakpoint(bp as Breakpoint);

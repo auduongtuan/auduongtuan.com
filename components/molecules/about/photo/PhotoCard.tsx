@@ -123,8 +123,11 @@ export const PhotoCard = React.memo(
       }
       const cardWidth = card.offsetWidth;
       const cardHeight = card.offsetHeight;
-      const column = (index || 0) % 3;
-      const row = Math.floor((index || 0) / 3);
+      const columns = Number(
+        getComputedStyle(card).getPropertyValue("--columns"),
+      );
+      const column = (index || 0) % columns;
+      const row = Math.floor((index || 0) / columns);
       card.style.opacity = "1";
       card.style.transform = "";
       card.style.left = `calc((${cardWidth}px + var(--gap-x)) * ${column})`;
@@ -136,8 +139,8 @@ export const PhotoCard = React.memo(
         data-card-type={isActive ? "active" : "stack"}
         ref={combinedRef}
         className={cn(
-          `border-divider flex flex-col items-center justify-center gap-3 rounded-lg border bg-white p-3 shadow-lg`,
-          isActive && "cursor-grab active:cursor-grabbing",
+          `border-divider flex flex-col items-center justify-center gap-3 rounded-lg border bg-white px-3 pt-3 pb-4 shadow-lg`,
+          isActive && !isExpanded && "cursor-grab active:cursor-grabbing",
           "select-none",
           className,
         )}
@@ -155,12 +158,11 @@ export const PhotoCard = React.memo(
           height={2556}
           className="w-full self-stretch rounded-md object-cover"
         />
-        <div className="flex h-23 w-full flex-col items-center font-mono">
-          <p className="font-semibold">{photo.name || "@auduongtuan"}</p>
-          <div className="flex grow flex-col items-center justify-center">
+        <div className="flex h-23 w-full flex-col items-center">
+          <p className="font-semibold">{photo.name}</p>
+          <div className="flex grow flex-col items-center justify-center font-mono">
             <p className="mt-1 text-center text-xs whitespace-pre-line">
-              {photo.description ||
-                "Lập xuân đua nở hoa đào 🌸\nTim cậu liệu có ai vào hay chưa? 😳"}
+              {photo.description}
             </p>
           </div>
         </div>
