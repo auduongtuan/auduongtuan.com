@@ -6,6 +6,8 @@ import Balancer from "react-wrap-balancer";
 import { useInstructionStore } from "./instructionStore";
 import { usePhotoStore } from "./photoStore";
 import { useEffect, useState } from "react";
+import { trackEvent } from "@lib/utils";
+import { useRouter } from "next/router";
 
 // Instruction Overlay Component
 export const InstructionOverlay = () => {
@@ -15,10 +17,15 @@ export const InstructionOverlay = () => {
     showInstruction,
     setShowInstruction,
   } = useInstructionStore();
+  const router = useRouter();
 
   const handleClose = () => {
     markInstructionAsSeen();
     setShowInstruction(false);
+    trackEvent({
+      event: "photo_instruction_close",
+      page: router.pathname,
+    });
   };
 
   const { isExpanded } = usePhotoStore();
