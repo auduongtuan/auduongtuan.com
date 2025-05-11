@@ -152,17 +152,17 @@ export default function PhotoCards() {
   }, [width]);
 
   const breakpoint = useBreakpoint();
-  const columns = useMemo(
-    () =>
-      !isExpanded
-        ? 3
-        : breakpoint === "sm"
-          ? 1
-          : breakpoint === "md" || breakpoint === "lg"
-            ? 2
-            : 3,
-    [breakpoint, isExpanded],
-  );
+  const columns = useMemo(() => {
+    if (!isExpanded) {
+      if (breakpoint === "sm") return 1;
+      return 3;
+    }
+    return breakpoint === "sm"
+      ? 1
+      : breakpoint === "md" || breakpoint === "lg"
+        ? 2
+        : 3;
+  }, [breakpoint, isExpanded]);
 
   // Store the calculated height
   const [calculatedHeight, setCalculatedHeight] = useState(0);
@@ -192,7 +192,7 @@ export default function PhotoCards() {
       calculateHeight();
     });
     // }
-  }, [isExpanded, visiblePhotos.length, columns]);
+  }, [isExpanded, visiblePhotos.length, columns, width]);
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-2">
@@ -201,7 +201,10 @@ export default function PhotoCards() {
         style={
           {
             minHeight: `${calculatedHeight}px`,
-            "--original-width": `calc((var(--container-width) + var(--gap-x))/12 * 5 - var(--gap-x))`,
+            "--original-width":
+              breakpoint === "sm"
+                ? "var(--container-width)"
+                : `calc((var(--container-width) + var(--gap-x))/12 * 5 - var(--gap-x))`,
             "--columns": `${columns}`,
           } as CSSProperties
         }

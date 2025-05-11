@@ -62,7 +62,12 @@ export default function RandomFacts({ facts }: { facts: Fact[] }) {
         </Tooltip>
       </Fade>
       {factToDisplay >= 0 && (
-        <div className="item flex w-full flex-col gap-2 rounded-md bg-slate-100 px-3 py-3 font-mono text-sm leading-normal tracking-tight md:col-span-6 md:px-4">
+        <Fade
+          show
+          as="div"
+          delay={400}
+          className="item flex w-full flex-col gap-2 rounded-md bg-slate-100 px-3 py-3 font-mono text-sm leading-normal tracking-tight md:col-span-6 md:px-4"
+        >
           <Fade as="p" delay={450} className="grow">
             {richTextObject(facts[factToDisplay].content)}
           </Fade>
@@ -73,7 +78,7 @@ export default function RandomFacts({ facts }: { facts: Fact[] }) {
               className="inline-flex"
             />
           </Fade>
-        </div>
+        </Fade>
       )}
     </>
   );
