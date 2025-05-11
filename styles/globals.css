@@ -70,6 +70,7 @@
   --color-divider: var(--divider);
   --color-underline: var(--underline);
   --color-adaptive-underline: hsl(from currentColor h calc(s * 0.9) l / 0.2);
+  --color-adaptive-surface: hsl(from currentColor h calc(s * 0.9) l / 0.085);
   --ease-bounce: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --animate-slide-in-fast: slide-in 200ms ease-in forwards;
   --animate-fade-in-fast: fade-in 400ms ease-in-out forwards;

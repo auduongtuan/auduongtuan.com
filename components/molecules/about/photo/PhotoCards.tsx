@@ -17,7 +17,7 @@ import {
 import { InstructionOverlay } from "./InstructionOverlay";
 import { PhotoCard } from "./PhotoCard";
 import { PHOTOS } from "./constants";
-import { Direction, Photo } from "./types";
+import { Direction, Photo, DisplayPhoto } from "./types";
 import { usePhotoStore } from "./photoStore";
 import { calculateGridLayoutHeight } from "./functions";
 import { shuffleArray } from "@lib/utils/common";
@@ -30,16 +30,17 @@ export default function PhotoCards() {
     setIsPreparingNextCard,
     setIsExpanding,
   } = usePhotoStore();
-  const [displayPhotos, setDisplayPhotos] = useState<Photo[]>([]);
+  const [displayPhotos, setDisplayPhotos] = useState<DisplayPhoto[]>([]);
 
   // Store viewed cards
-  const [viewedPhotos, setViewedPhotos] = useState<Photo[]>([]);
+  const [viewedPhotos, setViewedPhotos] = useState<DisplayPhoto[]>([]);
 
-  const randomSortedPhotos = useMemo(
+  const randomSortedPhotos: DisplayPhoto[] = useMemo(
     () =>
       shuffleArray(
         PHOTOS.map((photo) => ({
           ...photo,
+          originalId: photo.id,
           image: Array.isArray(photo.image)
             ? photo.image[Math.floor(Math.random() * photo.image.length)]
             : photo.image,
@@ -86,7 +87,7 @@ export default function PhotoCards() {
     });
   };
 
-  const handleSwipe = (direction: Direction, photo: Photo) => {
+  const handleSwipe = (direction: Direction, photo: DisplayPhoto) => {
     // console.log(`Swiped ${direction} on ${photo.name}`);
 
     // Add current photo to viewed photos

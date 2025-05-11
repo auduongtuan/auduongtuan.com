@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Direction, Photo } from "./types";
+import { Direction, DisplayPhoto } from "./types";
 import { SWIPE_COMPLETE_THRESHOLD, SWIPE_START_THRESHOLD } from "./constants";
 import { MouseEventHandler, TouchEventHandler } from "react";
 
@@ -13,10 +13,10 @@ export function usePhotoCardSwipe({
 }: {
   index: number;
   cardRef: React.RefObject<HTMLDivElement | null>;
-  onSwipe: (direction: Direction, photo: Photo) => void;
+  onSwipe: (direction: Direction, photo: DisplayPhoto) => void;
   revertNextCardReady: () => void;
   nextCardReady: () => void;
-  photo: Photo;
+  photo: DisplayPhoto;
 }) {
   const isActive = index == 0;
   const startX = useRef<number>(0);

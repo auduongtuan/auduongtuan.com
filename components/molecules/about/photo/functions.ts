@@ -1,4 +1,4 @@
-import { Photo, Direction } from "./types";
+import { Direction, DisplayPhoto } from "./types";
 import { trackEvent } from "@lib/utils";
 import {
   CARD_STACK_SCALE_OFFSET,
@@ -6,11 +6,12 @@ import {
 } from "./constants";
 import axios from "axios";
 
-export function giveReaction(emoji: string, photo: Photo) {
+export function giveReaction(emoji: string, photo: DisplayPhoto) {
+  // console.log("give reaction", photo.image);
   axios
     .post("/api/reaction", {
       react: emoji,
-      page: "/about#photo-" + photo.id,
+      page: "/about#photo-" + photo.image,
       type: "ADD",
     })
     .then((res) => {
@@ -21,7 +22,7 @@ export function giveReaction(emoji: string, photo: Photo) {
     });
 }
 
-export function swipeAction(direction: Direction, photo: Photo) {
+export function swipeAction(direction: Direction, photo: DisplayPhoto) {
   switch (direction) {
     case Direction.LEFT:
       // Handle dislike

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Direction, Photo } from "./types";
+import { Direction, DisplayPhoto } from "./types";
 import { useRef, CSSProperties, useEffect } from "react";
 import CustomImage from "@atoms/CustomImage";
 import Reaction from "@molecules/comment/Reaction";
@@ -12,8 +12,8 @@ import { usePhotoCardSwipe } from "./usePhotoCardSwipe";
 import { useResizeObserver } from "@hooks/useResizeObserver";
 
 interface PhotoCardProps {
-  photo: Photo;
-  onSwipe?: (direction: Direction, photo: Photo) => void;
+  photo: DisplayPhoto;
+  onSwipe?: (direction: Direction, photo: DisplayPhoto) => void;
   isActive?: boolean;
   nextCardReady?: () => void;
   revertNextCardReady?: () => void;
@@ -152,7 +152,7 @@ export const PhotoCard = React.memo(
       >
         <ReactionOverlay isActive={isActive} swipeDirection={swipeDirection} />
         <CustomImage
-          src={Array.isArray(photo.image) ? photo.image[0] : photo.image}
+          src={`/about/portrait${Array.isArray(photo.image) ? photo.image[0] : photo.image}.jpg`}
           alt={`${photo.name}'s portrait`}
           width={1920}
           height={2556}
@@ -167,7 +167,7 @@ export const PhotoCard = React.memo(
           </div>
         </div>
         <Reaction
-          page={`/about#photo-${photo.id}`}
+          page={`/about#photo-${photo.image}`}
           size="small"
           className="mt-2 flex items-center justify-center"
         />

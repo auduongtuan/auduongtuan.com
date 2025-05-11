@@ -5,7 +5,7 @@ import { trackEvent } from "@lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const inlineLinkVariants = cva(
-  "inline-flex gap-2 items-center transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl",
+  "inline-flex gap-2 items-center transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl decoration-adaptive-underline hover:bg-adaptive-surface",
   {
     variants: {
       underline: {
@@ -16,15 +16,10 @@ const inlineLinkVariants = cva(
         true: "hover:decoration-accent",
         false: "whitespace-nowrap break-words hover:decoration-transparent",
       },
-      dark: {
-        true: "decoration-adaptive-underline hover:bg-surface/10",
-        false: "decoration-adaptive-underline hover:bg-surface-raised",
-      },
     },
     defaultVariants: {
       underline: true,
       wrap: false,
-      dark: false,
     },
   },
 );
@@ -42,7 +37,6 @@ const InlineLink = ({
   href = "#",
   className = "",
   children,
-  dark = false,
   underline = true,
   wrap = false,
   onClick,
@@ -57,10 +51,7 @@ const InlineLink = ({
       /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i,
     );
   const Component = checkInternal ? Link : ExternalLink;
-  const linkStyles = cn(
-    inlineLinkVariants({ underline, wrap, dark }),
-    className,
-  );
+  const linkStyles = cn(inlineLinkVariants({ underline, wrap }), className);
   const link = checkInternal ? checkInternal[1] || checkInternal[2] : href;
   return (
     <Component
