@@ -12,7 +12,7 @@ export const ReactionOverlay = ({
       {isActive && (
         <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
           <div
-            className="duraction-100 bg-opacity-70 rotate-12 rounded-xl border-4 border-green-500 bg-white px-6 py-2 text-3xl font-bold text-green-500 transition-opacity"
+            className="duration-100 bg-opacity-70 rotate-12 rounded-xl border-4 border-green-500 bg-white px-6 py-2 text-3xl font-bold text-green-500 transition-opacity"
             style={{
               opacity: swipeDirection === Direction.RIGHT ? 1 : 0,
             }}
