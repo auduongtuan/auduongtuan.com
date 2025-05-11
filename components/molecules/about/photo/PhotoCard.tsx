@@ -96,7 +96,7 @@ export const PhotoCard = React.memo(
           zIndex: 10,
           transition: isDragging
             ? "none"
-            : `transform 0.3s ease, opacity 0.3s ease${isExpanding ? ", left 0.3s ease-in-out, top 0.3s ease-in-out" : ""}`,
+            : `transform 0.3s ease, opacity 0.3s ease${isExpanding ? ", left 0.3s ease-in-out, top 0.3s ease-in-out, width 0.3s ease-in" : ""}`,
         };
       } else {
         return {
@@ -109,7 +109,7 @@ export const PhotoCard = React.memo(
           opacity: (index || 0) <= 3 ? 1 : 0,
           transition: isNext
             ? "transform 0.25s ease, opacity 0.25s ease, scale 0.25s ease"
-            : `transform 0.3s ease, opacity 0.3s ease${isExpanding ? ", left 0.3s ease-in-out, top 0.3s ease-in-out" : ""}`,
+            : `transform 0.3s ease, opacity 0.3s ease${isExpanding ? ", left 0.3s ease-in-out, top 0.3s ease-in-out, width 0.3s ease-in" : ""}`,
         };
       }
     };

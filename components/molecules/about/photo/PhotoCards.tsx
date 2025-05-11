@@ -164,20 +164,35 @@ export default function PhotoCards() {
     [breakpoint, isExpanded],
   );
 
-  const highestHeight = useMemo(() => {
+  // Store the calculated height
+  const [calculatedHeight, setCalculatedHeight] = useState(0);
+
+  // Calculate height with a delay using requestAnimationFrame
+  useEffect(() => {
     const cards = Object.values(cardRefs.current);
-    let height = 0;
-    if (isExpanded) {
-      height = calculateGridLayoutHeight(cards, {
-        columns: columns,
-        gapY: 32,
-      });
-      console.log("height in expanded", height);
-    } else {
-      height = calculateCardStackHeight(cards);
+
+    // Use two frames to ensure DOM has updated
+    function calculateHeight() {
+      let height = 0;
+      if (isExpanded) {
+        height = calculateGridLayoutHeight(cards, {
+          columns: columns,
+          gapY: 32,
+        });
+      } else {
+        height = calculateCardStackHeight(cards);
+      }
+      setCalculatedHeight(height);
     }
-    return height;
-  }, [isExpanded, columns]);
+    requestAnimationFrame(() => {
+      calculateHeight();
+    });
+    // re-calculate height when animations finished
+    animationsFinished(() => {
+      calculateHeight();
+    });
+    // }
+  }, [isExpanded, visiblePhotos.length, columns]);
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-2">
@@ -185,7 +200,7 @@ export default function PhotoCards() {
         className={cn("relative w-full")}
         style={
           {
-            minHeight: `${highestHeight}px`,
+            minHeight: `${calculatedHeight}px`,
             "--original-width": `calc((var(--container-width) + var(--gap-x))/12 * 5 - var(--gap-x))`,
             "--columns": `${columns}`,
           } as CSSProperties

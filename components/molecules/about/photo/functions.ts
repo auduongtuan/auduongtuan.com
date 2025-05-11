@@ -78,23 +78,21 @@ export const calculateGridLayoutHeight = (
     gapY: number;
   },
 ) => {
-  const bestHeightInColumn = new Map<number, number>();
+  const bestHeightInRow = new Map<number, number>();
+
   cardEls.forEach((card, index) => {
-    const column = index % columns;
+    const row = Math.floor(index / columns);
     const rect = card.getBoundingClientRect();
     const height = rect.height;
-    if (!bestHeightInColumn.has(column)) {
-      bestHeightInColumn.set(column, height);
+    if (!bestHeightInRow.has(row)) {
+      bestHeightInRow.set(row, height);
     } else {
-      bestHeightInColumn.set(
-        column,
-        Math.max(bestHeightInColumn.get(column)!, height),
-      );
+      bestHeightInRow.set(row, Math.max(bestHeightInRow.get(row)!, height));
     }
   });
 
   return (
-    Array.from(bestHeightInColumn.values()).reduce((a, b) => a + b + gapY, 0) -
+    Array.from(bestHeightInRow.values()).reduce((a, b) => a + b + gapY, 0) -
     gapY
   );
 };
