@@ -140,37 +140,44 @@ export const PhotoCard = React.memo(
         ref={combinedRef}
         className={cn(
           `border-divider flex flex-col items-center justify-center gap-3 rounded-lg border bg-white px-3 pt-3 pb-4 shadow-lg`,
-          isActive && !isExpanded && "cursor-grab active:cursor-grabbing",
+
           "select-none",
           className,
         )}
         style={getCardStyle()}
-        onTouchStart={isActive && !isExpanded ? handleTouchStart : undefined}
-        onTouchMove={isActive && !isExpanded ? handleTouchMove : undefined}
-        onTouchEnd={isActive && !isExpanded ? handleTouchEnd : undefined}
-        onMouseDown={isActive && !isExpanded ? handleMouseDown : undefined}
       >
         <ReactionOverlay isActive={isActive} swipeDirection={swipeDirection} />
-        <CustomImage
-          src={`/about/portrait${Array.isArray(photo.image) ? photo.image[0] : photo.image}.jpg`}
-          alt={`${photo.name}'s portrait`}
-          width={1920}
-          height={2556}
-          className="w-full self-stretch rounded-md object-cover"
-        />
-        <div className="flex h-23 w-full flex-col items-center">
-          <p className="font-semibold">{photo.name}</p>
-          <div className="flex grow flex-col items-center justify-center font-mono">
-            <p className="mt-1 text-center text-xs whitespace-pre-line">
-              {photo.description}
-            </p>
+        <div
+          className={cn(
+            "flex w-full touch-none flex-col items-stretch gap-3",
+            isActive && !isExpanded && "cursor-grab active:cursor-grabbing",
+          )}
+          onTouchStart={isActive && !isExpanded ? handleTouchStart : undefined}
+          onTouchMove={isActive && !isExpanded ? handleTouchMove : undefined}
+          onTouchEnd={isActive && !isExpanded ? handleTouchEnd : undefined}
+          onMouseDown={isActive && !isExpanded ? handleMouseDown : undefined}
+        >
+          <CustomImage
+            src={`/about/portrait${Array.isArray(photo.image) ? photo.image[0] : photo.image}.jpg`}
+            alt={`${photo.name}'s portrait`}
+            width={1920}
+            height={2556}
+            className="w-full touch-none self-stretch rounded-md object-cover"
+          />
+          <div className="flex h-23 w-full flex-col items-center">
+            <p className="font-semibold">{photo.name}</p>
+            <div className="flex grow flex-col items-center justify-center font-mono">
+              <p className="mt-1 text-center text-xs whitespace-pre-line">
+                {photo.description}
+              </p>
+            </div>
           </div>
+          <Reaction
+            page={`/about#photo-${photo.image}`}
+            size="small"
+            className="mt-2 flex items-center justify-center"
+          />
         </div>
-        <Reaction
-          page={`/about#photo-${photo.image}`}
-          size="small"
-          className="mt-2 flex items-center justify-center"
-        />
       </div>
     );
   },
