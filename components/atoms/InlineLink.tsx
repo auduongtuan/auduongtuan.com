@@ -2,20 +2,44 @@ import Link from "next/link";
 import ExternalLink from "./ExternalLink";
 import { cn } from "@lib/utils/cn";
 import { trackEvent } from "@lib/utils";
+import { cva, type VariantProps } from "class-variance-authority";
+
+const inlineLinkVariants = cva(
+  "inline-flex gap-2 items-center transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl",
+  {
+    variants: {
+      underline: {
+        true: "underline underline-offset-4",
+        false: "",
+      },
+      wrap: {
+        true: "hover:decoration-accent",
+        false: "whitespace-nowrap break-words hover:decoration-transparent",
+      },
+      dark: {
+        true: "decoration-slate-600 hover:bg-surface/10",
+        false: "decoration-underline hover:bg-surface-raised",
+      },
+    },
+    defaultVariants: {
+      underline: true,
+      wrap: false,
+      dark: false,
+    },
+  },
+);
 
 interface InlineLinkProps
-  extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap"> {
-  href: string;
+  extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap">,
+    VariantProps<typeof inlineLinkVariants> {
+  href?: string;
   className?: string;
   children: React.ReactNode;
-  underline?: boolean;
-  dark?: boolean;
-  wrap?: boolean;
 }
 
 const InlineLink = ({
   ref,
-  href,
+  href = "#",
   className = "",
   children,
   dark = false,
@@ -34,15 +58,7 @@ const InlineLink = ({
     );
   const Component = checkInternal ? Link : ExternalLink;
   const linkStyles = cn(
-    "inline-flex gap-2 items-center",
-    underline && "underline underline-offset-4",
-    !wrap && "whitespace-nowrap break-words hover:decoration-transparent",
-    wrap && "hover:decoration-accent",
-    "transition-all duration-100",
-    "-mx-2 px-2 -my-1 py-1 rounded-xl",
-    dark ? "decoration-slate-600" : "decoration-underline",
-    dark && !wrap && "hover:bg-surface/10",
-    !dark && !wrap && "hover:bg-surface-raised",
+    inlineLinkVariants({ underline, wrap, dark }),
     className,
   );
   const link = checkInternal ? checkInternal[1] || checkInternal[2] : href;

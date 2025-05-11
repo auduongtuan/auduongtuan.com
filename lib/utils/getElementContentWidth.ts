@@ -1,9 +1,14 @@
-export function getElementContentWidth(element: HTMLElement) {
-  let widthWithPaddings = element.clientWidth;
-  const elementComputedStyle = window.getComputedStyle(element, null);
-  return (
-    widthWithPaddings -
-    parseFloat(elementComputedStyle.paddingLeft) -
-    parseFloat(elementComputedStyle.paddingRight)
-  );
-}
+export const getInnerDimensions = (node: HTMLElement) => {
+  var computedStyle = getComputedStyle(node);
+
+  let width = node.clientWidth; // width with padding
+  let height = node.clientHeight; // height with padding
+
+  height -=
+    parseFloat(computedStyle.paddingTop) +
+    parseFloat(computedStyle.paddingBottom);
+  width -=
+    parseFloat(computedStyle.paddingLeft) +
+    parseFloat(computedStyle.paddingRight);
+  return { height, width };
+};

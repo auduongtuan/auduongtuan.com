@@ -1,8 +1,7 @@
 import React, { useCallback } from "react";
 import { useRouter } from "next/router";
 
-interface CustomLinkProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+export interface CustomLinkProps extends React.ComponentProps<"a"> {
   href: string;
   className?: string;
   callback?: () => void;
@@ -44,7 +43,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({
       }
       if (callback) callback();
     },
-    [href, router, scrollIntoEl, callback]
+    [href, router, scrollIntoEl, callback],
   );
   return (
     <a onClick={handleOnClick} href={href} className={className} {...rest}>

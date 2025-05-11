@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 @theme inline {
-  --shadow-navigation-inner: inset 0px 1px 1px rgba(0, 0, 0, 0.08),
+  --shadow-navigation-inner:
+    inset 0px 1px 1px rgba(0, 0, 0, 0.08),
     inset 0px 2px 1px rgba(0, 0, 0, 0.06), inset 0px 4px 4px rgba(0, 0, 0, 0.06);
   --shadow-button-inner: 0px 2px 0px 0px rgba(255, 255, 255, 0.25) inset;
   --spacing-section-vertical: var(--section-vertical-padding);
@@ -18,8 +19,9 @@
   --spacing-main: var(--main-width);
   --spacing-content: var(--content-width);
   --font-sans: Inter, Helvetica, Arial, sans-serif;
-  --font-mono: Roboto Mono, Menlo, Monaco, Consolas, Liberation Mono,
-    Courier New, monospace;
+  --font-mono:
+    Roboto Mono, Menlo, Monaco, Consolas, Liberation Mono, Courier New,
+    monospace;
   --text-3xl: 2rem;
   --text-3xl--line-height: 2.5rem;
   --text-6xl: 4.25rem;
@@ -72,6 +74,8 @@
   --animate-fade-in-fast: fade-in 400ms ease-in-out forwards;
   --animate-spin-slow: spin 3s linear infinite;
   --animate-caret-blink: caret-blink 1.2s ease-out infinite;
+  --animate-shadow-grow: shadow-grow 4s ease-in-out infinite;
+  --animate-hand-wave: hand-wave 2s ease-in-out infinite;
   @keyframes slide-in {
     0% {
       transform: translateY(40px);
@@ -107,6 +111,26 @@
     20%,
     50% {
       opacity: 0;
+    }
+  }
+
+  @keyframes shadow-grow {
+    0%,
+    100% {
+      box-shadow: 0 0 50px 10px rgba(255, 255, 255, 0.8);
+    }
+    50% {
+      box-shadow: 0 0 50px 20px rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  @keyframes hand-wave {
+    0%,
+    100% {
+      transform: rotate(30deg);
+    }
+    50% {
+      transform: rotate(-30deg);
     }
   }
 }
@@ -427,8 +451,8 @@
 
     @media (width >= theme(--breakpoint-md)) {
       --section-horizontal-padding: 1.5rem;
-      --section-vertical-padding: 4rem;
-      --subsection-vertical-padding: 3rem;
+      --section-vertical-padding: 3rem;
+      --subsection-vertical-padding: 2.5rem;
       --content-element-spacing: 1rem;
       --content-node-spacing: 1.25rem;
       --content-group-spacing: 3rem;

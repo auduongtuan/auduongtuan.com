@@ -67,7 +67,7 @@ const PasswordProtect = ({
   ]);
 
   return (
-    <div className="rounded-md border-2 border-dashed border-gray-200 p-6">
+    <div className="rounded-lg border-2 border-dashed border-gray-200 p-6">
       <div className="flex w-full gap-4">
         <div className="grow">
           <h3 className="h3">This {mode} is password-protected</h3>

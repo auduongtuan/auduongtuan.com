@@ -1,25 +1,17 @@
 import React from "react";
-import CustomLink from "./CustomLink";
+import CustomLink, { CustomLinkProps } from "./CustomLink";
 import { useRouter } from "next/router";
 import { cn } from "@lib/utils/cn";
-interface NavigationAnchorProps {
-  props: {
-    onClick: void;
-    href: string;
-  };
-  ref: any;
-}
-type AnchorProps = React.HTMLProps<HTMLAnchorElement>;
+
+type AnchorProps = React.ComponentProps<"a">;
 
 const NavigationAnchor = ({
-  ref,
   onClick,
   href,
   className,
   children,
-}: AnchorProps & {
-  ref?: React.RefObject<HTMLAnchorElement>;
-}) => {
+  ...rest
+}: AnchorProps) => {
   return (
     <a
       href={href}
@@ -28,8 +20,8 @@ const NavigationAnchor = ({
         e.preventDefault();
         // window.scrollTo(0,0);
       }}
-      ref={ref}
       className={className}
+      {...rest}
     >
       {children}
     </a>
@@ -37,35 +29,30 @@ const NavigationAnchor = ({
 };
 NavigationAnchor.displayName = "NavigationAnchor";
 
+interface NavigationLinkProps extends CustomLinkProps {
+  logo?: boolean;
+  inverted?: boolean | undefined | null;
+  callback?: () => void;
+  isActive?: boolean;
+}
+
 const NavigationLink = ({
   href,
   children,
-  pathname = "/",
   className = "-mx-3 px-3 py-0.5 -my-0.5",
   logo = false,
   inverted = false,
-
+  isActive = false,
   callback,
-}: {
-  href: string;
-  children: React.ReactNode;
-  className?: string;
-  logo?: boolean;
-  inverted?: boolean | undefined | null;
-  pathname?: string;
-  callback?: () => void;
-}) => {
+  ...rest
+}: NavigationLinkProps) => {
   const router = useRouter();
   const activeStyle =
     "relative before:bg-secondary before:absolute before:bottom-0 md:before:inset-x-0 before:w-1 before:h-full before:left-0 md:before:left-3 md:before:right-3 md:before:-bottom-3.5 md:before:h-1 md:before:w-auto before:transition-all before:duration-300 before:ease-in-out";
   // const activeClassName = inverted
   //   ? "bg-surface/10 shadow-navigation-inner"
   //   : "bg-surface-raised shadow-navigation-inner";
-  const isActive = (router) =>
-    router.asPath == href ||
-    router.pathname == href.split("#")[0] ||
-    router.pathname.includes(href + "/") ||
-    (href.includes("/work") && router.pathname.includes("/project/"));
+
   const anchorClassName = cn(
     logo && "tracking-wide uppercase",
     "font-normal font-mono inline-block text-base rounded-xl",
@@ -73,13 +60,18 @@ const NavigationLink = ({
     inverted
       ? "text-white hover:bg-surface/10"
       : "text-primary hover:bg-surface-raised",
-    isActive(router) && !logo ? activeStyle : "",
+    isActive && !logo ? {} : "",
     className,
   );
 
   return (
     // <Link href={href} scroll={false} passHref><NavigationAnchor className={anchorClassName}>{children}</NavigationAnchor></Link>
-    <CustomLink href={href} className={anchorClassName} callback={callback}>
+    <CustomLink
+      href={href}
+      className={anchorClassName}
+      callback={callback}
+      {...rest}
+    >
       {children}
     </CustomLink>
   );
