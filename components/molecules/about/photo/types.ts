@@ -12,3 +12,8 @@ export interface Photo {
   image: string | string[];
   swipeDirection?: Direction;
 }
+
+export interface DisplayPhoto extends Photo {
+  originalId: number;
+  image: string;
+}
