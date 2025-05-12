@@ -137,9 +137,10 @@ const ReactButton = ({
           <button
             className={cn(
               size == "medium"
-                ? "space-x-2 px-3 py-2 md:px-4 md:py-2"
-                : "space-x-1 px-2 py-[calc(var(--spacing)*0.5)] md:px-2.5 md:py-[calc(var(--spacing)*0.625)]",
-              "hover:border-accent hover:bg-surface/40 group inline-flex flex-shrink-1 items-center justify-items-center rounded-full border-2 border-gray-300 transition-all duration-100 ease-out",
+                ? "gap-x-2 px-3 py-2 md:px-4 md:py-2"
+                : "gap-x-1 px-2 py-[calc(var(--spacing)*0.5)] md:px-2.5 md:py-[calc(var(--spacing)*0.625)]",
+              "hover:border-accent hover:bg-surface/40",
+              "group inline-flex flex-shrink-1 items-center justify-center justify-items-center rounded-full border-2 border-gray-300 transition-all duration-100 ease-out",
             )}
             onClick={sendReaction}
           >
@@ -153,7 +154,7 @@ const ReactButton = ({
             </span>
             <span
               className={cn(
-                `block font-mono`,
+                `block font-mono leading-1 tracking-tight`,
                 size == "medium" ? "text-sm" : "text-xs",
                 emoji in counter && counter[emoji].reacted
                   ? "font-semibold text-blue-700"
@@ -198,7 +199,7 @@ const Reaction = ({
   return (
     <div
       className={cn(
-        "flex w-full flex-wrap items-center gap-x-2 gap-y-2 md:gap-x-3",
+        "flex w-full flex-wrap items-center gap-x-2 gap-y-1.5 md:gap-x-2",
         className,
       )}
     >
