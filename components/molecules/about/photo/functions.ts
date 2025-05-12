@@ -1,5 +1,5 @@
 import { Direction, DisplayPhoto } from "./types";
-import { trackEvent } from "@lib/utils";
+import { isDevEnvironment, trackEvent } from "@lib/utils";
 import {
   CARD_STACK_SCALE_OFFSET,
   CARD_STACK_TRANSLATE_Y_OFFSET,
@@ -8,6 +8,7 @@ import axios from "axios";
 
 export function giveReaction(emoji: string, photo: DisplayPhoto) {
   // console.log("give reaction", photo.image);
+  if (isDevEnvironment) return;
   axios
     .post("/api/reaction", {
       react: emoji,
