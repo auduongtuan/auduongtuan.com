@@ -39,8 +39,7 @@ export const PHOTOS: Photo[] = [
   {
     id: 6,
     name: "Artistic Tuấn",
-    description:
-      "Bát Tràng đồ gốm tinh hoa\nMón nào cũng muốn xuyết xoa đem về",
+    description: "Bát Tràng đồ gốm tinh hoa\nMón nào cũng muốn xuýt xoa đem về",
     image: "6",
   },
   {

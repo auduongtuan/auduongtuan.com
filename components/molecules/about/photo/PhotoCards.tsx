@@ -188,10 +188,10 @@ export default function PhotoCards() {
     requestAnimationFrame(() => {
       calculateHeight();
     });
-    // re-calculate height when animations finished
-    animationsFinished(() => {
+    // a bit hacky: re-calculate height when animations finished
+    setTimeout(() => {
       calculateHeight();
-    });
+    }, 300);
     // }
   }, [isExpanded, visiblePhotos.length, columns, width]);
 
@@ -231,7 +231,7 @@ export default function PhotoCards() {
               }
             }}
             className={cn(
-              "w-[calc(((var(--container-width)+var(--gap-x))*1)/var(--columns)-var(--gap-x))] break-inside-avoid",
+              "w-[calc(var(--container-width)-36px)] break-inside-avoid sm:w-[calc(((var(--container-width)+var(--gap-x))*1)/var(--columns)-var(--gap-x))]",
             )}
           />
         ))}
