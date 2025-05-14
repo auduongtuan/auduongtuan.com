@@ -37,6 +37,7 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
         header: JSON.stringify(req.headers),
         ip: ip as string,
         page: req.body.page,
+        event: req.body.event || "click",
       };
       await addReaction(data);
       return res.status(200).json({

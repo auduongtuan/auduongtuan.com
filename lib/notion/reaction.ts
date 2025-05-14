@@ -99,11 +99,13 @@ export async function addReaction({
   page,
   header,
   ip,
+  event = "click",
 }: {
   react: string;
   page: string;
   header: string;
   ip: string;
+  event: "click" | "swipe";
 }) {
   const reactionFound = await findReaction({ react, page, ip });
   if (reactionFound.results.length > 0) {
@@ -145,6 +147,11 @@ export async function addReaction({
             },
           },
         ],
+      },
+      Event: {
+        select: {
+          name: event,
+        },
       },
     },
   });

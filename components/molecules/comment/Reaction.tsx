@@ -111,6 +111,7 @@ const ReactButton = ({
             react: emoji,
             page,
             type: counter[emoji].reacted ? "REMOVE" : "ADD",
+            event: "click",
           })
           .then((res) => {
             // console.log(res);
