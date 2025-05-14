@@ -6,7 +6,11 @@ import {
 } from "./constants";
 import axios from "axios";
 
-export function giveReaction(emoji: string, photo: DisplayPhoto) {
+export function giveReaction(
+  emoji: string,
+  photo: DisplayPhoto,
+  event: "click" | "swipe" = "click",
+) {
   // console.log("give reaction", photo.image);
   if (isDevEnvironment) return;
   axios
@@ -14,6 +18,7 @@ export function giveReaction(emoji: string, photo: DisplayPhoto) {
       react: emoji,
       page: "/about#photo-" + photo.image,
       type: "ADD",
+      event: event,
     })
     .then((res) => {
       // console.log(res);
@@ -28,32 +33,19 @@ export function swipeAction(direction: Direction, photo: DisplayPhoto) {
     case Direction.LEFT:
       // Handle dislike
       // Example: await api.dislikePhoto(photo.id);
-      giveReaction("🤨", photo);
-      trackEvent({
-        event: "swipe_reaction",
-        content: "left",
-        page: "/about#photo-" + photo.image,
-      });
+      giveReaction("🤨", photo, "swipe");
+
       break;
     case Direction.RIGHT:
       // Handle like
       // Example: await api.likePhoto(photo.id);
-      giveReaction("💖", photo);
-      trackEvent({
-        event: "swipe_reaction",
-        content: "right",
-        page: "/about#photo-" + photo.image,
-      });
+      giveReaction("💖", photo, "swipe");
+
       break;
     case Direction.TOP:
       // Handle super like
       // Example: await api.superLikePhoto(photo.id);
-      giveReaction("💅", photo);
-      trackEvent({
-        event: "swipe_reaction",
-        content: "top",
-        page: "/about#photo-" + photo.image,
-      });
+      giveReaction("💅", photo, "swipe");
       break;
   }
 }
