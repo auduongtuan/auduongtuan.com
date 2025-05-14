@@ -4,7 +4,7 @@ import { cn } from "@lib/utils/cn";
 export interface TooltipProps extends Omit<BaseTooltip.Popup.Props, "content"> {
   content?: React.ReactNode;
   children?: ReactElement<Record<string, unknown>>;
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange?: BaseTooltip.Root.Props["onOpenChange"];
 }
 
 const Tooltip = ({
@@ -18,7 +18,7 @@ const Tooltip = ({
   ref?: React.RefObject<HTMLElement>;
 }) => {
   return (
-    <BaseTooltip.Root delay={100}>
+    <BaseTooltip.Root delay={100} onOpenChange={onOpenChange}>
       <BaseTooltip.Trigger
         render={children}
         ref={forwardedRef}

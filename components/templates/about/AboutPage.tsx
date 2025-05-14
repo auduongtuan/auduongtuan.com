@@ -63,7 +63,7 @@ export default function AboutPage({
     if (sent.length > 0) {
       trackEvent({
         event: "view_now_description",
-        content: sent[sent.length - 1],
+        // content: sent[sent.length - 1],
         page: "/about",
       });
     }
