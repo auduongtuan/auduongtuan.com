@@ -32,7 +32,7 @@ export function swipeAction(direction: Direction, photo: DisplayPhoto) {
       trackEvent({
         event: "swipe_reaction",
         content: "left",
-        page: "/about#photo-" + photo.id,
+        page: "/about#photo-" + photo.image,
       });
       break;
     case Direction.RIGHT:
@@ -42,7 +42,7 @@ export function swipeAction(direction: Direction, photo: DisplayPhoto) {
       trackEvent({
         event: "swipe_reaction",
         content: "right",
-        page: "/about#photo-" + photo.id,
+        page: "/about#photo-" + photo.image,
       });
       break;
     case Direction.TOP:
@@ -52,7 +52,7 @@ export function swipeAction(direction: Direction, photo: DisplayPhoto) {
       trackEvent({
         event: "swipe_reaction",
         content: "top",
-        page: "/about#photo-" + photo.id,
+        page: "/about#photo-" + photo.image,
       });
       break;
   }
