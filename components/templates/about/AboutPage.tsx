@@ -58,6 +58,16 @@ export default function AboutPage({
     }
   }, [isExpanded]);
 
+  const [sent, setSent] = useState<string[]>([]);
+  useEffect(() => {
+    if (sent.length > 0) {
+      trackEvent({
+        event: "view_now_description",
+        content: sent[sent.length - 1],
+        page: "/about",
+      });
+    }
+  }, [sent, sent.length]);
   return (
     <div className="bg-surface overflow-x-hidden overflow-y-hidden">
       <main className="text-primary bg-surface z-10 w-full">
@@ -272,6 +282,11 @@ export default function AboutPage({
                         .
                       </>
                     }
+                    onOpenChange={(open) => {
+                      if (open === true && !sent.includes("now")) {
+                        setSent([...sent, "now"]);
+                      }
+                    }}
                   >
                     <IconButton size="small" variant="ghost">
                       <FiInfo />
