@@ -186,6 +186,41 @@ export function usePhotoCardSwipe({
     }
   };
 
+  /**
+   * Programmatically trigger a swipe in a specific direction
+   */
+  const triggerSwipe = (direction: Direction) => {
+    if (!cardRef.current) return;
+
+    // Notify parent to prepare next card
+    nextCardReady();
+
+    // Update swipe direction state
+    setSwipeDirection(direction);
+
+    // Apply appropriate transform based on direction
+    if (direction === Direction.TOP) {
+      cardRef.current.style.transition =
+        "transform 3s ease-in, opacity 0.8s ease-in";
+      cardRef.current.style.transform = `translateY(-${window.innerHeight}px) scale(0.8)`;
+      cardRef.current.style.opacity = "0";
+    } else {
+      const endX =
+        direction === Direction.RIGHT
+          ? window.innerWidth + 200
+          : -window.innerWidth - 200;
+      cardRef.current.style.transition =
+        "transform 3s ease-in, opacity 0.8s ease-in";
+      cardRef.current.style.transform = `translateX(${endX}px) rotate(${direction === Direction.RIGHT ? 20 : -20}deg)`;
+      cardRef.current.style.opacity = "0";
+    }
+
+    // Trigger the swipe callback after a short delay
+    setTimeout(() => {
+      onSwipe(direction, photo);
+    }, 150);
+  };
+
   return {
     handleTouchStart,
     handleMouseDown,
@@ -196,5 +231,6 @@ export function usePhotoCardSwipe({
     completeSwipe,
     isDragging,
     swipeDirection,
+    triggerSwipe,
   };
 }

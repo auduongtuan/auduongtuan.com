@@ -69,6 +69,7 @@ export interface ReactButtonProps {
   dispatch: Dispatch<CounterAction>;
   isLoading: boolean;
   size: "medium" | "small";
+  onReact?: (emoji: string) => void;
 }
 const ReactButton = ({
   name,
@@ -78,6 +79,7 @@ const ReactButton = ({
   isLoading,
   size,
   page,
+  onReact,
 }: ReactButtonProps) => {
   const sendReaction = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -87,25 +89,8 @@ const ReactButton = ({
       const y = rect.top + rect.height / 2;
       if (emoji) {
         // setLoading(true);
-        if (counter[emoji].reacted) {
-          dispatch({ type: "undo", payload: emoji });
-        } else {
-          dispatch({ type: "react", payload: emoji });
-          emojiBlast({
-            emojis: [emoji],
-            physics: {
-              gravity: -0.5,
-              initialVelocities: {
-                y: { max: 9, min: 6.7 },
-                rotation: { max: -1, min: -2 },
-              },
-            },
-            position: {
-              x,
-              y,
-            },
-          });
-        }
+        // Call the onReact callback regardless of reaction state
+        // This ensures the swipe animation always triggers
         axios
           .post("/api/reaction", {
             react: emoji,
@@ -119,9 +104,33 @@ const ReactButton = ({
           .catch((err) => {
             // console.error(err);
           });
+        if (counter[emoji].reacted) {
+          dispatch({ type: "undo", payload: emoji });
+        } else {
+          dispatch({ type: "react", payload: emoji });
+          if (onReact) {
+            onReact(emoji);
+          }
+          requestAnimationFrame(() => {
+            emojiBlast({
+              emojis: [emoji],
+              physics: {
+                gravity: -0.5,
+                initialVelocities: {
+                  y: { max: 9, min: 6.7 },
+                  rotation: { max: -1, min: -2 },
+                },
+              },
+              position: {
+                x,
+                y,
+              },
+            });
+          });
+        }
       }
     },
-    [counter, dispatch, emoji, page],
+    [counter, dispatch, emoji, page, onReact],
   );
 
   return (
@@ -175,10 +184,12 @@ const Reaction = ({
   page,
   size = "medium",
   className = "",
+  onReact,
 }: {
   page: string;
   size?: "medium" | "small";
   className?: string;
+  onReact?: (emoji: string) => void;
 }) => {
   const [counter, dispatch] = useReducer(counterReducer, {});
   const { data, isLoading } = useSWR(
@@ -214,6 +225,7 @@ const Reaction = ({
           counter={counter}
           dispatch={dispatch}
           size={size}
+          onReact={onReact}
         ></ReactButton>
       ))}
     </div>

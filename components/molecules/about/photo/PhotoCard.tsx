@@ -55,6 +55,7 @@ export const PhotoCard = React.memo(
       handleTouchMove,
       handleMouseDown,
       swipeDirection,
+      triggerSwipe,
     } = usePhotoCardSwipe({
       index,
       cardRef,
@@ -173,9 +174,33 @@ export const PhotoCard = React.memo(
             </div>
           </div>
           <Reaction
+            key={photo.image}
             page={`/about#photo-${photo.image}`}
             size="small"
             className="mt-2 flex items-center justify-center"
+            onReact={(emoji) => {
+              if (isActive && !isExpanded) {
+                // Map emoji to direction
+                let direction: Direction;
+                switch (emoji) {
+                  case "💖": // 💖
+                    direction = Direction.RIGHT;
+                    break;
+                  case "🤨": // 🤨
+                    direction = Direction.LEFT;
+                    break;
+                  case "💅": // 💅
+                    direction = Direction.TOP;
+                    break;
+                  default:
+                    // For other emojis, default to RIGHT
+                    direction = Direction.RIGHT;
+                }
+
+                // Use the triggerSwipe function from the hook
+                triggerSwipe(direction);
+              }
+            }}
           />
         </div>
       </div>
