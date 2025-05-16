@@ -186,11 +186,17 @@ export const PhotoCard = React.memo(
                   case "💖": // 💖
                     direction = Direction.RIGHT;
                     break;
-                  case "🤨": // 🤨
+                  case "😆": // 😆
                     direction = Direction.LEFT;
                     break;
                   case "💅": // 💅
                     direction = Direction.TOP;
+                    break;
+                  case "🤨": // 🤨
+                    direction = Direction.BOTTOM;
+                    break;
+                  case "😮": // 😮
+                    direction = Direction.DOUBLE_TAP;
                     break;
                   default:
                     // For other emojis, default to RIGHT
