@@ -47,9 +47,15 @@ export const InstructionOverlay = () => {
             How to interact
           </h3>
           <Balancer className="mt-2 text-center" as="p">
-            Swipe left/right/top to give reactions to this photo (just like
-            Tinder)
+            Swipe like Tinder to react:
           </Balancer>
+          <ul className="mt-2 text-center list-disc list-inside space-y-0.5">
+            <li>Right → 💖 Love</li>
+            <li>Left → 😆 Haha</li>
+            <li>Up → 💅 Slay</li>
+            <li>Down → 🤨 Eww</li>
+            <li>Double tap → 😮 Wow</li>
+          </ul>
 
           <Button onClick={handleClose} className="mt-4">
             Got it

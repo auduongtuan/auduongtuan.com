@@ -9,7 +9,7 @@ import axios from "axios";
 export function giveReaction(
   emoji: string,
   photo: DisplayPhoto,
-  event: "click" | "swipe" = "click",
+  event: "click" | "swipe" | "double_tap" = "click",
 ) {
   // console.log("give reaction", photo.image);
   if (isDevEnvironment) return;
@@ -31,21 +31,28 @@ export function giveReaction(
 export function swipeAction(direction: Direction, photo: DisplayPhoto) {
   switch (direction) {
     case Direction.LEFT:
-      // Handle dislike
-      // Example: await api.dislikePhoto(photo.id);
-      giveReaction("🤨", photo, "swipe");
-
+      // Handle haha reaction
+      giveReaction("😆", photo, "swipe");
       break;
+      
     case Direction.RIGHT:
-      // Handle like
-      // Example: await api.likePhoto(photo.id);
+      // Handle love reaction
       giveReaction("💖", photo, "swipe");
-
       break;
+      
     case Direction.TOP:
-      // Handle super like
-      // Example: await api.superLikePhoto(photo.id);
+      // Handle slay reaction
       giveReaction("💅", photo, "swipe");
+      break;
+      
+    case Direction.BOTTOM:
+      // Handle eww reaction
+      giveReaction("🤨", photo, "swipe");
+      break;
+      
+    case Direction.DOUBLE_TAP:
+      // Handle wow reaction
+      giveReaction("😮", photo, "double_tap");
       break;
   }
 }

@@ -2,6 +2,8 @@ export enum Direction {
   LEFT = "left",
   RIGHT = "right",
   TOP = "top",
+  BOTTOM = "bottom",
+  DOUBLE_TAP = "double_tap",
 }
 
 // Define profile type for TypeScript

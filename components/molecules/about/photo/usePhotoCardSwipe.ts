@@ -27,6 +27,11 @@ export function usePhotoCardSwipe({
 
   const [isDragging, setIsDragging] = useState<boolean>(false);
 
+  // For double tap detection
+  const lastTapTime = useRef<number>(0);
+  const tapCount = useRef<number>(0);
+  const TAP_DELAY = 300; // ms between taps to be considered a double tap
+
   // Track swipe progress
   const swipeProgress = useRef<number>(0);
 
@@ -90,14 +95,18 @@ export function usePhotoCardSwipe({
 
     if (cardRef.current) {
       // Apply movement - prioritize vertical movement if it's stronger
-      if (
-        absY > absX &&
-        // deltaY < -20 // original AI suggest
-        deltaY < -SWIPE_START_THRESHOLD
-      ) {
-        // Moving upward (TOP)
-        cardRef.current.style.transform = `translateY(${deltaY}px) scale(${1 - Math.abs(deltaY) * 0.0005})`;
-        setSwipeDirection(Direction.TOP);
+      if (absY > absX) {
+        if (deltaY < -SWIPE_START_THRESHOLD) {
+          // Moving upward (TOP)
+          cardRef.current.style.transform = `translateY(${deltaY}px) scale(${1 - Math.abs(deltaY) * 0.0005})`;
+          setSwipeDirection(Direction.TOP);
+        } else if (deltaY > SWIPE_START_THRESHOLD) {
+          // Moving downward (BOTTOM)
+          cardRef.current.style.transform = `translateY(${deltaY}px) scale(${1 - Math.abs(deltaY) * 0.0005})`;
+          setSwipeDirection(Direction.BOTTOM);
+        } else {
+          setSwipeDirection(null);
+        }
       } else if (absX > SWIPE_START_THRESHOLD) {
         // Moving horizontally (LEFT/RIGHT)
         cardRef.current.style.transform = `translateX(${deltaX}px) rotate(${deltaX * 0.05}deg)`;
@@ -115,9 +124,33 @@ export function usePhotoCardSwipe({
     }
   };
 
-  const handleTouchEnd: TouchEventHandler<HTMLDivElement> = () => {
+  const handleTouchEnd: TouchEventHandler<HTMLDivElement> = (e) => {
     if (!isActive) return;
     setIsDragging(false);
+
+    // Check for double tap
+    const currentTime = new Date().getTime();
+    const tapTimeDiff = currentTime - lastTapTime.current;
+
+    if (tapTimeDiff < TAP_DELAY && tapCount.current === 1) {
+      // This is a double tap
+      tapCount.current = 0;
+      // Use the dedicated DOUBLE_TAP direction for 😮 (Wow) reaction
+      triggerSwipe(Direction.DOUBLE_TAP);
+      return;
+    }
+
+    // This is the first tap
+    tapCount.current = 1;
+    lastTapTime.current = currentTime;
+
+    // Reset tap count after delay
+    setTimeout(() => {
+      if (tapCount.current === 1) {
+        tapCount.current = 0;
+      }
+    }, TAP_DELAY);
+
     completeSwipe();
   };
 
@@ -126,6 +159,39 @@ export function usePhotoCardSwipe({
     setIsDragging(false);
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
+
+    // Check for double click (same logic as double tap)
+    const currentTime = new Date().getTime();
+    const clickTimeDiff = currentTime - lastTapTime.current;
+
+    // Only consider it a double click if there was minimal movement (not a drag)
+    const deltaX = currentX.current - startX.current;
+    const deltaY = currentY.current - startY.current;
+    const totalMovement = Math.abs(deltaX) + Math.abs(deltaY);
+
+    if (
+      clickTimeDiff < TAP_DELAY &&
+      tapCount.current === 1 &&
+      totalMovement < 10
+    ) {
+      // This is a double click
+      tapCount.current = 0;
+      // Use the dedicated DOUBLE_TAP direction for 😮 (Wow) reaction
+      triggerSwipe(Direction.DOUBLE_TAP);
+      return;
+    }
+
+    // This is the first click
+    tapCount.current = 1;
+    lastTapTime.current = currentTime;
+
+    // Reset click count after delay
+    setTimeout(() => {
+      if (tapCount.current === 1) {
+        tapCount.current = 0;
+      }
+    }, TAP_DELAY);
+
     completeSwipe();
   };
 
@@ -136,17 +202,47 @@ export function usePhotoCardSwipe({
     const absY = Math.abs(deltaY);
 
     // Determine if the swipe was decisive enough and in which direction
-    if (absY > absX && deltaY < -SWIPE_COMPLETE_THRESHOLD) {
-      // Swiped TOP
-      if (cardRef.current) {
-        cardRef.current.style.transition =
-          "transform 0.4s ease, opacity 0.4s ease";
-        cardRef.current.style.transform = `translateY(-${window.innerHeight}px) scale(0.8)`;
-        cardRef.current.style.opacity = "0";
+    if (absY > absX) {
+      if (deltaY < -SWIPE_COMPLETE_THRESHOLD) {
+        // Swiped TOP
+        if (cardRef.current) {
+          cardRef.current.style.transition =
+            "transform 0.4s ease, opacity 0.4s ease";
+          cardRef.current.style.transform = `translateY(-${window.innerHeight}px) scale(0.8)`;
+          cardRef.current.style.opacity = "0";
 
-        setTimeout(() => {
-          onSwipe(Direction.TOP, photo);
-        }, 150);
+          setTimeout(() => {
+            onSwipe(Direction.TOP, photo);
+          }, 150);
+        }
+      } else if (deltaY > SWIPE_COMPLETE_THRESHOLD) {
+        // Swiped BOTTOM
+        if (cardRef.current) {
+          cardRef.current.style.transition =
+            "transform 0.4s ease, opacity 0.4s ease";
+          cardRef.current.style.transform = `translateY(${window.innerHeight}px) scale(0.8)`;
+          cardRef.current.style.opacity = "0";
+
+          setTimeout(() => {
+            onSwipe(Direction.BOTTOM, photo);
+          }, 150);
+        }
+      } else {
+        // Not enough vertical movement, return to center
+        if (cardRef.current) {
+          cardRef.current.style.transition = "transform 0.3s ease";
+          cardRef.current.style.transform = "translateY(0) scale(1)";
+          if (revertNextCardReady) {
+            revertNextCardReady();
+          }
+          setTimeout(() => {
+            if (cardRef.current) {
+              cardRef.current.style.transition = "";
+              setSwipeDirection(null);
+            }
+          }, 300);
+        }
+        return; // Exit early
       }
     } else if (absX >= SWIPE_COMPLETE_THRESHOLD) {
       // Swiped LEFT or RIGHT
@@ -172,7 +268,9 @@ export function usePhotoCardSwipe({
       // Return card to center
       if (cardRef.current) {
         cardRef.current.style.transition = "transform 0.3s ease";
+        // Reset horizontal movement
         cardRef.current.style.transform = "translateX(0) rotate(0deg)";
+
         if (revertNextCardReady) {
           revertNextCardReady();
         }
@@ -201,8 +299,13 @@ export function usePhotoCardSwipe({
     // Apply appropriate transform based on direction
     if (direction === Direction.TOP) {
       cardRef.current.style.transition =
-        "transform 3s ease-in, opacity 0.8s ease-in";
+        "transform 4s ease-in, opacity 0.8s ease-in";
       cardRef.current.style.transform = `translateY(-${window.innerHeight}px) scale(0.8)`;
+      cardRef.current.style.opacity = "0";
+    } else if (direction === Direction.BOTTOM) {
+      cardRef.current.style.transition =
+        "transform 4s ease-in, opacity 0.8s ease-in";
+      cardRef.current.style.transform = `translateY(${window.innerHeight}px) scale(0.8)`;
       cardRef.current.style.opacity = "0";
     } else {
       const endX =
@@ -210,7 +313,7 @@ export function usePhotoCardSwipe({
           ? window.innerWidth + 200
           : -window.innerWidth - 200;
       cardRef.current.style.transition =
-        "transform 3s ease-in, opacity 0.8s ease-in";
+        "transform 4s ease-in, opacity 0.8s ease-in";
       cardRef.current.style.transform = `translateX(${endX}px) rotate(${direction === Direction.RIGHT ? 20 : -20}deg)`;
       cardRef.current.style.opacity = "0";
     }
