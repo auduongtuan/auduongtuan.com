@@ -6,7 +6,7 @@ import Image from "next/image";
 const NowItem = ({ item }: { item: NotionNowItem }) => {
   return (
     <div className={cn("rounded-md bg-slate-100 px-3 py-3 md:px-4")}>
-      <p className="text-tertiary mt-0.5 text-sm">{item.title}</p>
+      <p className="text-tertiary mt-0.5 text-sm">{item.type}</p>
       <div className="mt-2 flex items-center gap-5 font-mono text-sm leading-tight tracking-tight md:text-base">
         {item.thumbnail && item.link && (
           <div
@@ -16,7 +16,7 @@ const NowItem = ({ item }: { item: NotionNowItem }) => {
           >
             <Image
               src={item.thumbnail?.url}
-              alt={item.content}
+              alt={item.title}
               width={item.thumbnail?.width}
               height={item.thumbnail?.height}
               className="w-full grow rounded-md"
@@ -29,11 +29,11 @@ const NowItem = ({ item }: { item: NotionNowItem }) => {
               className="inline-flex whitespace-normal"
               href={item.link}
             >
-              {item.content}
+              {item.title}
             </InlineLink>
           </div>
         ) : (
-          <p className="truncate">{item.content}</p>
+          <p className="truncate">{item.title}</p>
         )}
       </div>
     </div>
