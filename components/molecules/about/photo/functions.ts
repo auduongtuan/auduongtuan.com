@@ -34,22 +34,22 @@ export function swipeAction(direction: Direction, photo: DisplayPhoto) {
       // Handle haha reaction
       giveReaction("😆", photo, "swipe");
       break;
-      
+
     case Direction.RIGHT:
       // Handle love reaction
       giveReaction("💖", photo, "swipe");
       break;
-      
+
     case Direction.TOP:
       // Handle slay reaction
       giveReaction("💅", photo, "swipe");
       break;
-      
+
     case Direction.BOTTOM:
       // Handle eww reaction
       giveReaction("🤨", photo, "swipe");
       break;
-      
+
     case Direction.DOUBLE_TAP:
       // Handle wow reaction
       giveReaction("😮", photo, "double_tap");

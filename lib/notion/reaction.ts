@@ -105,7 +105,7 @@ export async function addReaction({
   page: string;
   header: string;
   ip: string;
-  event: "click" | "swipe";
+  event: "click" | "swipe" | "double_tap";
 }) {
   const reactionFound = await findReaction({ react, page, ip });
   if (reactionFound.results.length > 0) {

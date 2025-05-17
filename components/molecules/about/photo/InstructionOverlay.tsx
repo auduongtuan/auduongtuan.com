@@ -49,12 +49,10 @@ export const InstructionOverlay = () => {
           <Balancer className="mt-2 text-center" as="p">
             Swipe like Tinder to react:
           </Balancer>
-          <ul className="mt-2 text-center list-disc list-inside space-y-0.5">
-            <li>Right → 💖 Love</li>
-            <li>Left → 😆 Haha</li>
-            <li>Up → 💅 Slay</li>
-            <li>Down → 🤨 Eww</li>
-            <li>Double tap → 😮 Wow</li>
+          <ul className="mt-2 flex flex-col gap-1 text-center">
+            <li>Right/Left for Love/Haha</li>
+            <li>Up/Down for Slay/Eww</li>
+            <li>Double tap for Wow</li>
           </ul>
 
           <Button onClick={handleClose} className="mt-4">
