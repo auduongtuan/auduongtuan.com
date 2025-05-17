@@ -6,7 +6,7 @@ const NOW_DATABASE_ID = process.env.NOW_DATABASE_ID as string;
 
 export type NotionNowItem = {
   title: string;
-  content: string;
+  type: string;
   link: string;
   thumbnail: {
     url: string;
@@ -34,8 +34,8 @@ export async function getNotionNowItems(): Promise<NotionNowItem[]> {
       const thumbnail = await getThumbnailFromUrl(link);
       return {
         title: getProperty(page, "Title", "title"),
+        type: getProperty(page, "Type", "select"),
         link: getProperty(page, "Link", "url"),
-        content: getProperty(page, "Content", "rich_text"),
         thumbnail: thumbnail || null,
         archived: getProperty(page, "Archived", "checkbox") || false,
       };
