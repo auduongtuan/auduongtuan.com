@@ -24,7 +24,7 @@ const NowItem = ({ item }: { item: NotionNowItem }) => {
           </div>
         )}
         {item.link ? (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 text-balance">
             <InlineLink
               className="inline-flex whitespace-normal"
               href={item.link}
@@ -33,7 +33,7 @@ const NowItem = ({ item }: { item: NotionNowItem }) => {
             </InlineLink>
           </div>
         ) : (
-          <p className="truncate">{item.title}</p>
+          <p className="truncate text-balance">{item.title}</p>
         )}
       </div>
     </div>
