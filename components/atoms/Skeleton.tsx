@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 import { FiImage, FiVideo } from "react-icons/fi";
 import { createContext, useContext } from "react";
 const SkeletonContext = createContext({ loaded: false, block: false });
@@ -10,7 +10,7 @@ const SkeletonDisplay = ({
   className?: string;
   type: "image" | "video" | "block" | "inline";
 }) => {
-  const skeletonSTyles = twMerge(
+  const skeletonSTyles = cn(
     "flex items-center justify-center",
     "bg-slate-900/[0.075]",
     type != "inline" ? "absolute top-0 left-0 w-full h-full z-10" : "relative",
@@ -57,7 +57,7 @@ const SkeletonContent = ({
 }: { unmount?: boolean } & React.HTMLAttributes<HTMLSpanElement>) => {
   const context = useContext(SkeletonContext);
   const Component = context.block ? "div" : "span";
-  const skeletonContentStyles = twMerge(
+  const skeletonContentStyles = cn(
     "block transition-opacity duration-100 ease-in",
     context.loaded ? "opacity-100" : "opacity-0",
     className,
@@ -81,7 +81,7 @@ const SkeletonWrapper = <T extends React.ElementType = "div">({
   const Component = as || "span";
   return (
     <Component
-      className={twMerge("relative block", className)}
+      className={cn("relative block", className)}
       {...rest}
       data-skeleton
     >

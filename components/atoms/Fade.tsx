@@ -9,6 +9,7 @@ const durationClass = {
   300: "duration-300",
   500: "duration-500",
 };
+
 // https://stackoverflow.com/questions/66049571/how-can-i-implement-a-as-prop-with-typescript-while-passing-down-the-props
 export interface FadeProps<T extends React.ElementType> {
   show?: boolean | undefined;
@@ -38,14 +39,15 @@ function Fade<T extends React.ElementType = "div">({
   const originStyles = cn(
     className,
     "transition-[opacity,transform] ease-in",
-    duration && duration in durationClass && [durationClass[duration as number]]
+    duration &&
+      duration in durationClass && [durationClass[duration as number]],
   );
   const stateStyles = useMemo(
     () => ({
       show: ["opacity-100", { "translate-y-0": slide }],
       hide: ["opacity-0", { "translate-y-10": slide }],
     }),
-    [slide]
+    [slide],
   );
   const [ref, setRef] = useState<HTMLElement | null>(null);
   const [mounted, setMounted] = useState(show);
@@ -58,7 +60,7 @@ function Fade<T extends React.ElementType = "div">({
       setMounted(true);
       const timeout = setTimeout(
         () => setStyles(cn(originStyles, ...stateStyles.show)),
-        delay
+        delay,
       );
       return () => {
         clearTimeout(timeout);

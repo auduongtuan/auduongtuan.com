@@ -1,6 +1,6 @@
-import { useReducer, useRef, Fragment } from "react";
+import { useReducer, Fragment } from "react";
 import Button from "@atoms/Button";
-import Toast from "@atoms/Toast";
+import { toast } from "@atoms/Toast";
 import axios from "axios";
 import { FieldValues, useForm } from "react-hook-form";
 import { FiSend } from "react-icons/fi";
@@ -36,31 +36,33 @@ const CommentForm = ({ page, wording, onSubmit }) => {
         })
         .then((res) => {
           // console.log(res);
-          setState({ loading: false, sent: true, open: false });
+          setState({ loading: false, open: false });
+          toast({
+            message: `Message sent. Thank for your ${wording.singular}.`,
+            type: "success",
+          });
           resetField("content");
           onSubmit && onSubmit();
         })
         .catch((err) => {
           // console.log(err);
-          setState({ loading: false, sent: false, error: true });
+          setState({ loading: false, error: true });
+          toast({
+            message: "Failed to send message. Please try again.",
+            type: "error",
+          });
         });
     }
   };
   const quickComment = (content: string) => {
     setValue("content", content);
-    // submitHandler({
-    //   ...getValues(),
-    //   content,
-    // });
   };
   return (
     <Fragment>
       <h3 className="subheading mb-4">{wording.cta}</h3>
-      {state.sent && (
-        <Toast type="success" afterLeave={() => setState({ sent: false })}>
-          Message sent. Thank for your {wording.singular}.
-        </Toast>
-      )}
+      {/* {state.sent && ( */}
+
+      {/* )} */}
       <CommentSuggestion onButtonClick={quickComment} page={page} />
       <form
         onSubmit={handleSubmit(submitHandler)}

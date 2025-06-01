@@ -34,11 +34,14 @@ const CommentSuggestion = ({
     axios
       .get("/api/comment-suggestion", {
         params: {
-          page: process.env.NEXT_PUBLIC_PRODUCTION_WEB_URL + page,
+          page: process.env.NEXT_PUBLIC_PRODUCTION_WEB_URL || "/" + page,
         },
       })
       .then((res) => {
         setSuggestion({ ...res.data });
+      })
+      .catch((err) => {
+        console.error(err);
       });
   }, [page]);
 

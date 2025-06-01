@@ -32,9 +32,9 @@ export default function Footer() {
 
   return (
     <div id="contact" className="relative">
-      <footer className="sticky bottom-0 z-0 text-primary">
-        <div className="pt-0 pb-12 main-container md:pb-16 lg:pb-24" ref={ref}>
-          <section className="grid grid-cols-12 pt-12 border-t lg:grid-rows-2 gap-x-3 gap-y-8 border-t-divider ">
+      <footer className="text-primary sticky bottom-0 z-0">
+        <div className="main-container pt-0 pb-12 md:pb-16 lg:pb-24" ref={ref}>
+          <section className="border-t-divider grid grid-cols-12 gap-x-3 gap-y-8 border-t pt-12 lg:grid-rows-2">
             <Fade
               slide
               show={inView}
@@ -45,10 +45,10 @@ export default function Footer() {
               <SpotifyPlayer />
             </Fade>
 
-            <div className="col-span-12 lg:col-span-6 lg:row-span-1 lg:justify-self-end lg:self-center">
+            <div className="col-span-12 lg:col-span-6 lg:row-span-1 lg:self-center lg:justify-self-end">
               <Fade slide show={inView} delay={100} as="div">
-                <p className="text-sm text-secondary">Let&apos;s connect </p>
-                <div className="flex items-center gap-4 font-mono text-lg font-medium leading-relaxed md:text-xl lg:text-2xl md:leading-relaxed lg:leading-relaxed">
+                <p className="text-secondary text-sm">Let&apos;s connect </p>
+                <div className="flex items-center gap-4 font-mono text-lg leading-relaxed font-medium md:text-xl md:leading-relaxed lg:text-2xl lg:leading-relaxed">
                   <Tooltip content="Say hi to me">
                     <InlineLink href="mailto:hi@auduongtuan.com" className="">
                       hi@auduongtuan.com
@@ -72,7 +72,7 @@ export default function Footer() {
               as="div"
               delay={100}
               show={inView}
-              className={`text-sm leading-loose col-span-12 lg:col-span-4 lg:row-start-2 lg:row-span-1 lg:self-start`}
+              className={`col-span-12 text-sm leading-loose lg:col-span-4 lg:row-span-1 lg:row-start-2 lg:self-start`}
             >
               Written, designed and built by Tuan.
               <br />© {new Date().getFullYear()}.{` `}
@@ -99,7 +99,7 @@ export default function Footer() {
                 onClose={() => setIsOpen((open) => !open)}
                 title="Colophon"
               >
-                <div className="p-4 [&>p:not(:first-child)]:mt-4 leading-relaxed">
+                <div className="p-4 leading-relaxed [&>p:not(:first-child)]:mt-4">
                   <p>
                     This site is designed in{" "}
                     <InlineLink href="https://figma.com">Figma</InlineLink> and
@@ -115,9 +115,10 @@ export default function Footer() {
                     </InlineLink>
                     ,{" "}
                     <InlineLink href="https://headlessui.com">
-                      Headless UI
+                      <s>Headless UI</s>
                     </InlineLink>
-                    .
+                    ,{" "}
+                    <InlineLink href="https://base-ui.com">Base UI</InlineLink>.
                   </p>
                   <p>
                     Content is managed in Notion and rendered into static pages
@@ -141,7 +142,7 @@ export default function Footer() {
                     </InlineLink>
                     .
                   </p>
-                  <div className="flex mt-6 gap-x-2">
+                  <div className="mt-6 flex gap-x-2">
                     <Button
                       href="/blog/enhance-skills-building-personal-websites"
                       arrow

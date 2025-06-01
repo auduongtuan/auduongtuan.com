@@ -1,41 +1,45 @@
-import { Fragment } from "react";
-import {
-  Field,
-  Label,
-  Checkbox as HCheckbox,
-  CheckboxProps as HCheckboxProps,
-} from "@headlessui/react";
+import { Checkbox as BaseCheckbox } from "@base-ui-components/react";
 import { FiCheck } from "react-icons/fi";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 
-export interface CheckboxProps extends HCheckboxProps {
+export interface CheckboxProps
+  extends Omit<BaseCheckbox.Root.Props, "onCheckedChange"> {
   label?: React.ReactNode;
+  onChange?: BaseCheckbox.Root.Props["onCheckedChange"];
 }
 
-const Checkbox = ({ checked, onChange, label, ...rest }: CheckboxProps) => {
+const Checkbox = ({
+  checked,
+  onChange,
+  label,
+  className,
+  ...rest
+}: CheckboxProps) => {
   // const [enabled, setEnabled] = useState(false)
 
   return (
-    <Field className="flex items-center gap-2">
-      <HCheckbox checked={checked} onChange={onChange} {...rest}>
-        {({ checked }) => (
-          /* Use the `checked` state to conditionally style the button. */
-          <button
-            className={twMerge(
-              checked
-                ? "bg-accent focus:ring-[3px] focus:ring-accent/20"
-                : "bg-surface border border-control focus:ring-2 focus:ring-accent",
-              "relative flex h-4 w-4 items-center justify-center rounded-xs focus:shadow-xs focus:shadow-blue-400/40 outline-hidden bg-clip-padding"
-            )}
-          >
-            {checked && <FiCheck className="w-3 h-3 text-white" />}
-          </button>
+    <label className="flex items-center gap-2">
+      <BaseCheckbox.Root
+        checked={checked}
+        onCheckedChange={onChange}
+        className={cn(
+          "bg-surface border-control focus:ring-accent border focus:ring-2",
+          "relative flex h-4 w-4 items-center justify-center rounded-xs bg-clip-padding outline-hidden focus:shadow-xs focus:shadow-blue-400/40",
+          "data-checked:bg-accent data-checked:focus:ring-accent/20 data-checked:focus:ring-[3px]",
+          className,
         )}
-      </HCheckbox>
+        {...rest}
+      >
+        <BaseCheckbox.Indicator
+          className={"transition-opacity duration-200 data-checked:opacity-0"}
+        >
+          <FiCheck className="h-3 w-3 text-white" />
+        </BaseCheckbox.Indicator>
+      </BaseCheckbox.Root>
       {label && (
-        <Label className="text-base cursor-pointer text-primary">{label}</Label>
+        <span className="text-primary cursor-pointer text-base">{label}</span>
       )}
-    </Field>
+    </label>
   );
 };
 

@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 import Caption from "./Caption";
 
 const Figure = ({
@@ -15,9 +15,9 @@ const Figure = ({
 }) => (
   <figure className={className} {...rest}>
     <div
-      className={twMerge(
+      className={cn(
         borderRadius && "rounded-xl",
-        "overflow-hidden translate-z-0 leading-0"
+        "translate-z-0 overflow-hidden leading-0",
       )}
     >
       {children}

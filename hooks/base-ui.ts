@@ -35,7 +35,7 @@ export function useAnimationsFinished(
   }: {
     waitForNextTick?: boolean;
     subtree?: boolean;
-  } = {},
+  },
 ) {
   const frameRef = useRef(-1);
   const timeoutRef = useRef(-1);
@@ -66,7 +66,11 @@ export function useAnimationsFinished(
           }
 
           Promise.allSettled(
-            element.getAnimations({ subtree }).map((anim) => anim.finished),
+            element
+              .getAnimations({
+                subtree,
+              })
+              .map((anim) => anim.finished),
           ).then(() => {
             // Synchronously flush the unmounting of the component so that the browser doesn't
             // paint: https://github.com/mui/base-ui/issues/979

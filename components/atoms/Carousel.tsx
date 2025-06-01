@@ -2,7 +2,7 @@ import { Children, useEffect, useState } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import IconButton from "./IconButton";
 import { useSnapCarousel } from "react-snap-carousel";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 import Caption from "./Caption";
 import useProjectStore from "@store/useProjectStore";
 import { useCompare } from "@hooks";
@@ -48,16 +48,16 @@ const Carousel = ({
       <div className="relative">
         <IconButton
           onClick={() => prev()}
-          className={twMerge(
-            "hidden md:flex absolute left-0 -translate-x-16 -translate-y-1/2 top-1/2 ",
-            activePageIndex === 0 && "opacity-0 pointer-events-none invisible"
+          className={cn(
+            "absolute top-1/2 left-0 hidden -translate-x-16 -translate-y-1/2 md:flex",
+            activePageIndex === 0 && "pointer-events-none invisible opacity-0",
           )}
         >
           <FiChevronLeft />
         </IconButton>
         {/* <div className="overflow-x-auto"> */}
         <div
-          className="scrollbar-hidden snap-mandatory gap-2 snap-x overflow-x-auto transition-all duration-150 flex *:w-full *:grow-0 *:shrink-0"
+          className="scrollbar-hidden flex snap-x snap-mandatory gap-2 overflow-x-auto transition-all duration-150 *:w-full *:shrink-0 *:grow-0"
           ref={scrollRef}
         >
           {Children.map(children, (child, i) => {
@@ -78,13 +78,13 @@ const Carousel = ({
             );
           })}
         </div>
-        <div className="flex items-center justify-center mt-3">
+        <div className="mt-3 flex items-center justify-center">
           {pages.map((_, i) => (
             <button
               key={i}
-              className={twMerge(
-                "size-3 rounded-full mx-2 font-bold text-transparent bg-button-secondary hover:bg-button-secondary-hover active:bg-button-secondary-pressed block",
-                activePageIndex === i && "bg-button-secondary-activated"
+              className={cn(
+                "bg-button-secondary hover:bg-button-secondary-hover active:bg-button-secondary-pressed mx-2 block size-3 rounded-full font-bold text-transparent",
+                activePageIndex === i && "bg-button-secondary-activated",
               )}
               onClick={() => goTo(i)}
             >
@@ -95,10 +95,10 @@ const Carousel = ({
         {/* </div> */}
         <IconButton
           onClick={() => next()}
-          className={twMerge(
-            "hidden md:flex absolute right-0 translate-x-16 -translate-y-1/2 top-1/2 ",
+          className={cn(
+            "absolute top-1/2 right-0 hidden translate-x-16 -translate-y-1/2 md:flex",
             activePageIndex === pages.length - 1 &&
-              "opacity-0 pointer-events-none invisible"
+              "pointer-events-none invisible opacity-0",
           )}
         >
           <FiChevronRight />

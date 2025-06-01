@@ -1,5 +1,6 @@
 import Balancer from "react-wrap-balancer";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
+
 const Box = ({
   children,
   className = "",
@@ -21,18 +22,18 @@ const Box = ({
 
   return (
     <div
-      className={twMerge(
-        "border border-divider box shadow-[0_4px_5px_-1px_rgb(0_0_0/0.02),_0_2px_3px_-2px_rgb(0_0_0/0.03)] bg-surface p-4 h-full rounded-xl [&>*:first-child]:mt-0",
-        className
+      className={cn(
+        "border-divider box bg-surface h-full rounded-xl border p-4 shadow-[0_4px_5px_-1px_rgb(0_0_0/0.02),_0_2px_3px_-2px_rgb(0_0_0/0.03)] [&>*:first-child]:mt-0",
+        className,
       )}
       {...rest}
     >
       {caption ? (
-        <figure className="flex flex-col justify-center h-full">
-          <div className="flex items-center justify-center grow [&>*:first-child]:mt-0">
+        <figure className="flex h-full flex-col justify-center">
+          <div className="flex grow items-center justify-center [&>*:first-child]:mt-0">
             {renderChildren()}
           </div>
-          <figcaption className="mt-6 text-sm text-center text-secondary">
+          <figcaption className="text-secondary mt-6 text-center text-sm">
             {caption}
           </figcaption>
         </figure>
@@ -42,6 +43,7 @@ const Box = ({
     </div>
   );
 };
+
 export const EmojiBox = ({
   children,
   caption,
@@ -53,9 +55,9 @@ export const EmojiBox = ({
 }) => {
   return (
     <Box>
-      <div className="mb-4 text-6xl text-center">{emoji}</div>
+      <div className="mb-4 text-center text-6xl">{emoji}</div>
       {caption && (
-        <div className="font-medium leading-normal text-center body-text">
+        <div className="body-text text-center leading-normal font-medium">
           <Balancer>{caption}</Balancer>
         </div>
       )}
@@ -67,7 +69,9 @@ export const EmojiBox = ({
     </Box>
   );
 };
+
 export const VideoBox = ({ children }: { children: React.ReactNode }) => (
   <Box className="p-2">{children}</Box>
 );
+
 export default Box;

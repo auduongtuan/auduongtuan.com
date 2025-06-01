@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useImperativeHandle, useState } from "react";
 import Skeleton from "./Skeleton";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
+
 export interface CustomVideoProps
   extends React.ComponentPropsWithoutRef<"video"> {
   poster?: string;
@@ -78,10 +79,7 @@ const CustomVideo = ({
         >
           <video
             ref={innerRef}
-            className={twMerge(
-              `absolute top-0 left-0 h-full w-full`,
-              className,
-            )}
+            className={cn(`absolute top-0 left-0 h-full w-full`, className)}
             poster={poster && `/uploads/${slug}/${poster}`}
             data-src={slug ? `/uploads/${slug}/${src}` : src}
             width={width ? width : undefined}
@@ -98,5 +96,6 @@ const CustomVideo = ({
     </Skeleton.Wrapper>
   );
 };
+
 CustomVideo.displayName = "CustomVideo";
 export default CustomVideo;

@@ -8,6 +8,7 @@ import Script from "next/script";
 import { useEffect } from "react";
 import { Provider as BalancerProvider } from "react-wrap-balancer";
 import Navigation from "../components/molecules/Navigation";
+import { ToastList } from "../components/atoms/Toast";
 import * as gtag from "../lib/gtag";
 import "../styles/globals.css";
 
@@ -76,7 +77,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       )}
       <main className="relative">
         <Navigation />
-        <div id="toast-root"></div>
+        <ToastList />
         <Component {...pageProps} />
       </main>
     </BalancerProvider>

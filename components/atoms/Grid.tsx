@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 
 export const Grid = ({
   cols = 12,
@@ -141,7 +141,7 @@ const ROW_SPAN_CLASSES: { [key: string]: { [key: string]: string } } = {
 const getClass = (
   classes: { [key: string]: { [key: string]: string } },
   span: string | number | undefined,
-  breakpoint: string = "lg"
+  breakpoint: string = "lg",
 ): string => {
   if (span && span in classes[breakpoint]) {
     return classes[breakpoint][span];
@@ -184,7 +184,7 @@ export const Col = ({
 }) => {
   return (
     <div
-      className={twMerge(
+      className={cn(
         getClass(COL_SPAN_CLASSES, spanSm || span, "sm"),
         getClass(COL_SPAN_CLASSES, spanMd, "md"),
         getClass(COL_SPAN_CLASSES, spanLg, "lg"),
@@ -194,7 +194,7 @@ export const Col = ({
         getClass(ROW_START_CLASSES, rowStartSm || rowStart, "sm"),
         getClass(ROW_START_CLASSES, rowStartMd, "md"),
         getClass(ROW_START_CLASSES, rowStartLg, "lg"),
-        className
+        className,
       )}
       {...rest}
     >

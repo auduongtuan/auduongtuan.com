@@ -1,35 +1,39 @@
-import {
-  Disclosure as HeadlessDisclosure,
-  DisclosureButton,
-  DisclosurePanel,
-} from "@headlessui/react";
+import { ReactNode, useState } from "react";
+import { Collapsible } from "@base-ui-components/react";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { cn } from "@lib/utils/cn";
+
+interface DisclosureProps {
+  title: ReactNode;
+  children: ReactNode;
+  className?: string;
+  defaultOpen?: boolean;
+}
 
 const Disclosure = ({
   title,
   children,
   className = "",
-}: {
-  title: React.ReactNode;
-  children: React.ReactNode;
-  className?: string;
-}) => {
+  defaultOpen = false,
+}: DisclosureProps) => {
+  const [open, setOpen] = useState(defaultOpen);
+
   return (
-    <HeadlessDisclosure>
-      {({ open }) => (
-        <div className={`${className}`}>
-          <DisclosureButton
-            className={`py-2 px-4 -my-2 -mx-4 w-full body-text flex rounded-md items-center hover:bg-gray-100 font-semibold text-left`}
-          >
-            <span className="mr-2">
-              {open ? <FiChevronDown /> : <FiChevronRight />}
-            </span>
-            <div>{title}</div>
-          </DisclosureButton>
-          <DisclosurePanel className="pl-7">{children}</DisclosurePanel>
-        </div>
-      )}
-    </HeadlessDisclosure>
+    <Collapsible.Root
+      defaultOpen={defaultOpen}
+      className={className}
+      onOpenChange={setOpen}
+    >
+      <Collapsible.Trigger className="-mx-4 -my-2 flex w-full items-center rounded-md px-4 py-2 text-left font-semibold hover:bg-gray-100">
+        <span className="mr-2">
+          {open ? <FiChevronDown /> : <FiChevronRight />}
+        </span>
+        <div>{title}</div>
+      </Collapsible.Trigger>
+      <Collapsible.Panel className="overflow-hidden pl-7 transition-all duration-200 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0">
+        {children}
+      </Collapsible.Panel>
+    </Collapsible.Root>
   );
 };
 

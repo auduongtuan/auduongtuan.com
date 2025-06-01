@@ -25,7 +25,6 @@ const PillButton = <T extends "a" | "button">({
 }: PillButtonProps<T> & {
   ref?: React.RefObject<HTMLElement>;
 }) => {
-  const externalAttrs = external ? { target: "_blank", rel: "noreferrer" } : {};
   const buttonStyles = cn(
     "shrink-0 text-secondary inline-flex items-center transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1 px-3 py-1 hover:border-accent justify-items-center hover:bg-surface/40 group",
     active && "border-accent text-accent",

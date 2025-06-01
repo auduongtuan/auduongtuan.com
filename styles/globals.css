@@ -180,27 +180,27 @@
 /*------------------------------*/
 
 @utility hero-text {
-  @apply font-sans text-[1.75rem] leading-[1.11] font-semibold md:text-5xl md:leading-[1.11] lg:text-[3.75rem] lg:leading-[1.11];
+  @apply text-[1.75rem] leading-[1.11] font-semibold md:text-5xl md:leading-[1.11] lg:text-[3.75rem] lg:leading-[1.11];
 }
 
 @utility h1 {
-  @apply font-sans text-[1.75rem] leading-[1.1] font-semibold tracking-tight md:text-4xl lg:text-5xl;
+  @apply text-[1.75rem] leading-[1.1] font-semibold tracking-tight md:text-4xl lg:text-5xl;
 }
 
 @utility h2 {
-  @apply font-sans text-2xl leading-tight font-semibold md:text-3xl md:leading-tight;
+  @apply text-2xl leading-tight font-semibold md:text-3xl md:leading-tight;
 }
 
 @utility h3 {
-  @apply font-sans text-lg leading-tight font-semibold md:text-2xl md:leading-tight;
+  @apply text-lg leading-tight font-semibold md:text-2xl md:leading-tight;
 }
 
 @utility h4 {
-  @apply font-sans text-lg font-semibold md:text-xl;
+  @apply text-lg font-semibold md:text-xl;
 }
 
 @utility h5 {
-  @apply font-sans text-xs font-medium tracking-wide uppercase md:text-sm;
+  @apply text-xs font-medium tracking-wide uppercase md:text-sm;
 }
 
 @utility big-body-text {
@@ -213,11 +213,11 @@
   /* .big-text {
     @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-sans;
   } */
-  @apply text-base leading-relaxed md:text-lg md:leading-relaxed;
+  @apply text-base leading-[1.57] md:text-lg md:leading-[1.57];
 }
 
 @utility small-body-text {
-  @apply text-sm leading-relaxed md:text-base md:leading-relaxed;
+  @apply text-sm leading-[1.57] md:text-base md:leading-[1.57];
 }
 
 @utility page-description {
@@ -283,11 +283,12 @@
 
   li {
     /* @apply mt-2 first:-mt-1 md:first:-mt-2; */
-    @apply mt-content-element first:-mt-1 md:first:-mt-2;
+    /* @apply first:-mt-1 md:first:-mt-2; */
     ol,
     ul,
     blockquote,
-    p {
+    p,
+    .mt-content-node {
       &:not(:first-child) {
         @apply mt-content-element;
       }
@@ -457,14 +458,14 @@
       --subsection-vertical-padding: 2.5rem;
       --content-element-spacing: 1rem;
       --content-node-spacing: 1.25rem;
-      --content-group-spacing: 3rem;
-      --content-section-spacing: 4rem;
+      --content-group-spacing: 2rem;
+      --content-section-spacing: 2.75rem;
     }
 
     @media (width >= theme(--breakpoint-lg)) {
-      --content-node-spacing: 1.875rem;
-      --content-group-spacing: 3.5rem;
-      --content-section-spacing: 4.5rem;
+      --content-node-spacing: 1.5rem;
+      --content-group-spacing: 2.5rem;
+      --content-section-spacing: 3rem;
     }
   }
 

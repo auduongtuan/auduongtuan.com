@@ -1,7 +1,7 @@
 import Fade from "@atoms/Fade";
 import HeadMeta from "@atoms/HeadMeta";
 import Tag from "@atoms/Tag";
-import { Transition } from "@headlessui/react";
+import { Transition } from "@atoms/Transition";
 import { Post } from "@lib/notion";
 import { PasswordInfo } from "@lib/notion/password";
 import ContentMenu from "@molecules/ContentMenu";
@@ -13,7 +13,7 @@ import usePasswordProtectStore from "@store/usePasswordProtectStore";
 import usePostStore from "@store/usePostStore";
 import { useEffect } from "react";
 import Balancer from "react-wrap-balancer";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 import OtherPostList from "./OtherPostList";
 
 const PostSinglePage = ({
@@ -109,25 +109,17 @@ const PostSinglePage = ({
             <>
               <Transition
                 show={decryptedContent != null}
-                enter="transition-all duration-1000"
-                enterFrom="opacity-0"
-                enterTo="opacity-100"
-                as="div"
-                className={
-                  "text-primary content-blocks-grid [&>*:first-child]:mt-0"
-                }
+                starting="opacity-0"
+                ending="opacity-0"
+                className="text-primary content-blocks-grid transition-all duration-1000 [&>*:first-child]:mt-0"
               >
-                {parseBlocks(decryptedContent, post.assets)}
+                <div>{parseBlocks(decryptedContent, post.assets)}</div>
               </Transition>
               <Transition
                 show={decryptedContent == null}
-                leave="transition-opacity duration-300"
-                leaveFrom="opacity-100"
-                leaveTo="opacity-0"
-                as="div"
-                className={
-                  "text-primary content-container [&>*:first-child]:mt-0"
-                }
+                ending="opacity-0"
+                className="text-primary content-container transition-opacity duration-300 [&>*:first-child]:mt-0"
+                asChild={false}
               >
                 <PasswordProtect
                   encryptedContent={postContent}
@@ -147,10 +139,9 @@ const PostSinglePage = ({
         <div className="main-container">
           <Transition
             show={isShown}
-            enter="transition-all duration-1000"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            as="div"
+            starting="opacity-0"
+            ending="opacity-0"
+            className="transition-all duration-1000"
           >
             <ReactionAndComment
               page={`blog/${post.slug}`}
@@ -164,7 +155,7 @@ const PostSinglePage = ({
             ></ReactionAndComment>
           </Transition>
           <div
-            className={twMerge(
+            className={cn(
               "relative",
               isShown &&
                 "mt-10 border-t border-gray-200 pt-10 md:mt-16 md:pt-12",

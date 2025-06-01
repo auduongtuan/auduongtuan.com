@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 import Fade from "./Fade";
 
 export interface BadgeProps {
@@ -13,33 +13,33 @@ const Badge = ({ content, index, size = "medium" }: BadgeProps) => {
   const contest = size == "medium" ? parts[1] : parts[3] || parts[1];
   return (
     <Fade
-      className={twMerge(
+      className={cn(
         size == "medium"
-          ? "w-[8.5rem] h-[8.5rem]"
-          : "w-[4.725rem] h-[4.725rem]",
-        "text-center relative inline-flex mt-[0.4rem] flex-col items-center justify-center"
+          ? "h-[8.5rem] w-[8.5rem]"
+          : "h-[4.725rem] w-[4.725rem]",
+        "relative mt-[0.4rem] inline-flex flex-col items-center justify-center text-center",
       )}
     >
       <div
-        className={twMerge(
-          size == "medium" ? "px-5 py-3" : "px-3 pb-2 pt-0.5",
-          "absolute flex flex-col items-center justify-center w-full h-full text-center rounded-full"
+        className={cn(
+          size == "medium" ? "px-5 py-3" : "px-3 pt-0.5 pb-2",
+          "absolute flex h-full w-full flex-col items-center justify-center rounded-full text-center",
         )}
       >
         <span
-          className={twMerge(
+          className={cn(
             size == "medium"
-              ? "text-sm mb-1 leading-tight"
-              : "text-[0.625rem] leading-[0.95] mb-1",
-            "block px-1  font-medium uppercase font-mono  text-secondary"
+              ? "mb-1 text-sm leading-tight"
+              : "mb-1 text-[0.625rem] leading-[0.95]",
+            "text-secondary block px-1 font-mono font-medium uppercase",
           )}
         >
           {prize}
         </span>
         <span
-          className={twMerge(
+          className={cn(
             size == "medium" ? "text-[0.6875rem]" : "text-[0.4625rem]",
-            "text-center uppercase font-medium font-mono leading-tight text-tertiary"
+            "text-tertiary text-center font-mono leading-tight font-medium uppercase",
           )}
         >
           {contest}
@@ -47,7 +47,7 @@ const Badge = ({ content, index, size = "medium" }: BadgeProps) => {
       </div>
       {/* <svg className='absolute top-0 left-0 w-full h-full fill-gray-300' */}
       <svg
-        className="absolute top-0 left-0 w-full h-full fill-gray-300"
+        className="absolute top-0 left-0 h-full w-full fill-gray-300"
         xmlns="http://www.w3.org/2000/svg"
         x="0"
         y="0"

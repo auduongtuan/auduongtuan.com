@@ -8,7 +8,7 @@ import {
   FiZoomOut,
 } from "react-icons/fi";
 import Tooltip from "./Tooltip";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 import { useDraggable } from "@hooks/useDraggable";
 
 export interface BaseFrameProps extends React.ComponentPropsWithoutRef<"div"> {
@@ -19,6 +19,7 @@ export interface BaseFrameProps extends React.ComponentPropsWithoutRef<"div"> {
   middleContent?: React.ReactNode;
   endContent?: React.ReactNode;
 }
+
 export const BaseFrame = ({
   ref,
   children,
@@ -49,7 +50,7 @@ export const BaseFrame = ({
       >
         <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full rounded-xl rounded-t-[11px] border border-solid border-black/20"></div>
         <header
-          className={twMerge(
+          className={cn(
             `flex items-center justify-between`,
             inverted ? "bg-slate-100" : "bg-slate-800",
             draggable && "cursor-move",
@@ -70,7 +71,7 @@ export const BaseFrame = ({
           </div>
         </header>
         <main
-          className={twMerge(
+          className={cn(
             "grow-0 overflow-hidden rounded-b-xl p-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
             mainClassname,
           )}
@@ -196,7 +197,7 @@ export const PhotoFrame = ({
           ref.current = el;
         }
       }}
-      className={twMerge(
+      className={cn(
         `relative flex w-full translate-z-0 flex-col overflow-hidden rounded-xl border border-solid border-black/20 shadow-lg`,
         className,
       )}
@@ -204,7 +205,7 @@ export const PhotoFrame = ({
     >
       <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full rounded-xl"></div>
       <header
-        className={twMerge(
+        className={cn(
           "flex items-center justify-between font-sans",
           inverted ? "bg-slate-100" : "bg-slate-800",
           draggable && "cursor-move",
@@ -241,7 +242,7 @@ export const PhotoFrame = ({
         </div>
       </header>
       <main
-        className={twMerge(
+        className={cn(
           "grow-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
           mainClassname,
         )}
@@ -252,6 +253,7 @@ export const PhotoFrame = ({
   );
   return renderFrame();
 };
+
 PhotoFrame.displayName = "PhotoFrame";
 
 export default BrowserFrame;

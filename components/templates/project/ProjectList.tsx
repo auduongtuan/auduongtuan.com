@@ -114,6 +114,7 @@ export default function ProjectList({
               buttonClassName={"max-w-[240px]"}
               onChange={setSortByAndTrack}
               options={sortOptions}
+              align="end"
             />
           }
         />

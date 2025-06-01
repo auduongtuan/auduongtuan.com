@@ -2,8 +2,9 @@ import Link, { LinkProps } from "next/link";
 import React from "react";
 import { FiArrowRight, FiDownload, FiArrowUpRight } from "react-icons/fi";
 import { FaSpinner } from "react-icons/fa";
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 import { parseInternalLink } from "@lib/utils";
+
 export interface ButtonProps {
   href?: string;
   className?: string;
@@ -20,6 +21,7 @@ export interface ButtonProps {
   type?: "submit" | "button" | "reset";
   onClick?: () => void;
 }
+
 const Button = ({
   href,
   className = "",
@@ -36,7 +38,7 @@ const Button = ({
   ...rest
 }: ButtonProps) => {
   //   if (colorful) className += ;
-  const buttonStyles = twMerge(
+  const buttonStyles = cn(
     "font-mono py-2 px-4 rounded-lg font-semibold text-sm uppercase inline-block transition-all duration-200 ease-out",
     "focus-visible:ring-2 ring-accent outline-hidden ",
     "inline-flex items-center",
@@ -47,7 +49,7 @@ const Button = ({
     secondary &&
       "bg-surface py-[0.4375rem] border border-control text-secondary hover:bg-button-secondary-hover active:bg-button-secondary-pressed",
     disabled && "disabled",
-    className
+    className,
   );
   let defaultIcon: React.ReactNode;
   if (showPopoutIcon) {
@@ -88,4 +90,5 @@ const Button = ({
     );
   }
 };
+
 export default Button;
