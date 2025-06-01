@@ -9,10 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@base-ui-components/react": "1.0.0-alpha.8",
+    "@base-ui-components/react": "1.0.0-beta.0",
     "@floating-ui/react": "^0.27.8",
     "@google/generative-ai": "^0.21.0",
-    "@headlessui/react": "^2.2.2",
     "@notionhq/client": "^2.3.0",
     "@tailwindcss/postcss": "^4.1.5",
     "@vercel/og": "^0.6.8",

@@ -1,4 +1,4 @@
-import { twMerge } from "tailwind-merge";
+import { cn } from "@lib/utils/cn";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const iconButtonVariants = cva(
@@ -84,7 +84,7 @@ const IconButton = <T extends React.ElementType = "button">({
   ref?: React.RefObject<unknown>;
 }) => {
   const externalAttrs = external ? { target: "_blank", rel: "noreferrer" } : {};
-  const buttonStyles = twMerge(
+  const buttonStyles = cn(
     iconButtonVariants({ size, inverted, className, variant }),
   );
 

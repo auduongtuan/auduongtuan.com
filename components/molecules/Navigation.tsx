@@ -1,5 +1,5 @@
 import NavigationLink from "@atoms/NavigationLink";
-import { Transition } from "@headlessui/react";
+import { Transition } from "@atoms/Transition";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useAppStore from "@store/useAppStore";
 import { useRouter } from "next/router";
@@ -146,13 +146,9 @@ const Navigation = React.memo(() => {
       {/* MOBILE MENU */}
       <Transition
         show={menuOpened}
-        as={Fragment}
-        enter="transition-all duration-300 ease-out"
-        enterFrom="opacity-0 -translate-y-12"
-        enterTo="opacity-1 translate-y-0"
-        leave="transition-all duration-300"
-        leaveFrom="opacity-1 translate-y-0"
-        leaveTo="opacity-0 -translate-y-12"
+        starting="opacity-0 -translate-y-12"
+        ending="opacity-0 -translate-y-12"
+        className="transition-all duration-300 ease-out"
       >
         <div className={`bg-surface fixed z-40 h-full w-full`}>
           <div className="main-container font-sans">

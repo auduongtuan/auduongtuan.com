@@ -3,7 +3,7 @@ import Fade from "@atoms/Fade";
 import { Project } from "@lib/notion";
 import parseBlocks from "@notion/parseBlocks";
 import usePasswordProtectStore from "@store/usePasswordProtectStore";
-import { Transition } from "@headlessui/react";
+import { Transition } from "@atoms/Transition";
 import PasswordProtect from "@molecules/PasswordProtect";
 import { PasswordInfo } from "@lib/notion/password";
 
@@ -35,21 +35,16 @@ const ProjectSingleContent = ({
           <>
             <Transition
               show={decryptedContent != null}
-              enter="transition-all duration-1000"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              as={"div"}
-              className={"content-blocks-grid"}
+              starting="opacity-0"
+              ending="opacity-0"
+              className="content-blocks-grid transition-all duration-1000"
             >
-              {parseBlocks(decryptedContent, project.assets)}
+              <div>{parseBlocks(decryptedContent, project.assets)}</div>
             </Transition>
             <Transition
               show={decryptedContent == null}
-              leave="transition-opacity duration-300"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-              as={"div"}
-              className={"content-container"}
+              ending="opacity-0"
+              className="content-container transition-opacity duration-300"
             >
               <PasswordProtect
                 encryptedContent={notionContent}

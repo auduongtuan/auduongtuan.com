@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { twMerge } from "tailwind-merge";
+import { useCallback, useRef, useState } from "react";
+import { cn } from "@lib/utils/cn";
 
 interface FadeScrollableContainerProps
   extends React.ComponentPropsWithoutRef<"div"> {
@@ -14,7 +14,7 @@ const FadeScrollableContainer = ({
   const ref = useRef<HTMLDivElement>(null);
   const [showStart, setShowStart] = useState(false);
   const [showEnd, setShowEnd] = useState(true);
-  const onScroll = () => {
+  const onScroll = useCallback(() => {
     if (!ref.current) return;
     const container = ref.current;
     const scrollable = container.scrollWidth - container.offsetWidth;
@@ -28,13 +28,13 @@ const FadeScrollableContainer = ({
       setShowStart(true);
       setShowEnd(true);
     }
-  };
+  }, []);
 
   return (
-    <div className={twMerge("relative w-full", className)}>
+    <div className={cn("relative w-full", className)}>
       {showStart && (
         <span
-          className="absolute top-0 left-0 block w-4 h-full bg-linear-to-r from-inherit to-transparent"
+          className="absolute top-0 left-0 block h-full w-4 bg-linear-to-r from-inherit to-transparent"
           style={
             {
               "--tw-gradient-from": background,
@@ -44,7 +44,7 @@ const FadeScrollableContainer = ({
       )}
       {showEnd && (
         <span
-          className="absolute top-0 right-0 block w-4 h-full bg-linear-to-r from-transparent to-inherit"
+          className="absolute top-0 right-0 block h-full w-4 bg-linear-to-r from-transparent to-inherit"
           style={
             {
               "--tw-gradient-to": background,
@@ -53,7 +53,7 @@ const FadeScrollableContainer = ({
         ></span>
       )}
       <div
-        className="overflow-y-scroll scrollbar-hidden"
+        className="scrollbar-hidden overflow-y-scroll"
         ref={ref}
         onScroll={onScroll}
       >

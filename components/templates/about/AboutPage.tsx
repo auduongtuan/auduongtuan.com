@@ -4,7 +4,7 @@ import Fade from "@atoms/Fade";
 import IconButton from "@atoms/IconButton";
 import InlineLink from "@atoms/InlineLink";
 import Tooltip from "@atoms/Tooltip";
-import { Transition } from "@headlessui/react";
+import { Transition } from "@atoms/Transition";
 import { useWindowSize } from "@hooks";
 import { Fact } from "@lib/notion/fact";
 import { NotionNowItem } from "@lib/notion/now";
@@ -128,14 +128,9 @@ export default function AboutPage({
               </Fade>
               <Transition
                 show={aboutSectionExpanded}
-                enter="transition-all duration-500"
-                enterFrom="opacity-0 max-h-0"
-                enterTo="opacity-100 max-h-40"
-                leave="transition-all duration-500"
-                leaveFrom="opacity-100 max-h-40"
-                leaveTo="opacity-0 max-h-0"
-                as="div"
-                className={"overflow-hidden"}
+                starting="opacity-0 max-h-0"
+                ending="opacity-0 max-h-0"
+                className="overflow-hidden transition-all duration-500"
               >
                 <p className="mx-auto block max-w-[65ch] pt-2 pb-6 text-center text-sm">
                   <span className="font-medium">About this section:</span> I’m
@@ -152,16 +147,13 @@ export default function AboutPage({
             </div>
             <Transition
               show={!isExpanded}
-              as="div"
-              enter="transition-all duration-200"
-              enterFrom="opacity-0 md:max-w-1/3"
-              enterTo="opacity-100 md:max-w-[calc(((100%+var(--gap-x))*7)/12-var(--gap-x))]"
-              leave="transition-all duration-200"
-              leaveFrom="opacity-100 md:max-w-[calc(((100%+var(--gap-x))*7)/12-var(--gap-x))]"
-              leaveTo="opacity-0 md:max-w-1/3"
+              starting="opacity-0 md:max-w-1/3"
+              ending="opacity-0 md:max-w-1/3"
               className={cn(
                 "font-display w-full shrink grow-0 text-base leading-relaxed md:text-lg md:leading-relaxed [&_.item:not(:first-child)]:mt-2 lg:[&_.item:not(:first-child)]:mt-3 [&_.section:not(:first-child)]:mt-6 lg:[&_.section:not(:first-child)]:mt-10",
+                "transition-all duration-200 md:max-w-[calc(((100%+var(--gap-x))*7)/12-var(--gap-x))]",
               )}
+              asChild={false}
             >
               <Fade delay={150} as="p" className="item">
                 Xin chào!

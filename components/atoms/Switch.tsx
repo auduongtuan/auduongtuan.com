@@ -1,36 +1,38 @@
 import { useState, Fragment } from "react";
-import { Switch as HSwitch } from "@headlessui/react";
+import { Switch as BaseSwitch } from "@base-ui-components/react";
 
-const Switch = ({ checked, onChange, label }) => {
+interface SwitchProps {
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+  label: React.ReactNode;
+}
+
+const Switch = ({ checked, onChange, label }: SwitchProps) => {
   // const [enabled, setEnabled] = useState(false)
 
   return (
-    <HSwitch.Group>
+    <label>
       <div className="flex items-center gap-2">
-        <HSwitch checked={checked} onChange={onChange} as={Fragment}>
-          {({ checked }) => (
-            /* Use the `checked` state to conditionally style the button. */
-            <button
-              className={`${
-                checked
-                  ? "bg-accent focus:ring-[3px] focus:ring-accent/20"
-                  : "bg-slate-300 focus:ring-2 focus:ring-accent"
-              } relative inline-flex h-6 w-11 items-center rounded-full border-transparent focus:shadow-xs focus:shadow-blue-400/40 outline-hidden bg-clip-padding`}
-            >
-              <span className="sr-only">{label}</span>
-              <span
-                className={`${
-                  checked ? "translate-x-6" : "translate-x-1"
-                } inline-block h-4 w-4 transform rounded-full bg-surface transition`}
-              />
-            </button>
-          )}
-        </HSwitch>
-        <HSwitch.Label className="text-primary text-base cursor-pointer">
-          {label}
-        </HSwitch.Label>
+        <BaseSwitch.Root
+          checked={checked}
+          onCheckedChange={onChange}
+          className={`${
+            checked
+              ? "bg-accent focus:ring-accent/20 focus:ring-[3px]"
+              : "focus:ring-accent bg-slate-300 focus:ring-2"
+          } relative inline-flex h-6 w-11 items-center rounded-full border-transparent bg-clip-padding outline-hidden focus:shadow-xs focus:shadow-blue-400/40`}
+        >
+          <span className="sr-only">{label}</span>
+          <BaseSwitch.Thumb
+            className={`${
+              checked ? "translate-x-6" : "translate-x-1"
+            } bg-surface inline-block h-4 w-4 transform rounded-full transition`}
+          />
+        </BaseSwitch.Root>
+        <span className="text-primary cursor-pointer text-base">{label}</span>
       </div>
-    </HSwitch.Group>
+    </label>
   );
 };
+
 export default Switch;

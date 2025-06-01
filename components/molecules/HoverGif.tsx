@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 import { PhotoFrame } from "@atoms/Frame";
 import {
   autoUpdate,
@@ -10,11 +12,10 @@ import {
   useHover,
   useInteractions,
 } from "@floating-ui/react";
-import { Portal, Transition } from "@headlessui/react";
 import { event } from "@lib/gtag";
-import { useState } from "react";
 import { trackEvent } from "@lib/utils";
 import { useRouter } from "next/router";
+import { Transition } from "@atoms/Transition";
 
 export default function HoverGif({
   text,
@@ -75,31 +76,38 @@ export default function HoverGif({
     ref: refs.setReference,
     ...getReferenceProps(),
   });
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
   return (
     <>
       {el}
-      <Portal>
-        <div
-          ref={refs.setFloating}
-          className="z-40"
-          style={floatingStyles}
-          {...getFloatingProps()}
-        >
-          <Transition
-            show={showGif}
-            enter="transition-all duration-200"
-            enterFrom="opacity-0 translate-y-10"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition-all duration-200"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-10"
+      {isMounted &&
+        showGif &&
+        ReactDOM.createPortal(
+          <div
+            ref={refs.setFloating}
+            className="z-40"
+            style={floatingStyles}
+            {...getFloatingProps()}
           >
-            <PhotoFrame name={label} inverted>
-              {children}
-            </PhotoFrame>
-          </Transition>
-        </div>
-      </Portal>
+            <Transition
+              show={true}
+              starting="opacity-0 translate-y-10"
+              ending="opacity-0 translate-y-10"
+              className="translate-y-0 transition-all duration-200"
+            >
+              <PhotoFrame name={label} inverted>
+                {children}
+              </PhotoFrame>
+            </Transition>
+          </div>,
+          document.body,
+        )}
     </>
   );
 }
