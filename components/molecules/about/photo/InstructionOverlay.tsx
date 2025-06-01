@@ -37,7 +37,7 @@ export const InstructionOverlay = () => {
 
   return (
     <Transition
-      show={true}
+      show={show}
       className="absolute inset-0 z-30 flex h-full items-center justify-center transition-opacity duration-100"
       asChild={false}
     >

@@ -66,21 +66,18 @@ export function Transition(props: TransitionProps) {
     subtree: listenToChildAnimations,
   });
 
+  const getRender = () => {
+    if (typeof children === "function") {
+      return children;
+    }
+    if (asChild && isValidElement(children)) {
+      return children;
+    }
+    return <section {...props}>{children}</section>;
+  };
+
   const rendered = useRender({
-    render: children ? (
-      typeof children === "function" ? (
-        (props) =>
-          (
-            children as (props: React.HTMLAttributes<any>) => React.ReactElement
-          )(props)
-      ) : asChild && isValidElement(children) ? (
-        () => children
-      ) : (
-        (props) => <section {...props}>{children}</section>
-      )
-    ) : (
-      <div />
-    ),
+    render: getRender(),
     props: mergeProps<"div">(otherProps, {
       ref,
       className: combinedClassName,

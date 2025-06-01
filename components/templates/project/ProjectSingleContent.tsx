@@ -22,7 +22,7 @@ const ProjectSingleContent = ({
   return (
     <div
       // remove bg color for clearer content
-      className="relative py-section-vertical"
+      className="py-section-vertical relative"
       key={project.slug + "_content"}
       // style={{
       //   background:

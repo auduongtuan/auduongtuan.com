@@ -2,13 +2,20 @@ import Disclosure from "@atoms/Disclosure";
 import parseBlocks from "./parseBlocks";
 import clsx from "clsx";
 import { richTextBlock } from "./richText";
-import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
 const Heading = ({ block }) => {
   const gutterTop = {
-    h2: "mt-8 md:mt-12 first:mt-0",
-    h3: "mt-4 md:mt-8 -mb-2 first:mt-0",
+    h2: "mt-content-section first:mt-0",
+    h3: "mt-content-group -mb-1 first:mt-0",
   };
+  // const tagStyleMap = {
+  //   h1: "h2",
+  //   h2: "h3",
+  //   h3: "h4",
+  //   h4: "h5",
+  //   h5: "h6",
+  //   h6: "h6",
+  // };
   let Tag = block.type.replace("heading_", "h");
   let text = block[block.type].rich_text[0]?.plain_text;
   const marks = {

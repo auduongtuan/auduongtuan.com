@@ -22,12 +22,12 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
           content.push(
             <p key={block.id} className="body-text mt-content-node">
               {richTextBlock(block)}
-            </p>
+            </p>,
           );
         break;
       case "image":
         content.push(
-          <div key={block.id} className="flex flex-col mt-content-node">
+          <div key={block.id} className="mt-content-node flex flex-col">
             <Figure
               caption={
                 block.image.caption && block.image?.caption.length > 0
@@ -45,18 +45,18 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
                 height={block.image.height}
               />
             </Figure>
-          </div>
+          </div>,
         );
         break;
       case "quote":
         content.push(
           <blockquote
             key={block.id}
-            className="pl-4 border-l-2 border-gray-300 mt-content-node"
+            className="mt-content-node border-l-2 border-gray-300 pl-4"
           >
             <p className="body-text mt-content-node">{richTextBlock(block)}</p>
             {parseBlocks(block.children, assets)}
-          </blockquote>
+          </blockquote>,
         );
         break;
       case "heading_2":
@@ -76,7 +76,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
             className="mt-content-node"
           >
             {block.children && parseBlocks(block.children, assets)}
-          </Disclosure>
+          </Disclosure>,
         );
         break;
       case "bulleted_list_item":
@@ -85,7 +85,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
           block,
           blocks,
           lastBlockIndex,
-          assets
+          assets,
         );
         if (bulletedList) content.push(bulletedList);
         break;
@@ -95,7 +95,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
           block,
           blocks,
           lastBlockIndex,
-          assets
+          assets,
         );
         if (numberedList) content.push(numberedList);
         break;
@@ -119,7 +119,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
               height={block.video.height}
               autoPlay
             />
-          </Figure>
+          </Figure>,
         );
         break;
       case "embed":
@@ -129,21 +129,21 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
               <iframe
                 src={`https://www.facebook.com/plugins/post.php?href=${block.embed.url}&width=auto&height=675&show_text=false&appId`}
                 allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-                className="w-full overflow-y-scroll h-[675px]"
+                className="h-[675px] w-full overflow-y-scroll"
               ></iframe>
-            </div>
+            </div>,
           );
         } else {
           content.push(
             <div key={block.id} className="mt-content-node">
               <iframe
                 src={block.embed.url}
-                className="w-full h-[600px] border-0 rounded-md overflow-hidden"
+                className="h-[600px] w-full overflow-hidden rounded-md border-0"
                 title="Design Tokens - CSS"
                 allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
                 sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
               ></iframe>
-            </div>
+            </div>,
           );
         }
         break;
@@ -155,14 +155,14 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
             className="mt-content-node"
           >
             {block.code.rich_text.map((r) => r.plain_text).join("")}
-          </Code>
+          </Code>,
         );
         break;
       case "column_list":
         content.push(
           <div
             key={block.id}
-            className="flex flex-col gap-8 md:flex-row full mt-content-node"
+            className="full mt-content-node flex flex-col gap-8 md:flex-row"
           >
             {block.children.map((column) => (
               <div
@@ -172,14 +172,14 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
                 {column.children && parseBlocks(column.children, assets)}
               </div>
             ))}
-          </div>
+          </div>,
         );
         break;
       case "column":
         content.push(
           <div key={block.id} className="">
             {block.children && parseBlocks(block.children, assets)}
-          </div>
+          </div>,
         );
         break;
       default:

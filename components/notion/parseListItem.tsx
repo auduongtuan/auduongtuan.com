@@ -8,7 +8,7 @@ const parseListItem = (
   block,
   blocks,
   lastBlockIndex,
-  assets?: NotionAssets
+  assets?: NotionAssets,
 ) => {
   const Tag = listItemType == "numbered_list_item" ? "ol" : "ul";
   let listItemBlocks: any[] = [];
@@ -25,11 +25,11 @@ const parseListItem = (
   lastBlockIndex.value--;
   return (
     <Tag
-      className="pl-8 mt-3 list-disc body-text md:mt-4 mt-content-node"
+      className="body-text mt-content-node list-disc pl-8"
       key={`list-${block.id}`}
     >
       {listItemBlocks.map((item) => (
-        <li key={item.id} className="mt-2 md:mt-3 first:mt-0">
+        <li key={item.id} className="mt-content-element first:mt-0">
           {richTextBlock(item)}
           {parseBlocks(item.children, assets)}
         </li>

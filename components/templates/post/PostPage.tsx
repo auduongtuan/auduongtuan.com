@@ -119,6 +119,7 @@ const PostSinglePage = ({
                 show={decryptedContent == null}
                 ending="opacity-0"
                 className="text-primary content-container transition-opacity duration-300 [&>*:first-child]:mt-0"
+                asChild={false}
               >
                 <PasswordProtect
                   encryptedContent={postContent}

@@ -20,10 +20,11 @@ export type ProjectCardProps = {
   project: Project;
   projects: Project[];
   index: number;
+  className?: string;
 };
 
 const ProjectCard = memo(
-  ({ project, projects, index, ...rest }: ProjectCardProps) => {
+  ({ project, projects, index, className, ...rest }: ProjectCardProps) => {
     const { ref, visibleRatio } = useVisibleRatio();
     const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
@@ -33,6 +34,7 @@ const ProjectCard = memo(
         className={twMerge(
           "text-primary rounded-2xl p-4 md:p-6 lg:p-6",
           "ease bg-card transition-all duration-400",
+          className,
         )}
         style={{
           // backgroundColor: project.background,

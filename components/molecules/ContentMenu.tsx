@@ -16,13 +16,14 @@ const ContentMenu = () => {
 
   useEffect(() => {
     let headingsTemp = Array.from(
-      document.querySelectorAll(".content-blocks-grid h2")
+      document.querySelectorAll(".content-blocks-grid h2"),
     ) as HTMLElement[];
     if (headingsTemp.length == 0) {
       headingsTemp = Array.from(
-        document.querySelectorAll(".content-blocks-grid h3")
+        document.querySelectorAll(".content-blocks-grid h3"),
       ) as HTMLElement[];
     }
+    console.log(headingsTemp);
     setHeadings(headingsTemp);
     const setupHeading = () => {
       let visibleInfoTemp: VisibleInfo[] = [];
@@ -65,7 +66,7 @@ const ContentMenu = () => {
     });
     visibleInfo.length > 0 &&
       setMaxLength(
-        visibleInfo.reduce((a, b) => (a.length > b.length ? a : b)).length
+        visibleInfo.reduce((a, b) => (a.length > b.length ? a : b)).length,
       );
     const calculateVisiblePercentage = (start, end) => {
       window.scrollY;
@@ -96,18 +97,18 @@ const ContentMenu = () => {
   }, [headings, visibleInfo]);
 
   return (
-    <div className="absolute top-0 bottom-0 left-0 h-full py-section-vertical">
+    <div className="py-section-vertical absolute top-0 bottom-0 left-0 h-full">
       <Fade
         as="aside"
-        className={`w-60 hidden 2xl:block sticky top-1/2`}
+        className={`sticky top-1/2 hidden w-60 2xl:block`}
         delay={100}
       >
-        <ul className="flex flex-col gap-y-1 group">
+        <ul className="group flex flex-col gap-y-1">
           {headings &&
             headings.length > 2 &&
             headings.map((heading, i) => (
-              <li key={i} className="grid items-center grid-cols-1">
-                <div className="col-start-1 row-start-1 w-8 ml-2 transition-all duration-350 ease-bounce group-hover:scale-x-3 group-hover:opacity-0 origin-left">
+              <li key={i} className="grid grid-cols-1 items-center">
+                <div className="ease-bounce col-start-1 row-start-1 ml-2 w-8 origin-left transition-all duration-350 group-hover:scale-x-3 group-hover:opacity-0">
                   <span
                     className={`block h-[2px] rounded ${
                       i == active ? "bg-gray-900" : "bg-gray-300"
@@ -131,7 +132,7 @@ const ContentMenu = () => {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                     }
                   }}
-                  className={`col-start-1 row-start-1 pl-0 transition-all duration-400 ease-bounce opacity-0 group-hover:opacity-100 origin-left -translate-x-10 group-hover:-translate-x-0 ml-3 text-sm font-semibold hover:text-primary truncate ${
+                  className={`ease-bounce hover:text-primary col-start-1 row-start-1 ml-3 origin-left -translate-x-10 truncate pl-0 text-sm font-semibold opacity-0 transition-all duration-400 group-hover:-translate-x-0 group-hover:opacity-100 ${
                     i == active ? "text-primary" : "text-gray-400"
                   }`}
                   href={`#${heading.id}`}
