@@ -8,6 +8,7 @@ import { PasswordInfo } from "@lib/notion/password";
 import { event } from "@lib/gtag";
 import PasswordField from "@atoms/PasswordField";
 import { trackEvent } from "@lib/utils";
+import TextField from "@atoms/TextField";
 
 const PasswordProtect = ({
   encryptedContent,
@@ -82,6 +83,14 @@ const PasswordProtect = ({
         <FiLock className="shrink-0 text-[24px] text-gray-400 md:text-[32px]"></FiLock>
       </div>
       <div className="mt-6">
+        {/* <TextField
+          pattern={`\d{${passwordInfo.length}}`}
+          maxLength={passwordInfo.length}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="text-lg"
+        /> */}
         <PasswordField
           type="text"
           key={id}

@@ -10,12 +10,12 @@ const iconButtonVariants = cva(
         medium: "",
         large: "",
       },
-      inverted: {
-        true: "bg-surface text-black",
-      },
+
       variant: {
         default:
           "bg-button-secondary hover:bg-button-primary-hover hover:text-oncolor active:bg-button-primary-pressed active:text-oncolor",
+        overlay:
+          "bg-surface/65 hover:bg-button-primary-hover hover:text-oncolor active:bg-button-primary-pressed active:text-oncolor backdrop-blur-xs shadow-xl ring-1 ring-primary/10",
         ghost: "text-tertiary hover:text-accent active:bg-transparent p-0",
       },
     },
@@ -33,7 +33,7 @@ const iconButtonVariants = cva(
       {
         variant: "default",
         size: "large",
-        class: "w-16 h-16 text-2xl",
+        class: "w-14 h-14 text-2xl",
       },
       {
         variant: "ghost",
@@ -50,10 +50,24 @@ const iconButtonVariants = cva(
         size: "large",
         class: "text-2xl",
       },
+      {
+        variant: "overlay",
+        size: "small",
+        class: "w-6 h-6 text-sm",
+      },
+      {
+        variant: "overlay",
+        size: "medium",
+        class: "w-10 h-10 text-xl",
+      },
+      {
+        variant: "overlay",
+        size: "large",
+        class: "w-14 h-14 text-2xl",
+      },
     ],
     defaultVariants: {
       size: "medium",
-      inverted: false,
       variant: "default",
     },
   },
@@ -84,9 +98,7 @@ const IconButton = <T extends React.ElementType = "button">({
   ref?: React.RefObject<unknown>;
 }) => {
   const externalAttrs = external ? { target: "_blank", rel: "noreferrer" } : {};
-  const buttonStyles = cn(
-    iconButtonVariants({ size, inverted, className, variant }),
-  );
+  const buttonStyles = cn(iconButtonVariants({ size, className, variant }));
 
   return href ? (
     <a
