@@ -61,5 +61,8 @@
     "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "5.7.2"
   },
-  "packageManager": "pnpm@10.11.0"
+  "trustedDependencies": [
+    "@tailwindcss/oxide",
+    "unrs-resolver"
+  ]
 }
