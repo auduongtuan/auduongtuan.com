@@ -46,11 +46,11 @@ const CommentList = ({ comments, wording }) => {
         <>
           {comments.length > 0 && (
             <div>
-              <h3 className="mb-4 subheading">
+              <h3 className="subheading mb-4">
                 {comments.length}{" "}
                 {comments.length == 1 ? "comment" : "comments"}
               </h3>
-              <div className="grid grid-cols-1 gap-y-4 ">
+              <div className="grid grid-cols-1 gap-y-4">
                 {comments.map((comment, i) => {
                   const hasName = comment.name && comment.name.length > 0;
                   const name = hasName
@@ -62,7 +62,7 @@ const CommentList = ({ comments, wording }) => {
                   return (
                     <div key={`comment-${i}`} className="flex space-x-3">
                       <span
-                        className={`rounded-full w-8 h-8 text-sm flex items-center justify-center shrink-0 mt-2 ${avatarColor}`}
+                        className={`mt-2 flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm ${avatarColor}`}
                       >
                         {hasName ? (
                           getInitials(name)
@@ -70,16 +70,16 @@ const CommentList = ({ comments, wording }) => {
                           <GiDominoMask className="text-base" />
                         )}
                       </span>
-                      <div className="w-full px-4 py-3 bg-gray-100 rounded-xl ">
+                      <div className="w-full rounded-xl bg-gray-100 px-4 py-3">
                         <div className="flex justify-between">
-                          <h6 className="font-medium text-primary">
+                          <h6 className="text-primary font-medium">
                             {hasName ? richTextObject(comment.name) : "Someone"}
                           </h6>
-                          <span className="text-sm muted-text">
+                          <span className="muted-text text-sm">
                             {timeAgo.format(new Date(comment.createdTime))}
                           </span>
                         </div>
-                        <div className="text-primary">
+                        <div className="small-body-text text-primary">
                           {richTextObject(comment.content)}
                         </div>
                       </div>
@@ -91,13 +91,13 @@ const CommentList = ({ comments, wording }) => {
           )}
           {comments.length == 0 && (
             <div
-              className={`text-center flex flex-col items-center py-3 ${
+              className={`flex flex-col items-center py-3 text-center ${
                 !comments ? "opacity-0" : "opacity-100"
               }`}
             >
-              <GiPostStamp className="text-6xl text-tertiary" />
-              <h5 className="mt-4 subheading">No {wording.plural} yet.</h5>
-              <p className="mt-1 text-sm text-secondary">
+              <GiPostStamp className="text-tertiary text-6xl" />
+              <h5 className="subheading mt-4">No {wording.plural} yet.</h5>
+              <p className="text-secondary mt-1 text-sm">
                 {`Why don't you `}
                 <Tooltip content="A nostalgia trend of Yahoo 360 era">
                   <InlineLink href="https://vnexpress.net/boc-tem-van-hoa-nham-nhung-ton-tai-lau-nhat-tren-blog-1532146.html">{`"tem"`}</InlineLink>
@@ -115,16 +115,16 @@ const CommentList = ({ comments, wording }) => {
           <div className="flex space-x-3">
             <Skeleton
               type="inline"
-              className={`rounded-full w-8 h-8 shrink-0 mt-2`}
+              className={`mt-2 h-8 w-8 shrink-0 rounded-full`}
             />
-            <Skeleton className="w-full h-16 rounded-xl" type="inline" />
+            <Skeleton className="h-16 w-full rounded-xl" type="inline" />
           </div>
           <div className="flex space-x-3">
             <Skeleton
               type="inline"
-              className={`rounded-full w-8 h-8 shrink-0`}
+              className={`h-8 w-8 shrink-0 rounded-full`}
             />
-            <Skeleton className="w-full h-16 rounded-xl" type="inline" />
+            <Skeleton className="h-16 w-full rounded-xl" type="inline" />
           </div>
         </Skeleton.Wrapper>
       )}
