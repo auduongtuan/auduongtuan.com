@@ -32,7 +32,7 @@ export default function Header() {
           <div className="py-4 md:py-6 lg:max-w-[50rem]">
             <Headline />
             <Fade delay={200}>
-              <p className="body-text text-secondary relative z-30 mt-4 text-center font-mono tracking-tight lg:mt-6">
+              <p className="big-body-text text-secondary relative z-30 mt-4 text-center lg:mt-6">
                 <Balancer className="max-w-[40rem]" ratio={1}>
                   Wearing{" "}
                   <HoverGif

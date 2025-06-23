@@ -1,6 +1,25 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "ABCOracle";
+  src: url("/fonts/ABCOracle/ABCOracleVariable-Trial.woff2")
+    format("woff2-variations");
+  font-weight: 100 900; /* Full weight range: Thin (100) to Ultra (900) */
+  font-style: normal;
+  font-display: swap; /* Prevents flash of unstyled text */
+}
+
+@font-face {
+  font-family: "ABCOracle";
+  src: url("/fonts/ABCOracle/ABCOracleVariable-Trial.woff2")
+    format("woff2-variations");
+  font-weight: 100 900; /* Full weight range: Thin (100) to Ultra (900) */
+  font-style: italic;
+  font-display: swap;
+}
+
 @theme inline {
+  --font-weight-book: 350;
   --shadow-navigation-inner:
     inset 0px 1px 1px rgba(0, 0, 0, 0.08),
     inset 0px 2px 1px rgba(0, 0, 0, 0.06), inset 0px 4px 4px rgba(0, 0, 0, 0.06);
@@ -18,7 +37,7 @@
   );
   --spacing-main: var(--main-width);
   --spacing-content: var(--content-width);
-  --font-sans: Inter, Helvetica, Arial, sans-serif;
+  --font-sans: ABCOracle, Helvetica, Arial, sans-serif;
   --font-mono:
     Roboto Mono, Menlo, Monaco, Consolas, Liberation Mono, Courier New,
     monospace;
@@ -206,18 +225,18 @@
 @utility big-body-text {
   /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-sans; */
   /* tracking-tight */
-  @apply text-base leading-normal md:text-xl md:leading-normal lg:leading-normal;
+  @apply font-book text-base leading-normal md:text-xl md:leading-normal lg:leading-normal;
 }
 
 @utility body-text {
   /* .big-text {
     @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-sans;
   } */
-  @apply text-base leading-[1.57] md:text-lg md:leading-[1.57];
+  @apply font-book text-base leading-[1.57] md:text-lg md:leading-[1.57];
 }
 
 @utility small-body-text {
-  @apply text-sm leading-[1.57] md:text-base md:leading-[1.57];
+  @apply font-book text-sm leading-[1.57] md:text-base md:leading-[1.57];
 }
 
 @utility page-description {
