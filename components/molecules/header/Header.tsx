@@ -34,7 +34,7 @@ export default function Header() {
             <Fade delay={200}>
               <p className="big-body-text text-secondary relative z-30 mt-4 text-center lg:mt-6">
                 <Balancer className="max-w-[40rem]" ratio={1}>
-                  Wearing{" "}
+                  wearing{" "}
                   <HoverGif
                     text={<InlineLink>🧑‍🎨 designer</InlineLink>}
                     label={gifs[0].name}

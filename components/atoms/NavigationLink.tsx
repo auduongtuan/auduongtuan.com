@@ -55,7 +55,7 @@ const NavigationLink = ({
 
   const anchorClassName = cn(
     logo && "tracking-wide uppercase",
-    "font-normal font-mono inline-block text-base rounded-xl",
+    "font-book inline-block text-base rounded-xl",
     // logo && "uppercase",
     inverted
       ? "text-white hover:bg-surface/10"
