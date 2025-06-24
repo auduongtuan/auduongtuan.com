@@ -72,7 +72,7 @@ export default function Footer() {
               as="div"
               delay={100}
               show={inView}
-              className={`col-span-12 text-sm leading-loose lg:col-span-4 lg:row-span-1 lg:row-start-2 lg:self-start`}
+              className={`body-text col-span-12 text-sm leading-loose lg:col-span-4 lg:row-span-1 lg:row-start-2 lg:self-start`}
             >
               Written, designed and built by Tuan.
               <br />© {new Date().getFullYear()}.{` `}
@@ -135,7 +135,9 @@ export default function Footer() {
 
                   <p>
                     Texts are set in{" "}
-                    <InlineLink href="https://rsms.me/inter/">Inter</InlineLink>{" "}
+                    <InlineLink href="https://abcdinamo.com/typefaces/oracle">
+                      Oracle
+                    </InlineLink>{" "}
                     and{" "}
                     <InlineLink href="https://fonts.google.com/specimen/Roboto+Mono">
                       Roboto Mono

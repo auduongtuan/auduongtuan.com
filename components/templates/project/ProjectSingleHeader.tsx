@@ -62,7 +62,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
           <div className="space-4 col-span-12 mt-6 flex md:mt-8">
             <Fade className="grow" delay={350}>
               <h5 className="subheading2">My contribution</h5>
-              <ul className="leading-tight">
+              <ul className="body-text leading-tight">
                 {project.roles &&
                   project.roles.map((role, i) => (
                     <li className="mt-3" key={i}>
@@ -73,7 +73,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
             </Fade>
             <Fade className="grow" delay={300}>
               <h5 className="subheading2">Tools used</h5>
-              <ul className="leading-tight">
+              <ul className="body-text leading-tight">
                 {project.tools &&
                   project.tools.map((tool, i) => (
                     <li className="mt-3" key={i}>

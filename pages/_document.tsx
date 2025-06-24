@@ -21,6 +21,14 @@ export default function Document() {
           sizes="16x16"
           href="/favicon-16x16.png"
         />
+        <link
+          rel="preload"
+          href="/fonts/ABCOracle/ABCOracleVariable-Trial.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+
         {/* https://www.smashingmagazine.com/2023/12/new-css-viewport-units-not-solve-classic-scrollbar-problem/ */}
         <script
           dangerouslySetInnerHTML={{

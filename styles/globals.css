@@ -225,22 +225,22 @@
 @utility big-body-text {
   /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-sans; */
   /* tracking-tight */
-  @apply font-book text-base leading-normal md:text-xl md:leading-normal lg:leading-normal;
+  @apply text-base leading-normal md:text-xl md:leading-normal lg:leading-normal;
 }
 
 @utility body-text {
   /* .big-text {
     @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-sans;
   } */
-  @apply font-book text-base leading-[1.57] md:text-lg md:leading-[1.57];
+  @apply text-base leading-[1.57] md:text-lg md:leading-[1.57];
 }
 
 @utility small-body-text {
-  @apply font-book text-sm leading-[1.57] md:text-base md:leading-[1.57];
+  @apply text-sm leading-[1.57] md:text-base md:leading-[1.57];
 }
 
 @utility page-description {
-  @apply body-text text-secondary font-mono tracking-tight;
+  @apply body-text text-secondary;
 }
 
 @utility subheading {
@@ -271,7 +271,7 @@
 }
 
 @utility content-blocks-grid {
-  @apply text-primary;
+  @apply text-primary body-text;
   @apply flex flex-col items-center;
   .full {
     width: 100%;
@@ -498,6 +498,12 @@
     --bg-button-primary: var(--color-white);
     --bg-card: #333333;
   }
+  body {
+    font-weight: var(--font-weight-book);
+  }
+  .font-mono {
+    @apply font-normal;
+  }
 }
 
 @layer base {
@@ -510,9 +516,9 @@
 
 @layer components {
   pre {
-    @apply w-full overflow-hidden rounded-md font-mono;
+    @apply w-full overflow-hidden rounded-md font-mono font-normal;
   }
   figcaption {
-    @apply font-mono;
+    @apply font-mono font-normal;
   }
 }
