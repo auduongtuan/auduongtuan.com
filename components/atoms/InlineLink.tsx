@@ -50,7 +50,7 @@ const InlineLink = ({
     href.match(
       /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i,
     );
-  const Component = checkInternal ? Link : ExternalLink;
+  const Component = href == "#" ? "span" : checkInternal ? Link : ExternalLink;
   const linkStyles = cn(inlineLinkVariants({ underline, wrap }), className);
   const link = checkInternal ? checkInternal[1] || checkInternal[2] : href;
   return (
@@ -58,7 +58,7 @@ const InlineLink = ({
       ref={ref}
       href={link as string}
       className={linkStyles}
-      onClick={(e) => {
+      onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
         if (link != "#") {
           trackEvent({
             event: "link_click",

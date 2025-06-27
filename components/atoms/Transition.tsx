@@ -1,5 +1,5 @@
 "use client";
-import { CSSProperties, useEffect, useRef } from "react";
+import { CSSProperties, useCallback, useEffect, useMemo, useRef } from "react";
 import { useRender } from "@base-ui-components/react/use-render";
 import { mergeProps } from "@base-ui-components/react/merge-props";
 import { useTransitionStatus } from "@base-ui-components/react/utils";
@@ -37,27 +37,33 @@ export type TransitionProps = Omit<
   children?: React.ReactNode | useRender.ComponentProps<"div">["render"];
 };
 
-export function Transition(props: TransitionProps) {
-  const {
-    children = <div />,
-    className,
-    starting,
-    ending,
-    show = true,
-    keepMounted = false,
-    onTransitionComplete,
-    listenToChildAnimations = false,
-    asChild = true,
-    ...otherProps
-  } = props;
-
+export function Transition({
+  children = <div />,
+  className,
+  starting,
+  ending,
+  show = true,
+  keepMounted = false,
+  onTransitionComplete,
+  listenToChildAnimations = false,
+  asChild = true,
+  ...otherProps
+}: TransitionProps) {
   const { mounted, setMounted, transitionStatus } = useTransitionStatus(show);
   const showRef = useLatestRef(show);
 
-  const combinedClassName = cn(
-    className,
-    transitionStatus === "starting" && typeof starting == "string" && starting,
-    transitionStatus === "ending" && typeof ending == "string" && ending,
+  const combinedClassName = useMemo(
+    () =>
+      cn(
+        className,
+        transitionStatus === "starting" &&
+          typeof starting == "string" &&
+          starting,
+        transitionStatus === "ending" && typeof ending == "string" && ending,
+        // hide by display: none when not mounted and keepMounted is true
+        mounted == false && keepMounted ? "hidden" : undefined,
+      ),
+    [className, starting, ending, transitionStatus, mounted, keepMounted],
   );
 
   const ref = useRef<HTMLDivElement>(null);
@@ -66,15 +72,15 @@ export function Transition(props: TransitionProps) {
     subtree: listenToChildAnimations,
   });
 
-  const getRender = () => {
+  const getRender = useCallback(() => {
     if (typeof children === "function") {
       return children;
     }
     if (asChild && isValidElement(children)) {
       return children;
     }
-    return <section {...props}>{children}</section>;
-  };
+    return <div>{children}</div>;
+  }, [children, asChild]);
 
   const rendered = useRender({
     render: getRender(),
@@ -99,11 +105,18 @@ export function Transition(props: TransitionProps) {
   useEffect(() => {
     runOnceAnimationsFinish(() => {
       if (show === showRef.current) {
-        if (!keepMounted) setMounted(show);
+        setMounted(show);
         onTransitionComplete?.(show);
       }
     });
-  }, [show, keepMounted, runOnceAnimationsFinish, setMounted, showRef]);
+  }, [
+    show,
+    keepMounted,
+    runOnceAnimationsFinish,
+    setMounted,
+    showRef,
+    onTransitionComplete,
+  ]);
 
-  return mounted ? rendered : null;
+  return mounted || keepMounted ? rendered : null;
 }

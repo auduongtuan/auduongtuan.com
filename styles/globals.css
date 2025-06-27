@@ -154,6 +154,30 @@
       transform: rotate(-30deg);
     }
   }
+
+  @keyframes come-in-out {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(0);
+    }
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(180deg);
+    }
+  }
+
+  --animate-come-in-out: come-in-out 700ms forwards;
+  --animate-spin: spin 1000ms linear infinite;
 }
 /* @config '../tailwind.config.js'; */
 
@@ -193,6 +217,14 @@
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+@utility animate-come-in-out {
+  animation: come-in-out 700ms forwards;
+}
+
+@utility animate-spin {
+  animation: spin 1000ms linear infinite;
 }
 
 /* Typography */

@@ -61,7 +61,7 @@ const PostCard = ({
               )}
             </h2>
 
-            <p className="text-secondary mt-2 font-mono leading-relaxed tracking-tight md:mt-3">
+            <p className="text-secondary body-text mt-2 leading-relaxed tracking-tight md:mt-3">
               <Balancer ratio={0.3}>{post.meta.excerpt}</Balancer>
             </p>
             <div className={clsx("mt-4 flex flex-wrap items-start space-x-2")}>

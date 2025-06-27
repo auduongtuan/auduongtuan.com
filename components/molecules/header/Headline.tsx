@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import useWindowSize from "@hooks/useWindowSize";
 import Fade from "@atoms/Fade";
+import Sparkles from "@atoms/Sparkles";
+import { TextAnimate } from "@atoms/TextAnimate";
 const startTextStyle = {
   opacity: "0",
   transform: "translateY(40px)",
@@ -56,13 +58,19 @@ const Headline = () => {
     underlineEl.style.width = textEl.offsetWidth + "px";
   }, [size.width]);
   return (
-    <div className="relative grid grid-cols-1 text-center place-items-center hero-text leading-[1.04]">
+    <div className="hero-text relative grid grid-cols-1 place-items-center text-center leading-[1.04]">
       <Fade
-        className="w-full col-span-1 col-start-1 row-span-1 row-start-1 text-center place-items-center"
+        className="col-span-1 col-start-1 row-span-1 row-start-1 w-full place-items-center text-center"
         slide
       >
-        part-time software builder,
-        <br /> full-time dreamer.
+        <TextAnimate by="word" animation="slideUp">
+          part-time software builder,
+        </TextAnimate>
+        <TextAnimate
+          delay={150}
+          animation="slideUp"
+          children={["full-time", " ", <Sparkles>dreamer.</Sparkles>]}
+        />
       </Fade>
       {/* <div className="relative z-20 col-span-1 col-start-1 row-span-1 row-start-2 w-ful">
         <span

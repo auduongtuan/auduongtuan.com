@@ -5,6 +5,7 @@ import Fade from "@atoms/Fade";
 import Balancer from "react-wrap-balancer";
 import HoverGif from "@molecules/HoverGif";
 import InlineLink from "@atoms/InlineLink";
+import { TextEncrypted } from "@atoms/TextEncrypted";
 
 export default function Header() {
   const gifs = [
@@ -31,12 +32,14 @@ export default function Header() {
         <div className="flex items-center justify-center">
           <div className="py-4 md:py-6 lg:max-w-[50rem]">
             <Headline />
-            <Fade delay={200}>
+            <Fade delay={300}>
               <p className="big-body-text text-secondary relative z-30 mt-4 text-center lg:mt-6">
                 <Balancer className="max-w-[40rem]" ratio={1}>
                   wearing{" "}
                   <HoverGif
-                    text={<InlineLink>🧑‍🎨 designer</InlineLink>}
+                    text={
+                      <InlineLink className="font-mono">🧑‍🎨 designer</InlineLink>
+                    }
                     label={gifs[0].name}
                   >
                     <CustomVideo
@@ -48,7 +51,11 @@ export default function Header() {
                   </HoverGif>{" "}
                   <span className="text-divider">/</span>{" "}
                   <HoverGif
-                    text={<InlineLink>👨‍💻 developer</InlineLink>}
+                    text={
+                      <InlineLink className="font-mono">
+                        <TextEncrypted text="👨‍💻 developer"></TextEncrypted>
+                      </InlineLink>
+                    }
                     label={gifs[1].name}
                   >
                     <CustomVideo
@@ -60,7 +67,9 @@ export default function Header() {
                   </HoverGif>{" "}
                   <span className="text-divider">/</span>{" "}
                   <HoverGif
-                    text={<InlineLink>🦄 whatever</InlineLink>}
+                    text={
+                      <InlineLink className="font-mono">🦄 whatever</InlineLink>
+                    }
                     label={gifs[2].name}
                   >
                     <CustomVideo
