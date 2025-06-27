@@ -117,7 +117,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
           </div>
         </div>
         <div
-          className="absolute top-1/2 left-(--half-margin) hidden -translate-y-1/2 transition-opacity duration-100 ease-in-out md:block"
+          className="absolute top-1/2 left-(--half-margin) hidden -translate-y-1/2 transition-opacity duration-100 ease-in-out xl:block"
           style={{ opacity: showLeft ? 1 : 0 }}
         >
           <IconButton
@@ -130,7 +130,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
           </IconButton>
         </div>
         <div
-          className="absolute top-1/2 right-(--half-margin) hidden -translate-y-1/2 transition-opacity duration-100 ease-in-out md:block"
+          className="absolute top-1/2 right-(--half-margin) hidden -translate-y-1/2 transition-opacity duration-100 ease-in-out xl:block"
           style={{ opacity: showRight ? 1 : 0 }}
         >
           <IconButton
