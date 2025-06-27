@@ -63,14 +63,14 @@ const Headline = () => {
         className="col-span-1 col-start-1 row-span-1 row-start-1 w-full place-items-center text-center"
         slide
       >
-        <TextAnimate by="word" animation="slideUp">
+        <TextAnimate by="word" animation="slideUp" duration={400}>
           part-time software builder,
         </TextAnimate>
-        <TextAnimate
-          delay={150}
-          animation="slideUp"
-          children={["full-time", " ", <Sparkles>dreamer.</Sparkles>]}
-        />
+        <TextAnimate duration={400} delay={150} animation="slideUp">
+          <span>full-time</span>
+          <span> </span>
+          <Sparkles>dreamer.</Sparkles>
+        </TextAnimate>
       </Fade>
       {/* <div className="relative z-20 col-span-1 col-start-1 row-span-1 row-start-2 w-ful">
         <span

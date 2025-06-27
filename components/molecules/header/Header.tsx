@@ -38,7 +38,9 @@ export default function Header() {
                   wearing{" "}
                   <HoverGif
                     text={
-                      <InlineLink className="font-mono">🧑‍🎨 designer</InlineLink>
+                      <InlineLink className="font-mono text-[0.94em]">
+                        🧑‍🎨 designer
+                      </InlineLink>
                     }
                     label={gifs[0].name}
                   >
@@ -52,7 +54,7 @@ export default function Header() {
                   <span className="text-divider">/</span>{" "}
                   <HoverGif
                     text={
-                      <InlineLink className="font-mono">
+                      <InlineLink className="font-mono text-[0.94em]">
                         <TextEncrypted text="👨‍💻 developer"></TextEncrypted>
                       </InlineLink>
                     }
@@ -68,7 +70,9 @@ export default function Header() {
                   <span className="text-divider">/</span>{" "}
                   <HoverGif
                     text={
-                      <InlineLink className="font-mono">🦄 whatever</InlineLink>
+                      <InlineLink className="font-mono text-[0.94em]">
+                        🦄 whatever
+                      </InlineLink>
                     }
                     label={gifs[2].name}
                   >

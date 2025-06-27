@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import { random, range } from "@lib/utils/common";
 import { usePrefersReducedMotion, useRandomInterval } from "@hooks";
 
@@ -41,11 +43,15 @@ const Sparkles: React.FC<SparklesProps> = ({
   children,
   className = "",
 }) => {
-  const [sparkles, setSparkles] = useState(() => {
-    return range(0, 3).map(() => generateSparkle(color));
-  });
-
+  const [sparkles, setSparkles] = useState<SparkleType[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  // Only initialize sparkles on the client side to avoid hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+    setSparkles(range(0, 3).map(() => generateSparkle(color)));
+  }, [color]);
 
   useRandomInterval(
     () => {
@@ -69,15 +75,16 @@ const Sparkles: React.FC<SparklesProps> = ({
   return (
     <span className={`relative inline-block ${className}`}>
       <span className="relative">{children}</span>
-      {sparkles.map((sparkle) => (
-        <Sparkle
-          key={sparkle.id}
-          color={sparkle.color}
-          size={sparkle.size}
-          style={sparkle.style}
-          prefersReducedMotion={prefersReducedMotion}
-        />
-      ))}
+      {isMounted &&
+        sparkles.map((sparkle) => (
+          <Sparkle
+            key={sparkle.id}
+            color={sparkle.color}
+            size={sparkle.size}
+            style={sparkle.style}
+            prefersReducedMotion={prefersReducedMotion}
+          />
+        ))}
     </span>
   );
 };
