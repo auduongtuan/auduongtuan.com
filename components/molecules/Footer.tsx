@@ -5,6 +5,8 @@ import InlineLink from "@atoms/InlineLink";
 import Tooltip from "@atoms/Tooltip";
 import { event } from "@lib/gtag";
 import socialNetworks from "@lib/socialNetworks";
+import { TextEncrypted } from "@atoms/TextEncrypted";
+
 import React, { useState } from "react";
 import {
   PiBehanceLogoBold,
@@ -47,11 +49,13 @@ export default function Footer() {
 
             <div className="col-span-12 lg:col-span-6 lg:row-span-1 lg:self-center lg:justify-self-end">
               <Fade slide show={inView} delay={100} as="div">
-                <p className="text-secondary text-sm">Let&apos;s connect </p>
+                <p className="_text-secondary _text-sm muted-text">
+                  Let&apos;s connect{" "}
+                </p>
                 <div className="flex items-center gap-4 font-mono text-lg leading-relaxed font-medium md:text-xl md:leading-relaxed lg:text-2xl lg:leading-relaxed">
                   <Tooltip content="Say hi to me">
                     <InlineLink href="mailto:hi@auduongtuan.com" className="">
-                      hi@auduongtuan.com
+                      <TextEncrypted interval={40} text="hi@auduongtuan.com" />
                     </InlineLink>
                   </Tooltip>{" "}
                   {socialNetworks.map((item, i) => (
