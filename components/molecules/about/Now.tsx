@@ -6,8 +6,8 @@ import Image from "next/image";
 const NowItem = ({ item }: { item: NotionNowItem }) => {
   return (
     <div className={cn("rounded-md bg-slate-100 px-3 py-3 md:px-4")}>
-      <p className="text-tertiary mt-0.5 text-sm">{item.type}</p>
-      <div className="mt-2 flex items-center gap-5 font-mono text-sm leading-tight tracking-tight md:text-base">
+      <p className="muted-text mt-0.5">{item.type}</p>
+      <div className="mt-2 flex items-center gap-5 text-sm leading-tight tracking-tight md:text-base">
         {item.thumbnail && item.link && (
           <div
             className={cn(

@@ -12,20 +12,20 @@ const SpotifyPlayer = () => {
         <div className="flex items-center gap-3">
           <CustomImage
             className={twMerge(
-              `rounded-full overflow-hidden ${
+              `overflow-hidden rounded-full ${
                 data.isPlaying && "animate-spin-slow"
-              } grow-0 shrink-0`
+              } shrink-0 grow-0`,
             )}
             width="48"
             height="48"
             src={data.albumImageUrl}
             alt={data.title}
           />
-          <div className="flex flex-col grow shrink">
-            <p className="text-sm text-secondary">
+          <div className="flex shrink grow flex-col">
+            <p className="muted-text _text-sm _text-secondary">
               {data.isPlaying ? "Now playing 🎵" : "Offline - Recently played"}
             </p>
-            <p className="max-w-full font-mono text-base font-medium tracking-tight">
+            <p className="max-w-full text-base font-normal tracking-tight">
               {data.artist} <span className="text-secondary">-</span>{" "}
               <a href={data.songUrl} target="_blank" rel="noreferrer">
                 {data.title}
@@ -35,14 +35,14 @@ const SpotifyPlayer = () => {
         </div>
       ) : (
         <Skeleton.Wrapper loaded={false} className="flex items-center gap-3">
-          <Skeleton className="w-12 h-12 rounded-full" type="inline"></Skeleton>
+          <Skeleton className="h-12 w-12 rounded-full" type="inline"></Skeleton>
           <div className="flex-1">
             <Skeleton
-              className="w-[50%] max-w-[240px] h-4 rounded-full"
+              className="h-4 w-[50%] max-w-[240px] rounded-full"
               type="inline"
             ></Skeleton>
             <Skeleton
-              className="w-[80%] max-w-[320px] h-4 rounded-full mt-2"
+              className="mt-2 h-4 w-[80%] max-w-[320px] rounded-full"
               type="inline"
             ></Skeleton>
           </div>

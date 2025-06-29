@@ -66,7 +66,7 @@ export default function RandomFacts({ facts }: { facts: Fact[] }) {
           show
           as="div"
           delay={400}
-          className="item flex w-full flex-col gap-2 rounded-md bg-slate-100 px-3 py-3 font-mono text-sm leading-normal tracking-tight md:col-span-6 md:px-4"
+          className="item body-text flex w-full flex-col gap-2 rounded-md bg-slate-100 px-3 py-3 leading-normal tracking-tight md:col-span-6 md:px-4"
         >
           <Fade as="p" delay={450} className="grow">
             {richTextObject(facts[factToDisplay].content)}

@@ -130,7 +130,7 @@ export default function AboutPage({
                 show={aboutSectionExpanded}
                 starting="opacity-0 max-h-0"
                 ending="opacity-0 max-h-0"
-                className="overflow-hidden transition-all duration-500"
+                className="max-h-40 overflow-hidden transition-all duration-300"
               >
                 <p className="mx-auto block max-w-[65ch] pt-2 pb-6 text-center text-sm">
                   <span className="font-medium">About this section:</span> I’m
