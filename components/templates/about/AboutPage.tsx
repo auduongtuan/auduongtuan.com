@@ -168,8 +168,8 @@ export default function AboutPage({
                 , utilising my diverse skillset to bring great products to life.
               </Fade>
               <Fade delay={250} as="p" className="item">
-                I spend my days crafting design systems and bioinformatics
-                products at{" "}
+                I spend my days crafting bioinformatics products and design
+                systems at{" "}
                 <InlineLink
                   className="text-[#00B4DB]"
                   href="https://bioturing.com/"
@@ -177,13 +177,6 @@ export default function AboutPage({
                   BioTuring
                 </InlineLink>
                 . Previously,{" "}
-                <InlineLink
-                  className="text-[#05295d]"
-                  href="https://aperia.com"
-                >
-                  Aperia
-                </InlineLink>
-                ,{" "}
                 <HoverGif
                   text={
                     <InlineLink
@@ -202,7 +195,14 @@ export default function AboutPage({
                     height={480}
                   />
                 </HoverGif>
-                <RiCrossFill className="text-secondary mb-1 inline h-4 w-4" />.
+                <RiCrossFill className="text-secondary mb-1 inline h-4 w-4" />,{" "}
+                <InlineLink
+                  className="text-[#05295d]"
+                  href="https://aperia.com"
+                >
+                  Aperia
+                </InlineLink>
+                .
               </Fade>
               <Fade as="h3" delay={300} className="subheading2 section">
                 How I got into the industry

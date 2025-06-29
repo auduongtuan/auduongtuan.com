@@ -39,7 +39,7 @@
   --spacing-content: var(--content-width);
   --font-sans: ABCOracle, Helvetica, Arial, sans-serif;
   --font-mono:
-    Roboto Mono, Menlo, Monaco, Consolas, Liberation Mono, Courier New,
+    "JetBrains Mono", Menlo, Monaco, Consolas, Liberation Mono, Courier New,
     monospace;
   --text-3xl: 2rem;
   --text-3xl--line-height: 2.5rem;

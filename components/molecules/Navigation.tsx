@@ -10,8 +10,8 @@ import { twMerge } from "tailwind-merge";
 const menuItems = [
   { href: "/", name: "Home" },
   { href: "/about", name: "About" },
-  { href: "/work", name: "Work" },
   { href: "/blog", name: "Blog" },
+  { href: "/work", name: "Work" },
 ];
 
 const Navigation = React.memo(() => {

@@ -47,10 +47,10 @@ export const InstructionOverlay = () => {
           <MdOutlineSwipe className="animate-hand-wave text-accent origin-bottom" />
         </div>
         <h3 className="mt-4 text-center text-xl font-bold">How to interact</h3>
-        <Balancer className="mt-2 text-center" as="p">
+        <Balancer className="mt-2 text-center font-mono text-sm" as="p">
           Swipe like Tinder to react:
         </Balancer>
-        <ul className="mt-2 flex flex-col gap-1 text-center">
+        <ul className="mt-1 flex flex-col gap-1 text-center font-mono text-sm">
           <li>Right/Left for Love/Haha</li>
           <li>Up/Down for Slay/Eww</li>
           <li>Double tap for Wow</li>

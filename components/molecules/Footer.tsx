@@ -139,8 +139,8 @@ export default function Footer() {
                       Oracle
                     </InlineLink>{" "}
                     and{" "}
-                    <InlineLink href="https://fonts.google.com/specimen/Roboto+Mono">
-                      Roboto Mono
+                    <InlineLink href="https://fonts.google.com/specimen/JetBrains+Mono">
+                      JetBrains Mono
                     </InlineLink>
                     .
                   </p>
