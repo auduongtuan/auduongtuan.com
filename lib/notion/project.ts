@@ -31,7 +31,7 @@ export type Project = {
   tagline: string;
   point: number;
   cover: NotionMedia[];
-  icon: NotionMedia;
+  icon?: NotionMedia;
   tools: string[];
   roles: string[];
   protected: boolean;
@@ -175,7 +175,16 @@ export async function getProjects(
     }),
   );
 
-  return projects.filter((page) => page) as Project[];
+  const filteredProjects = projects.filter((page) => page) as Project[];
+  
+  // Remove undefined values for JSON serialization
+  const cleanProjects = filteredProjects.map(project => 
+    Object.fromEntries(
+      Object.entries(project).filter(([_, value]) => value !== undefined)
+    )
+  ) as Project[];
+  
+  return cleanProjects;
 }
 
 export const getProjectContent = async (id: string) => {

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FiLock } from "react-icons/fi";
 import Tag from "@atoms/Tag";
 import clsx from "clsx";
+import { formatPostDate } from "@lib/utils/format";
 
 type MiniPostCardProps = {
   post: Post;
@@ -10,6 +11,7 @@ type MiniPostCardProps = {
 };
 
 const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
+  const formattedDate = formatPostDate(post.meta.date);
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -40,15 +42,11 @@ const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
             <Tag key={`tag-${i}`}>{tag}</Tag>
           ))}
         </div>
-        <p className={clsx("muted-text mt-2")}>
-          Posted on{" "}
-          {post.meta.date &&
-            new Date(post.meta.date).toLocaleDateString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-        </p>
+        {formattedDate && (
+          <p className={clsx("muted-text mt-2")}>
+            Posted on {formattedDate}
+          </p>
+        )}
       </div>
     </Link>
   );

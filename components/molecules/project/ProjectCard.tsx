@@ -9,6 +9,7 @@ import Tooltip from "@atoms/Tooltip";
 import useVisibleRatio from "@hooks/useVisiblePercentage";
 import { Project } from "@lib/notion";
 import { parseInternalLink } from "@lib/utils";
+import { formatProjectDate } from "@lib/utils/format";
 import ScrollableTagList from "@molecules/ScrollableTagList";
 import Link from "next/link";
 import { memo } from "react";
@@ -28,6 +29,7 @@ const ProjectCard = memo(
     const { ref, visibleRatio } = useVisibleRatio();
     const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
+    const formattedDate = formatProjectDate(project.date);
     return (
       <div
         ref={ref}
@@ -70,12 +72,11 @@ const ProjectCard = memo(
                     <Balancer>{project.title}</Balancer>
                   )}
                 </h2>
-                <p className="muted-text mt-0.5 md:mt-1">
-                  {new Date(project.date).toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "long",
-                  })}
-                </p>
+                {formattedDate && (
+                  <p className="muted-text mt-0.5 md:mt-1">
+                    {formattedDate}
+                  </p>
+                )}
               </div>
               <Fade
                 className={twMerge("shrink-0 grow-0")}

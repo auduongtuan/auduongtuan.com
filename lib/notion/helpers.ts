@@ -145,7 +145,7 @@ export function getProperty(
         returnValue = data.map((item) => item?.plain_text || "").join("");
         break;
       case "date":
-        returnValue = "start" in data ? data?.start : "";
+        returnValue = data && "start" in data ? data?.start : undefined;
         break;
       case "checkbox":
         returnValue = data as boolean;
@@ -154,7 +154,7 @@ export function getProperty(
         returnValue = data.map((option) => option.name);
         break;
       case "select":
-        returnValue = "name" in data ? data?.name : "";
+        returnValue = data && "name" in data ? data?.name : undefined;
         break;
       case "files":
         returnValue = data;
@@ -167,7 +167,7 @@ export function getProperty(
     }
     return returnValue;
   } else {
-    return null;
+    return undefined;
   }
 }
 
