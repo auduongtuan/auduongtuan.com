@@ -97,7 +97,16 @@ export async function getPosts(includeUnpublished?: boolean) {
       };
     }),
   );
-  return posts.filter((page) => page) as Post[];
+  const filteredPosts = posts.filter((page) => page) as Post[];
+  
+  // Remove undefined values for JSON serialization
+  const cleanPosts = filteredPosts.map(post => 
+    Object.fromEntries(
+      Object.entries(post).filter(([_, value]) => value !== undefined)
+    )
+  ) as Post[];
+  
+  return cleanPosts;
 }
 
 export const getPostContent = async (id: string) => {

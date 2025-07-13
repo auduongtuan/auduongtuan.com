@@ -150,7 +150,7 @@ export const PhotoCard = React.memo(
         <ReactionOverlay isActive={isActive} swipeDirection={swipeDirection} />
         <div
           className={cn(
-            "flex w-full touch-none flex-col items-stretch gap-3",
+            "flex w-full touch-none flex-col items-center gap-3",
             isActive && !isExpanded && "cursor-grab active:cursor-grabbing",
           )}
           onTouchStart={isActive && !isExpanded ? handleTouchStart : undefined}
@@ -177,7 +177,7 @@ export const PhotoCard = React.memo(
             key={photo.image}
             page={`/about#photo-${photo.image}`}
             size="small"
-            className="mt-2 flex items-center justify-center"
+            className="mt-2 flex max-w-[calc(100%-4rem)] items-center justify-center md:max-w-full"
             onReact={(emoji) => {
               if (isActive && !isExpanded) {
                 // Map emoji to direction

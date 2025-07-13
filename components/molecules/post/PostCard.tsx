@@ -6,6 +6,7 @@ import Tag from "@atoms/Tag";
 import clsx from "clsx";
 import Balancer from "react-wrap-balancer";
 import { cn } from "@lib/utils/cn";
+import { formatPostDate } from "@lib/utils/format";
 
 type PostCardProps = {
   post: Post;
@@ -18,6 +19,7 @@ const PostCard = ({
   className = "",
   layout = "horizontal",
 }: PostCardProps) => {
+  const formattedDate = formatPostDate(post.meta.date);
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -37,14 +39,11 @@ const PostCard = ({
       >
         <div className="col-span-3 row-start-2 md:row-start-auto">
           <aside className="flex flex-col gap-2 pl-10 font-mono text-xl md:pl-0">
-            <p className={clsx("muted-text mt-1")}>
-              {post.meta.date &&
-                new Date(post.meta.date).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-            </p>
+            {formattedDate && (
+              <p className={clsx("muted-text mt-1")}>
+                {formattedDate}
+              </p>
+            )}
           </aside>
         </div>
         <div className="col-span-9 flex lg:pr-24">
