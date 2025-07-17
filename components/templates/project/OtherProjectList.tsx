@@ -11,7 +11,7 @@ const OtherProjectList = ({
   return (
     <>
       <h3 className="subheading">Other projects</h3>
-      <div className="grid grid-cols-6 gap-4 mt-6 md:gap-6 group">
+      <div className="group mt-6 grid grid-cols-6 gap-4 md:gap-6">
         {projects
           .filter((project) => project.slug != currentProject.slug)
           .sort((a, b) => (b.point || 0) - (a.point || 0))

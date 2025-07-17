@@ -93,12 +93,12 @@ export async function getProjects(
 ): Promise<Project[]> {
   let filterQuery: any = {
     and: [
-      {
-        property: "Slug",
-        rich_text: {
-          is_not_empty: true,
-        },
-      },
+      // {
+      //   property: "Slug",
+      //   rich_text: {
+      //     is_not_empty: true,
+      //   },
+      // },
       {
         property: "Date",
         date: {
@@ -118,7 +118,7 @@ export async function getProjects(
   const projectGroups = await getProjectGroups();
   const projectResponse = await notion.databases.query({
     database_id: PROJECT_DATABASE_ID,
-    // filter: filterQuery,
+    filter: filterQuery,
     sorts: [
       {
         property: "Date",
@@ -176,14 +176,14 @@ export async function getProjects(
   );
 
   const filteredProjects = projects.filter((page) => page) as Project[];
-  
+
   // Remove undefined values for JSON serialization
-  const cleanProjects = filteredProjects.map(project => 
+  const cleanProjects = filteredProjects.map((project) =>
     Object.fromEntries(
-      Object.entries(project).filter(([_, value]) => value !== undefined)
-    )
+      Object.entries(project).filter(([_, value]) => value !== undefined),
+    ),
   ) as Project[];
-  
+
   return cleanProjects;
 }
 
