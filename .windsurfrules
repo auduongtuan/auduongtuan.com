@@ -1,0 +1,271 @@
+# Windsurf AI Rules for auduongtuan.com
+
+## Project Overview
+Next.js 15.3.1 portfolio site with Pages Router, TypeScript, Tailwind CSS 4.1.5, and Notion headless CMS.
+
+## Architecture Principles
+
+### Component Design System
+Follow atomic design methodology:
+- **Atoms**: Basic UI elements (Button, Badge, CustomImage, Dialog)
+- **Molecules**: Composite components (Navigation, Footer, PostCard, ProjectCard)
+- **Templates**: Page-level layouts and structure
+- **Notion**: Specialized Notion content rendering components
+
+### TypeScript First
+- Strict TypeScript configuration enabled
+- Define interfaces for all props and data models
+- Use proper typing for Notion content models
+- Avoid any types - prefer unknown or proper interfaces
+
+## File Structure & Imports
+
+### Directory Organization
+```
+components/atoms/     # Reusable UI primitives
+components/molecules/ # Composite components
+components/templates/ # Page templates
+components/notion/    # Notion-specific renderers
+lib/notion/          # Notion API & content types
+lib/utils/           # Utilities & cache logic
+pages/api/           # API routes (comments, reactions, etc.)
+store/               # Zustand state management
+hooks/               # Custom React hooks
+```
+
+### Path Aliases (Required)
+```typescript
+import Button from "@atoms/Button";
+import { Navigation } from "@molecules/Navigation";
+import { getProjectsWithCache } from "@lib/notion/project";
+import { useBreakpoint } from "@hooks/useBreakpoint";
+```
+
+## Styling Standards
+
+### Tailwind CSS 4.1.5 Approach
+- Use custom utility classes defined in CSS files
+- Follow mobile-first responsive design
+- Leverage design tokens for consistency
+
+### Custom Utility Pattern
+```css
+@utility content-blocks-grid {
+  @apply grid gap-6 md:gap-8 lg:gap-10;
+}
+
+@utility main-container {
+  @apply min-h-screen flex flex-col;
+}
+```
+
+### Responsive Design
+Always implement mobile-first:
+```typescript
+className="text-sm md:text-base lg:text-lg"
+```
+
+## Data & State Management
+
+### Notion CMS Integration
+Primary data sources:
+- `getProjectsWithCache()` - Project portfolio data
+- `getPostsWithCache()` - Blog content data
+- Both support cache revalidation with `shouldRevalidateCache()`
+
+### Caching Strategy
+Development-only cache with TTL:
+```typescript
+// Cache pattern implementation
+if (isDevEnvironment) {
+  const forceRevalidate = shouldRevalidateCache();
+  const cached = !forceRevalidate ? cache.get("key") : null;
+  if (cached) return cached;
+  
+  const fresh = await fetchData();
+  cache.set("key", fresh, 24 * 60 * 60 * 1000);
+  return fresh;
+}
+```
+
+### State Management
+- **Zustand** for global state (lightweight)
+- **SWR** for client-side data fetching
+- Local state with useState/useReducer for component state
+
+## API Development
+
+### Rate Limiting (Required)
+All public APIs must implement rate limiting:
+```typescript
+const rateLimit = new Map<string, { count: number; timestamp: number }>();
+const WINDOW_MS = 60000;
+const MAX_REQUESTS = 5;
+```
+
+### API Routes Structure
+- `/api/comment.ts` - Comment system with spam protection
+- `/api/reaction.ts` - Like/reaction functionality  
+- `/api/spotify.ts` - Real-time music integration
+- `/api/og/[...data].tsx` - Dynamic OG image generation
+
+## Component Patterns
+
+### Polymorphic Components
+```typescript
+interface ButtonProps {
+  href?: string;           // Makes it a Link/anchor
+  className?: string;
+  colorful?: boolean;
+  arrow?: boolean;
+  disabled?: boolean;
+  children: React.ReactNode;
+}
+
+// Can render as button, Link, or anchor
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(...);
+```
+
+### Composition Pattern
+```typescript
+// Prefer composition over inheritance
+<Card>
+  <Card.Header>
+    <Card.Title>{title}</Card.Title>
+  </Card.Header>
+  <Card.Content>{children}</Card.Content>
+</Card>
+```
+
+## Performance Guidelines
+
+### Image Optimization (Critical)
+- **Primary**: Cloudinary transformation
+- **Fallback**: Next.js Image component
+- **Processing**: Sharp for server-side optimization
+- **Remote patterns**: Configure for AWS, Cloudinary, Spotify, YouTube
+
+### Bundle Optimization
+- Use dynamic imports for code splitting
+- Leverage Turbopack for fast development builds
+- Implement tree shaking with proper imports
+
+### Font Performance
+- Variable fonts: ABCOracle font family
+- `font-display: swap` to prevent layout shift
+- Preload critical fonts
+
+## Content Management
+
+### Notion Data Models
+```typescript
+type Project = {
+  id: string;
+  slug: string;
+  title: string;
+  date: string;
+  cover: NotionMedia[];
+  tools: string[];
+  roles: string[];
+  protected: boolean;
+  group?: ProjectGroup;
+  // ... additional fields
+}
+
+type Post = {
+  id: string;
+  slug: string;
+  meta: {
+    title: string;
+    date: string;
+    tags: string[];
+    protected: boolean;
+  };
+  assets: NotionAssets;
+}
+```
+
+### Environment Variables
+```bash
+PROJECT_DATABASE_ID=         # Notion projects database
+PROJECT_GROUP_DATABASE_ID=   # Project categorization
+BLOG_DATABASE_ID=           # Blog posts database
+```
+
+## Development Workflow
+
+### Cache Management
+```bash
+# Force cache revalidation during development
+bun run dev --revalidate-cache  # Full flag
+bun run dev --revalidate        # Short form
+bun run dev -r                  # Abbreviation
+```
+
+### Build Commands
+```bash
+bun run dev      # Development with Turbopack
+bun run build    # Production build
+bun run start    # Production server
+bun run lint     # ESLint validation
+```
+
+## Security & Best Practices
+
+### API Security
+- Implement rate limiting on all public endpoints
+- Validate all input data with proper TypeScript types
+- Use CORS appropriately for API routes
+- Sanitize user-generated content
+
+### Content Security
+- Password protection for private content
+- Proper authentication for admin features
+- Secure handling of environment variables
+
+## Accessibility Requirements
+
+### Base UI Integration
+- Use @base-ui-components/react for accessible primitives
+- Implement proper ARIA labels and roles
+- Ensure keyboard navigation works
+- Test with screen readers
+
+### Semantic HTML
+```typescript
+// Use proper semantic elements
+<main>
+  <article>
+    <header>
+      <h1>{title}</h1>
+    </header>
+    <section>{content}</section>
+  </article>
+</main>
+```
+
+## Critical Don'ts
+
+❌ **Don't use App Router patterns** - This project uses Pages Router
+❌ **Don't bypass TypeScript strict mode** - Maintain type safety
+❌ **Don't ignore cache revalidation** - Implement for all cache functions
+❌ **Don't skip image optimization** - Critical for performance
+❌ **Don't create APIs without rate limiting** - Security requirement
+❌ **Don't use hardcoded values** - Use environment variables
+❌ **Don't ignore accessibility** - Use Base UI components
+❌ **Don't mix routing paradigms** - Stick to Pages Router conventions
+
+## Key Integrations
+
+### External Services
+- **Cloudinary**: Image optimization and transformation
+- **Spotify**: Real-time currently playing display
+- **Google Analytics**: Event tracking and analytics
+- **Notion**: Headless CMS for all content
+
+### Third-party Dependencies
+- **@notionhq/client**: Notion API integration
+- **zustand**: State management
+- **swr**: Data fetching with caching
+- **class-variance-authority**: Component variant management
+- **tailwind-merge**: Intelligent class merging

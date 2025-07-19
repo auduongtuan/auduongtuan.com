@@ -8,7 +8,7 @@ import {
   getNotionPageContent,
 } from "@lib/notion";
 import { isDevEnvironment } from "@lib/utils";
-import { cache } from "@lib/utils/cache";
+import { cache, shouldRevalidateCache } from "@lib/utils/cache";
 
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
 const PROJECT_GROUP_DATABASE_ID = process.env
@@ -37,7 +37,8 @@ export type Project = {
   protected: boolean;
   achievements?: string[];
   background?: string;
-  team?: string[];
+  tags: string[];
+  team: string[];
   link?: string;
   linkCta?: string;
   postSlug?: string;
@@ -56,12 +57,16 @@ export type Project = {
 export async function getProjectsWithCache() {
   let projects: Project[];
   if (isDevEnvironment) {
-    const cacheData = cache.get("projects") as Project[];
+    const forceRevalidate = shouldRevalidateCache();
+    const cacheData = !forceRevalidate ? cache.get("projects") as Project[] : null;
     if (cacheData) {
       projects = cacheData;
     } else {
       projects = await getProjects(isDevEnvironment);
       cache.set("projects", projects, 24 * 1000 * 60 * 60);
+      if (forceRevalidate) {
+        console.log("🔄 Cache revalidated for projects");
+      }
     }
   } else {
     projects = await getProjects(isDevEnvironment);
@@ -156,6 +161,7 @@ export async function getProjects(
         team: getProperty(page, "Team", "multi_select"),
         link: getProperty(page, "Link", "url"),
         roles: getProperty(page, "Roles", "multi_select"),
+        tags: getProperty(page, "Tags", "multi_select"),
         achievements,
         point: getProperty(page, "Point", "number"),
         background: getProperty(page, "Background", "rich_text"),
@@ -183,6 +189,8 @@ export async function getProjects(
       Object.entries(project).filter(([_, value]) => value !== undefined),
     ),
   ) as Project[];
+
+  console.log(cleanProjects);
 
   return cleanProjects;
 }

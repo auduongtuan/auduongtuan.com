@@ -1,0 +1,56 @@
+[
+  {
+    "label": "dev",
+    "command": "bun",
+    "args": ["run", "dev"],
+    "cwd": "${workspaceRoot}",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  },
+  {
+    "label": "dev (revalidate cache)",
+    "command": "bun", 
+    "args": ["run", "dev", "--revalidate-cache"],
+    "cwd": "${workspaceRoot}",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  },
+  {
+    "label": "build",
+    "command": "bun",
+    "args": ["run", "build"],
+    "cwd": "${workspaceRoot}",
+    "use_new_terminal": true,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  },
+  {
+    "label": "lint",
+    "command": "bun",
+    "args": ["run", "lint"],
+    "cwd": "${workspaceRoot}",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "type-check",
+    "command": "bunx",
+    "args": ["tsc", "--noEmit"],
+    "cwd": "${workspaceRoot}",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": true,
+    "reveal": "always"
+  },
+  {
+    "label": "install",
+    "command": "bun",
+    "args": ["install"],
+    "cwd": "${workspaceRoot}",
+    "use_new_terminal": false,
+    "allow_concurrent_runs": false,
+    "reveal": "always"
+  }
+]

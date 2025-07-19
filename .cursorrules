@@ -1,0 +1,171 @@
+# Cursor AI Rules for auduongtuan.com
+
+## Project Context
+Personal portfolio website built with Next.js 15.3.1 using Pages Router, TypeScript, Tailwind CSS 4.1.5, and Notion as headless CMS.
+
+## Architecture Guidelines
+
+### Component Structure
+- Follow atomic design: atoms → molecules → templates → pages
+- Use TypeScript with strict typing for all components
+- Implement polymorphic components where appropriate (Button can be button/a/Link)
+- Use forwardRef for component composition
+- Prefer functional components with hooks
+
+### File Organization
+```
+components/
+├── atoms/          # Basic UI (Button, Badge, CustomImage)
+├── molecules/      # Composite (Navigation, Footer, Cards)  
+├── templates/      # Page templates
+└── notion/         # Notion content renderers
+
+lib/
+├── notion/         # Notion API integration
+├── utils/          # Utilities and cache
+└── [integrations]  # cloudinary.ts, gtag.ts, etc.
+```
+
+### Import Conventions
+Use path aliases consistently:
+```typescript
+import Button from "@atoms/Button";
+import Navigation from "@molecules/Navigation";
+import { getProjectsWithCache } from "@lib/notion/project";
+```
+
+## Styling Guidelines
+
+### Tailwind CSS Patterns
+- Use custom utility classes defined in CSS
+- Follow mobile-first responsive design
+- Utilize design tokens for consistency
+
+### Custom Utility Examples
+```css
+@utility hero-text {
+  @apply text-[1.75rem] leading-[1.11] font-semibold 
+         md:text-5xl lg:text-[3.75rem];
+}
+
+@utility content-container {
+  @apply max-w-content px-section-horizontal mx-auto;
+}
+```
+
+## Data Fetching Patterns
+
+### Notion CMS Integration
+- Use `getProjectsWithCache()` and `getPostsWithCache()` for cached data
+- Implement cache revalidation with `--revalidate-cache` flag support
+- Follow established data models for Project and Post types
+
+### Cache Pattern
+```typescript
+export async function getDataWithCache() {
+  if (isDevEnvironment) {
+    const forceRevalidate = shouldRevalidateCache();
+    const cacheData = !forceRevalidate ? cache.get("key") : null;
+    if (cacheData) return cacheData;
+    
+    const data = await fetchData();
+    cache.set("key", data, 24 * 1000 * 60 * 60);
+    if (forceRevalidate) console.log("🔄 Cache revalidated");
+    return data;
+  }
+  return await fetchData();
+}
+```
+
+## API Route Guidelines
+
+### Rate Limiting Pattern
+```typescript
+const rateLimit = new Map<string, { count: number; timestamp: number }>();
+const WINDOW_MS = 60000; // 1 minute
+const MAX_REQUESTS = 5;
+```
+
+### Error Handling
+- Always implement proper error boundaries
+- Use TypeScript for API response typing
+- Include rate limiting for user-facing APIs
+
+## Development Practices
+
+### TypeScript
+- Use strict TypeScript configuration
+- Define proper interfaces for all props and data models
+- Avoid `any` types - use proper typing
+
+### Performance
+- Optimize images with Cloudinary and Next.js Image
+- Use dynamic imports for code splitting
+- Implement proper caching strategies
+
+### Accessibility
+- Use Base UI components for accessible primitives
+- Include proper ARIA labels and roles
+- Test with keyboard navigation
+
+## Code Quality
+
+### Naming Conventions
+- PascalCase for components and types
+- camelCase for functions and variables
+- kebab-case for file slugs and URLs
+- Descriptive prop names with boolean flags
+
+### Component Props Pattern
+```typescript
+interface ComponentProps {
+  className?: string;
+  children: React.ReactNode;
+  variant?: "primary" | "secondary";
+  disabled?: boolean;
+  // Use optional props with sensible defaults
+}
+```
+
+## Commands and Scripts
+```bash
+# Development with cache revalidation
+bun run dev --revalidate-cache
+bun run dev --revalidate
+bun run dev -r
+
+# Standard commands
+bun run dev        # Development with Turbopack
+bun run build      # Production build
+bun run lint       # ESLint check
+```
+
+## Key Integrations
+
+### Notion CMS
+- Projects database: `PROJECT_DATABASE_ID`
+- Blog database: `BLOG_DATABASE_ID`
+- Project groups: `PROJECT_GROUP_DATABASE_ID`
+
+### External Services
+- Cloudinary for image optimization
+- Spotify API for music integration
+- Google Analytics for tracking
+- Comment system with rate limiting
+
+## Important Notes
+
+- **Pages Router**: Not App Router - use pages/ directory
+- **Development cache**: Only active in dev environment
+- **Mobile-first**: Always consider mobile experience
+- **Performance**: Image optimization is critical
+- **Security**: Implement rate limiting for public APIs
+- **SEO**: Use proper meta tags and OG image generation
+
+## Don't Do
+- Don't use App Router patterns (this uses Pages Router)
+- Don't bypass TypeScript strict mode
+- Don't ignore accessibility requirements
+- Don't create components without proper prop interfaces
+- Don't skip image optimization
+- Don't implement APIs without rate limiting
