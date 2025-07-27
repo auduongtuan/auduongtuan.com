@@ -74,7 +74,11 @@ export default function ProjectList({
         : b.date?.localeCompare(a.date);
   };
 
-  const shownProjects = projects.sort(sortingFunction);
+  // TODO: Remove this filter - temporarily hiding projects without cover images
+  const projectsWithCover = projects.filter((project) => 
+    project.cover && project.cover.length > 0
+  );
+  const shownProjects = projectsWithCover.sort(sortingFunction);
   const projectInGroups = useMemo(
     () =>
       shownProjects.reduce(
@@ -120,11 +124,13 @@ export default function ProjectList({
         />
 
         {sortBy == "group" ? (
-          Object.keys(projectInGroups).map((groupId) => {
-            const group = projectGroups.find((g) => g.id == groupId);
-            if (!group) return null;
+          Object.keys(projectInGroups)
+            .map((groupId) => projectGroups.find((g) => g.id == groupId))
+            .filter((group) => group !== undefined)
+            .sort((a, b) => b.order - a.order)
+            .map((group) => {
             return (
-              <section key={groupId}>
+              <section key={group.id}>
                 <h2 className="muted-text mb-4 flex items-center gap-2 text-base font-normal">
                   <span>{group.name}</span>
                   {group.description && (
@@ -144,7 +150,7 @@ export default function ProjectList({
                   )}
                 </h2>
                 <div className="mb-6 grid grid-cols-1 gap-6 md:mb-8 md:grid-cols-2">
-                  {projectInGroups[groupId].map((project, i) => (
+                  {projectInGroups[group.id].map((project, i) => (
                     <ProjectCard
                       key={`${project.slug}-${i}`}
                       index={i}

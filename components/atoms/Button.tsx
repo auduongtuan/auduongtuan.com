@@ -1,9 +1,9 @@
-import Link, { LinkProps } from "next/link";
-import React from "react";
-import { FiArrowRight, FiDownload, FiArrowUpRight } from "react-icons/fi";
-import { FaSpinner } from "react-icons/fa";
-import { cn } from "@lib/utils/cn";
 import { parseInternalLink } from "@lib/utils";
+import { cn } from "@lib/utils/cn";
+import Link from "next/link";
+import React from "react";
+import { FaSpinner } from "react-icons/fa";
+import { FiArrowRight, FiArrowUpRight } from "react-icons/fi";
 
 export interface ButtonProps {
   href?: string;
@@ -57,14 +57,14 @@ const Button = ({
   } else if (arrow) {
     defaultIcon = <FiArrowRight />;
   }
-  const checkExternal = href && parseInternalLink(href) === null;
+  const checkInternalLink = href && parseInternalLink(href);
 
   let renderIcon: React.ReactNode = icon ? icon : defaultIcon;
   if (loading) {
     renderIcon = <FaSpinner className="animate-spin" />;
   }
   if (href) {
-    return checkExternal ? (
+    return !checkInternalLink ? (
       <a
         href={href}
         className={buttonStyles}
@@ -76,7 +76,7 @@ const Button = ({
         {renderIcon ? <span className="ml-2">{renderIcon}</span> : null}
       </a>
     ) : (
-      <Link href={href} className={buttonStyles} {...rest}>
+      <Link href={checkInternalLink} className={buttonStyles} {...rest}>
         {children && children}
         {renderIcon ? <span className="ml-2">{renderIcon}</span> : null}
       </Link>

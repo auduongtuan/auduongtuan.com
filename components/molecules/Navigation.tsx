@@ -3,7 +3,7 @@ import { Transition } from "@atoms/Transition";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useAppStore from "@store/useAppStore";
 import { useRouter } from "next/router";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState, useCallback } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import { twMerge } from "tailwind-merge";
 
@@ -20,17 +20,19 @@ const Navigation = React.memo(() => {
   const bp = useBreakpoint();
 
   const router = useRouter();
-  const isActive = (href: string) =>
+  const isActive = useCallback((href: string) =>
     router.asPath == href ||
     router.pathname == href.split("#")[0] ||
     router.pathname.includes(href + "/") ||
-    (href.includes("/work") && router.pathname.includes("/project/"));
+    (href.includes("/work") && router.pathname.includes("/project/")), 
+    [router.asPath, router.pathname]
+  );
   const [currentActive, setCurrentActive] = useState(
     menuItems.find((item) => isActive(item.href))?.href,
   );
   useEffect(() => {
     setCurrentActive(menuItems.find((item) => isActive(item.href))?.href);
-  }, [router, isActive]);
+  }, [router.asPath, router.pathname, isActive]);
   useEffect(() => {
     let lastScrollTop = 0;
     const handleScroll = () => {
@@ -53,7 +55,7 @@ const Navigation = React.memo(() => {
   // close mobile menu when bp changes
   useEffect(() => {
     setMenuOpened(false);
-  }, [bp, setMenuOpened]);
+  }, [bp.breakpoint, setMenuOpened]);
 
   const menuRefs = useRef<Record<string, HTMLAnchorElement>>({});
   // Add state for indicator style
@@ -78,7 +80,7 @@ const Navigation = React.memo(() => {
         opacity: 0,
       });
     }
-  }, [currentActive, bp]);
+  }, [currentActive, bp.breakpoint]);
 
   const NavigationStyles = twMerge(
     "w-full top-0 left-0 z-42 transition-transform duration-150 sticky",
@@ -103,7 +105,7 @@ const Navigation = React.memo(() => {
             </button>
           ) : (
             <>
-              {(bp == "md" || bp == "sm") && (
+              {(bp.breakpoint == "md" || bp.breakpoint == "sm") && (
                 <button
                   className={`-mx-2 inline-block cursor-pointer rounded-xl px-2 py-1 ${"text-primary hover:bg-surface-raised"}`}
                   onClick={() => setMenuOpened(true)}

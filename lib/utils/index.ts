@@ -13,7 +13,7 @@ export function parseInternalLink(url: string): string | null {
   let check = url.match(
     /^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i,
   );
-  if (check) return check[1];
+  if (check) return check[1] || (check[2] ? `/${check[2]}` : null);
   return null;
 }
 

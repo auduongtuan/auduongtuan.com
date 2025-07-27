@@ -152,18 +152,18 @@ export default function PhotoCards() {
     }
   }, [width]);
 
-  const breakpoint = useBreakpoint();
+  const bp = useBreakpoint();
   const columns = useMemo(() => {
     if (!isExpanded) {
-      if (breakpoint === "sm") return 1;
+      if (bp.breakpoint === "sm") return 1;
       return 3;
     }
-    return breakpoint === "sm"
+    return bp.breakpoint === "sm"
       ? 1
-      : breakpoint === "md" || breakpoint === "lg"
+      : bp.breakpoint === "md" || bp.breakpoint === "lg"
         ? 2
         : 3;
-  }, [breakpoint, isExpanded]);
+  }, [bp.breakpoint, isExpanded]);
 
   // Store the calculated height
   const [calculatedHeight, setCalculatedHeight] = useState(0);
@@ -203,7 +203,7 @@ export default function PhotoCards() {
           {
             minHeight: `${calculatedHeight}px`,
             "--original-width":
-              breakpoint === "sm"
+              bp.breakpoint === "sm"
                 ? "var(--container-width)"
                 : `calc((var(--container-width) + var(--gap-x))/12 * 5 - var(--gap-x))`,
             "--columns": `${columns}`,

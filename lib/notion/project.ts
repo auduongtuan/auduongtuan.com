@@ -1,14 +1,14 @@
-import { isFullPage } from "@notionhq/client";
 import {
-  notion,
-  getProperty,
-  NotionMedia,
-  NotionAssets,
-  parseNotionPageAssets,
   getNotionPageContent,
+  getProperty,
+  notion,
+  NotionAssets,
+  NotionMedia,
+  parseNotionPageAssets,
 } from "@lib/notion";
 import { isDevEnvironment } from "@lib/utils";
 import { cache, shouldRevalidateCache } from "@lib/utils/cache";
+import { isFullPage } from "@notionhq/client";
 
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
 const PROJECT_GROUP_DATABASE_ID = process.env
@@ -18,6 +18,7 @@ export type ProjectGroup = {
   id: string;
   name: string;
   description: string;
+  order: number;
 };
 
 export type Project = {
@@ -26,7 +27,7 @@ export type Project = {
   title: string;
   date: string;
   caseStudy: boolean;
-  platform: "web" | "app" | "other";
+  type: string[];
   description: string;
   tagline: string;
   point: number;
@@ -41,7 +42,6 @@ export type Project = {
   team: string[];
   link?: string;
   linkCta?: string;
-  postSlug?: string;
   group?: ProjectGroup;
   points: {
     engineering: number;
@@ -58,7 +58,9 @@ export async function getProjectsWithCache() {
   let projects: Project[];
   if (isDevEnvironment) {
     const forceRevalidate = shouldRevalidateCache();
-    const cacheData = !forceRevalidate ? cache.get("projects") as Project[] : null;
+    const cacheData = !forceRevalidate
+      ? (cache.get("projects") as Project[])
+      : null;
     if (cacheData) {
       projects = cacheData;
     } else {
@@ -77,6 +79,12 @@ export async function getProjectsWithCache() {
 export async function getProjectGroups(): Promise<ProjectGroup[]> {
   const projectGroupResponse = await notion.databases.query({
     database_id: PROJECT_GROUP_DATABASE_ID,
+    sorts: [
+      {
+        property: "Order",
+        direction: "descending",
+      },
+    ],
   });
   const projectGroups = (await Promise.all(
     projectGroupResponse.results
@@ -86,6 +94,7 @@ export async function getProjectGroups(): Promise<ProjectGroup[]> {
           id: page.id,
           name: getProperty(page, "Name", "title"),
           description: getProperty(page, "Description", "rich_text"),
+          order: getProperty(page, "Order", "number") || 0,
         };
       })
       .filter((page) => typeof page != "undefined"),
@@ -152,7 +161,7 @@ export async function getProjects(
         title: getProperty(page, "Title", "title"),
         date: getProperty(page, "Date", "date"),
         description: getProperty(page, "Description", "rich_text"),
-        platform: getProperty(page, "Platform", "select"),
+        type: getProperty(page, "Type", "multi_select"),
         tagline: getProperty(page, "Tagline", "rich_text"),
         caseStudy: getProperty(page, "Case Study", "checkbox"),
         cover: assets.cover,

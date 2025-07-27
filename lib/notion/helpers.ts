@@ -167,6 +167,10 @@ export function getProperty(
     }
     return returnValue;
   } else {
+    // Return empty array for multi_select when property doesn't exist
+    if (propType === "multi_select" || propType === "relation") {
+      return [];
+    }
     return undefined;
   }
 }
