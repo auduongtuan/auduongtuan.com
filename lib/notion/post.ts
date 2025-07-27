@@ -10,7 +10,7 @@ import {
 import { isDevEnvironment } from "@lib/utils";
 import { isFullPage } from "@notionhq/client";
 
-import { cache } from "@lib/utils/cache";
+import { cache, shouldRevalidateCache } from "@lib/utils/cache";
 export interface Post {
   id: string;
   slug: string;
@@ -29,12 +29,16 @@ export interface Post {
 export async function getPostsWithCache() {
   let posts: Post[];
   if (isDevEnvironment) {
-    const cacheData = cache.get("posts") as Post[];
+    const forceRevalidate = shouldRevalidateCache();
+    const cacheData = !forceRevalidate ? cache.get("posts") as Post[] : null;
     if (cacheData) {
       posts = cacheData;
     } else {
       posts = await getPosts(isDevEnvironment);
       cache.set("posts", posts, 24 * 1000 * 60 * 60);
+      if (forceRevalidate) {
+        console.log("🔄 Cache revalidated for posts");
+      }
     }
   } else {
     posts = await getPosts(isDevEnvironment);

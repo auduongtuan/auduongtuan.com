@@ -1,14 +1,14 @@
-import { isFullPage } from "@notionhq/client";
 import {
-  notion,
-  getProperty,
-  NotionMedia,
-  NotionAssets,
-  parseNotionPageAssets,
   getNotionPageContent,
+  getProperty,
+  notion,
+  NotionAssets,
+  NotionMedia,
+  parseNotionPageAssets,
 } from "@lib/notion";
 import { isDevEnvironment } from "@lib/utils";
-import { cache } from "@lib/utils/cache";
+import { cache, shouldRevalidateCache } from "@lib/utils/cache";
+import { isFullPage } from "@notionhq/client";
 
 const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
 const PROJECT_GROUP_DATABASE_ID = process.env
@@ -18,6 +18,7 @@ export type ProjectGroup = {
   id: string;
   name: string;
   description: string;
+  order: number;
 };
 
 export type Project = {
@@ -26,7 +27,7 @@ export type Project = {
   title: string;
   date: string;
   caseStudy: boolean;
-  platform: "web" | "app" | "other";
+  type: string[];
   description: string;
   tagline: string;
   point: number;
@@ -37,10 +38,10 @@ export type Project = {
   protected: boolean;
   achievements?: string[];
   background?: string;
-  team?: string[];
+  tags: string[];
+  team: string[];
   link?: string;
   linkCta?: string;
-  postSlug?: string;
   group?: ProjectGroup;
   points: {
     engineering: number;
@@ -56,12 +57,18 @@ export type Project = {
 export async function getProjectsWithCache() {
   let projects: Project[];
   if (isDevEnvironment) {
-    const cacheData = cache.get("projects") as Project[];
+    const forceRevalidate = shouldRevalidateCache();
+    const cacheData = !forceRevalidate
+      ? (cache.get("projects") as Project[])
+      : null;
     if (cacheData) {
       projects = cacheData;
     } else {
       projects = await getProjects(isDevEnvironment);
       cache.set("projects", projects, 24 * 1000 * 60 * 60);
+      if (forceRevalidate) {
+        console.log("🔄 Cache revalidated for projects");
+      }
     }
   } else {
     projects = await getProjects(isDevEnvironment);
@@ -72,6 +79,12 @@ export async function getProjectsWithCache() {
 export async function getProjectGroups(): Promise<ProjectGroup[]> {
   const projectGroupResponse = await notion.databases.query({
     database_id: PROJECT_GROUP_DATABASE_ID,
+    sorts: [
+      {
+        property: "Order",
+        direction: "descending",
+      },
+    ],
   });
   const projectGroups = (await Promise.all(
     projectGroupResponse.results
@@ -81,6 +94,7 @@ export async function getProjectGroups(): Promise<ProjectGroup[]> {
           id: page.id,
           name: getProperty(page, "Name", "title"),
           description: getProperty(page, "Description", "rich_text"),
+          order: getProperty(page, "Order", "number") || 0,
         };
       })
       .filter((page) => typeof page != "undefined"),
@@ -147,7 +161,7 @@ export async function getProjects(
         title: getProperty(page, "Title", "title"),
         date: getProperty(page, "Date", "date"),
         description: getProperty(page, "Description", "rich_text"),
-        platform: getProperty(page, "Platform", "select"),
+        type: getProperty(page, "Type", "multi_select"),
         tagline: getProperty(page, "Tagline", "rich_text"),
         caseStudy: getProperty(page, "Case Study", "checkbox"),
         cover: assets.cover,
@@ -156,6 +170,7 @@ export async function getProjects(
         team: getProperty(page, "Team", "multi_select"),
         link: getProperty(page, "Link", "url"),
         roles: getProperty(page, "Roles", "multi_select"),
+        tags: getProperty(page, "Tags", "multi_select"),
         achievements,
         point: getProperty(page, "Point", "number"),
         background: getProperty(page, "Background", "rich_text"),
@@ -183,6 +198,8 @@ export async function getProjects(
       Object.entries(project).filter(([_, value]) => value !== undefined),
     ),
   ) as Project[];
+
+  console.log(cleanProjects);
 
   return cleanProjects;
 }

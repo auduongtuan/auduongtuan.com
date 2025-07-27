@@ -35,7 +35,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
               <Fade
                 className={twMerge(
                   "flex shrink-0 grow-0",
-                  project.achievements && bp == "sm" && "mt-2 w-full",
+                  project.achievements && bp.breakpoint == "sm" && "mt-2 w-full",
                 )}
                 duration={300}
                 delay={400}
