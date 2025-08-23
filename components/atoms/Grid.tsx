@@ -1,21 +1,58 @@
 import { cn } from "@lib/utils/cn";
 
+const GRID_COLS_CLASSES = {
+  12: "grid-cols-12",
+  6: "grid-cols-6",
+  4: "grid-cols-4",
+  2: "grid-cols-2",
+  1: "grid-cols-1",
+};
+
+const GRID_GAP_CLASSES = {
+  4: "gap-4",
+  6: "gap-6",
+  8: "gap-8",
+  12: "gap-12",
+};
+
+const GRID_JUSTIFY_CLASSES = {
+  between: "justify-between",
+  center: "justify-center",
+};
+
+const GRID_ALIGN_CLASSES = {
+  between: "items-between",
+  center: "items-center",
+};
+
 export const Grid = ({
   cols = 12,
+  gap = 4,
   className = "",
   children,
   full = true,
+  justify,
+  align,
 }: {
-  cols?: number;
+  cols?: number | string;
+  gap?: number | string;
   className?: string;
   children?: React.ReactNode;
   full?: boolean;
+  justify?: keyof typeof GRID_JUSTIFY_CLASSES;
+  align?: keyof typeof GRID_ALIGN_CLASSES;
 }) => {
   return (
     <div
-      className={`content-grid-item grid grid-cols-12 gap-4 ${
-        full && "full"
-      } ${className}`}
+      className={cn(
+        "content-grid-item grid",
+        GRID_COLS_CLASSES[cols],
+        GRID_GAP_CLASSES[gap],
+        full && "full",
+        justify && GRID_JUSTIFY_CLASSES[justify],
+        align && GRID_ALIGN_CLASSES[align],
+        className,
+      )}
     >
       {children}
     </div>
@@ -58,6 +95,45 @@ const ROW_START_CLASSES: { [key: string]: { [key: string]: string } } = {
     "8": "row-start-8",
     "9": "row-start-9",
     "12": "row-start-12",
+  },
+};
+
+const COL_START_CLASSES: { [key: string]: { [key: string]: string } } = {
+  lg: {
+    "1": "lg:col-start-1",
+    "2": "lg:col-start-2",
+    "3": "lg:col-start-3",
+    "4": "lg:col-start-4",
+    "5": "lg:col-start-5",
+    "6": "lg:col-start-6",
+    "7": "lg:col-start-7",
+    "8": "lg:col-start-8",
+    "9": "lg:col-start-9",
+    "12": "lg:col-start-12",
+  },
+  md: {
+    "1": "md:col-start-1",
+    "2": "md:col-start-2",
+    "3": "md:col-start-3",
+    "4": "md:col-start-4",
+    "5": "md:col-start-5",
+    "6": "md:col-start-6",
+    "7": "md:col-start-7",
+    "8": "md:col-start-8",
+    "9": "md:col-start-9",
+    "12": "md:col-start-12",
+  },
+  sm: {
+    "1": "col-start-1",
+    "2": "col-start-2",
+    "3": "col-start-3",
+    "4": "col-start-4",
+    "5": "col-start-5",
+    "6": "col-start-6",
+    "7": "col-start-7",
+    "8": "col-start-8",
+    "9": "col-start-9",
+    "12": "col-start-12",
   },
 };
 
@@ -163,6 +239,10 @@ export const Col = ({
   rowStartSm,
   rowStartMd,
   rowStartLg,
+  colStart,
+  colStartSm,
+  colStartMd,
+  colStartLg,
   className = "",
   children,
   ...rest
@@ -179,6 +259,10 @@ export const Col = ({
   rowStartSm?: string | number;
   rowStartMd?: string | number;
   rowStartLg?: string | number;
+  colStart?: string | number;
+  colStartSm?: string | number;
+  colStartMd?: string | number;
+  colStartLg?: string | number;
   className?: string;
   children?: React.ReactNode;
 }) => {
@@ -194,6 +278,9 @@ export const Col = ({
         getClass(ROW_START_CLASSES, rowStartSm || rowStart, "sm"),
         getClass(ROW_START_CLASSES, rowStartMd, "md"),
         getClass(ROW_START_CLASSES, rowStartLg, "lg"),
+        getClass(COL_START_CLASSES, colStartSm || colStart, "sm"),
+        getClass(COL_START_CLASSES, colStartMd, "md"),
+        getClass(COL_START_CLASSES, colStartLg, "lg"),
         className,
       )}
       {...rest}

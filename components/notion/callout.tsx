@@ -34,7 +34,7 @@ function trimAny(str: string, chars: string[]) {
 }
 
 function getCalloutComponentWithOptions(
-  block: BlockObjectResponse
+  block: BlockObjectResponse,
 ): [string | undefined, { [key: string]: string }] {
   if ("callout" in block && "rich_text" in block.callout) {
     const componentWithOptions = block?.callout?.rich_text
@@ -67,7 +67,7 @@ export const parseCallout = (
   block: BlockObjectResponseWithChildren<CalloutBlockObjectResponse>,
   blocks: BlockObjectResponse[],
   lastBlockIndex: { value: number },
-  assets?: NotionAssets
+  assets?: NotionAssets,
 ) => {
   let rendered: React.ReactElement | null = null;
   let gridBlocks: BlockObjectResponseWithChildren[] = [];
@@ -106,17 +106,22 @@ export const parseCallout = (
       case "Col":
         // ony grid-item that we need to take last item back
         lastBlockIndex.value--;
-        const { align } = options;
+        const gridOptionKeys = ["align", "justify", "gap"];
+        const gridOptions = Object.fromEntries(
+          Object.entries(options).filter(([key]) =>
+            gridOptionKeys.includes(key),
+          ),
+        );
+
+        const colOptions = Object.fromEntries(
+          Object.entries(options).filter(
+            ([key]) => !gridOptionKeys.includes(key),
+          ),
+        );
         rendered = (
-          <Grid
-            key={block.id}
-            className={twMerge(
-              "mt-content-node",
-              align == "center" && "items-center"
-            )}
-          >
+          <Grid key={block.id} {...gridOptions} className="mt-content-node">
             {gridBlocks.map((gblock) => {
-              const { align, ...colOptions } =
+              const { align, justify, gap, ...colOptions } =
                 getCalloutComponentWithOptions(gblock)[1];
               return (
                 <Col key={gblock.id} {...colOptions}>
@@ -199,7 +204,7 @@ export const parseCallout = (
       case "Vimeo":
         const { id, ratio, ...otherOptions } = options;
         rendered = (
-          <div key={block.id} className="w-full mt-content-node">
+          <div key={block.id} className="mt-content-node w-full">
             <Vimeo
               id={id}
               ratio={ratio ? Number(ratio) : undefined}
@@ -211,7 +216,7 @@ export const parseCallout = (
       case "PersonaBox":
         const { name, ...rest } = options;
         const imageBlock = block.children?.find(
-          (block) => block.type == "image"
+          (block) => block.type == "image",
         ) as any;
         const otherBlocks = imageBlock
           ? block.children?.filter((block) => block.id != imageBlock.id)
@@ -233,19 +238,19 @@ export const parseCallout = (
         rendered = (
           <blockquote
             key={block.id}
-            className="text-xl font-semibold text-center mt-content-node"
+            className="mt-content-node text-center text-xl font-semibold"
           >
             {parseChildren()}
           </blockquote>
         );
         break;
       default:
-        rendered = (
+        rendered = block.callout?.rich_text ? (
           <div key={block.id} className="mt-content-node">
             {richTextObject(block.callout?.rich_text)}
             {parseChildren()}
           </div>
-        );
+        ) : null;
     }
   }
   return rendered;
