@@ -112,6 +112,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
                 : ""
             }
             key={block.id}
+            className="mt-content-node"
           >
             <CustomVideo
               src={block.video.url}
