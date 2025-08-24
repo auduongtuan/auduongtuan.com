@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ExternalLink from "./ExternalLink";
 import { cn } from "@lib/utils/cn";
-import { trackEvent } from "@lib/utils";
+import { parseInternalLink, trackEvent } from "@lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const inlineLinkVariants = cva(
@@ -45,14 +45,11 @@ const InlineLink = ({
   ref?: React.RefObject<HTMLAnchorElement>;
 }) => {
   // get the internal link (without /)
-  let checkInternal =
-    href != "#" &&
-    href.match(
-      /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i,
-    );
+  let checkInternal = parseInternalLink(href);
+  console.log(href, checkInternal);
   const Component = href == "#" ? "span" : checkInternal ? Link : ExternalLink;
   const linkStyles = cn(inlineLinkVariants({ underline, wrap }), className);
-  const link = checkInternal ? checkInternal[1] || checkInternal[2] : href;
+  const link = checkInternal ? checkInternal : href;
   return (
     <Component
       ref={ref}

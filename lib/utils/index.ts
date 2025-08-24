@@ -1,19 +1,22 @@
 import axios from "axios";
 
-export function checkInternal(href: string) {
-  const check =
-    href != "#" &&
-    href.match(
-      /^(?:https?:\/\/)?(?:www\.)?auduongtuan\.com(\/[^"\s]*)?$|(^\/[^"\s]*)$/i,
-    );
-  return Boolean(check);
-}
-
 export function parseInternalLink(url: string): string | null {
-  let check = url.match(
-    /^(?!http|https)\/?([\/\w-]+)$|auduongtuan\.com\/?(.*)$/i,
+  const match = url.match(
+    /^(?:(?:https?:\/\/)?(?:www\.)?auduongtuan\.com\/?(.*)$|\/?([\w\/-]+(?:[\w-]*\w)?(?:\/[\w-]+)*)$)/i,
   );
-  if (check) return check[1] || (check[2] ? `/${check[2]}` : null);
+
+  if (match) {
+    const domainPath = match[1];
+    const directPath = match[2];
+
+    if (domainPath !== undefined) {
+      return domainPath ? `/${domainPath}` : "/";
+    }
+    if (directPath && !directPath.includes(".")) {
+      return `/${directPath}`;
+    }
+  }
+
   return null;
 }
 
