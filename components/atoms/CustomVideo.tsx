@@ -55,7 +55,6 @@ const CustomVideo = ({
           }
         });
       });
-      // console.log(innerRef);
       if (innerRef.current instanceof HTMLVideoElement)
         lazyVideoObserver.observe(innerRef.current);
       return () => lazyVideoObserver.disconnect();

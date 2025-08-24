@@ -23,7 +23,6 @@ const ContentMenu = () => {
         document.querySelectorAll(".content-blocks-grid h3"),
       ) as HTMLElement[];
     }
-    console.log(headingsTemp);
     setHeadings(headingsTemp);
     const setupHeading = () => {
       let visibleInfoTemp: VisibleInfo[] = [];

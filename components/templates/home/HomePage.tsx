@@ -14,7 +14,6 @@ export default function HomePage({ projects, posts }: HomePageProps) {
   const products = projects.filter((project) => {
     return project.tags.length > 0;
   });
-  console.log(projects.map((project) => [project.title, project.tags]));
   return (
     <div className="bg-surface">
       <Header />

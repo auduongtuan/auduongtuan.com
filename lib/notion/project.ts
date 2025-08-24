@@ -199,8 +199,6 @@ export async function getProjects(
     ),
   ) as Project[];
 
-  console.log(cleanProjects);
-
   return cleanProjects;
 }
 
