@@ -10,7 +10,7 @@ export type PasswordProtectState = {
   decryptedContent: any;
   error: PasswordProtectError | null;
   setPassword: (password: string) => void;
-  setError: (error: PasswordProtectError) => void;
+  setError: (error: PasswordProtectError | null) => void;
   setDecryptedContent: (decryptedContent: any) => void;
 };
 
@@ -19,7 +19,7 @@ const usePasswordProtectStore = create<PasswordProtectState>((set) => ({
   decryptedContent: null,
   error: null,
   setPassword: (password: string) => set((state) => ({ ...state, password })),
-  setError: (error: PasswordProtectError) =>
+  setError: (error: PasswordProtectError | null) =>
     set((state) => ({ ...state, error })),
   setDecryptedContent: (decryptedContent: any) =>
     set((state) => ({
