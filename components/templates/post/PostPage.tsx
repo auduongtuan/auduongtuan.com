@@ -27,7 +27,7 @@ const PostSinglePage = ({
   postContent: any;
   passwordInfo: PasswordInfo;
 }) => {
-  const { decryptedContent } = usePasswordProtectStore();
+  const { decryptedContent, setDecryptedContent, setPassword, setError } = usePasswordProtectStore();
   const { setPost, setPostContent, setPosts } = usePostStore();
   const isShown = !post.meta.protected || decryptedContent != null;
 
@@ -36,6 +36,13 @@ const PostSinglePage = ({
     setPostContent(postContent);
     setPosts(posts);
   }, [setPost, setPostContent, setPosts, post, postContent, posts]);
+
+  useEffect(() => {
+    // Clear password state when navigating to a different post
+    setDecryptedContent(null);
+    setPassword("");
+    setError(null);
+  }, [post.id, setDecryptedContent, setPassword, setError]);
 
   return (
     <>
