@@ -22,7 +22,7 @@ const Bookmark = ({ block }: BookmarkProps) => {
           )}
 
         {(block.bookmark.meta?.title || block.bookmark.url) && (
-          <p className="mt-1 flex w-full min-w-0 shrink items-center gap-x-2 text-xs">
+          <div className="mt-1 flex w-full min-w-0 shrink items-center gap-x-2 text-xs">
             {block.bookmark.meta?.icon && (
               <img
                 src={block.bookmark.meta.icon}
@@ -40,7 +40,7 @@ const Bookmark = ({ block }: BookmarkProps) => {
             {/* <span className="w-full min-w-0 shrink truncate text-sm">
               {block.bookmark.url}
             </span> */}
-          </p>
+          </div>
         )}
         {block.bookmark.meta?.description ? (
           <p className="text-secondary mt-1! pl-8 text-xs">
