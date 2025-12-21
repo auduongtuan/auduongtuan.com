@@ -27,7 +27,6 @@ const ProductCard = memo(
     const { ref, visibleRatio } = useVisibleRatio();
     const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
-    console.log("project.title", project.link, internalLink);
     const formattedDate = formatProjectDate(project.date);
     const _achievement = (
       <Fade className={twMerge("shrink-0 grow-0")} duration={300} delay={400}>
