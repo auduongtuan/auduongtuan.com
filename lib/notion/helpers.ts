@@ -1,14 +1,40 @@
 import { richTextObject } from "@notion/richText";
+import { Client } from "@notionhq/client";
 import {
   BlockObjectResponse,
+  BookmarkBlockObjectResponse,
+  ImageBlockObjectResponse,
+  VideoBlockObjectResponse,
   FileBlockObjectResponse,
+  PdfBlockObjectResponse,
   PageObjectResponse,
   PartialPageObjectResponse,
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import fetchMeta from "fetch-meta-tags";
 import { NOTION_RICH_TEXT_LIMIT, notion } from "./base";
-import { NotionMedia, getMediaFromBlock } from "./media";
+import { NotionMedia, NotionAssets, getMediaFromBlock } from "./media";
+
+// Metadata types for blocks enhanced by our code
+export type BlockMeta = {
+  url: string;
+  title?: string;
+  description?: string;
+  icon?: string;
+  image?: string;
+};
+
+// Enhanced bookmark block with metadata
+export type EnhancedBookmarkBlock = BookmarkBlockObjectResponse & {
+  bookmark: BookmarkBlockObjectResponse["bookmark"] & {
+    meta?: BlockMeta;
+  };
+};
+
+// Union type for all enhanced blocks
+export type EnhancedBlockObjectResponse =
+  | EnhancedBookmarkBlock
+  | Exclude<BlockObjectResponse, BookmarkBlockObjectResponse>;
 
 const limitRegex = new RegExp(`.{1,${NOTION_RICH_TEXT_LIMIT}}`, "g");
 
@@ -175,12 +201,15 @@ export function getProperty(
   }
 }
 
-export const getBlockChildren = async (
-  id: string,
-  assets: { [key: string]: NotionMedia } = {},
-) => {
+export async function getBlockChildren(
+  block_id: string,
+  assets?: NotionAssets,
+): Promise<EnhancedBlockObjectResponse[]> {
+  const blocks: EnhancedBlockObjectResponse[] = [];
+  const currentAssets: NotionAssets = assets || {};
+
   const baseQuery = {
-    block_id: id,
+    block_id: block_id,
     page_size: 100,
   };
   let results: any[] = [];
@@ -199,7 +228,10 @@ export const getBlockChildren = async (
       if (block.type == "image" || block.type == "video") {
         // const { width, height } = await probe(block.video.file.url);
         let media: NotionMedia | undefined = undefined;
-        if (block.id in assets) media = assets[block.id];
+        const assetValue = currentAssets[block.id];
+        if (block.id in currentAssets && !Array.isArray(assetValue)) {
+          media = assetValue;
+        }
         // renew media if it's not there or outdated
         if (
           !media ||
@@ -207,7 +239,7 @@ export const getBlockChildren = async (
           new Date(media.lastUpdated) < new Date(block.last_edited_time)
         ) {
           media = await getMediaFromBlock(block);
-          assets[block.id] = media;
+          currentAssets[block.id] = media;
         }
         block[block.type].url = media.url;
         block[block.type].width = media.width || null;
@@ -225,32 +257,6 @@ export const getBlockChildren = async (
         }
         block.bookmark.meta = blockInfo;
       }
-      // Process link mentions (both link_mention and link_preview) in rich_text to fetch favicons
-      if (block[block.type]?.rich_text) {
-        const { getFaviconFromUrl } = await import("@lib/thumbnail");
-        await Promise.all(
-          block[block.type].rich_text.map(async (richTextItem: any) => {
-            if (
-              richTextItem.type === "mention" &&
-              (richTextItem.mention?.type === "link_mention" ||
-                richTextItem.mention?.type === "link_preview")
-            ) {
-              const url = richTextItem.href;
-              try {
-                const favicon = await getFaviconFromUrl(url);
-                // Store favicon in both possible locations for compatibility
-                if (richTextItem.mention.type === "link_mention") {
-                  richTextItem.mention.link_mention.favicon = favicon;
-                } else {
-                  richTextItem.mention.link_preview.favicon = favicon;
-                }
-              } catch (e) {
-                // Favicon fetch failed, continue without it
-              }
-            }
-          }),
-        );
-      }
       // get children
       if (block.has_children) {
         block.children = await getBlockChildren(block.id, assets);
@@ -258,4 +264,4 @@ export const getBlockChildren = async (
     }),
   );
   return results;
-};
+}

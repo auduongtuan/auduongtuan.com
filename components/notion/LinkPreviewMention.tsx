@@ -1,29 +1,31 @@
+import React from "react";
 import InlineLink from "@atoms/InlineLink";
-import Image from "next/image";
 
-type LinkPreviewMentionProps = {
+interface LinkPreviewMentionProps {
   url: string;
   displayText: string;
-  favicon?: string;
-};
+  favicon?: string | null;
+}
 
-const LinkPreviewMention = ({
+export const LinkPreviewMention: React.FC<LinkPreviewMentionProps> = ({
   url,
   displayText,
   favicon,
-}: LinkPreviewMentionProps) => {
+}) => {
   return (
-    <InlineLink href={url} className="inline-flex items-center gap-1">
+    <InlineLink href={url} target="_blank" rel="noopener noreferrer">
       {favicon && (
-        <Image
+        <img
           src={favicon}
           alt=""
-          width={16}
-          height={16}
-          className="inline-block"
+          className="mr-0.5 inline-block h-4 w-4 align-text-bottom"
+          onError={(e) => {
+            // Hide image if it fails to load
+            e.currentTarget.style.display = "none";
+          }}
         />
       )}
-      <span>{displayText}</span>
+      {displayText}
     </InlineLink>
   );
 };

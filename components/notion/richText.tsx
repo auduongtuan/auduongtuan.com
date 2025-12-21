@@ -129,14 +129,20 @@ export const richTextObject = (
         item.mention.type === "link_preview"
       ) {
         const url = item.href || "";
-        const favicon =
-          (item.mention as any).link_mention?.favicon ||
-          (item.mention as any).link_preview?.favicon;
+        // Notion API v2025-09-03 provides icon_url and title in the link_mention object
+        const linkMention =
+          item.mention.type === "link_mention"
+            ? item.mention.link_mention
+            : (item.mention as any).link_preview;
+
+        const favicon = linkMention?.favicon || linkMention?.icon_url;
+        const title = linkMention?.title || displayText;
+
         return (
           <LinkPreviewMention
             key={`${blockId}-${i}`}
             url={url}
-            displayText={displayText}
+            displayText={title}
             favicon={favicon}
           />
         );
