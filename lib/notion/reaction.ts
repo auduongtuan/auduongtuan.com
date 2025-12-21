@@ -1,9 +1,34 @@
 import { notion } from "./base";
 import { breakRichTextChunks } from "./helpers";
+import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+
 const REACTION_DATASOURCE_ID = process.env.REACTION_DATASOURCE_ID as string;
 
-export async function getReactions({ page, ip }) {
-  if (!page) return {};
+export type ReactionCounts = {
+  [reaction: string]: {
+    quantity: number;
+    reacted: boolean;
+  };
+};
+
+export type GetReactionsParams = {
+  page: string;
+  ip: string;
+};
+
+export type AddReactionParams = {
+  react: string;
+  page: string;
+  header: string;
+  ip: string;
+  event?: "click" | "swipe" | "double_tap";
+};
+
+export async function getReactions({
+  page,
+  ip,
+}: GetReactionsParams): Promise<ReactionCounts> {
+  if (!page) return {} as ReactionCounts;
   const response = await notion.dataSources.query({
     data_source_id: REACTION_DATASOURCE_ID,
     filter: {
@@ -28,22 +53,23 @@ export async function getReactions({ page, ip }) {
     return response.results.reduce((acc, current) => {
       // prevValue
       if ("properties" in current) {
+        const pageRecord = current as PageObjectResponse;
         if (
-          "title" in current.properties.React &&
-          "rich_text" in current.properties.Ip
+          "title" in pageRecord.properties.React &&
+          "rich_text" in pageRecord.properties.Ip
         ) {
           if (
-            current.properties.React.title.length > 0 &&
-            current.properties.Ip.rich_text.length > 0
+            pageRecord.properties.React.title.length > 0 &&
+            pageRecord.properties.Ip.rich_text.length > 0
           ) {
-            const saved_ip = current.properties.Ip.rich_text[0]
+            const saved_ip = pageRecord.properties.Ip.rich_text[0]
               .plain_text as string;
-            const reaction = current.properties.React.title[0]
+            const reaction = pageRecord.properties.React.title[0]
               .plain_text as string;
             if (reaction in acc) {
               acc[reaction].quantity++;
             } else {
-              acc[reaction] = { quantity: 1 };
+              acc[reaction] = { quantity: 1, reacted: false };
             }
             // if (saved_ip == ip) {
             acc[reaction].reacted = saved_ip == ip;
@@ -52,12 +78,16 @@ export async function getReactions({ page, ip }) {
         }
       }
       return acc;
-    }, {});
+    }, {} as ReactionCounts);
   } else {
-    return {};
+    return {} as ReactionCounts;
   }
 }
-export async function findReaction({ react, page, ip }) {
+export async function findReaction({
+  react,
+  page,
+  ip,
+}: Omit<AddReactionParams, "header" | "event">) {
   return await notion.dataSources.query({
     data_source_id: REACTION_DATASOURCE_ID,
     filter: {
@@ -84,7 +114,11 @@ export async function findReaction({ react, page, ip }) {
     },
   });
 }
-export async function removeReaction({ react, page, ip }) {
+export async function removeReaction({
+  react,
+  page,
+  ip,
+}: Omit<AddReactionParams, "header" | "event">) {
   const reactionFound = await findReaction({ react, page, ip });
   if (reactionFound.results.length > 0) {
     const deleteResponse = await notion.blocks.delete({
@@ -92,26 +126,22 @@ export async function removeReaction({ react, page, ip }) {
     });
     return deleteResponse;
   }
+  return null;
 }
+
 export async function addReaction({
   react,
   page,
   header,
   ip,
   event = "click",
-}: {
-  react: string;
-  page: string;
-  header: string;
-  ip: string;
-  event: "click" | "swipe" | "double_tap";
-}) {
+}: AddReactionParams): Promise<PageObjectResponse> {
   const reactionFound = await findReaction({ react, page, ip });
   if (reactionFound.results.length > 0) {
-    return reactionFound;
+    return reactionFound.results[0] as PageObjectResponse;
   }
 
-  return await notion.pages.create({
+  const response = await notion.pages.create({
     parent: {
       type: "data_source_id",
       data_source_id: REACTION_DATASOURCE_ID,
@@ -154,4 +184,6 @@ export async function addReaction({
       },
     },
   });
+
+  return response as PageObjectResponse;
 }
