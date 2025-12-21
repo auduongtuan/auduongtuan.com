@@ -13,19 +13,26 @@ export const LinkPreviewMention: React.FC<LinkPreviewMentionProps> = ({
   favicon,
 }) => {
   return (
-    <InlineLink href={url} target="_blank" rel="noopener noreferrer">
+    <InlineLink
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="max-w-full min-w-0 overflow-hidden break-all text-ellipsis whitespace-nowrap"
+    >
       {favicon && (
         <img
           src={favicon}
-          alt=""
-          className="mr-0.5 inline-block h-4 w-4 align-text-bottom"
+          alt={displayText + " favicon"}
+          className="inline-block h-4 w-4 align-text-bottom"
           onError={(e) => {
             // Hide image if it fails to load
             e.currentTarget.style.display = "none";
           }}
         />
       )}
-      {displayText}
+      <span className="min-w-0 shrink overflow-hidden text-ellipsis whitespace-nowrap">
+        {displayText}
+      </span>
     </InlineLink>
   );
 };

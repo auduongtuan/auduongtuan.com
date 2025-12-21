@@ -16,7 +16,7 @@ const Bookmark = ({ block }: BookmarkProps) => {
         {block.bookmark.meta?.image &&
           block.bookmark.meta.image !== block.bookmark.meta.icon && (
             <div
-              className="inline-block h-40 w-full self-start bg-cover bg-center"
+              className="round-sm inline-block h-40 w-full self-start bg-cover bg-center"
               style={{ backgroundImage: `url(${block.bookmark.meta.image})` }}
             />
           )}
