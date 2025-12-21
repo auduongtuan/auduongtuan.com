@@ -1,5 +1,5 @@
 import { useEffect, type ReactNode } from "react";
-import { Dialog as BaseDialog } from "@base-ui-components/react";
+import { Dialog as BaseDialog } from "@base-ui/react";
 import useAppStore from "@store/useAppStore";
 import { cn } from "@lib/utils/cn";
 

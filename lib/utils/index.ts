@@ -13,7 +13,8 @@ export function parseInternalLink(url: string): string | null {
       return domainPath ? `/${domainPath}` : "/";
     }
     if (directPath && !directPath.includes(".")) {
-      return `/${directPath}`;
+      // Avoid doubling slashes if directPath already starts with /
+      return directPath.startsWith("/") ? directPath : `/${directPath}`;
     }
   }
 

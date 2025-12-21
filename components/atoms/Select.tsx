@@ -1,4 +1,4 @@
-import { Select as BaseSelect } from "@base-ui-components/react";
+import { Select as BaseSelect } from "@base-ui/react";
 import { useControlledState } from "@hooks/useControlledState";
 import { FiCheck, FiChevronDown } from "react-icons/fi";
 import { cn } from "@lib/utils/cn";
@@ -97,10 +97,7 @@ const Select = <TType, TActualType>({
               {selectedOption?.icon && (
                 <span className="mr-2">{selectedOption.icon}</span>
               )}
-              <BaseSelect.Value
-                placeholder={placeholder}
-                className={"cursor-default"}
-              >
+              <BaseSelect.Value className={"cursor-default"}>
                 {(label) => renderValueFn()}
               </BaseSelect.Value>
             </div>

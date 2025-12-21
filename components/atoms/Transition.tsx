@@ -1,10 +1,10 @@
 "use client";
 import { CSSProperties, useCallback, useEffect, useMemo, useRef } from "react";
-import { useRender } from "@base-ui-components/react/use-render";
-import { mergeProps } from "@base-ui-components/react/merge-props";
-import { useTransitionStatus } from "@base-ui-components/react/utils";
+import { useRender } from "@base-ui/react/use-render";
+import { mergeProps } from "@base-ui/react/merge-props";
+import { useValueAsRef } from "@base-ui/utils/useValueAsRef";
 import { cn } from "@lib/utils/cn";
-import { useAnimationsFinished, useLatestRef } from "@hooks/base-ui";
+import { useAnimationsFinished, useTransitionStatus } from "@hooks";
 import { JSX, isValidElement } from "react";
 
 export type TransitionProps = Omit<
@@ -50,7 +50,7 @@ export function Transition({
   ...otherProps
 }: TransitionProps) {
   const { mounted, setMounted, transitionStatus } = useTransitionStatus(show);
-  const showRef = useLatestRef(show);
+  const showRef = useValueAsRef(show);
 
   const combinedClassName = useMemo(
     () =>

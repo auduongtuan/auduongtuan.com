@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
+    qualities: [25, 50, 75, 100],
     remotePatterns: [
       {
         protocol: "https",
@@ -29,6 +30,14 @@ module.exports = {
       {
         protocol: "http",
         hostname: "*.cloudinary.com",
+      },
+    ],
+    localPatterns: [
+      {
+        pathname: "/api/**",
+      },
+      {
+        pathname: "/about/**",
       },
     ],
   },

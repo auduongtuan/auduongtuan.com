@@ -46,7 +46,6 @@ const InlineLink = ({
 }) => {
   // get the internal link (without /)
   let checkInternal = parseInternalLink(href);
-  console.log(href, checkInternal);
   const Component = href == "#" ? "span" : checkInternal ? Link : ExternalLink;
   const linkStyles = cn(inlineLinkVariants({ underline, wrap }), className);
   const link = checkInternal ? checkInternal : href;

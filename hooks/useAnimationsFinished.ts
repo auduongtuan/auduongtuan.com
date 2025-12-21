@@ -1,31 +1,7 @@
 "use client";
-import { useLayoutEffect, useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { flushSync } from "react-dom";
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyFunction = (...args: any[]) => any;
-
-export const useEnhancedEffect =
-  typeof window !== "undefined" ? useLayoutEffect : useEffect;
-
-export function useEventCallback<Fn extends AnyFunction>(fn?: Fn) {
-  const ref = useRef(fn);
-  useEnhancedEffect(() => {
-    ref.current = fn;
-  });
-  return useCallback<AnyFunction>(
-    (...args) => ref.current?.(...args),
-    [],
-  ) as Fn;
-}
-
-export function useLatestRef<T>(value: T) {
-  const ref = useRef(value);
-  useEnhancedEffect(() => {
-    ref.current = value;
-  });
-  return ref;
-}
+import { useStableCallback } from "@base-ui/utils/useStableCallback";
 
 export function useAnimationsFinished(
   ref: React.RefObject<HTMLElement | null>,
@@ -40,14 +16,14 @@ export function useAnimationsFinished(
   const frameRef = useRef(-1);
   const timeoutRef = useRef(-1);
 
-  const cancelTasks = useEventCallback(() => {
+  const cancelTasks = useStableCallback(() => {
     cancelAnimationFrame(frameRef.current);
     clearTimeout(timeoutRef.current);
   });
 
   useEffect(() => cancelTasks, [cancelTasks]);
 
-  return useEventCallback((fnToExecute: () => void) => {
+  return useStableCallback((fnToExecute: () => void) => {
     cancelTasks();
 
     const element = ref.current;
