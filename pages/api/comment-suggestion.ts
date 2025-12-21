@@ -1,30 +1,39 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
-import { getCommentSuggestion } from "@lib/commentSuggestion";
-
-import { cache } from "@lib/utils/cache";
+import {
+  getCommentSuggestion,
+  getCommentSuggestionsCache,
+  setCommentSuggestionsCache,
+} from "@lib/commentSuggestion";
 
 const commentSuggestionAPI = async (
   req: NextApiRequest,
   res: NextApiResponse,
 ) => {
-  // Get comments
   if (req.method === "GET") {
-    const page = req.query.page as string;
-    if (
-      !page.startsWith(process.env.NEXT_PUBLIC_PRODUCTION_WEB_URL as string)
-    ) {
-      return res.status(400).json({ error: "Invalid page URL" });
+    const page = Array.isArray(req.query.page)
+      ? req.query.page[0]
+      : req.query.page;
+
+    if (!page) {
+      return res.status(400).json({ error: "Missing page parameter" });
     }
-    const id = "comment-suggestion_" + page;
-    let data = cache.get(id);
+
+    // Try to get cached suggestions from Metadata database
+    let data = await getCommentSuggestionsCache(page);
+
     if (!data) {
-      const days = 31;
-      data = await getCommentSuggestion(req.query.page as string);
-      cache.set(id, data, days * 24 * 1000 * 60 * 60);
+      // Cache miss or expired - generate new suggestions
+      // Construct full URL for Gemini API
+      const fullUrl = `${process.env.NEXT_PUBLIC_PRODUCTION_WEB_URL}/${page}`;
+      data = await getCommentSuggestion(fullUrl);
+      // Store in Metadata database
+      await setCommentSuggestionsCache(page, data);
     }
+
     return res.status(200).json(data);
   }
+
+  return res.status(405).json({ error: "Method not allowed" });
 };
 
 export default commentSuggestionAPI;

@@ -1,7 +1,33 @@
 import { notion, breakRichTextChunks } from "@lib/notion";
+import {
+  PageObjectResponse,
+  RichTextItemResponse,
+} from "@notionhq/client/build/src/api-endpoints";
+
 const COMMENT_DATASOURCE_ID = process.env.COMMENT_DATASOURCE_ID as string;
 
-export async function createComment({ name, content, email, page, header }) {
+export type Comment = {
+  name: RichTextItemResponse[];
+  email: string | null;
+  content: RichTextItemResponse[];
+  createdTime: string;
+};
+
+export type CreateCommentParams = {
+  name?: string;
+  content: string;
+  email?: string;
+  page: string;
+  header: string;
+};
+
+export async function createComment({
+  name,
+  content,
+  email,
+  page,
+  header,
+}: CreateCommentParams): Promise<PageObjectResponse> {
   let properties: any = {
     Content: {
       rich_text: breakRichTextChunks(content),
@@ -36,11 +62,11 @@ export async function createComment({ name, content, email, page, header }) {
     },
     properties: properties,
   });
-  return response;
+  return response as PageObjectResponse;
 }
 
-export async function getComments(page) {
-  if (!page) return {};
+export async function getComments(page?: string): Promise<Comment[]> {
+  if (!page) return [];
   // SDK v5.6.0: databases.query moved to dataSources.query
   const response = await notion.dataSources.query({
     data_source_id: COMMENT_DATASOURCE_ID,
@@ -61,27 +87,30 @@ export async function getComments(page) {
       },
     ],
   });
+
   if (response.results.length > 0) {
-    // groupBy(response.results, )
-    return response.results.map((record) => {
-      // prevValue
-      if ("properties" in record) {
-        if (
-          "title" in record.properties.Name &&
-          "email" in record.properties.Email &&
-          "rich_text" in record.properties.Content &&
-          "created_time" in record.properties["Created time"]
-        ) {
-          return {
-            name: record.properties.Name.title,
-            email: record.properties.Email.email,
-            content: record.properties.Content.rich_text,
-            createdTime: record.properties["Created time"].created_time,
-          };
+    return response.results
+      .map((record) => {
+        if ("properties" in record) {
+          const pageRecord = record as PageObjectResponse;
+          if (
+            "title" in pageRecord.properties.Name &&
+            "email" in pageRecord.properties.Email &&
+            "rich_text" in pageRecord.properties.Content &&
+            "created_time" in pageRecord.properties["Created time"]
+          ) {
+            return {
+              name: pageRecord.properties.Name.title,
+              email: pageRecord.properties.Email.email,
+              content: pageRecord.properties.Content.rich_text,
+              createdTime: pageRecord.properties["Created time"].created_time,
+            };
+          }
         }
-      }
-    });
-  } else {
-    return [];
+        return null;
+      })
+      .filter((comment): comment is Comment => comment !== null);
   }
+
+  return [];
 }

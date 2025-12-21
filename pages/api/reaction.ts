@@ -7,10 +7,10 @@ import {
 
 const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   const forwarded = req.headers["x-forwarded-for"];
-  const ip =
+  const ip: string =
     typeof forwarded === "string"
       ? forwarded.split(/, /)[0]
-      : req.socket.remoteAddress;
+      : req.socket.remoteAddress || "unknown";
   // DELETE REACTION
   if (req.method === "POST" && req.body?.type == "REMOVE") {
     try {
@@ -35,7 +35,7 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
       const data = {
         react: req.body.react,
         header: JSON.stringify(req.headers),
-        ip: ip as string,
+        ip: ip,
         page: req.body.page,
         event: req.body.event || "click",
       };
@@ -54,7 +54,8 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   // GET REACTIONS
   if (req.method == "GET") {
-    const data = await getReactions({ page: req.query.page, ip: ip });
+    const page = Array.isArray(req.query.page) ? req.query.page[0] : req.query.page || "";
+    const data = await getReactions({ page, ip });
     return res.status(200).json(data);
   }
 };

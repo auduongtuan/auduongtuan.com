@@ -34,7 +34,7 @@ const CommentSuggestion = ({
     axios
       .get("/api/comment-suggestion", {
         params: {
-          page: process.env.NEXT_PUBLIC_PRODUCTION_WEB_URL || "/" + page,
+          page: page,
         },
       })
       .then((res) => {

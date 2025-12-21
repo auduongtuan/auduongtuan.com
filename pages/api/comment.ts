@@ -80,7 +80,7 @@ const notionAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   }
   // Get comments
   if (req.method === "GET") {
-    return res.status(200).json(await getComments(req.query.page));
+    return res.status(200).json(await getComments(req.query.page?.toString()));
   }
 };
 
