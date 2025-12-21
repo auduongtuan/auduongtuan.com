@@ -1,12 +1,11 @@
-import { Client } from "@notionhq/client";
+import { notion } from "./base";
 import { breakRichTextChunks } from "./helpers";
-const notion = new Client({ auth: process.env.NOTION_API_KEY });
-const REACTION_DATABASE_ID = process.env.REACTION_DATABASE_ID as string;
+const REACTION_DATASOURCE_ID = process.env.REACTION_DATASOURCE_ID as string;
 
 export async function getReactions({ page, ip }) {
   if (!page) return {};
-  const response = await notion.databases.query({
-    database_id: REACTION_DATABASE_ID,
+  const response = await notion.dataSources.query({
+    data_source_id: REACTION_DATASOURCE_ID,
     filter: {
       and: [
         {
@@ -59,8 +58,8 @@ export async function getReactions({ page, ip }) {
   }
 }
 export async function findReaction({ react, page, ip }) {
-  return await notion.databases.query({
-    database_id: REACTION_DATABASE_ID,
+  return await notion.dataSources.query({
+    data_source_id: REACTION_DATASOURCE_ID,
     filter: {
       and: [
         {
@@ -114,8 +113,8 @@ export async function addReaction({
 
   return await notion.pages.create({
     parent: {
-      type: "database_id",
-      database_id: REACTION_DATABASE_ID,
+      type: "data_source_id",
+      data_source_id: REACTION_DATASOURCE_ID,
     },
     properties: {
       React: {

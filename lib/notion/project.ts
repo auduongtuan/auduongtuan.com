@@ -10,9 +10,9 @@ import { isDevEnvironment } from "@lib/utils";
 import { cache, shouldRevalidateCache } from "@lib/utils/cache";
 import { isFullPage } from "@notionhq/client";
 
-const PROJECT_DATABASE_ID = process.env.PROJECT_DATABASE_ID as string;
-const PROJECT_GROUP_DATABASE_ID = process.env
-  .PROJECT_GROUP_DATABASE_ID as string;
+const PROJECT_DATASOURCE_ID = process.env.PROJECT_DATASOURCE_ID as string;
+const PROJECT_GROUP_DATASOURCE_ID = process.env
+  .PROJECT_GROUP_DATASOURCE_ID as string;
 
 export type ProjectGroup = {
   id: string;
@@ -77,8 +77,8 @@ export async function getProjectsWithCache() {
 }
 
 export async function getProjectGroups(): Promise<ProjectGroup[]> {
-  const projectGroupResponse = await notion.databases.query({
-    database_id: PROJECT_GROUP_DATABASE_ID,
+  const projectGroupResponse = await notion.dataSources.query({
+    data_source_id: PROJECT_GROUP_DATASOURCE_ID,
     sorts: [
       {
         property: "Order",
@@ -130,8 +130,8 @@ export async function getProjects(
     });
   }
   const projectGroups = await getProjectGroups();
-  const projectResponse = await notion.databases.query({
-    database_id: PROJECT_DATABASE_ID,
+  const projectResponse = await notion.dataSources.query({
+    data_source_id: PROJECT_DATASOURCE_ID,
     filter: filterQuery,
     sorts: [
       {

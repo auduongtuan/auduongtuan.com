@@ -1,3 +1,6 @@
 import { Client } from "@notionhq/client";
-export const notion = new Client({ auth: process.env.NOTION_API_KEY });
+export const notion = new Client({
+  auth: process.env.NOTION_API_KEY,
+  notionVersion: "2025-09-03",
+});
 export const NOTION_RICH_TEXT_LIMIT = 2000;
