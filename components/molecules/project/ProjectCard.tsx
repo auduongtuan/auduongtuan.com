@@ -101,7 +101,13 @@ const ProjectCard = memo(
           </Button>
         )}
         {project.caseStudy && project.link && !internalLink && (
-          <Tooltip content={project.linkCta || "View website"}>
+          <Tooltip
+            content={
+              project.linkCta || project.tags.includes("my product")
+                ? "Get product"
+                : "View website"
+            }
+          >
             <IconButton href={project.link ? project.link : "#"} external>
               <FiEye />
             </IconButton>

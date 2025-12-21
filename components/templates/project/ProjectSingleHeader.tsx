@@ -35,14 +35,18 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
               <Fade
                 className={twMerge(
                   "flex shrink-0 grow-0",
-                  project.achievements && bp.breakpoint == "sm" && "mt-2 w-full",
+                  project.achievements &&
+                    bp.breakpoint == "sm" &&
+                    "mt-2 w-full",
                 )}
                 duration={300}
                 delay={400}
               >
                 {project.link && (
                   <Button href={project.link} secondary showPopoutIcon>
-                    View website
+                    {project.tags.includes("my product")
+                      ? "Get product"
+                      : "View website"}
                   </Button>
                 )}
                 {project.achievements && project.achievements.length > 0 && (

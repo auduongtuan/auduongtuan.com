@@ -105,7 +105,7 @@ const Navigation = React.memo(() => {
             </button>
           ) : (
             <>
-              {(bp.breakpoint == "md" || bp.breakpoint == "sm") && (
+              {bp.breakpoint == "sm" && (
                 <button
                   className={`-mx-2 inline-block cursor-pointer rounded-xl px-2 py-1 ${"text-primary hover:bg-surface-raised"}`}
                   onClick={() => setMenuOpened(true)}

@@ -124,6 +124,33 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
         );
         break;
       case "embed":
+        // Extract dimensions from caption pattern [width-height] Description
+        let embedWidth: number | null = null;
+        let embedHeight: number | null = null;
+        let embedCaption = "";
+
+        if (block.embed.caption && block.embed.caption.length > 0) {
+          const captionText = block.embed.caption
+            .map((r) => r.plain_text)
+            .join("");
+          const dimensionMatch = captionText.match(/^\[(\d+)-(\d+)\]\s*/);
+
+          if (dimensionMatch) {
+            embedWidth = parseInt(dimensionMatch[1]);
+            embedHeight = parseInt(dimensionMatch[2]);
+            // Strip the dimension pattern from caption
+            const cleanedCaption = captionText.replace(
+              /^\[(\d+)-(\d+)\]\s*/,
+              "",
+            );
+            if (cleanedCaption) {
+              embedCaption = cleanedCaption;
+            }
+          } else {
+            embedCaption = captionText;
+          }
+        }
+
         if (block.embed.url.includes("facebook.com")) {
           content.push(
             <div key={block.id} className="mt-content-node">
@@ -135,17 +162,39 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
             </div>,
           );
         } else {
-          content.push(
-            <div key={block.id} className="mt-content-node">
-              <iframe
-                src={block.embed.url}
-                className="h-[600px] w-full overflow-hidden rounded-md border-0"
-                title="Design Tokens - CSS"
-                allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-                sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-              ></iframe>
-            </div>,
+          const embedElement = (
+            <iframe
+              src={block.embed.url}
+              className="w-full overflow-hidden rounded-md border-0"
+              style={{
+                aspectRatio:
+                  embedWidth && embedHeight
+                    ? `${embedWidth}/${embedHeight}`
+                    : undefined,
+              }}
+              title={embedCaption || "Embedded content"}
+              allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+              sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+            ></iframe>
           );
+
+          if (embedCaption) {
+            content.push(
+              <Figure
+                key={block.id}
+                caption={embedCaption}
+                className="mt-content-node"
+              >
+                {embedElement}
+              </Figure>,
+            );
+          } else {
+            content.push(
+              <div key={block.id} className="mt-content-node">
+                {embedElement}
+              </div>,
+            );
+          }
         }
         break;
       case "code":
