@@ -1,4 +1,4 @@
-const BLOG_DATABASE_ID = process.env.BLOG_DATABASE_ID as string;
+const BLOG_DATASOURCE_ID = process.env.BLOG_DATASOURCE_ID as string;
 import {
   notion,
   getProperty,
@@ -30,7 +30,7 @@ export async function getPostsWithCache() {
   let posts: Post[];
   if (isDevEnvironment) {
     const forceRevalidate = shouldRevalidateCache();
-    const cacheData = !forceRevalidate ? cache.get("posts") as Post[] : null;
+    const cacheData = !forceRevalidate ? (cache.get("posts") as Post[]) : null;
     if (cacheData) {
       posts = cacheData;
     } else {
@@ -71,8 +71,8 @@ export async function getPosts(includeUnpublished?: boolean) {
       },
     });
   }
-  const response = await notion.databases.query({
-    database_id: BLOG_DATABASE_ID,
+  const response = await notion.dataSources.query({
+    data_source_id: BLOG_DATASOURCE_ID,
     filter: filterQuery,
     sorts: [
       {
@@ -102,14 +102,14 @@ export async function getPosts(includeUnpublished?: boolean) {
     }),
   );
   const filteredPosts = posts.filter((page) => page) as Post[];
-  
+
   // Remove undefined values for JSON serialization
-  const cleanPosts = filteredPosts.map(post => 
+  const cleanPosts = filteredPosts.map((post) =>
     Object.fromEntries(
-      Object.entries(post).filter(([_, value]) => value !== undefined)
-    )
+      Object.entries(post).filter(([_, value]) => value !== undefined),
+    ),
   ) as Post[];
-  
+
   return cleanPosts;
 }
 

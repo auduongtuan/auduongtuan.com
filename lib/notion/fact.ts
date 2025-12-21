@@ -1,4 +1,4 @@
-const FACT_DATABASE_ID = process.env.FACT_DATABASE_ID as string;
+const FACT_DATASOURCE_ID = process.env.FACT_DATASOURCE_ID as string;
 import { notion, getProperty } from "@lib/notion";
 import { RichTextItemResponse } from "@notion/richText";
 import { isFullPage } from "@notionhq/client";
@@ -10,8 +10,8 @@ export interface Fact {
 }
 
 export async function getFacts() {
-  const response = await notion.databases.query({
-    database_id: FACT_DATABASE_ID,
+  const response = await notion.dataSources.query({
+    data_source_id: FACT_DATASOURCE_ID,
   });
   const posts = await Promise.all(
     response.results.map(async (page) => {

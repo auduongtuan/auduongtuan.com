@@ -2,7 +2,7 @@ import { getProperty, notion } from "@lib/notion";
 import { isFullPage } from "@notionhq/client";
 import { getThumbnailFromUrl } from "@lib/thumbnail";
 
-const NOW_DATABASE_ID = process.env.NOW_DATABASE_ID as string;
+const NOW_DATASOURCE_ID = process.env.NOW_DATASOURCE_ID as string;
 
 export type NotionNowItem = {
   title: string;
@@ -17,8 +17,8 @@ export type NotionNowItem = {
 };
 
 export async function getNotionNowItems(): Promise<NotionNowItem[]> {
-  const response = await notion.databases.query({
-    database_id: NOW_DATABASE_ID,
+  const response = await notion.dataSources.query({
+    data_source_id: NOW_DATASOURCE_ID,
     sorts: [
       {
         timestamp: "last_edited_time",

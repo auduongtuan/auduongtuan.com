@@ -225,6 +225,32 @@ export const getBlockChildren = async (
         }
         block.bookmark.meta = blockInfo;
       }
+      // Process link mentions (both link_mention and link_preview) in rich_text to fetch favicons
+      if (block[block.type]?.rich_text) {
+        const { getFaviconFromUrl } = await import("@lib/thumbnail");
+        await Promise.all(
+          block[block.type].rich_text.map(async (richTextItem: any) => {
+            if (
+              richTextItem.type === "mention" &&
+              (richTextItem.mention?.type === "link_mention" ||
+                richTextItem.mention?.type === "link_preview")
+            ) {
+              const url = richTextItem.href;
+              try {
+                const favicon = await getFaviconFromUrl(url);
+                // Store favicon in both possible locations for compatibility
+                if (richTextItem.mention.type === "link_mention") {
+                  richTextItem.mention.link_mention.favicon = favicon;
+                } else {
+                  richTextItem.mention.link_preview.favicon = favicon;
+                }
+              } catch (e) {
+                // Favicon fetch failed, continue without it
+              }
+            }
+          }),
+        );
+      }
       // get children
       if (block.has_children) {
         block.children = await getBlockChildren(block.id, assets);

@@ -54,3 +54,29 @@ export async function getThumbnailFromUrl(url: string) {
     };
   }
 }
+
+export async function getFaviconFromUrl(url: string): Promise<string | null> {
+  try {
+    const metadata = await parse(url);
+    // Try multiple sources for favicon
+    // According to html-metadata-parser, favicon would be in images array or og.image
+    const faviconUrl =
+      metadata?.images?.[0] || metadata?.og?.image || metadata?.meta?.image;
+
+    if (faviconUrl) {
+      // Handle relative URLs
+      if (faviconUrl.startsWith("http")) {
+        return faviconUrl;
+      } else {
+        const urlObj = new URL(url);
+        return `${urlObj.protocol}//${urlObj.host}${faviconUrl}`;
+      }
+    }
+
+    // Fallback to default favicon location
+    const urlObj = new URL(url);
+    return `${urlObj.protocol}//${urlObj.host}/favicon.ico`;
+  } catch (err) {
+    return null;
+  }
+}

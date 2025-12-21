@@ -1,5 +1,5 @@
 import { notion, breakRichTextChunks } from "@lib/notion";
-const COMMENT_DATABASE_ID = process.env.COMMENT_DATABASE_ID as string;
+const COMMENT_DATASOURCE_ID = process.env.COMMENT_DATASOURCE_ID as string;
 
 export async function createComment({ name, content, email, page, header }) {
   let properties: any = {
@@ -31,8 +31,8 @@ export async function createComment({ name, content, email, page, header }) {
   }
   const response = await notion.pages.create({
     parent: {
-      type: "database_id",
-      database_id: COMMENT_DATABASE_ID,
+      type: "data_source_id",
+      data_source_id: COMMENT_DATASOURCE_ID,
     },
     properties: properties,
   });
@@ -41,8 +41,9 @@ export async function createComment({ name, content, email, page, header }) {
 
 export async function getComments(page) {
   if (!page) return {};
-  const response = await notion.databases.query({
-    database_id: COMMENT_DATABASE_ID,
+  // SDK v5.6.0: databases.query moved to dataSources.query
+  const response = await notion.dataSources.query({
+    data_source_id: COMMENT_DATASOURCE_ID,
     filter: {
       and: [
         {
