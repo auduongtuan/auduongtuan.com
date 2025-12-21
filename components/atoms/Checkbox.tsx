@@ -1,4 +1,4 @@
-import { Checkbox as BaseCheckbox } from "@base-ui-components/react";
+import { Checkbox as BaseCheckbox } from "@base-ui/react";
 import { FiCheck } from "react-icons/fi";
 import { cn } from "@lib/utils/cn";
 

@@ -1,5 +1,5 @@
 import { useState, Fragment } from "react";
-import { Switch as BaseSwitch } from "@base-ui-components/react";
+import { Switch as BaseSwitch } from "@base-ui/react";
 
 interface SwitchProps {
   checked: boolean;

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Tooltip as BaseTooltip } from "@base-ui-components/react";
+import { Tooltip as BaseTooltip } from "@base-ui/react";
 import { cn } from "@lib/utils/cn";
 export interface TooltipProps extends Omit<BaseTooltip.Popup.Props, "content"> {
   content?: React.ReactNode;
@@ -20,10 +20,11 @@ const Tooltip = ({
   ref?: React.RefObject<HTMLElement>;
 }) => {
   return (
-    <BaseTooltip.Root open={open} delay={100} onOpenChange={onOpenChange}>
+    <BaseTooltip.Root open={open} onOpenChange={onOpenChange}>
       <BaseTooltip.Trigger
         render={children}
         ref={forwardedRef}
+        delay={100}
       ></BaseTooltip.Trigger>
       <BaseTooltip.Portal>
         <BaseTooltip.Positioner sideOffset={10} className="z-2000">

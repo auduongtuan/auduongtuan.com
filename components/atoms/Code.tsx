@@ -47,8 +47,8 @@ const Code = ({
       <Tooltip
         open={open}
         content={copied ? "Copied!" : "Copy"}
-        onOpenChange={(open, _ev, reason) => {
-          if (reason == "trigger-press" && !open) {
+        onOpenChange={(open, eventDetails) => {
+          if (eventDetails.reason == "trigger-press" && !open) {
             return;
           }
           if (!open) setCopied(false);

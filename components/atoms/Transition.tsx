@@ -1,10 +1,9 @@
 "use client";
 import { CSSProperties, useCallback, useEffect, useMemo, useRef } from "react";
-import { useRender } from "@base-ui-components/react/use-render";
-import { mergeProps } from "@base-ui-components/react/merge-props";
-import { useTransitionStatus } from "@base-ui-components/react/utils";
+import { useRender } from "@base-ui/react/use-render";
+import { mergeProps } from "@base-ui/react/merge-props";
 import { cn } from "@lib/utils/cn";
-import { useAnimationsFinished, useLatestRef } from "@hooks/base-ui";
+import { useAnimationsFinished, useLatestRef, useTransitionStatus } from "@hooks/base-ui";
 import { JSX, isValidElement } from "react";
 
 export type TransitionProps = Omit<
