@@ -1,5 +1,6 @@
 import { notion, getProperty } from "@lib/notion";
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { breakRichTextChunks } from "./helpers";
 
 const METADATA_DATASOURCE_ID = process.env.METADATA_DATASOURCE_ID as string;
 
@@ -87,25 +88,13 @@ export async function setMetadata(
         ],
       },
       Value: {
-        rich_text: [
-          {
-            text: {
-              content: value,
-            },
-          },
-        ],
+        rich_text: breakRichTextChunks(value),
       },
     };
 
     if (page) {
       properties.Page = {
-        rich_text: [
-          {
-            text: {
-              content: page,
-            },
-          },
-        ],
+        rich_text: breakRichTextChunks(page),
       };
     }
 
