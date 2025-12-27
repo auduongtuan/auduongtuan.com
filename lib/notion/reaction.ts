@@ -169,13 +169,7 @@ export async function addReaction({
         ],
       },
       Page: {
-        rich_text: [
-          {
-            text: {
-              content: page,
-            },
-          },
-        ],
+        rich_text: breakRichTextChunks(page),
       },
       Event: {
         select: {
