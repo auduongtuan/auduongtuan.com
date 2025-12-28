@@ -2,9 +2,9 @@ import PillButton from "@atoms/PillButton";
 import Skeleton from "@atoms/Skeleton";
 import Tooltip from "@atoms/Tooltip";
 import { type CommentSuggestion } from "@lib/commentSuggestion";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RiAiGenerate2 } from "react-icons/ri";
+import useSWR from "swr";
 
 function getComments(
   suggestion: CommentSuggestion,
@@ -14,6 +14,8 @@ function getComments(
   return sets[Math.floor(Math.random() * sets.length)] || [];
 }
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const CommentSuggestion = ({
   onButtonClick,
   page,
@@ -21,29 +23,15 @@ const CommentSuggestion = ({
   onButtonClick: (content: string) => void;
   page: string;
 }) => {
-  const [suggestion, setSuggestion] = useState<CommentSuggestion>({
-    vietnamese: [],
-    english: [],
-  });
-  const [useEnglish, setUseEnglish] = useState(false);
-  const comments = getComments(
-    suggestion,
-    useEnglish ? "english" : "vietnamese",
+  const { data: suggestion } = useSWR<CommentSuggestion>(
+    `/api/comment-suggestion?page=${encodeURIComponent(page)}`,
+    fetcher,
   );
-  useEffect(() => {
-    axios
-      .get("/api/comment-suggestion", {
-        params: {
-          page: page,
-        },
-      })
-      .then((res) => {
-        setSuggestion({ ...res.data });
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  }, [page]);
+
+  const [useEnglish, setUseEnglish] = useState(false);
+  const comments = suggestion
+    ? getComments(suggestion, useEnglish ? "english" : "vietnamese")
+    : [];
 
   return (
     <div>
