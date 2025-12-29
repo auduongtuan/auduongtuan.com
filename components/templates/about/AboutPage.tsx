@@ -68,6 +68,14 @@ export default function AboutPage({
       });
     }
   }, [sent, sent.length]);
+
+  // Reset photo store state when component unmounts (page navigation)
+  useEffect(() => {
+    return () => {
+      setIsExpanded(false);
+      setIsExpanding(false);
+    };
+  }, [setIsExpanded, setIsExpanding]);
   return (
     <div className="bg-surface overflow-x-hidden overflow-y-hidden">
       <main className="text-primary bg-surface z-10 w-full">
