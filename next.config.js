@@ -39,6 +39,9 @@ module.exports = {
       {
         pathname: "/about/**",
       },
+      {
+        pathname: "/uploads/**",
+      },
     ],
   },
   reactStrictMode: false,
