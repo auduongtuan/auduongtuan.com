@@ -90,7 +90,7 @@ const Select = <TType, TActualType>({
             className={cn(
               "border-control bg-background ring-offset-background placeholder:text-muted focus:ring-ring flex w-full items-center justify-between rounded-lg border px-3 py-1.5 text-base focus:ring-offset-2 focus:outline-hidden focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
               buttonClassName,
-              "data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50",
+              "data-disabled:cursor-not-allowed data-disabled:opacity-50",
             )}
           >
             <div className="flex items-center">
@@ -112,7 +112,7 @@ const Select = <TType, TActualType>({
               align={align}
               alignItemWithTrigger={false}
             >
-              <BaseSelect.Popup className="border-control bg-surface text-primary z-[var(--stack-popup)] grid grid-cols-1 gap-0.5 rounded-md border p-1 shadow-lg focus:outline-hidden data-[closed]:hidden data-[ending-style]:opacity-0 data-[starting-style]:opacity-0">
+              <BaseSelect.Popup className="border-control bg-surface text-primary z-[var(--stack-popup)] grid grid-cols-1 gap-0.5 rounded-md border p-1 shadow-lg focus:outline-hidden data-closed:hidden data-ending-style:opacity-0 data-starting-style:opacity-0">
                 {options.map((option, i) => (
                   <BaseSelect.Item
                     key={
@@ -124,10 +124,10 @@ const Select = <TType, TActualType>({
                     label={option.name}
                     className={cn(
                       "flex w-full cursor-default items-center rounded-md py-1.5 pr-2 pl-2 text-base outline-hidden select-none",
-                      "data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+                      "data-disabled:pointer-events-none data-disabled:opacity-50",
                       multiple
-                        ? "data-[selected]:hover:bg-accent-subtlest data-[highlighted]:bg-accent-subtlest data-[selected]:bg-transparent"
-                        : "data-[selected]:bg-accent data-[selected]:text-oncolor data-[highlighted]:bg-subtle",
+                        ? "data-selected:hover:bg-accent-subtlest data-highlighted:bg-accent-subtlest data-selected:bg-transparent"
+                        : "data-selected:bg-accent data-selected:text-oncolor data-highlighted:bg-subtle",
                     )}
                   >
                     {multiple && (
@@ -150,7 +150,7 @@ const Select = <TType, TActualType>({
                       <BaseSelect.ItemIndicator>
                         <FiCheck
                           className={cn(
-                            "ml-1 shrink-0 opacity-0 data-[selected]:opacity-100",
+                            "ml-1 shrink-0 opacity-0 data-selected:opacity-100",
                             multiple && "text-accent",
                           )}
                         />

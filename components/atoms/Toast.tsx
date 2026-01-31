@@ -95,7 +95,7 @@ const Toast = ({ children, type, afterLeave, duration }: ToastProps) => {
           afterLeave?.();
         }
       }}
-      className="transition-all duration-200 data-[ending]:translate-y-10 data-[ending]:opacity-0 data-[starting]:translate-y-10 data-[starting]:opacity-0"
+      className="transition-all duration-200 data-ending:translate-y-10 data-ending:opacity-0 data-starting:translate-y-10 data-starting:opacity-0"
       listenToChildAnimations
     >
       <div

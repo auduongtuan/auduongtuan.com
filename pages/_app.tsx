@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { Provider as BalancerProvider } from "react-wrap-balancer";
 import Navigation from "../components/molecules/Navigation";
 import { ToastList } from "../components/atoms/Toast";
+import { HoverGifProvider } from "../components/molecules/HoverGifProvider";
 import * as gtag from "../lib/gtag";
 import "../styles/globals.css";
 
@@ -78,6 +79,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <main className="relative">
         <Navigation />
         <ToastList />
+        <HoverGifProvider />
         <Component {...pageProps} />
       </main>
     </BalancerProvider>
