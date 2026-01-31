@@ -98,19 +98,14 @@ export default function AboutPage({
               {/* <Fade delay={50} className="w-full max-w-90"> */}
               <Fade
                 delay={50}
-                as="p"
-                className="subheading2 inline-flex items-center justify-center gap-2 pt-1.5 pb-2 text-center"
+                as="div"
+                className="inline-flex items-center justify-center pt-1.5 pb-2 text-center"
               >
-                <span>
-                  <s>50</s> 9 shades of Tuấn
-                </span>
                 <Tooltip
                   content={isExpanded ? "Collapse as stack" : "Expand as grid"}
                 >
-                  <IconButton
-                    size="small"
-                    variant="ghost"
-                    className="hidden md:flex"
+                  <button
+                    className="subheading2 group inline-flex items-center justify-center gap-2 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
                     onClick={() => {
                       // if (isExpanding) return;
                       if (isExpanded === true) {
@@ -129,9 +124,17 @@ export default function AboutPage({
                         });
                       }
                     }}
+                    aria-label={
+                      isExpanded ? "Collapse as stack" : "Expand as grid"
+                    }
                   >
-                    {isExpanded ? <FiMinus /> : <FiPlus />}
-                  </IconButton>
+                    <span>
+                      <s>50</s> 9 shades of Tuấn
+                    </span>
+                    <span className="transition-transform group-hover:scale-110">
+                      {isExpanded ? <FiMinus /> : <FiPlus />}
+                    </span>
+                  </button>
                 </Tooltip>
               </Fade>
               <Transition

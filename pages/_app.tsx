@@ -76,12 +76,13 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
         </>
       )}
-      <main className="relative">
-        <Navigation />
-        <ToastList />
-        <HoverGifProvider />
-        <Component {...pageProps} />
-      </main>
+      <HoverGifProvider>
+        <main className="relative">
+          <Navigation />
+          <ToastList />
+          <Component {...pageProps} />
+        </main>
+      </HoverGifProvider>
     </BalancerProvider>
   );
 }
