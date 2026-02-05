@@ -7,7 +7,7 @@ import { event } from "@lib/gtag";
 import socialNetworks from "@lib/socialNetworks";
 import { TextEncrypted } from "@atoms/TextEncrypted";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   PiBehanceLogoBold,
   PiGithubLogoBold,
@@ -32,11 +32,68 @@ export default function Footer() {
   };
   const [isOpen, setIsOpen] = useState(false);
 
+  // FitText logic for background text
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [fontSize, setFontSize] = useState(100);
+
+  useEffect(() => {
+    const calculateFontSize = () => {
+      if (!textRef.current || !containerRef.current) return;
+
+      const container = containerRef.current;
+      const text = textRef.current;
+      const containerWidth = container.offsetWidth;
+
+      // Start with a large font size and measure
+      let testSize = 1000;
+      text.style.fontSize = `${testSize}px`;
+
+      // Calculate the ratio
+      const textWidth = text.scrollWidth;
+      const ratio = containerWidth / textWidth;
+      const newFontSize = testSize * ratio;
+
+      setFontSize(newFontSize);
+    };
+
+    calculateFontSize();
+
+    window.addEventListener("resize", calculateFontSize);
+    return () => window.removeEventListener("resize", calculateFontSize);
+  }, []);
+
   return (
     <div id="contact" className="relative">
       <footer className="text-primary sticky bottom-0 z-0">
-        <div className="main-container pt-0 pb-12 md:pb-16 lg:pb-24" ref={ref}>
-          <section className="border-t-divider grid grid-cols-12 gap-x-3 gap-y-8 border-t pt-12 lg:grid-rows-2">
+        <div
+          className="main-container relative pt-0 pb-12 md:pb-16 lg:pb-24"
+          ref={ref}
+        >
+          {/* Background text */}
+          <div className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div
+              ref={containerRef}
+              className="max-w-main relative mx-auto h-full"
+            >
+              <p
+                ref={textRef}
+                className="absolute right-0 left-0 leading-none font-bold whitespace-nowrap select-none"
+                style={{
+                  fontSize: `${fontSize}px`,
+                  lineHeight: "0.9",
+                  color: "#d4d4d4",
+                  opacity: "0.35",
+                  bottom: "-12px",
+                }}
+                aria-hidden="true"
+              >
+                AUDUONGTUAN
+              </p>
+            </div>
+          </div>
+
+          <section className="border-t-divider relative z-10 grid grid-cols-12 gap-x-3 gap-y-8 border-t pt-12 pb-8 lg:grid-rows-2">
             <Fade
               slide
               show={inView}
