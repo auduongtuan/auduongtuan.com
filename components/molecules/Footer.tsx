@@ -37,6 +37,13 @@ export default function Footer() {
   const svgTextRef = useRef<SVGTextElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [fontSize, setFontSize] = useState(100);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  // Create multiple independent binary pattern pieces
+  const patternPiecesRef = useRef<{ value: string; nextFlipTime: number }[]>(
+    [],
+  );
+  const [, forceUpdate] = useState({});
 
   useEffect(() => {
     const calculateFontSize = () => {
@@ -61,12 +68,72 @@ export default function Footer() {
 
       document.body.removeChild(temp);
       setFontSize(newFontSize);
+      setContainerWidth(containerWidth);
     };
 
     calculateFontSize();
 
     window.addEventListener("resize", calculateFontSize);
     return () => window.removeEventListener("resize", calculateFontSize);
+  }, []);
+
+  // Initialize pattern pieces - create grid of independent flipping bits
+  useEffect(() => {
+    if (fontSize === 100 || containerWidth === 0) return;
+
+    const textHeight = fontSize * 1.2;
+
+    // Calculate grid dimensions based on character size (8px width, 16px height)
+    const charsPerRow = Math.ceil(containerWidth / 8);
+    const rows = Math.ceil(textHeight / 16);
+    const piecesCount = charsPerRow * rows;
+
+    console.log("Creating pattern:", {
+      containerWidth,
+      fontSize,
+      charsPerRow,
+      rows,
+      piecesCount,
+    });
+
+    const patterns = ["0", "1"];
+
+    patternPiecesRef.current = Array(piecesCount)
+      .fill(null)
+      .map(() => ({
+        value: patterns[Math.floor(Math.random() * patterns.length)],
+        nextFlipTime: Date.now() + Math.random() * 3000, // Random initial delay
+      }));
+
+    forceUpdate({});
+  }, [fontSize, containerWidth]);
+
+  // Bit flipping animation - each piece flips independently
+  useEffect(() => {
+    const animationFrame = () => {
+      const now = Date.now();
+      let hasChanges = false;
+
+      patternPiecesRef.current = patternPiecesRef.current.map((piece) => {
+        if (now >= piece.nextFlipTime) {
+          hasChanges = true;
+          return {
+            value: piece.value === "0" ? "1" : "0",
+            nextFlipTime: now + 1000 + Math.random() * 2000, // 1-3 seconds
+          };
+        }
+        return piece;
+      });
+
+      if (hasChanges) {
+        forceUpdate({});
+      }
+
+      requestAnimationFrame(animationFrame);
+    };
+
+    const rafId = requestAnimationFrame(animationFrame);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   return (
@@ -83,11 +150,11 @@ export default function Footer() {
               className="max-w-main relative mx-auto h-full"
             >
               <svg
-                className="absolute"
+                className="animate-binary-glitch absolute"
                 style={{
                   left: 0,
                   right: 0,
-                  bottom: "-28px",
+                  bottom: "-12px",
                   width: "100%",
                   height: fontSize * 1.2,
                 }}
@@ -121,38 +188,35 @@ export default function Footer() {
                       AUDUONGTUAN
                     </text>
                   </mask>
-
-                  {/* Binary pattern - solid color */}
-                  <pattern
-                    id="binaryPattern"
-                    x="0"
-                    y="0"
-                    width="18"
-                    height="16"
-                    patternUnits="userSpaceOnUse"
-                  >
-                    <text
-                      x="0"
-                      y="12"
-                      fill="#555"
-                      fontFamily="monospace"
-                      fontSize="12"
-                      letterSpacing="-1"
-                    >
-                      0101
-                    </text>
-                  </pattern>
                 </defs>
 
-                {/* Apply pattern with gradient mask */}
-                <rect
-                  x="0"
-                  y="0"
-                  width="100%"
-                  height="100%"
-                  fill="url(#binaryPattern)"
-                  mask="url(#textMask)"
-                />
+                {/* Binary pattern layer - render individual flipping bits */}
+                <g mask="url(#textMask)">
+                  {containerWidth > 0 &&
+                    patternPiecesRef.current.map((piece, index) => {
+                      const charsPerRow = Math.ceil(containerWidth / 8);
+                      const x = (index % charsPerRow) * 8;
+                      const y = Math.floor(index / charsPerRow) * 16 + 12;
+
+                      return (
+                        <text
+                          key={index}
+                          x={x}
+                          y={y}
+                          fill="#555"
+                          fontFamily="monospace"
+                          fontSize="12"
+                          letterSpacing="-1"
+                          style={{
+                            transition: "opacity 0.2s ease-out",
+                            opacity: 1,
+                          }}
+                        >
+                          {piece.value}
+                        </text>
+                      );
+                    })}
+                </g>
               </svg>
             </div>
           </div>
