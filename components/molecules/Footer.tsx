@@ -34,26 +34,32 @@ export default function Footer() {
 
   // FitText logic for background text
   const textRef = useRef<HTMLParagraphElement>(null);
+  const svgTextRef = useRef<SVGTextElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [fontSize, setFontSize] = useState(100);
 
   useEffect(() => {
     const calculateFontSize = () => {
-      if (!textRef.current || !containerRef.current) return;
+      if (!containerRef.current) return;
 
       const container = containerRef.current;
-      const text = textRef.current;
       const containerWidth = container.offsetWidth;
 
-      // Start with a large font size and measure
-      let testSize = 1000;
-      text.style.fontSize = `${testSize}px`;
+      // Create a temporary element to measure text width
+      const temp = document.createElement("span");
+      temp.style.fontSize = "1000px";
+      temp.style.fontWeight = "bold";
+      temp.style.position = "absolute";
+      temp.style.visibility = "hidden";
+      temp.style.whiteSpace = "nowrap";
+      temp.textContent = "AUDUONGTUAN";
+      document.body.appendChild(temp);
 
-      // Calculate the ratio
-      const textWidth = text.scrollWidth;
+      const textWidth = temp.offsetWidth;
       const ratio = containerWidth / textWidth;
-      const newFontSize = testSize * ratio;
+      const newFontSize = 1000 * ratio;
 
+      document.body.removeChild(temp);
       setFontSize(newFontSize);
     };
 
@@ -70,26 +76,84 @@ export default function Footer() {
           className="main-container relative pt-0 pb-12 md:pb-16 lg:pb-24"
           ref={ref}
         >
-          {/* Background text */}
+          {/* Background text with binary pattern mask - SVG */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <div
               ref={containerRef}
               className="max-w-main relative mx-auto h-full"
             >
-              <p
-                ref={textRef}
-                className="absolute right-0 left-0 leading-none font-bold whitespace-nowrap select-none"
+              <svg
+                className="absolute"
                 style={{
-                  fontSize: `${fontSize}px`,
-                  lineHeight: "0.9",
-                  color: "#d4d4d4",
-                  opacity: "0.35",
-                  bottom: "-12px",
+                  left: 0,
+                  right: 0,
+                  bottom: "-28px",
+                  width: "100%",
+                  height: fontSize * 1.2,
                 }}
                 aria-hidden="true"
               >
-                AUDUONGTUAN
-              </p>
+                <defs>
+                  {/* Gradient for opacity transition across whole text */}
+                  <linearGradient
+                    id="opacityGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="0%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stopColor="white" stopOpacity="0" />
+                    <stop offset="100%" stopColor="white" stopOpacity="1" />
+                  </linearGradient>
+
+                  {/* Text mask with gradient */}
+                  <mask id="textMask">
+                    <text
+                      ref={svgTextRef}
+                      x="0"
+                      y={fontSize}
+                      fill="url(#opacityGradient)"
+                      fontFamily="inherit"
+                      fontWeight="bold"
+                      fontSize={fontSize}
+                      style={{ whiteSpace: "nowrap" }}
+                    >
+                      AUDUONGTUAN
+                    </text>
+                  </mask>
+
+                  {/* Binary pattern - solid color */}
+                  <pattern
+                    id="binaryPattern"
+                    x="0"
+                    y="0"
+                    width="18"
+                    height="16"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <text
+                      x="0"
+                      y="12"
+                      fill="#555"
+                      fontFamily="monospace"
+                      fontSize="12"
+                      letterSpacing="-1"
+                    >
+                      0101
+                    </text>
+                  </pattern>
+                </defs>
+
+                {/* Apply pattern with gradient mask */}
+                <rect
+                  x="0"
+                  y="0"
+                  width="100%"
+                  height="100%"
+                  fill="url(#binaryPattern)"
+                  mask="url(#textMask)"
+                />
+              </svg>
             </div>
           </div>
 
