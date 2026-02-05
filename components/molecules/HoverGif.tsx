@@ -52,7 +52,7 @@ export default function HoverGif({
               page: router.pathname,
             });
             const rect = e.currentTarget.getBoundingClientRect();
-            updateCursorX(e.clientX, rect);
+            updateCursorX(e.clientX, rect, true);
             originalOnMouseEnter?.(e);
           },
           onMouseMove: (e: React.MouseEvent<HTMLElement>) => {
@@ -65,21 +65,11 @@ export default function HoverGif({
           },
         };
 
-        if (suffix) {
-          return (
-            <span {...props} {...eventHandlers}>
-              {text}
-              {suffix}
-            </span>
-          );
-        }
-
-        return React.cloneElement(
-          text as React.ReactElement<React.HTMLAttributes<HTMLElement>>,
-          {
-            ...props,
-            ...eventHandlers,
-          },
+        return (
+          <span {...props} {...eventHandlers}>
+            {text}
+            {suffix}
+          </span>
         );
       }}
     />
