@@ -30,7 +30,7 @@ const Disclosure = ({
         </span>
         <div>{title}</div>
       </Collapsible.Trigger>
-      <Collapsible.Panel className="overflow-hidden pl-7 transition-all duration-200 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0">
+      <Collapsible.Panel className="overflow-hidden pl-7 transition-all duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0">
         {children}
       </Collapsible.Panel>
     </Collapsible.Root>

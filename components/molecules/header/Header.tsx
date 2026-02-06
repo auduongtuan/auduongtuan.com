@@ -43,6 +43,7 @@ export default function Header() {
                       </InlineLink>
                     }
                     label={gifs[0].name}
+                    suffix={<span className="text-divider"> / </span>}
                   >
                     <CustomVideo
                       slug="gif"
@@ -50,8 +51,7 @@ export default function Header() {
                       width={gifs[0].size[0]}
                       height={gifs[0].size[1]}
                     />
-                  </HoverGif>{" "}
-                  <span className="text-divider">/</span>{" "}
+                  </HoverGif>
                   <HoverGif
                     text={
                       <InlineLink className="font-mono text-[0.94em]">
@@ -59,6 +59,7 @@ export default function Header() {
                       </InlineLink>
                     }
                     label={gifs[1].name}
+                    suffix={<span className="text-divider"> / </span>}
                   >
                     <CustomVideo
                       slug="gif"
@@ -66,8 +67,7 @@ export default function Header() {
                       width={gifs[1].size[0]}
                       height={gifs[1].size[1]}
                     />
-                  </HoverGif>{" "}
-                  <span className="text-divider">/</span>{" "}
+                  </HoverGif>
                   <HoverGif
                     text={
                       <InlineLink className="font-mono text-[0.94em]">

@@ -29,10 +29,10 @@ function Dialog({ children, open, onClose, title, className }: DialogProps) {
       }}
     >
       <BaseDialog.Portal>
-        <BaseDialog.Backdrop className="fixed inset-0 z-(--stack-modal) bg-black/60 opacity-100 transition-opacity duration-200 data-[ending-style]:opacity-0 data-[starting-style]:opacity-0" />
+        <BaseDialog.Backdrop className="fixed inset-0 z-(--stack-modal) bg-black/60 opacity-100 transition-opacity duration-200 data-ending-style:opacity-0 data-starting-style:opacity-0" />
         <BaseDialog.Popup
           className={cn(
-            "fixed inset-0 z-(--stack-modal) flex scale-100 items-center justify-center p-4 opacity-100 transition-all duration-200 data-[ending-style]:scale-95 data-[ending-style]:opacity-0 data-[starting-style]:scale-95 data-[starting-style]:opacity-0",
+            "fixed inset-0 z-(--stack-modal) flex scale-100 items-center justify-center p-4 opacity-100 transition-all duration-200 data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0",
             className,
           )}
         >

@@ -1,13 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
 import { PhotoFrame } from "@atoms/Frame";
+import { Transition } from "@atoms/Transition";
 import {
   autoUpdate,
   offset,
   safePolygon,
   shift,
   size,
+  useClientPoint,
   useFloating,
   useHover,
   useInteractions,
@@ -15,19 +15,26 @@ import {
 import { event } from "@lib/gtag";
 import { trackEvent } from "@lib/utils";
 import { useRouter } from "next/router";
-import { Transition } from "@atoms/Transition";
+import React, { useEffect, useId, useState } from "react";
+import ReactDOM from "react-dom";
+
+// Global registry to track all active HoverGif instances
+const activeInstances = new Map<string, () => void>();
 
 export default function HoverGif({
   text,
   children,
   label,
+  suffix,
 }: {
   text: React.ReactElement;
   label: string;
   children: React.ReactNode;
+  suffix?: React.ReactNode;
 }) {
   const [showGif, setShowGif] = useState(false);
   const router = useRouter();
+  const instanceId = useId(); // Unique ID for this instance
   const { refs, floatingStyles, context } = useFloating({
     placement: "bottom",
     middleware: [
@@ -49,8 +56,15 @@ export default function HoverGif({
     open: showGif,
     whileElementsMounted: autoUpdate,
     onOpenChange: (open) => {
-      setShowGif(open);
       if (open) {
+        // Close all other instances before opening this one
+        activeInstances.forEach((closeOther, otherId) => {
+          if (otherId !== instanceId) {
+            closeOther();
+          }
+        });
+
+        // Analytics tracking
         event({
           action: "hover_gif",
           category: router.pathname == "/about" ? "about_page" : "engagement",
@@ -62,6 +76,8 @@ export default function HoverGif({
           page: router.pathname,
         });
       }
+
+      setShowGif(open);
     },
   });
   const hover = useHover(context, {
@@ -70,18 +86,41 @@ export default function HoverGif({
     }),
   });
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover]);
-
-  const el = React.cloneElement(text as React.ReactElement<any>, {
-    ref: refs.setReference,
-    ...getReferenceProps(),
+  const clientPoint = useClientPoint(context, {
+    axis: "x",
   });
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([
+    hover,
+    clientPoint,
+  ]);
+
+  // Always wrap in span with stable line-height
+  const el = (
+    <span
+      ref={refs.setReference}
+      {...getReferenceProps()}
+      style={{ lineHeight: "inherit" }}
+    >
+      {text}
+      {suffix}
+    </span>
+  );
+
   const [isMounted, setIsMounted] = useState(false);
 
+  // Register this instance on mount, unregister on unmount
   useEffect(() => {
     setIsMounted(true);
-    return () => setIsMounted(false);
-  }, []);
+
+    // Register close function
+    activeInstances.set(instanceId, () => setShowGif(false));
+
+    return () => {
+      setIsMounted(false);
+      activeInstances.delete(instanceId);
+    };
+  }, [instanceId]);
 
   return (
     <>

@@ -5,7 +5,7 @@ import { parseInternalLink, trackEvent } from "@lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const inlineLinkVariants = cva(
-  "inline-flex gap-2 items-center transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl decoration-adaptive-underline hover:bg-adaptive-surface",
+  "inline-flex gap-2 items-center transition-all duration-100 -mx-2 px-2 -my-1 py-1 rounded-xl decoration-adaptive-underline hover:bg-adaptive-surface cursor-pointer",
   {
     variants: {
       underline: {

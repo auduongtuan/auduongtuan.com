@@ -1,13 +1,15 @@
+import BinaryGridText from "@atoms/BinaryGridText";
 import Button from "@atoms/Button";
 import Dialog from "@atoms/Dialog";
 import Fade from "@atoms/Fade";
 import InlineLink from "@atoms/InlineLink";
+import { TextEncrypted } from "@atoms/TextEncrypted";
 import Tooltip from "@atoms/Tooltip";
 import { event } from "@lib/gtag";
 import socialNetworks from "@lib/socialNetworks";
-import { TextEncrypted } from "@atoms/TextEncrypted";
 
-import React, { useState } from "react";
+import { trackEvent } from "@lib/utils";
+import React, { useEffect, useRef, useState } from "react";
 import {
   PiBehanceLogoBold,
   PiGithubLogoBold,
@@ -15,7 +17,6 @@ import {
 } from "react-icons/pi";
 import { useInView } from "react-intersection-observer";
 import SpotifyPlayer from "./SpotifyPlayer";
-import { trackEvent } from "@lib/utils";
 
 export default function Footer() {
   const { ref, inView } = useInView({
@@ -35,8 +36,8 @@ export default function Footer() {
   return (
     <div id="contact" className="relative">
       <footer className="text-primary sticky bottom-0 z-0">
-        <div className="main-container pt-0 pb-12 md:pb-16 lg:pb-24" ref={ref}>
-          <section className="border-t-divider grid grid-cols-12 gap-x-3 gap-y-8 border-t pt-12 lg:grid-rows-2">
+        <div className="main-container relative pt-0 pb-0" ref={ref}>
+          <section className="border-t-divider relative grid grid-cols-12 gap-x-3 gap-y-8 border-t pt-12 pb-8 lg:grid-rows-2">
             <Fade
               slide
               show={inView}
@@ -163,6 +164,11 @@ export default function Footer() {
               </Dialog>
             </Fade>
           </section>
+
+          {/* Binary grid text at the bottom - full width to edges */}
+          <div className="-mx-section-horizontal">
+            <BinaryGridText text="AUDUONGTUAN" inView={inView} />
+          </div>
         </div>
       </footer>
     </div>
