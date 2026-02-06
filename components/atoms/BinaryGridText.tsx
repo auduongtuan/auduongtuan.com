@@ -26,12 +26,6 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       const containerHeight = 200; // Fixed height for the background text area
 
       // DEBUG: Log container dimensions
-      console.log("=== BINARY GRID DEBUG ===");
-      console.log("Container element:", containerRef.current);
-      console.log("Container width:", containerWidth);
-      console.log("Container clientWidth:", containerRef.current.clientWidth);
-      console.log("Container scrollWidth:", containerRef.current.scrollWidth);
-      console.log("Container className:", containerRef.current.className);
 
       // Define tile size based on breakpoint (smaller tiles = more pieces)
       let tileSize = 10;
@@ -44,18 +38,11 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       const cols = Math.floor(containerWidth / tileSize);
       const rows = Math.floor(containerHeight / tileSize);
 
-      console.log("Tile size:", tileSize);
-      console.log("Grid cols:", cols);
-      console.log("Grid rows:", rows);
-
       setGridConfig({ cols, rows, tileSize });
 
       // STEP 1: Fix canvas dimensions to exactly match grid
       const canvasWidth = cols * tileSize; // Perfect grid alignment
       const canvasHeight = rows * tileSize;
-
-      console.log("Canvas width:", canvasWidth);
-      console.log("Canvas height:", canvasHeight);
 
       const canvas = document.createElement("canvas");
       canvas.width = canvasWidth;
@@ -73,15 +60,10 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       // Use 98% of canvas width for better coverage
       const targetWidth = canvasWidth * 0.98;
 
-      console.log("Target width (98%):", targetWidth);
-      console.log("Initial text width:", textWidth);
-
       // Scale font to fit target width
       // We'll add letter spacing after, so scale to ~85% to leave room for spacing
       fontSize = (targetWidth / textWidth) * fontSize * 0.85;
       ctx.font = `800 ${fontSize}px "JetBrains Mono", monospace`;
-
-      console.log("Final font size:", fontSize);
 
       // Configure fill only (no stroke to preserve letter holes like in "A")
       ctx.fillStyle = "white";
@@ -90,14 +72,6 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       // Calculate letter spacing to fill the target width exactly
       textWidth = ctx.measureText(text).width;
       const letterSpacing = (targetWidth - textWidth) / (text.length - 1);
-
-      console.log("Final text width:", textWidth);
-      console.log("Letter spacing:", letterSpacing);
-      console.log(
-        "Total width (text + spacing):",
-        textWidth + letterSpacing * (text.length - 1),
-      );
-      console.log("================================");
 
       // Draw each letter with fill only to preserve cutouts
       let x = (canvasWidth - targetWidth) / 2; // Center text
@@ -174,13 +148,6 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
         row.map(() => false),
       );
       setVisibilityGrid(initialVisibilityGrid);
-
-      // DEBUG: Check rendered grid dimensions
-      console.log("Grid generated - first row length:", grid[0]?.length);
-      console.log(
-        "First row sample (first 20 chars):",
-        grid[0]?.slice(0, 20).join(""),
-      );
     };
 
     calculateGrid();
@@ -192,8 +159,6 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
   // Reveal animation: each tile appears randomly
   useEffect(() => {
     if (!inView || visibilityGrid.length === 0) return;
-
-    console.log("🌊 Starting reveal animation");
 
     // Add 200ms delay before starting
     const delayTimeout = setTimeout(() => {
@@ -242,7 +207,6 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
         // Stop when all tiles are revealed
         if (currentIndex >= shuffledTiles.length) {
           clearInterval(revealInterval);
-          console.log("✅ Reveal animation complete");
         }
       }, 30); // Slower: 30ms interval instead of 20ms
 
@@ -254,18 +218,14 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
 
   // Glitch effect: randomly flip 0s and 1s continuously
   useEffect(() => {
-    console.log("🎭 Glitch effect initialized");
-
     const glitchInterval = setInterval(() => {
       if (baseGridRef.current.length === 0) {
-        console.log("⚠️ Base grid not ready yet");
         return;
       }
 
       // Update both character and color grids
       setBinaryGrid((currentGrid) => {
         if (currentGrid.length === 0) {
-          console.log("⚠️ Current grid empty");
           return currentGrid;
         }
 
@@ -291,9 +251,11 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
 
         for (let i = 0; i < flipsCount; i++) {
           const rowIndex = Math.floor(Math.random() * newGrid.length);
-          const colIndex = Math.floor(Math.random() * newGrid[rowIndex].length);
+          if (!newGrid[rowIndex]) continue; // Skip if row doesn't exist
 
-          const char = newGrid[rowIndex][colIndex];
+          const colIndex = Math.floor(Math.random() * newGrid[rowIndex].length);
+          if (!newGrid[rowIndex][colIndex] === undefined) continue; // Skip if column doesn't exist
+
           const baseChar = baseGridRef.current[rowIndex]?.[colIndex];
 
           // Glitch any non-empty character in the text area
@@ -303,7 +265,6 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
           }
         }
 
-        console.log(`✨ Glitched ${actualFlips} characters`);
         return newGrid;
       });
 
@@ -328,9 +289,13 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
 
         for (let i = 0; i < colorGlitchCount; i++) {
           const rowIndex = Math.floor(Math.random() * newColors.length);
+          if (!newColors[rowIndex]) continue; // Skip if row doesn't exist
+
           const colIndex = Math.floor(
             Math.random() * newColors[rowIndex].length,
           );
+          if (newColors[rowIndex][colIndex] === undefined) continue; // Skip if column doesn't exist
+
           const baseChar = baseGridRef.current[rowIndex]?.[colIndex];
 
           if (baseChar === "0" || baseChar === "1") {
@@ -349,7 +314,6 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
     }, 50); // Flip every 50ms for much faster glitch effect
 
     return () => {
-      console.log("🛑 Glitch effect cleanup");
       clearInterval(glitchInterval);
     };
   }, []); // Run once and continuously
