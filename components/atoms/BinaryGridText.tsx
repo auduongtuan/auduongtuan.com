@@ -160,6 +160,8 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
   useEffect(() => {
     if (!inView || visibilityGrid.length === 0) return;
 
+    let revealInterval: NodeJS.Timeout;
+
     // Add 200ms delay before starting
     const delayTimeout = setTimeout(() => {
       const rows = visibilityGrid.length;
@@ -184,7 +186,7 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       // Reveal tiles randomly over time
       let currentIndex = 0;
 
-      const revealInterval = setInterval(() => {
+      revealInterval = setInterval(() => {
         // Reveal 8-15 tiles per frame
         const tilesPerFrame = Math.floor(Math.random() * 8) + 8;
 
@@ -197,7 +199,13 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
             i++
           ) {
             const tile = shuffledTiles[currentIndex];
-            newGrid[tile.row][tile.col] = true;
+            // Bounds checking: skip if grid was resized
+            if (
+              newGrid[tile.row] &&
+              newGrid[tile.row][tile.col] !== undefined
+            ) {
+              newGrid[tile.row][tile.col] = true;
+            }
             currentIndex++;
           }
 
@@ -209,11 +217,12 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
           clearInterval(revealInterval);
         }
       }, 30); // Slower: 30ms interval instead of 20ms
-
-      return () => clearInterval(revealInterval);
     }, 200); // 200ms delay
 
-    return () => clearTimeout(delayTimeout);
+    return () => {
+      clearTimeout(delayTimeout);
+      if (revealInterval) clearInterval(revealInterval);
+    };
   }, [inView, visibilityGrid.length]);
 
   // Glitch effect: randomly flip 0s and 1s continuously
