@@ -568,7 +568,6 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
                     color: colorGrid[rowIndex]?.[colIndex] || "#000",
                     opacity: isVisible ? opacity : 0,
                     transform: `translate(${displacement.x}px, ${displacement.y}px)`,
-                    transition: "transform 0.1s ease-out",
                   }}
                 >
                   {char}
