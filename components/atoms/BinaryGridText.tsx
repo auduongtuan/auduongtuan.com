@@ -355,53 +355,46 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
   }, []); // Run once and continuously
 
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      <div ref={containerRef} className="max-w-main relative mx-auto h-full">
-        <div
-          className="absolute right-0 left-0 font-mono tracking-tighter whitespace-pre"
-          style={{
-            bottom: "-12px",
-            fontSize: `${gridConfig.tileSize}px`,
-            lineHeight: `${gridConfig.tileSize}px`,
-            letterSpacing: 0,
-            width: `${gridConfig.cols * gridConfig.tileSize}px`,
-            transform: "scaleX(1)",
-          }}
-        >
-          {binaryGrid.map((row, rowIndex) => {
-            const opacity = 0.1 + (rowIndex / binaryGrid.length) * 0.7;
-            return (
-              <div
-                key={rowIndex}
-                style={{
-                  display: "flex",
-                  width: "100%",
-                }}
-              >
-                {row.map((char, colIndex) => {
-                  const isVisible =
-                    visibilityGrid[rowIndex]?.[colIndex] ?? false;
-                  return (
-                    <span
-                      key={colIndex}
-                      style={{
-                        width: `${gridConfig.tileSize}px`,
-                        display: "inline-block",
-                        textAlign: "center",
-                        flexShrink: 0,
-                        color: colorGrid[rowIndex]?.[colIndex] || "#000",
-                        opacity: isVisible ? opacity : 0,
-                      }}
-                    >
-                      {char}
-                    </span>
-                  );
-                })}
-              </div>
-            );
-          })}
-        </div>
-      </div>
+    <div
+      ref={containerRef}
+      className="pointer-events-none relative w-full overflow-hidden font-mono tracking-tighter whitespace-pre"
+      style={{
+        fontSize: `${gridConfig.tileSize}px`,
+        lineHeight: `${gridConfig.tileSize}px`,
+        letterSpacing: 0,
+      }}
+    >
+      {binaryGrid.map((row, rowIndex) => {
+        const opacity = 0.1 + (rowIndex / binaryGrid.length) * 0.7;
+        return (
+          <div
+            key={rowIndex}
+            style={{
+              display: "flex",
+              width: "100%",
+            }}
+          >
+            {row.map((char, colIndex) => {
+              const isVisible = visibilityGrid[rowIndex]?.[colIndex] ?? false;
+              return (
+                <span
+                  key={colIndex}
+                  style={{
+                    width: `${gridConfig.tileSize}px`,
+                    display: "inline-block",
+                    textAlign: "center",
+                    flexShrink: 0,
+                    color: colorGrid[rowIndex]?.[colIndex] || "#000",
+                    opacity: isVisible ? opacity : 0,
+                  }}
+                >
+                  {char}
+                </span>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 }
