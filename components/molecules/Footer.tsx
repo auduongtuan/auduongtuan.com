@@ -37,6 +37,7 @@ export default function Footer() {
   const textMaskRef = useRef<HTMLCanvasElement>(null);
   const [binaryGrid, setBinaryGrid] = useState<string[][]>([]);
   const [colorGrid, setColorGrid] = useState<string[][]>([]); // Store colors for each tile
+  const [visibilityGrid, setVisibilityGrid] = useState<boolean[][]>([]); // Track which tiles are visible
   const baseGridRef = useRef<string[][]>([]); // Store original grid for glitch effect
   const [gridConfig, setGridConfig] = useState({
     cols: 0,
@@ -197,6 +198,12 @@ export default function Footer() {
       const initialColorGrid = trimmedGrid.map((row) => row.map(() => "#000"));
       setColorGrid(initialColorGrid);
 
+      // Initialize visibility grid - all hidden initially
+      const initialVisibilityGrid = trimmedGrid.map((row) =>
+        row.map(() => false),
+      );
+      setVisibilityGrid(initialVisibilityGrid);
+
       // DEBUG: Check rendered grid dimensions
       console.log("Grid generated - first row length:", grid[0]?.length);
       console.log(
@@ -210,6 +217,64 @@ export default function Footer() {
     window.addEventListener("resize", calculateGrid);
     return () => window.removeEventListener("resize", calculateGrid);
   }, []);
+
+  // Reveal animation: each tile appears randomly
+  useEffect(() => {
+    if (!inView || visibilityGrid.length === 0) return;
+
+    console.log("🌊 Starting reveal animation");
+
+    const rows = visibilityGrid.length;
+    const cols = visibilityGrid[0]?.length || 0;
+
+    // Collect all tiles that have text
+    const allTiles: { row: number; col: number }[] = [];
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const baseChar = baseGridRef.current[row]?.[col];
+        // Only reveal tiles that have text
+        if (baseChar === "0" || baseChar === "1") {
+          allTiles.push({ row, col });
+        }
+      }
+    }
+
+    // Shuffle tiles completely randomly
+    const shuffledTiles = [...allTiles].sort(() => Math.random() - 0.5);
+
+    // Reveal tiles randomly over time
+    let currentIndex = 0;
+
+    const revealInterval = setInterval(() => {
+      // Reveal 15-20 random tiles per frame
+      const tilesPerFrame = Math.floor(Math.random() * 6) + 15;
+
+      setVisibilityGrid((grid) => {
+        const newGrid = grid.map((row) => [...row]);
+
+        for (
+          let i = 0;
+          i < tilesPerFrame && currentIndex < shuffledTiles.length;
+          i++
+        ) {
+          const tile = shuffledTiles[currentIndex];
+          newGrid[tile.row][tile.col] = true;
+          currentIndex++;
+        }
+
+        return newGrid;
+      });
+
+      // Stop when all tiles are revealed
+      if (currentIndex >= shuffledTiles.length) {
+        clearInterval(revealInterval);
+        console.log("✅ Reveal animation complete");
+      }
+    }, 20); // 50fps
+
+    return () => clearInterval(revealInterval);
+  }, [inView, visibilityGrid.length]);
 
   // Glitch effect: randomly flip 0s and 1s continuously
   useEffect(() => {
@@ -234,16 +299,16 @@ export default function Footer() {
         const flipsCount = Math.floor(Math.random() * 11) + 15;
         let actualFlips = 0;
 
-        // Random character pool: mostly 0/1, some special chars
+        // Random character pool: more empty spaces, less 0/1
         const getRandomChar = () => {
           const rand = Math.random();
-          if (rand < 0.4) return "0"; // 40% chance
-          if (rand < 0.8) return "1"; // 40% chance
-          if (rand < 0.88) return " "; // 8% chance (empty)
-          if (rand < 0.92) return "#"; // 4% chance
-          if (rand < 0.95) return "*"; // 3% chance
-          if (rand < 0.97) return "."; // 2% chance
-          if (rand < 0.98) return "-"; // 1% chance
+          if (rand < 0.32) return "0"; // 32% chance (reduced from 40%)
+          if (rand < 0.64) return "1"; // 32% chance (reduced from 40%)
+          if (rand < 0.82) return " "; // 18% chance (increased from 8%)
+          if (rand < 0.88) return "#"; // 6% chance
+          if (rand < 0.93) return "*"; // 5% chance
+          if (rand < 0.96) return "."; // 3% chance
+          if (rand < 0.98) return "-"; // 2% chance
           if (rand < 0.99) return "+"; // 1% chance
           return "x"; // 1% chance
         };
@@ -365,21 +430,25 @@ export default function Footer() {
                         width: "100%",
                       }}
                     >
-                      {row.map((char, colIndex) => (
-                        <span
-                          key={colIndex}
-                          style={{
-                            width: `${gridConfig.tileSize}px`,
-                            display: "inline-block",
-                            textAlign: "center",
-                            flexShrink: 0,
-                            color: colorGrid[rowIndex]?.[colIndex] || "#000",
-                            opacity: opacity,
-                          }}
-                        >
-                          {char}
-                        </span>
-                      ))}
+                      {row.map((char, colIndex) => {
+                        const isVisible =
+                          visibilityGrid[rowIndex]?.[colIndex] ?? false;
+                        return (
+                          <span
+                            key={colIndex}
+                            style={{
+                              width: `${gridConfig.tileSize}px`,
+                              display: "inline-block",
+                              textAlign: "center",
+                              flexShrink: 0,
+                              color: colorGrid[rowIndex]?.[colIndex] || "#000",
+                              opacity: isVisible ? opacity : 0,
+                            }}
+                          >
+                            {char}
+                          </span>
+                        );
+                      })}
                     </div>
                   );
                 })}
