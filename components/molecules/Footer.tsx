@@ -2,12 +2,13 @@ import Button from "@atoms/Button";
 import Dialog from "@atoms/Dialog";
 import Fade from "@atoms/Fade";
 import InlineLink from "@atoms/InlineLink";
+import { TextEncrypted } from "@atoms/TextEncrypted";
 import Tooltip from "@atoms/Tooltip";
 import { event } from "@lib/gtag";
 import socialNetworks from "@lib/socialNetworks";
-import { TextEncrypted } from "@atoms/TextEncrypted";
 
-import React, { useState, useEffect, useRef } from "react";
+import { trackEvent } from "@lib/utils";
+import React, { useEffect, useRef, useState } from "react";
 import {
   PiBehanceLogoBold,
   PiGithubLogoBold,
@@ -15,7 +16,6 @@ import {
 } from "react-icons/pi";
 import { useInView } from "react-intersection-observer";
 import SpotifyPlayer from "./SpotifyPlayer";
-import { trackEvent } from "@lib/utils";
 
 export default function Footer() {
   const { ref, inView } = useInView({
@@ -60,11 +60,11 @@ export default function Footer() {
       console.log("Container className:", containerRef.current.className);
 
       // Define tile size based on breakpoint (smaller tiles = more pieces)
-      let tileSize = 8;
+      let tileSize = 10;
       if (containerWidth >= 1024) {
-        tileSize = 6; // Smaller tiles on desktop = more pieces
+        tileSize = 8; // Smaller tiles on desktop = more pieces
       } else if (containerWidth >= 768) {
-        tileSize = 7; // Medium tiles on tablet
+        tileSize = 9; // Medium tiles on tablet
       }
 
       const cols = Math.floor(containerWidth / tileSize);
@@ -93,7 +93,8 @@ export default function Footer() {
       // STEP 2: Make letter strokes wider with spacing
       const text = "AUDUONGTUAN";
       let fontSize = 100;
-      ctx.font = `bold ${fontSize}px sans-serif`;
+      // Use JetBrains Mono 800 weight for thick monospace letters with clear cutouts
+      ctx.font = `900 ${fontSize}px "ABCOracle", sans-serif`;
       let textWidth = ctx.measureText(text).width;
 
       // Use 98% of canvas width for better coverage
@@ -105,17 +106,13 @@ export default function Footer() {
       // Scale font to fit target width
       // We'll add letter spacing after, so scale to ~85% to leave room for spacing
       fontSize = (targetWidth / textWidth) * fontSize * 0.85;
-      ctx.font = `bold ${fontSize}px sans-serif`;
+      ctx.font = `900 ${fontSize}px "ABCOracle", sans-serif`;
 
       console.log("Final font size:", fontSize);
 
-      // Configure stroke for thicker letters
+      // Configure fill only (no stroke to preserve letter holes like in "A")
       ctx.fillStyle = "white";
-      ctx.strokeStyle = "white";
-      ctx.lineWidth = tileSize * 1.5; // Stroke width = 1.5 tiles thick
       ctx.textBaseline = "bottom";
-
-      console.log("Stroke width:", ctx.lineWidth);
 
       // Calculate letter spacing to fill the target width exactly
       textWidth = ctx.measureText(text).width;
@@ -129,14 +126,12 @@ export default function Footer() {
       );
       console.log("================================");
 
-      // Draw each letter with stroke + fill for thickness
+      // Draw each letter with fill only to preserve cutouts
       let x = (canvasWidth - targetWidth) / 2; // Center text
       for (let i = 0; i < text.length; i++) {
         const char = text[i];
 
-        // Draw stroke first (makes letters thicker)
-        ctx.strokeText(char, x, canvasHeight);
-        // Then fill
+        // Only fill, no stroke (preserves letter holes)
         ctx.fillText(char, x, canvasHeight);
 
         x += ctx.measureText(char).width + letterSpacing;
