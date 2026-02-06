@@ -32,109 +32,199 @@ export default function Footer() {
   };
   const [isOpen, setIsOpen] = useState(false);
 
-  // FitText logic for background text
-  const textRef = useRef<HTMLParagraphElement>(null);
-  const svgTextRef = useRef<SVGTextElement>(null);
+  // ASCII art state
   const containerRef = useRef<HTMLDivElement>(null);
-  const [fontSize, setFontSize] = useState(100);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const textMaskRef = useRef<HTMLCanvasElement>(null);
+  const [binaryGrid, setBinaryGrid] = useState<string[][]>([]);
+  const [gridConfig, setGridConfig] = useState({
+    cols: 0,
+    rows: 0,
+    tileSize: 0,
+  });
 
-  // Create multiple independent binary pattern pieces
-  const patternPiecesRef = useRef<{ value: string; nextFlipTime: number }[]>(
-    [],
-  );
-  const [, forceUpdate] = useState({});
-
+  // Generate binary pattern grid (0, 1) masked by "AUDUONGTUAN" text
   useEffect(() => {
-    const calculateFontSize = () => {
+    const calculateGrid = () => {
       if (!containerRef.current) return;
 
-      const container = containerRef.current;
-      const containerWidth = container.offsetWidth;
+      const containerWidth = containerRef.current.offsetWidth;
+      const containerHeight = 200; // Fixed height for the background text area
 
-      // Create a temporary element to measure text width
-      const temp = document.createElement("span");
-      temp.style.fontSize = "1000px";
-      temp.style.fontWeight = "bold";
-      temp.style.position = "absolute";
-      temp.style.visibility = "hidden";
-      temp.style.whiteSpace = "nowrap";
-      temp.textContent = "AUDUONGTUAN";
-      document.body.appendChild(temp);
+      // DEBUG: Log container dimensions
+      console.log("=== FOOTER BINARY GRID DEBUG ===");
+      console.log("Container element:", containerRef.current);
+      console.log("Container width:", containerWidth);
+      console.log("Container clientWidth:", containerRef.current.clientWidth);
+      console.log("Container scrollWidth:", containerRef.current.scrollWidth);
+      console.log("Container className:", containerRef.current.className);
 
-      const textWidth = temp.offsetWidth;
-      const ratio = containerWidth / textWidth;
-      const newFontSize = 1000 * ratio;
-
-      document.body.removeChild(temp);
-      setFontSize(newFontSize);
-      setContainerWidth(containerWidth);
-    };
-
-    calculateFontSize();
-
-    window.addEventListener("resize", calculateFontSize);
-    return () => window.removeEventListener("resize", calculateFontSize);
-  }, []);
-
-  // Initialize pattern pieces - create grid of independent flipping bits
-  useEffect(() => {
-    if (fontSize === 100 || containerWidth === 0) return;
-
-    const textHeight = fontSize * 1.2;
-
-    // Calculate grid dimensions based on character size (8px width, 16px height)
-    const charsPerRow = Math.ceil(containerWidth / 8);
-    const rows = Math.ceil(textHeight / 16);
-    const piecesCount = charsPerRow * rows;
-
-    console.log("Creating pattern:", {
-      containerWidth,
-      fontSize,
-      charsPerRow,
-      rows,
-      piecesCount,
-    });
-
-    const patterns = ["0", "1"];
-
-    patternPiecesRef.current = Array(piecesCount)
-      .fill(null)
-      .map(() => ({
-        value: patterns[Math.floor(Math.random() * patterns.length)],
-        nextFlipTime: Date.now() + Math.random() * 3000, // Random initial delay
-      }));
-
-    forceUpdate({});
-  }, [fontSize, containerWidth]);
-
-  // Bit flipping animation - each piece flips independently
-  useEffect(() => {
-    const animationFrame = () => {
-      const now = Date.now();
-      let hasChanges = false;
-
-      patternPiecesRef.current = patternPiecesRef.current.map((piece) => {
-        if (now >= piece.nextFlipTime) {
-          hasChanges = true;
-          return {
-            value: piece.value === "0" ? "1" : "0",
-            nextFlipTime: now + 1000 + Math.random() * 2000, // 1-3 seconds
-          };
-        }
-        return piece;
-      });
-
-      if (hasChanges) {
-        forceUpdate({});
+      // Define tile size based on breakpoint (smaller tiles = more pieces)
+      let tileSize = 8;
+      if (containerWidth >= 1024) {
+        tileSize = 6; // Smaller tiles on desktop = more pieces
+      } else if (containerWidth >= 768) {
+        tileSize = 7; // Medium tiles on tablet
       }
 
-      requestAnimationFrame(animationFrame);
+      const cols = Math.floor(containerWidth / tileSize);
+      const rows = Math.floor(containerHeight / tileSize);
+
+      console.log("Tile size:", tileSize);
+      console.log("Grid cols:", cols);
+      console.log("Grid rows:", rows);
+
+      setGridConfig({ cols, rows, tileSize });
+
+      // STEP 1: Fix canvas dimensions to exactly match grid
+      const canvasWidth = cols * tileSize; // Perfect grid alignment
+      const canvasHeight = rows * tileSize;
+
+      console.log("Canvas width:", canvasWidth);
+      console.log("Canvas height:", canvasHeight);
+
+      const canvas = document.createElement("canvas");
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) return;
+
+      // STEP 2: Make letter strokes wider with spacing
+      const text = "AUDUONGTUAN";
+      let fontSize = 100;
+      ctx.font = `bold ${fontSize}px sans-serif`;
+      let textWidth = ctx.measureText(text).width;
+
+      // Use 98% of canvas width for better coverage
+      const targetWidth = canvasWidth * 0.98;
+
+      console.log("Target width (98%):", targetWidth);
+      console.log("Initial text width:", textWidth);
+
+      // Scale font to fit target width
+      // We'll add letter spacing after, so scale to ~85% to leave room for spacing
+      fontSize = (targetWidth / textWidth) * fontSize * 0.85;
+      ctx.font = `bold ${fontSize}px sans-serif`;
+
+      console.log("Final font size:", fontSize);
+
+      // Configure stroke for thicker letters
+      ctx.fillStyle = "white";
+      ctx.strokeStyle = "white";
+      ctx.lineWidth = tileSize * 1.5; // Stroke width = 1.5 tiles thick
+      ctx.textBaseline = "bottom";
+
+      console.log("Stroke width:", ctx.lineWidth);
+
+      // Calculate letter spacing to fill the target width exactly
+      textWidth = ctx.measureText(text).width;
+      const letterSpacing = (targetWidth - textWidth) / (text.length - 1);
+
+      console.log("Final text width:", textWidth);
+      console.log("Letter spacing:", letterSpacing);
+      console.log(
+        "Total width (text + spacing):",
+        textWidth + letterSpacing * (text.length - 1),
+      );
+      console.log("================================");
+
+      // Draw each letter with stroke + fill for thickness
+      let x = (canvasWidth - targetWidth) / 2; // Center text
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+
+        // Draw stroke first (makes letters thicker)
+        ctx.strokeText(char, x, canvasHeight);
+        // Then fill
+        ctx.fillText(char, x, canvasHeight);
+
+        x += ctx.measureText(char).width + letterSpacing;
+      }
+
+      // Get pixel data to create mask
+      const imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+      const pixels = imageData.data;
+
+      // Generate grid based on text mask
+      const grid: string[][] = [];
+
+      for (let row = 0; row < rows; row++) {
+        const rowData: string[] = [];
+        for (let col = 0; col < cols; col++) {
+          // STEP 3: Sample from center of each tile for accuracy
+          const x = Math.floor(col * tileSize + tileSize / 2);
+          const y = Math.floor(row * tileSize + tileSize / 2);
+          const pixelIndex = (y * canvasWidth + x) * 4;
+          const alpha = pixels[pixelIndex + 3]; // Alpha channel
+
+          // If pixel is visible (part of text), add 0 or 1, otherwise empty
+          if (alpha > 128) {
+            rowData.push(Math.random() > 0.5 ? "0" : "1");
+          } else {
+            rowData.push(" ");
+          }
+        }
+        grid.push(rowData);
+      }
+
+      // Trim empty rows from top and bottom
+      const isRowEmpty = (row: string[]) => row.every((char) => char === " ");
+
+      let firstNonEmptyRow = 0;
+      let lastNonEmptyRow = grid.length - 1;
+
+      // Find first non-empty row
+      for (let i = 0; i < grid.length; i++) {
+        if (!isRowEmpty(grid[i])) {
+          firstNonEmptyRow = i;
+          break;
+        }
+      }
+
+      // Find last non-empty row
+      for (let i = grid.length - 1; i >= 0; i--) {
+        if (!isRowEmpty(grid[i])) {
+          lastNonEmptyRow = i;
+          break;
+        }
+      }
+
+      // Slice to keep only rows with text
+      const trimmedGrid = grid.slice(firstNonEmptyRow, lastNonEmptyRow + 1);
+
+      setBinaryGrid(trimmedGrid);
+
+      // DEBUG: Check rendered grid dimensions
+      console.log("Grid generated - first row length:", grid[0]?.length);
+      console.log(
+        "First row sample (first 20 chars):",
+        grid[0]?.slice(0, 20).join(""),
+      );
     };
 
-    const rafId = requestAnimationFrame(animationFrame);
-    return () => cancelAnimationFrame(rafId);
+    calculateGrid();
+
+    window.addEventListener("resize", calculateGrid);
+    return () => window.removeEventListener("resize", calculateGrid);
   }, []);
+
+  // Gradient colors from top to bottom - stronger opacity
+  const getLineColor = (index: number, total: number) => {
+    // Transition from 0.1 (top) to 0.8 (bottom) opacity
+    const opacity = 0.1 + (index / total) * 0.7; // 0.1 + (0 to 0.7) = 0.1 to 0.8
+
+    // Extract RGB values from CSS variable and apply opacity
+    const color = `color-mix(in srgb, var(--base-fg) ${opacity * 100}%, transparent)`;
+
+    // Debug: log a few samples
+    if (index === 0 || index === Math.floor(total / 2) || index === total - 1) {
+      console.log(
+        `Row ${index}/${total}: opacity=${opacity.toFixed(2)}, color="${color}"`,
+      );
+    }
+
+    return color;
+  };
 
   return (
     <div id="contact" className="relative">
@@ -143,81 +233,52 @@ export default function Footer() {
           className="main-container relative pt-0 pb-12 md:pb-16 lg:pb-24"
           ref={ref}
         >
-          {/* Background text with binary pattern mask - SVG */}
+          {/* Background binary grid text */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
             <div
               ref={containerRef}
               className="max-w-main relative mx-auto h-full"
             >
-              <svg
-                className="animate-binary-glitch absolute"
+              <div
+                className="absolute right-0 left-0 font-mono tracking-tighter whitespace-pre"
                 style={{
-                  left: 0,
-                  right: 0,
                   bottom: "-12px",
-                  width: "100%",
-                  height: fontSize * 1.2,
+                  fontSize: `${gridConfig.tileSize}px`,
+                  lineHeight: `${gridConfig.tileSize}px`,
+                  letterSpacing: 0,
+                  width: `${gridConfig.cols * gridConfig.tileSize}px`, // Force exact width
+                  transform: "scaleX(1)", // Ensure no scaling
                 }}
-                aria-hidden="true"
               >
-                <defs>
-                  {/* Gradient for opacity transition across whole text */}
-                  <linearGradient
-                    id="opacityGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="0%"
-                    y2="100%"
-                  >
-                    <stop offset="0%" stopColor="white" stopOpacity="0" />
-                    <stop offset="100%" stopColor="white" stopOpacity="1" />
-                  </linearGradient>
-
-                  {/* Text mask with gradient */}
-                  <mask id="textMask">
-                    <text
-                      ref={svgTextRef}
-                      x="0"
-                      y={fontSize}
-                      fill="url(#opacityGradient)"
-                      fontFamily="inherit"
-                      fontWeight="bold"
-                      fontSize={fontSize}
-                      style={{ whiteSpace: "nowrap" }}
+                {binaryGrid.map((row, rowIndex) => {
+                  const opacity = 0.1 + (rowIndex / binaryGrid.length) * 0.7;
+                  return (
+                    <div
+                      key={rowIndex}
+                      style={{
+                        color: "#000",
+                        opacity: opacity,
+                        display: "flex",
+                        width: "100%",
+                      }}
                     >
-                      AUDUONGTUAN
-                    </text>
-                  </mask>
-                </defs>
-
-                {/* Binary pattern layer - render individual flipping bits */}
-                <g mask="url(#textMask)">
-                  {containerWidth > 0 &&
-                    patternPiecesRef.current.map((piece, index) => {
-                      const charsPerRow = Math.ceil(containerWidth / 8);
-                      const x = (index % charsPerRow) * 8;
-                      const y = Math.floor(index / charsPerRow) * 16 + 12;
-
-                      return (
-                        <text
-                          key={index}
-                          x={x}
-                          y={y}
-                          fill="#555"
-                          fontFamily="monospace"
-                          fontSize="12"
-                          letterSpacing="-1"
+                      {row.map((char, colIndex) => (
+                        <span
+                          key={colIndex}
                           style={{
-                            transition: "opacity 0.2s ease-out",
-                            opacity: 1,
+                            width: `${gridConfig.tileSize}px`,
+                            display: "inline-block",
+                            textAlign: "center",
+                            flexShrink: 0,
                           }}
                         >
-                          {piece.value}
-                        </text>
-                      );
-                    })}
-                </g>
-              </svg>
+                          {char}
+                        </span>
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
