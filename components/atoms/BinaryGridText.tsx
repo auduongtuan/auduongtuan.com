@@ -71,7 +71,8 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
 
       // Calculate letter spacing to fill the target width exactly
       textWidth = ctx.measureText(text).width;
-      const letterSpacing = (targetWidth - textWidth) / (text.length - 1);
+      const letterSpacing =
+        text.length > 1 ? (targetWidth - textWidth) / (text.length - 1) : 0;
 
       // Draw each letter with fill only to preserve cutouts
       let x = (canvasWidth - targetWidth) / 2; // Center text
@@ -98,6 +99,13 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
           const x = Math.floor(col * tileSize + tileSize / 2);
           const y = Math.floor(row * tileSize + tileSize / 2);
           const pixelIndex = (y * canvasWidth + x) * 4;
+
+          // Bounds check for pixel array access
+          if (pixelIndex + 3 >= pixels.length) {
+            rowData.push(" ");
+            continue;
+          }
+
           const alpha = pixels[pixelIndex + 3]; // Alpha channel
 
           // If pixel is visible (part of text), add 0 or 1, otherwise empty
@@ -152,13 +160,25 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
 
     calculateGrid();
 
-    window.addEventListener("resize", calculateGrid);
-    return () => window.removeEventListener("resize", calculateGrid);
+    // Debounce resize to prevent excessive recalculations
+    let resizeTimeout: NodeJS.Timeout;
+    const debouncedCalculateGrid = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(calculateGrid, 150);
+    };
+
+    window.addEventListener("resize", debouncedCalculateGrid);
+    return () => {
+      window.removeEventListener("resize", debouncedCalculateGrid);
+      clearTimeout(resizeTimeout);
+    };
   }, [text]);
 
   // Reveal animation: each tile appears randomly
   useEffect(() => {
     if (!inView || visibilityGrid.length === 0) return;
+
+    let revealInterval: NodeJS.Timeout;
 
     // Add 200ms delay before starting
     const delayTimeout = setTimeout(() => {
@@ -184,7 +204,7 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       // Reveal tiles randomly over time
       let currentIndex = 0;
 
-      const revealInterval = setInterval(() => {
+      revealInterval = setInterval(() => {
         // Reveal 8-15 tiles per frame
         const tilesPerFrame = Math.floor(Math.random() * 8) + 8;
 
@@ -197,7 +217,13 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
             i++
           ) {
             const tile = shuffledTiles[currentIndex];
-            newGrid[tile.row][tile.col] = true;
+            // Bounds checking: skip if grid was resized
+            if (
+              newGrid[tile.row] &&
+              newGrid[tile.row][tile.col] !== undefined
+            ) {
+              newGrid[tile.row][tile.col] = true;
+            }
             currentIndex++;
           }
 
@@ -209,11 +235,12 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
           clearInterval(revealInterval);
         }
       }, 30); // Slower: 30ms interval instead of 20ms
-
-      return () => clearInterval(revealInterval);
     }, 200); // 200ms delay
 
-    return () => clearTimeout(delayTimeout);
+    return () => {
+      clearTimeout(delayTimeout);
+      if (revealInterval) clearInterval(revealInterval);
+    };
   }, [inView, visibilityGrid.length]);
 
   // Glitch effect: randomly flip 0s and 1s continuously
@@ -254,7 +281,7 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
           if (!newGrid[rowIndex]) continue; // Skip if row doesn't exist
 
           const colIndex = Math.floor(Math.random() * newGrid[rowIndex].length);
-          if (!newGrid[rowIndex][colIndex] === undefined) continue; // Skip if column doesn't exist
+          if (newGrid[rowIndex][colIndex] === undefined) continue; // Skip if column doesn't exist
 
           const baseChar = baseGridRef.current[rowIndex]?.[colIndex];
 
@@ -329,7 +356,10 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       }}
     >
       {binaryGrid.map((row, rowIndex) => {
-        const opacity = 0.1 + (rowIndex / binaryGrid.length) * 0.7;
+        const opacity =
+          binaryGrid.length > 0
+            ? 0.1 + (rowIndex / binaryGrid.length) * 0.7
+            : 0.1;
         return (
           <div
             key={rowIndex}
