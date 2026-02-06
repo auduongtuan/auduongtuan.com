@@ -224,56 +224,61 @@ export default function Footer() {
 
     console.log("🌊 Starting reveal animation");
 
-    const rows = visibilityGrid.length;
-    const cols = visibilityGrid[0]?.length || 0;
+    // Add 200ms delay before starting
+    const delayTimeout = setTimeout(() => {
+      const rows = visibilityGrid.length;
+      const cols = visibilityGrid[0]?.length || 0;
 
-    // Collect all tiles that have text
-    const allTiles: { row: number; col: number }[] = [];
+      // Collect all tiles that have text
+      const allTiles: { row: number; col: number }[] = [];
 
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const baseChar = baseGridRef.current[row]?.[col];
-        // Only reveal tiles that have text
-        if (baseChar === "0" || baseChar === "1") {
-          allTiles.push({ row, col });
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const baseChar = baseGridRef.current[row]?.[col];
+          // Only reveal tiles that have text
+          if (baseChar === "0" || baseChar === "1") {
+            allTiles.push({ row, col });
+          }
         }
       }
-    }
 
-    // Shuffle tiles completely randomly
-    const shuffledTiles = [...allTiles].sort(() => Math.random() - 0.5);
+      // Shuffle tiles completely randomly
+      const shuffledTiles = [...allTiles].sort(() => Math.random() - 0.5);
 
-    // Reveal tiles randomly over time
-    let currentIndex = 0;
+      // Reveal tiles randomly over time
+      let currentIndex = 0;
 
-    const revealInterval = setInterval(() => {
-      // Reveal 15-20 random tiles per frame
-      const tilesPerFrame = Math.floor(Math.random() * 6) + 15;
+      const revealInterval = setInterval(() => {
+        // Reveal 8-15 tiles per frame
+        const tilesPerFrame = Math.floor(Math.random() * 8) + 8;
 
-      setVisibilityGrid((grid) => {
-        const newGrid = grid.map((row) => [...row]);
+        setVisibilityGrid((grid) => {
+          const newGrid = grid.map((row) => [...row]);
 
-        for (
-          let i = 0;
-          i < tilesPerFrame && currentIndex < shuffledTiles.length;
-          i++
-        ) {
-          const tile = shuffledTiles[currentIndex];
-          newGrid[tile.row][tile.col] = true;
-          currentIndex++;
+          for (
+            let i = 0;
+            i < tilesPerFrame && currentIndex < shuffledTiles.length;
+            i++
+          ) {
+            const tile = shuffledTiles[currentIndex];
+            newGrid[tile.row][tile.col] = true;
+            currentIndex++;
+          }
+
+          return newGrid;
+        });
+
+        // Stop when all tiles are revealed
+        if (currentIndex >= shuffledTiles.length) {
+          clearInterval(revealInterval);
+          console.log("✅ Reveal animation complete");
         }
+      }, 30); // Slower: 30ms interval instead of 20ms
 
-        return newGrid;
-      });
+      return () => clearInterval(revealInterval);
+    }, 200); // 200ms delay
 
-      // Stop when all tiles are revealed
-      if (currentIndex >= shuffledTiles.length) {
-        clearInterval(revealInterval);
-        console.log("✅ Reveal animation complete");
-      }
-    }, 20); // 50fps
-
-    return () => clearInterval(revealInterval);
+    return () => clearTimeout(delayTimeout);
   }, [inView, visibilityGrid.length]);
 
   // Glitch effect: randomly flip 0s and 1s continuously
