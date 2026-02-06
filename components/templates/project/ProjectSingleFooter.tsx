@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
 import { Project } from "@lib/notion";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
-import OtherProjectList from "./OtherProjectList";
 import usePasswordProtectStore from "@store/usePasswordProtectStore";
+import { Fragment } from "react";
+import OtherProjectList from "./OtherProjectList";
 interface ProjectSingleFooterProps {
   projects: Project[];
   project: Project;
@@ -17,17 +17,17 @@ const ProjectSingleFooter = ({
 
   return (
     <Fragment>
-      <div className="relative border-t border-gray-200 bg-surface py-section-vertical">
+      <div className="bg-surface py-section-vertical relative border-t border-gray-200">
         <div className="main-container">
           {isShown && (
             <ReactionAndComment
               page={`project/${project.slug}`}
             ></ReactionAndComment>
           )}
-          {isShown && (
-            <hr className="pt-10 mt-10 border-t border-gray-200 md:mt-16 md:pt-12"></hr>
-          )}
-          <div className="relative ">
+          {/*{isShown && (
+            <hr className="pt-section-vertical mt-section-vertical border-t border-gray-200"></hr>
+          )}*/}
+          <div className="pt-section-vertical relative">
             <OtherProjectList projects={projects} project={project} />
           </div>
         </div>

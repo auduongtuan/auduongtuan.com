@@ -1,10 +1,10 @@
-import { useReducer, Fragment } from "react";
 import Button from "@atoms/Button";
+import TextField from "@atoms/TextField";
 import { toast } from "@atoms/Toast";
 import axios from "axios";
+import { Fragment, useReducer } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { FiSend } from "react-icons/fi";
-import TextField from "@atoms/TextField";
 import CommentSuggestion from "./CommentSuggestion";
 
 const CommentForm = ({ page, wording, onSubmit }) => {
@@ -113,7 +113,6 @@ const CommentForm = ({ page, wording, onSubmit }) => {
             </Button>
           </div>
         </section>
-        <footer className="mt-6 flex items-center justify-between gap-x-3"></footer>
       </form>
     </Fragment>
   );

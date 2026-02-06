@@ -4,7 +4,9 @@ import Tag from "@atoms/Tag";
 import { Transition } from "@atoms/Transition";
 import { Post } from "@lib/notion";
 import { PasswordInfo } from "@lib/notion/password";
+import { cn } from "@lib/utils/cn";
 import ContentMenu from "@molecules/ContentMenu";
+import Footer from "@molecules/Footer";
 import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
 import PasswordProtect from "@molecules/PasswordProtect";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
@@ -13,7 +15,6 @@ import usePasswordProtectStore from "@store/usePasswordProtectStore";
 import usePostStore from "@store/usePostStore";
 import { useEffect } from "react";
 import Balancer from "react-wrap-balancer";
-import { cn } from "@lib/utils/cn";
 import OtherPostList from "./OtherPostList";
 
 const PostSinglePage = ({
@@ -27,7 +28,8 @@ const PostSinglePage = ({
   postContent: any;
   passwordInfo: PasswordInfo;
 }) => {
-  const { decryptedContent, setDecryptedContent, setPassword, setError } = usePasswordProtectStore();
+  const { decryptedContent, setDecryptedContent, setPassword, setError } =
+    usePasswordProtectStore();
   const { setPost, setPostContent, setPosts } = usePostStore();
   const isShown = !post.meta.protected || decryptedContent != null;
 
@@ -142,7 +144,7 @@ const PostSinglePage = ({
           )}
         </div>
       </Fade>
-      <section className="bg-surface py-section-vertical relative border-t border-gray-200">
+      <section className="bg-surface py-section-vertical border-divider relative border-t">
         <div className="main-container">
           <Transition
             show={isShown}
@@ -161,17 +163,12 @@ const PostSinglePage = ({
               }}
             ></ReactionAndComment>
           </Transition>
-          <div
-            className={cn(
-              "relative",
-              isShown &&
-                "mt-10 border-t border-gray-200 pt-10 md:mt-16 md:pt-12",
-            )}
-          >
+          <div className={cn("relative", isShown && "pt-section-vertical")}>
             <OtherPostList post={post} posts={posts}></OtherPostList>
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 };

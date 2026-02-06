@@ -6,7 +6,7 @@ import SectionTitle from "@molecules/SectionTitle";
 export default function ProductList({ products }: { products: Project[] }) {
   return (
     <section
-      id="works"
+      id="pet-products"
       className="relative"
       style={
         {

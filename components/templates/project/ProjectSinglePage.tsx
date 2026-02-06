@@ -6,6 +6,7 @@ import ProjectSingleContent from "./ProjectSingleContent";
 import ProjectSingleFooter from "./ProjectSingleFooter";
 import { ProjectSingleHeader } from "./ProjectSingleHeader";
 import { PasswordInfo } from "@lib/notion/password";
+import Footer from "@molecules/Footer";
 export interface ProjectSinglePageProps {
   project: Project;
   projects: Project[];
@@ -43,6 +44,7 @@ const ProjectSinglePage = ({
         passwordInfo={passwordInfo}
       />
       <ProjectSingleFooter project={project} projects={projects} />
+      <Footer />
     </div>
   );
 };
