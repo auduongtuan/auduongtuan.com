@@ -36,6 +36,7 @@ export default function Footer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textMaskRef = useRef<HTMLCanvasElement>(null);
   const [binaryGrid, setBinaryGrid] = useState<string[][]>([]);
+  const [colorGrid, setColorGrid] = useState<string[][]>([]); // Store colors for each tile
   const baseGridRef = useRef<string[][]>([]); // Store original grid for glitch effect
   const [gridConfig, setGridConfig] = useState({
     cols: 0,
@@ -192,6 +193,10 @@ export default function Footer() {
       baseGridRef.current = trimmedGrid.map((row) => [...row]);
       setBinaryGrid(trimmedGrid);
 
+      // Initialize color grid - all black (#000) initially
+      const initialColorGrid = trimmedGrid.map((row) => row.map(() => "#000"));
+      setColorGrid(initialColorGrid);
+
       // DEBUG: Check rendered grid dimensions
       console.log("Grid generated - first row length:", grid[0]?.length);
       console.log(
@@ -216,6 +221,7 @@ export default function Footer() {
         return;
       }
 
+      // Update both character and color grids
       setBinaryGrid((currentGrid) => {
         if (currentGrid.length === 0) {
           console.log("⚠️ Current grid empty");
@@ -224,27 +230,82 @@ export default function Footer() {
 
         const newGrid = currentGrid.map((row) => [...row]);
 
-        // Randomly flip 8-15 characters per interval for more visible effect
-        const flipsCount = Math.floor(Math.random() * 8) + 8;
+        // More dramatic glitch: 15-25 characters per interval
+        const flipsCount = Math.floor(Math.random() * 11) + 15;
         let actualFlips = 0;
+
+        // Random character pool: mostly 0/1, some special chars
+        const getRandomChar = () => {
+          const rand = Math.random();
+          if (rand < 0.4) return "0"; // 40% chance
+          if (rand < 0.8) return "1"; // 40% chance
+          if (rand < 0.88) return " "; // 8% chance (empty)
+          if (rand < 0.92) return "#"; // 4% chance
+          if (rand < 0.95) return "*"; // 3% chance
+          if (rand < 0.97) return "."; // 2% chance
+          if (rand < 0.98) return "-"; // 1% chance
+          if (rand < 0.99) return "+"; // 1% chance
+          return "x"; // 1% chance
+        };
 
         for (let i = 0; i < flipsCount; i++) {
           const rowIndex = Math.floor(Math.random() * newGrid.length);
           const colIndex = Math.floor(Math.random() * newGrid[rowIndex].length);
 
           const char = newGrid[rowIndex][colIndex];
+          const baseChar = baseGridRef.current[rowIndex]?.[colIndex];
 
-          // Only flip 0s and 1s, not empty spaces
-          if (char === "0" || char === "1") {
-            newGrid[rowIndex][colIndex] = char === "0" ? "1" : "0";
+          // Glitch any non-empty character in the text area
+          if (baseChar === "0" || baseChar === "1") {
+            newGrid[rowIndex][colIndex] = getRandomChar();
             actualFlips++;
           }
         }
 
-        console.log(`✨ Flipped ${actualFlips} characters`);
+        console.log(`✨ Glitched ${actualFlips} characters`);
         return newGrid;
       });
-    }, 80); // Flip every 80ms for faster animation
+
+      // Update colors - only 10-15% of tiles get colorful
+      setColorGrid((currentColors) => {
+        if (currentColors.length === 0) return currentColors;
+
+        const newColors = currentColors.map((row) => [...row]);
+
+        // Glitch colors palette
+        const glitchColors = [
+          "#ff0000", // red
+          "#00ff00", // green
+          "#0000ff", // blue
+          "#ff00ff", // magenta
+          "#00ffff", // cyan
+          "#ffff00", // yellow
+        ];
+
+        // Color glitch: 5-10 tiles
+        const colorGlitchCount = Math.floor(Math.random() * 6) + 5;
+
+        for (let i = 0; i < colorGlitchCount; i++) {
+          const rowIndex = Math.floor(Math.random() * newColors.length);
+          const colIndex = Math.floor(
+            Math.random() * newColors[rowIndex].length,
+          );
+          const baseChar = baseGridRef.current[rowIndex]?.[colIndex];
+
+          if (baseChar === "0" || baseChar === "1") {
+            // 85% chance to stay black, 15% chance to get colorful
+            if (Math.random() < 0.15) {
+              newColors[rowIndex][colIndex] =
+                glitchColors[Math.floor(Math.random() * glitchColors.length)];
+            } else {
+              newColors[rowIndex][colIndex] = "#000";
+            }
+          }
+        }
+
+        return newColors;
+      });
+    }, 50); // Flip every 50ms for much faster glitch effect
 
     return () => {
       console.log("🛑 Glitch effect cleanup");
@@ -300,8 +361,6 @@ export default function Footer() {
                     <div
                       key={rowIndex}
                       style={{
-                        color: "#000",
-                        opacity: opacity,
                         display: "flex",
                         width: "100%",
                       }}
@@ -314,6 +373,8 @@ export default function Footer() {
                             display: "inline-block",
                             textAlign: "center",
                             flexShrink: 0,
+                            color: colorGrid[rowIndex]?.[colIndex] || "#000",
+                            opacity: opacity,
                           }}
                         >
                           {char}
