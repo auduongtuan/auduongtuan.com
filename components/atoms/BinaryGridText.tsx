@@ -10,12 +10,18 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
   const [binaryGrid, setBinaryGrid] = useState<string[][]>([]);
   const [colorGrid, setColorGrid] = useState<string[][]>([]);
   const [visibilityGrid, setVisibilityGrid] = useState<boolean[][]>([]);
+  const [displacementGrid, setDisplacementGrid] = useState<
+    { x: number; y: number }[][]
+  >([]); // Track tile displacement
   const baseGridRef = useRef<string[][]>([]);
   const [gridConfig, setGridConfig] = useState({
     cols: 0,
     rows: 0,
     tileSize: 0,
   });
+  const [mousePos, setMousePos] = useState<{ x: number; y: number } | null>(
+    null,
+  );
 
   // Generate binary pattern grid (0, 1) masked by text
   useEffect(() => {
@@ -156,6 +162,12 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
         row.map(() => false),
       );
       setVisibilityGrid(initialVisibilityGrid);
+
+      // Initialize displacement grid - no displacement initially
+      const initialDisplacementGrid = trimmedGrid.map((row) =>
+        row.map(() => ({ x: 0, y: 0 })),
+      );
+      setDisplacementGrid(initialDisplacementGrid);
     };
 
     calculateGrid();
@@ -258,16 +270,15 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
 
         const newGrid = currentGrid.map((row) => [...row]);
 
-        // More dramatic glitch: 15-25 characters per interval
-        const flipsCount = Math.floor(Math.random() * 11) + 15;
-        let actualFlips = 0;
+        // Single tile character glitches
+        const flipsCount = Math.floor(Math.random() * 11) + 15; // 15-25 single tiles
 
         // Random character pool: more empty spaces, less 0/1
         const getRandomChar = () => {
           const rand = Math.random();
-          if (rand < 0.32) return "0"; // 32% chance (reduced from 40%)
-          if (rand < 0.64) return "1"; // 32% chance (reduced from 40%)
-          if (rand < 0.82) return " "; // 18% chance (increased from 8%)
+          if (rand < 0.32) return "0"; // 32% chance
+          if (rand < 0.64) return "1"; // 32% chance
+          if (rand < 0.82) return " "; // 18% chance
           if (rand < 0.88) return "#"; // 6% chance
           if (rand < 0.93) return "*"; // 5% chance
           if (rand < 0.96) return "."; // 3% chance
@@ -276,19 +287,18 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
           return "x"; // 1% chance
         };
 
+        // Single tile character flips
         for (let i = 0; i < flipsCount; i++) {
           const rowIndex = Math.floor(Math.random() * newGrid.length);
-          if (!newGrid[rowIndex]) continue; // Skip if row doesn't exist
+          if (!newGrid[rowIndex]) continue;
 
           const colIndex = Math.floor(Math.random() * newGrid[rowIndex].length);
-          if (newGrid[rowIndex][colIndex] === undefined) continue; // Skip if column doesn't exist
+          if (newGrid[rowIndex][colIndex] === undefined) continue;
 
           const baseChar = baseGridRef.current[rowIndex]?.[colIndex];
 
-          // Glitch any non-empty character in the text area
           if (baseChar === "0" || baseChar === "1") {
             newGrid[rowIndex][colIndex] = getRandomChar();
-            actualFlips++;
           }
         }
 
@@ -311,27 +321,64 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
           "#ffff00", // yellow
         ];
 
-        // Color glitch: 5-10 tiles
+        // Single tile color glitches: 5-10 tiles
         const colorGlitchCount = Math.floor(Math.random() * 6) + 5;
 
         for (let i = 0; i < colorGlitchCount; i++) {
           const rowIndex = Math.floor(Math.random() * newColors.length);
-          if (!newColors[rowIndex]) continue; // Skip if row doesn't exist
+          if (!newColors[rowIndex]) continue;
 
           const colIndex = Math.floor(
             Math.random() * newColors[rowIndex].length,
           );
-          if (newColors[rowIndex][colIndex] === undefined) continue; // Skip if column doesn't exist
+          if (newColors[rowIndex][colIndex] === undefined) continue;
 
           const baseChar = baseGridRef.current[rowIndex]?.[colIndex];
 
           if (baseChar === "0" || baseChar === "1") {
-            // 85% chance to stay black, 15% chance to get colorful
-            if (Math.random() < 0.15) {
+            // 90% chance to stay black, 10% chance to get colorful
+            if (Math.random() < 0.1) {
               newColors[rowIndex][colIndex] =
                 glitchColors[Math.floor(Math.random() * glitchColors.length)];
             } else {
               newColors[rowIndex][colIndex] = "#000";
+            }
+          }
+        }
+
+        // Bigger block color glitches: occasionally 0-1 blocks of 3-4 tiles
+        const blockGlitchCount = Math.random() > 0.7 ? 1 : 0; // 30% chance of 1 block
+
+        for (let i = 0; i < blockGlitchCount; i++) {
+          const centerRow = Math.floor(Math.random() * newColors.length);
+          const centerCol = Math.floor(
+            Math.random() * (newColors[centerRow]?.length || 0),
+          );
+
+          const blockSize = Math.floor(Math.random() * 3) + 1; // 1, 2, or 3 tile block
+          const color =
+            glitchColors[Math.floor(Math.random() * glitchColors.length)]; // Same color for the whole block
+
+          // Apply to surrounding tiles in a block
+          for (
+            let dr = -Math.floor(blockSize / 2);
+            dr <= Math.floor(blockSize / 2);
+            dr++
+          ) {
+            for (
+              let dc = -Math.floor(blockSize / 2);
+              dc <= Math.floor(blockSize / 2);
+              dc++
+            ) {
+              const r = centerRow + dr;
+              const c = centerCol + dc;
+
+              if (newColors[r] && newColors[r][c] !== undefined) {
+                const baseChar = baseGridRef.current[r]?.[c];
+                if (baseChar === "0" || baseChar === "1") {
+                  newColors[r][c] = color;
+                }
+              }
             }
           }
         }
@@ -345,14 +392,149 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
     };
   }, []); // Run once and continuously
 
+  // Mouse displacement effect
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = containerRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      setMousePos({ x, y });
+    };
+
+    const handleMouseLeave = () => {
+      setMousePos(null);
+      // Reset all displacements
+      setDisplacementGrid((grid) =>
+        grid.map((row) => row.map(() => ({ x: 0, y: 0 }))),
+      );
+    };
+
+    const container = containerRef.current;
+    container.addEventListener("mousemove", handleMouseMove);
+    container.addEventListener("mouseleave", handleMouseLeave);
+
+    return () => {
+      container.removeEventListener("mousemove", handleMouseMove);
+      container.removeEventListener("mouseleave", handleMouseLeave);
+    };
+  }, []);
+
+  // Calculate displacement based on mouse position with cascading push
+  useEffect(() => {
+    if (!mousePos || displacementGrid.length === 0) return;
+
+    const rows = displacementGrid.length;
+    const cols = displacementGrid[0]?.length || 0;
+
+    // Initialize displacement grid with direct mouse influence
+    const initialDisplacement: { x: number; y: number }[][] =
+      displacementGrid.map((row, rowIndex) =>
+        row.map((_, colIndex) => {
+          const baseChar = baseGridRef.current[rowIndex]?.[colIndex];
+          if (baseChar !== "0" && baseChar !== "1") {
+            return { x: 0, y: 0 };
+          }
+
+          // Calculate tile center position
+          const tileCenterX =
+            colIndex * gridConfig.tileSize + gridConfig.tileSize / 2;
+          const tileCenterY =
+            rowIndex * gridConfig.tileSize + gridConfig.tileSize / 2;
+
+          // Calculate distance from mouse
+          const dx = tileCenterX - mousePos.x;
+          const dy = tileCenterY - mousePos.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          // Influence radius in pixels
+          const influenceRadius = gridConfig.tileSize * 8;
+
+          if (distance < influenceRadius && distance > 0) {
+            // Calculate displacement strength (stronger when closer)
+            const strength =
+              (1 - distance / influenceRadius) * gridConfig.tileSize * 2;
+
+            // Push tiles away from cursor
+            const angle = Math.atan2(dy, dx);
+            const rawX = Math.cos(angle) * strength;
+            const rawY = Math.sin(angle) * strength;
+
+            // Snap to tile grid multiples
+            return {
+              x: Math.round(rawX / gridConfig.tileSize) * gridConfig.tileSize,
+              y: Math.round(rawY / gridConfig.tileSize) * gridConfig.tileSize,
+            };
+          }
+
+          return { x: 0, y: 0 };
+        }),
+      );
+
+    // Apply cascading push effect (up to 4 iterations)
+    const finalDisplacement = JSON.parse(JSON.stringify(initialDisplacement));
+
+    for (let iteration = 0; iteration < 4; iteration++) {
+      const pushedThisIteration = new Set<string>();
+
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const displacement = finalDisplacement[row][col];
+
+          // Skip if no displacement
+          if (displacement.x === 0 && displacement.y === 0) continue;
+
+          // Calculate new position
+          const newRow = row + Math.round(displacement.y / gridConfig.tileSize);
+          const newCol = col + Math.round(displacement.x / gridConfig.tileSize);
+
+          // Check if new position is valid and occupied by another tile
+          if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+            const targetTile = baseGridRef.current[newRow]?.[newCol];
+            const targetKey = `${newRow},${newCol}`;
+
+            // If target tile exists and hasn't been pushed yet this iteration
+            if (
+              (targetTile === "0" || targetTile === "1") &&
+              !pushedThisIteration.has(targetKey)
+            ) {
+              // Push the target tile in the same direction with reduced strength
+              const currentTargetDisplacement =
+                finalDisplacement[newRow][newCol];
+              if (
+                currentTargetDisplacement.x === 0 &&
+                currentTargetDisplacement.y === 0
+              ) {
+                finalDisplacement[newRow][newCol] = {
+                  x: displacement.x,
+                  y: displacement.y,
+                };
+                pushedThisIteration.add(targetKey);
+              }
+            }
+          }
+        }
+      }
+
+      // Stop if no tiles were pushed this iteration
+      if (pushedThisIteration.size === 0) break;
+    }
+
+    setDisplacementGrid(finalDisplacement);
+  }, [mousePos, gridConfig.tileSize]);
+
   return (
     <div
       ref={containerRef}
-      className="pointer-events-none relative w-full overflow-hidden font-mono tracking-tighter whitespace-pre"
+      className="pointer-events-auto relative w-full overflow-hidden font-mono tracking-tighter whitespace-pre"
       style={{
         fontSize: `${gridConfig.tileSize}px`,
         lineHeight: `${gridConfig.tileSize}px`,
         letterSpacing: 0,
+        cursor: "default",
       }}
     >
       {binaryGrid.map((row, rowIndex) => {
@@ -370,6 +552,11 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
           >
             {row.map((char, colIndex) => {
               const isVisible = visibilityGrid[rowIndex]?.[colIndex] ?? false;
+              const displacement = displacementGrid[rowIndex]?.[colIndex] || {
+                x: 0,
+                y: 0,
+              };
+
               return (
                 <span
                   key={colIndex}
@@ -380,6 +567,7 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
                     flexShrink: 0,
                     color: colorGrid[rowIndex]?.[colIndex] || "#000",
                     opacity: isVisible ? opacity : 0,
+                    transform: `translate(${displacement.x}px, ${displacement.y}px)`,
                   }}
                 >
                   {char}
