@@ -211,16 +211,18 @@ export default function Footer() {
     return () => window.removeEventListener("resize", calculateGrid);
   }, []);
 
-  // Glitch effect: randomly flip 0s and 1s
+  // Glitch effect: randomly flip 0s and 1s continuously
   useEffect(() => {
-    if (baseGridRef.current.length === 0) return;
-
     const glitchInterval = setInterval(() => {
+      if (baseGridRef.current.length === 0) return;
+
       setBinaryGrid((currentGrid) => {
+        if (currentGrid.length === 0) return currentGrid;
+
         const newGrid = currentGrid.map((row) => [...row]);
 
-        // Randomly flip 5-10 characters per interval
-        const flipsCount = Math.floor(Math.random() * 6) + 5;
+        // Randomly flip 8-15 characters per interval for more visible effect
+        const flipsCount = Math.floor(Math.random() * 8) + 8;
 
         for (let i = 0; i < flipsCount; i++) {
           const rowIndex = Math.floor(Math.random() * newGrid.length);
@@ -236,10 +238,10 @@ export default function Footer() {
 
         return newGrid;
       });
-    }, 100); // Flip every 100ms
+    }, 80); // Flip every 80ms for faster animation
 
     return () => clearInterval(glitchInterval);
-  }, [binaryGrid.length]); // Re-run when grid is regenerated
+  }, []); // Run once and continuously
 
   // Gradient colors from top to bottom - stronger opacity
   const getLineColor = (index: number, total: number) => {
