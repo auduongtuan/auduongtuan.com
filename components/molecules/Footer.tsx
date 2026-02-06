@@ -36,6 +36,7 @@ export default function Footer() {
   const containerRef = useRef<HTMLDivElement>(null);
   const textMaskRef = useRef<HTMLCanvasElement>(null);
   const [binaryGrid, setBinaryGrid] = useState<string[][]>([]);
+  const baseGridRef = useRef<string[][]>([]); // Store original grid for glitch effect
   const [gridConfig, setGridConfig] = useState({
     cols: 0,
     rows: 0,
@@ -192,6 +193,8 @@ export default function Footer() {
       // Slice to keep only rows with text
       const trimmedGrid = grid.slice(firstNonEmptyRow, lastNonEmptyRow + 1);
 
+      // Store base grid for glitch effect
+      baseGridRef.current = trimmedGrid.map((row) => [...row]);
       setBinaryGrid(trimmedGrid);
 
       // DEBUG: Check rendered grid dimensions
@@ -207,6 +210,36 @@ export default function Footer() {
     window.addEventListener("resize", calculateGrid);
     return () => window.removeEventListener("resize", calculateGrid);
   }, []);
+
+  // Glitch effect: randomly flip 0s and 1s
+  useEffect(() => {
+    if (baseGridRef.current.length === 0) return;
+
+    const glitchInterval = setInterval(() => {
+      setBinaryGrid((currentGrid) => {
+        const newGrid = currentGrid.map((row) => [...row]);
+
+        // Randomly flip 5-10 characters per interval
+        const flipsCount = Math.floor(Math.random() * 6) + 5;
+
+        for (let i = 0; i < flipsCount; i++) {
+          const rowIndex = Math.floor(Math.random() * newGrid.length);
+          const colIndex = Math.floor(Math.random() * newGrid[rowIndex].length);
+
+          const char = newGrid[rowIndex][colIndex];
+
+          // Only flip 0s and 1s, not empty spaces
+          if (char === "0" || char === "1") {
+            newGrid[rowIndex][colIndex] = char === "0" ? "1" : "0";
+          }
+        }
+
+        return newGrid;
+      });
+    }, 100); // Flip every 100ms
+
+    return () => clearInterval(glitchInterval);
+  }, [binaryGrid.length]); // Re-run when grid is regenerated
 
   // Gradient colors from top to bottom - stronger opacity
   const getLineColor = (index: number, total: number) => {
