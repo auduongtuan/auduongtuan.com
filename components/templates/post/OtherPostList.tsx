@@ -16,6 +16,7 @@ const useChevronVisibility = (
   const [inViewportLeft, setInViewportLeft] = useState(false);
   const [inViewportRight, setInViewportRight] = useState(false);
   const SAFE_AREA = 8;
+  const SPACING = 64;
 
   useEffect(() => {
     const checkViewportPosition = () => {
@@ -28,23 +29,14 @@ const useChevronVisibility = (
           buttonWidth = leftRef.current.getBoundingClientRect().width;
         }
 
-        let spacing = 64; // default fallback
-        if (leftRef.current) {
-          const transform = getComputedStyle(leftRef.current).transform;
-          const match = transform.match(/translateX\(([^)]+)\)/);
-          if (match) {
-            spacing = Math.abs(parseFloat(match[1]));
-          }
-        }
-
         // Calculate left chevron position
-        const leftChevronPosition = parentRect.left - spacing - buttonWidth;
+        const leftChevronPosition = parentRect.left - SPACING - buttonWidth;
         const shouldShowLeft = leftChevronPosition >= SAFE_AREA;
 
         setInViewportLeft(shouldShowLeft);
 
         // Calculate right chevron position
-        const rightChevronPosition = parentRect.right + spacing + buttonWidth;
+        const rightChevronPosition = parentRect.right + SPACING + buttonWidth;
         const shouldShowRight =
           rightChevronPosition <= viewportWidth - SAFE_AREA;
 
