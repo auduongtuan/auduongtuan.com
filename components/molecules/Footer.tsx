@@ -213,16 +213,25 @@ export default function Footer() {
 
   // Glitch effect: randomly flip 0s and 1s continuously
   useEffect(() => {
+    console.log("🎭 Glitch effect initialized");
+
     const glitchInterval = setInterval(() => {
-      if (baseGridRef.current.length === 0) return;
+      if (baseGridRef.current.length === 0) {
+        console.log("⚠️ Base grid not ready yet");
+        return;
+      }
 
       setBinaryGrid((currentGrid) => {
-        if (currentGrid.length === 0) return currentGrid;
+        if (currentGrid.length === 0) {
+          console.log("⚠️ Current grid empty");
+          return currentGrid;
+        }
 
         const newGrid = currentGrid.map((row) => [...row]);
 
         // Randomly flip 8-15 characters per interval for more visible effect
         const flipsCount = Math.floor(Math.random() * 8) + 8;
+        let actualFlips = 0;
 
         for (let i = 0; i < flipsCount; i++) {
           const rowIndex = Math.floor(Math.random() * newGrid.length);
@@ -233,14 +242,19 @@ export default function Footer() {
           // Only flip 0s and 1s, not empty spaces
           if (char === "0" || char === "1") {
             newGrid[rowIndex][colIndex] = char === "0" ? "1" : "0";
+            actualFlips++;
           }
         }
 
+        console.log(`✨ Flipped ${actualFlips} characters`);
         return newGrid;
       });
     }, 80); // Flip every 80ms for faster animation
 
-    return () => clearInterval(glitchInterval);
+    return () => {
+      console.log("🛑 Glitch effect cleanup");
+      clearInterval(glitchInterval);
+    };
   }, []); // Run once and continuously
 
   // Gradient colors from top to bottom - stronger opacity
