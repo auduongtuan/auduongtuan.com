@@ -9,7 +9,7 @@ import { event } from "@lib/gtag";
 import socialNetworks from "@lib/socialNetworks";
 
 import { trackEvent } from "@lib/utils";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import {
   PiBehanceLogoBold,
   PiGithubLogoBold,
@@ -37,7 +37,7 @@ export default function Footer() {
     <div id="contact" className="relative">
       <footer className="text-primary sticky bottom-0 z-0">
         <div className="main-container relative pt-0 pb-0" ref={ref}>
-          <section className="border-t-divider relative grid grid-cols-12 gap-x-3 gap-y-8 border-t pt-12 pb-8 lg:grid-rows-2">
+          <section className="border-t-divider pt-section-vertical relative mb-8 grid grid-cols-12 gap-x-3 gap-y-8 border-t lg:grid-rows-2">
             <Fade
               slide
               show={inView}
@@ -163,9 +163,8 @@ export default function Footer() {
                 </div>
               </Dialog>
             </Fade>
+            {/* Binary grid text at the bottom - full width to edges */}
           </section>
-
-          {/* Binary grid text at the bottom - full width to edges */}
           <div className="-mx-section-horizontal">
             <BinaryGridText text="AUDUONGTUAN" inView={inView} />
           </div>

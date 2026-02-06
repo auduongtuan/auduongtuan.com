@@ -1,12 +1,12 @@
+import Button from "@atoms/Button";
 import Fade from "@atoms/Fade";
 import { Post } from "@lib/notion";
-import Button from "@atoms/Button";
 import MiniPostCard from "@molecules/post/MiniPostCard";
 import SectionTitle from "@molecules/SectionTitle";
 
 export default function PostList({ posts }: { posts: Post[] }) {
   return (
-    <section id="works">
+    <section id="writings">
       <Fade className="main-container" delay={500} duration={200}>
         <SectionTitle
           title="Writings"
