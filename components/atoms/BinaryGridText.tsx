@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface BinaryGridTextProps {
   text: string;
@@ -551,11 +551,11 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
         if (binaryGrid.length > 0) {
           const progress = rowIndex / binaryGrid.length; // 0 to 1
           if (progress <= 0.5) {
-            // First half: 0.2 to 0.8 (60% range over 50% of rows)
-            opacity = 0.2 + (progress / 0.5) * 0.6;
+            // First half: 0.2 to 0.5 (60% range over 50% of rows)
+            opacity = 0.2 + (progress / 0.5) * 0.3;
           } else {
             // Second half: 0.8 to 1.0 (20% range over 50% of rows)
-            opacity = 0.8 + ((progress - 0.5) / 0.5) * 0.2;
+            opacity = 0.5 + ((progress - 0.5) / 0.5) * 0.5;
           }
         }
         return (
