@@ -46,9 +46,11 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
 
       setGridConfig({ cols, rows, tileSize });
 
-      // STEP 1: Fix canvas dimensions to exactly match grid
+      // STEP 1: Canvas with vertical safe space for letters
       const canvasWidth = cols * tileSize; // Perfect grid alignment
-      const canvasHeight = rows * tileSize;
+      // Add 20% extra height as safe space to prevent letter cropping
+      const canvasSafeHeight = Math.floor(rows * tileSize * 1.2);
+      const canvasHeight = canvasSafeHeight;
 
       const canvas = document.createElement("canvas");
       canvas.width = canvasWidth;
@@ -73,7 +75,7 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
 
       // Configure fill only (no stroke to preserve letter holes like in "A")
       ctx.fillStyle = "white";
-      ctx.textBaseline = "bottom";
+      ctx.textBaseline = "middle"; // Use middle baseline to center text vertically
 
       // Calculate letter spacing to fill the target width exactly
       textWidth = ctx.measureText(text).width;
@@ -81,12 +83,15 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
         text.length > 1 ? (targetWidth - textWidth) / (text.length - 1) : 0;
 
       // Draw each letter with fill only to preserve cutouts
-      let x = (canvasWidth - targetWidth) / 2; // Center text
+      // Center text both horizontally and vertically
+      let x = (canvasWidth - targetWidth) / 2;
+      const y = canvasHeight / 2; // Center vertically
+
       for (let i = 0; i < text.length; i++) {
         const char = text[i];
 
         // Only fill, no stroke (preserves letter holes)
-        ctx.fillText(char, x, canvasHeight);
+        ctx.fillText(char, x, y);
 
         x += ctx.measureText(char).width + letterSpacing;
       }
@@ -125,6 +130,7 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       }
 
       // Trim empty rows from top and bottom
+      // Note: Canvas already has 20% extra height for safe space, so natural padding exists
       const isRowEmpty = (row: string[]) => row.every((char) => char === " ");
 
       let firstNonEmptyRow = 0;
@@ -146,7 +152,7 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
         }
       }
 
-      // Slice to keep only rows with text
+      // Keep all rows from first to last non-empty (includes natural padding from canvas safe space)
       const trimmedGrid = grid.slice(firstNonEmptyRow, lastNonEmptyRow + 1);
 
       // Store base grid for glitch effect
@@ -538,10 +544,20 @@ export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
       }}
     >
       {binaryGrid.map((row, rowIndex) => {
-        const opacity =
-          binaryGrid.length > 0
-            ? 0.1 + (rowIndex / binaryGrid.length) * 0.7
-            : 0.1;
+        // Two-stage opacity gradient for less dramatic transition:
+        // First half (0-50%): 0.2 → 0.8 (faster transition)
+        // Second half (50-100%): 0.8 → 1.0 (slower, subtle refinement)
+        let opacity = 0.2;
+        if (binaryGrid.length > 0) {
+          const progress = rowIndex / binaryGrid.length; // 0 to 1
+          if (progress <= 0.5) {
+            // First half: 0.2 to 0.8 (60% range over 50% of rows)
+            opacity = 0.2 + (progress / 0.5) * 0.6;
+          } else {
+            // Second half: 0.8 to 1.0 (20% range over 50% of rows)
+            opacity = 0.8 + ((progress - 0.5) / 0.5) * 0.2;
+          }
+        }
         return (
           <div
             key={rowIndex}
