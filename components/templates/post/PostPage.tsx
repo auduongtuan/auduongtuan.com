@@ -145,27 +145,32 @@ const PostSinglePage = ({
         </div>
       </Fade>
       <section className="bg-surface py-section-vertical border-divider relative border-t">
-        <div className="main-container">
-          <Transition
-            show={isShown}
-            starting="opacity-0"
-            ending="opacity-0"
-            className="transition-all duration-1000"
-          >
-            <ReactionAndComment
-              page={`blog/${post.slug}`}
-              wording={{
-                singular: "thought",
-                plural: "thoughts",
-                title: "Share your thoughts",
-                cta: "Or wanna share your thoughts?",
-                placeholder: "Hmmm... I think...",
-              }}
-            ></ReactionAndComment>
-          </Transition>
-          <div className={cn("relative", isShown && "pt-section-vertical")}>
-            <OtherPostList post={post} posts={posts}></OtherPostList>
-          </div>
+        <Transition
+          show={isShown}
+          starting="opacity-0"
+          ending="opacity-0"
+          className="main-container transition-all duration-1000"
+        >
+          <ReactionAndComment
+            page={`blog/${post.slug}`}
+            wording={{
+              singular: "thought",
+              plural: "thoughts",
+              title: "Share your thoughts",
+              cta: "Or wanna share your thoughts?",
+              placeholder: "Hmmm... I think...",
+            }}
+          ></ReactionAndComment>
+        </Transition>
+        <div
+          className={cn(
+            "relative",
+            isShown && "pt-section-vertical",
+            "px-section-horizontal mx-auto",
+            "max-w-main",
+          )}
+        >
+          <OtherPostList post={post} posts={posts}></OtherPostList>
         </div>
       </section>
       <Footer />

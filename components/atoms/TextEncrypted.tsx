@@ -25,7 +25,11 @@ export const TextEncrypted: React.FC<TextEncryptedProps> = ({
     if (outputText !== text) {
       timer = setInterval(() => {
         if (outputText.length < text.length) {
-          setOutputText((prev) => prev + text[prev.length]);
+          setOutputText((prev) => {
+            const nextChar = text[prev.length];
+            // Safety check: only add if character exists
+            return nextChar !== undefined ? prev + nextChar : prev;
+          });
         } else {
           clearInterval(timer);
         }
