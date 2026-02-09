@@ -1,7 +1,14 @@
 import CustomImage from "@atoms/CustomImage";
 import Skeleton from "@atoms/Skeleton";
+import dynamic from "next/dynamic";
+import { useState, useEffect } from "react";
+import { FiPlay, FiPause } from "react-icons/fi";
 import useSWR from "swr";
 import { twMerge } from "tailwind-merge";
+
+const ReactPlayer = dynamic(() => import("react-player"), {
+  ssr: false,
+}) as unknown as typeof import("react-player").default;
 
 const VinylFrame = () => (
   <svg
@@ -184,9 +191,28 @@ const VinylFrame = () => (
 const VINYL_SIZE = 72;
 const COVER_SIZE = VINYL_SIZE / 2;
 
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
+
+const PLAY_BUTTON_SIZE = 28;
+
 const SpotifyPlayer = () => {
-  const fetcher = (url: string) => fetch(url).then((r) => r.json());
   const { data } = useSWR("/api/spotify", fetcher);
+
+  const ytQuery =
+    data?.title && data?.artist
+      ? `/api/ytmusic?q=${encodeURIComponent(`${data.title} ${data.artist}`)}`
+      : null;
+  const { data: ytData } = useSWR(ytQuery, fetcher);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const videoId = ytData?.videoId as string | undefined;
+
+  // Reset playback when track changes
+  useEffect(() => {
+    setIsPlaying(false);
+  }, [videoId]);
+
   return (
     <>
       {data ? (
@@ -209,14 +235,36 @@ const SpotifyPlayer = () => {
             >
               <CustomImage
                 className="rounded-full overflow-hidden"
-                width={String(COVER_SIZE)}
-                height={String(COVER_SIZE)}
+                width={COVER_SIZE}
+                height={COVER_SIZE}
                 src={data.albumImageUrl}
                 alt={data.title}
               />
             </div>
             <VinylFrame />
           </div>
+          <button
+            type="button"
+            onClick={() => setIsPlaying((prev) => !prev)}
+            disabled={!videoId}
+            className="flex shrink-0 cursor-pointer items-center justify-center rounded-full bg-primary text-primary-inverted transition-opacity disabled:cursor-default disabled:opacity-30"
+            style={{ width: PLAY_BUTTON_SIZE, height: PLAY_BUTTON_SIZE }}
+            aria-label={isPlaying ? "Pause" : "Play"}
+          >
+            {isPlaying ? <FiPause size={14} /> : <FiPlay size={14} />}
+          </button>
+          {videoId && (
+            <ReactPlayer
+              src={`https://www.youtube.com/watch?v=${videoId}`}
+              playing={isPlaying}
+              volume={0.5}
+              width={0}
+              height={0}
+              style={{ position: "absolute", visibility: "hidden" }}
+              onEnded={() => setIsPlaying(false)}
+              onError={() => setIsPlaying(false)}
+            />
+          )}
           <div className="flex shrink grow flex-col">
             <p className="muted-text _text-sm _text-secondary">
               {data.isPlaying ? "Now playing 🎵" : "Offline - Recently played"}
