@@ -37,13 +37,13 @@ export default function Footer() {
     <div id="contact" className="relative">
       <footer className="text-primary sticky bottom-0 z-0">
         <div className="relative pt-0 pb-0" ref={ref}>
-          <section className="main-container border-t-divider pt-section-vertical relative mb-8 grid grid-cols-12 gap-x-3 gap-y-8 border-t lg:grid-rows-2">
+          <section className="main-container border-t-divider pt-section-vertical relative mb-8 grid grid-cols-12 gap-x-3 gap-y-8 border-t lg:grid-rows-[auto_auto]">
             <Fade
               slide
               show={inView}
               as={"div"}
               delay={0}
-              className={`col-span-12 lg:col-span-6 lg:row-span-1 lg:self-center`}
+              className="col-span-12 lg:col-span-6 lg:row-span-1 lg:self-center"
             >
               <SpotifyPlayer />
             </Fade>
@@ -59,8 +59,8 @@ export default function Footer() {
                       <TextEncrypted interval={40} text="hi@auduongtuan.com" />
                     </InlineLink>
                   </Tooltip>{" "}
-                  {socialNetworks.map((item, i) => (
-                    <React.Fragment key={i}>
+                  {socialNetworks.map((item) => (
+                    <React.Fragment key={item.name}>
                       <Tooltip content={item.name}>
                         <InlineLink href={item.url}>
                           {icons[item.name]}
@@ -77,10 +77,10 @@ export default function Footer() {
               as="div"
               delay={100}
               show={inView}
-              className={`body-text col-span-12 text-sm leading-loose lg:col-span-4 lg:row-span-1 lg:row-start-2 lg:self-start`}
+              className="body-text col-span-12 text-sm leading-loose lg:col-span-4 lg:row-span-1 lg:row-start-2 lg:self-start"
             >
               Written, designed and built by Tuan.
-              <br />© {new Date().getFullYear()}.{` `}
+              <br />© {new Date().getFullYear()}.{" "}
               <InlineLink
                 href="#"
                 onClick={(e) => {

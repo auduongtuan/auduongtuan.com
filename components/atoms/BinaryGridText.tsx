@@ -627,9 +627,8 @@ export default function BinaryGridText({
         "relative w-full cursor-default overflow-hidden",
         className,
       )}
-      style={{ minHeight: CONTAINER_HEIGHT }}
     >
-      <canvas ref={canvasRef} className="pointer-events-none" />
+      <canvas ref={canvasRef} className="pointer-events-none block" />
     </div>
   );
 }
