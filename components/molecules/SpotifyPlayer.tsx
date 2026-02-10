@@ -2,7 +2,7 @@ import CustomImage from "@atoms/CustomImage";
 import Skeleton from "@atoms/Skeleton";
 import Tooltip from "@atoms/Tooltip";
 import dynamic from "next/dynamic";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { twMerge } from "tailwind-merge";
 
@@ -836,8 +836,8 @@ const SpotifyPlayer = () => {
               {data.isPlaying ? "Now playing" : "Offline - Recently played"}
             </p>
             <p className="max-w-full text-base font-normal tracking-tight">
-              {data.artist} <span className="text-secondary">-</span>{" "}
               <a href={data.songUrl} target="_blank" rel="noreferrer">
+                {data.artist} <span className="text-secondary">-</span>{" "}
                 {data.title}
               </a>
             </p>
