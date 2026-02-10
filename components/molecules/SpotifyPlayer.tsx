@@ -676,20 +676,19 @@ const SpotifyPlayer = () => {
       : null;
   const { data: ytData } = useSWR(ytQuery, fetcher);
 
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [userIsPlaying, setUserIsPlaying] = useState(false);
 
   const videoId = ytData?.videoId as string | undefined;
 
   // Reset playback when track changes
   useEffect(() => {
-    setIsPlaying(false);
+    setUserIsPlaying(false);
   }, [videoId]);
 
   return (
     <>
       {data ? (
         <div className="flex items-center gap-4">
-          {/* Player Box */}
           <div
             className="relative shrink-0 overflow-hidden rounded-xl"
             style={{
@@ -736,7 +735,7 @@ const SpotifyPlayer = () => {
               <div
                 className={twMerge(
                   "absolute overflow-hidden rounded-full",
-                  data.isPlaying && "animate-spin-slow",
+                  (data.isPlaying || userIsPlaying) && "animate-spin-slow",
                 )}
                 style={{
                   width: COVER_SIZE,
@@ -779,16 +778,18 @@ const SpotifyPlayer = () => {
             </svg>
 
             {/* Tonearm — rotates when Spotify is playing OR user is listening */}
-            <Tonearm active={data.isPlaying || isPlaying} />
+            <Tonearm active={data.isPlaying || userIsPlaying} />
 
             {/* Slider — thumb up when listening */}
-            <Slider active={isPlaying} />
+            <Slider active={userIsPlaying} />
 
             {/* Play button — inline Figma SVG */}
-            <Tooltip content={isPlaying ? "Pause listening" : "Listen with me"}>
+            <Tooltip
+              content={userIsPlaying ? "Pause listening" : "Listen with me"}
+            >
               <button
                 type="button"
-                onClick={() => setIsPlaying((prev) => !prev)}
+                onClick={() => setUserIsPlaying((prev) => !prev)}
                 disabled={!videoId}
                 className="absolute cursor-pointer border-0 bg-transparent p-0 transition-opacity disabled:cursor-default disabled:opacity-30"
                 style={{
@@ -797,9 +798,11 @@ const SpotifyPlayer = () => {
                   width: PLAY_BUTTON_SIZE,
                   height: PLAY_BUTTON_SIZE,
                 }}
-                aria-label={isPlaying ? "Pause listening" : "Listen with me"}
+                aria-label={
+                  userIsPlaying ? "Pause listening" : "Listen with me"
+                }
               >
-                <PlayButtonSvg paused={!isPlaying} />
+                <PlayButtonSvg paused={!userIsPlaying} />
               </button>
             </Tooltip>
 
@@ -817,13 +820,13 @@ const SpotifyPlayer = () => {
           {videoId && (
             <ReactPlayer
               src={`https://www.youtube.com/watch?v=${videoId}`}
-              playing={isPlaying}
+              playing={userIsPlaying}
               volume={0.5}
               width={0}
               height={0}
               style={{ position: "absolute", visibility: "hidden" }}
-              onEnded={() => setIsPlaying(false)}
-              onError={() => setIsPlaying(false)}
+              onEnded={() => setUserIsPlaying(false)}
+              onError={() => setUserIsPlaying(false)}
             />
           )}
 
