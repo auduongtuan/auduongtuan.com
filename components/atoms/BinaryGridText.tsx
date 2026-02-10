@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
+import { cn } from "@lib/utils/cn";
 
 interface BinaryGridTextProps {
   text: string;
   inView: boolean;
+  className?: string;
 }
 
-// Configuration constants
+// Configuration constants (Kept from original)
 const CONTAINER_HEIGHT = 200;
 const CANVAS_SAFE_HEIGHT_MULTIPLIER = 1.2;
 const TARGET_WIDTH_PERCENTAGE = 0.98;
@@ -21,7 +23,6 @@ const DESKTOP_BREAKPOINT = 1024;
 const TABLET_BREAKPOINT = 768;
 
 const RESIZE_DEBOUNCE_MS = 150;
-
 const REVEAL_DELAY_MS = 200;
 const REVEAL_INTERVAL_MS = 30;
 const REVEAL_MIN_TILES_PER_FRAME = 8;
@@ -47,22 +48,36 @@ const OPACITY_MAX = 1.0;
 const OPACITY_MID_POINT = 0.5;
 
 const GLITCH_COLORS = [
-  "#ff0000", // red
-  "#00ff00", // green
-  "#0000ff", // blue
-  "#ff00ff", // magenta
-  "#00ffff", // cyan
-  "#ffff00", // yellow
+  "#ff0000",
+  "#00ff00",
+  "#0000ff",
+  "#ff00ff",
+  "#00ffff",
+  "#ffff00",
 ];
 
-// Helper: Get responsive tile size based on container width
+// --- Interfaces ---
+interface Particle {
+  char: string;
+  baseChar: string;
+  x: number; // Visual X (relative to canvas)
+  y: number; // Visual Y
+  baseX: number; // Grid Origin X
+  baseY: number; // Grid Origin Y
+  row: number;
+  col: number;
+  opacity: number;
+  color: string;
+}
+
+// --- Helpers ---
+
 function getTileSize(containerWidth: number): number {
   if (containerWidth >= DESKTOP_BREAKPOINT) return TILE_SIZE_DESKTOP;
   if (containerWidth >= TABLET_BREAKPOINT) return TILE_SIZE_TABLET;
   return TILE_SIZE_MOBILE;
 }
 
-// Helper: Get random character for glitch effect
 function getRandomChar(): string {
   const rand = Math.random();
   if (rand < 0.32) return "0";
@@ -76,7 +91,6 @@ function getRandomChar(): string {
   return "x";
 }
 
-// Helper: Create canvas and render text
 function createTextCanvas(
   text: string,
   cols: number,
@@ -122,7 +136,6 @@ function createTextCanvas(
   return { canvas, ctx };
 }
 
-// Helper: Generate binary grid from canvas pixel data
 function generateBinaryGrid(
   canvas: HTMLCanvasElement,
   ctx: CanvasRenderingContext2D,
@@ -153,14 +166,14 @@ function generateBinaryGrid(
     }
     grid.push(rowData);
   }
-
   return grid;
 }
 
-// Helper: Trim empty rows from grid
-function trimEmptyRows(grid: string[][]): string[][] {
+function trimEmptyRows(grid: string[][]): {
+  grid: string[][];
+  offsetRow: number;
+} {
   const isRowEmpty = (row: string[]) => row.every((char) => char === " ");
-
   let firstNonEmptyRow = 0;
   let lastNonEmptyRow = grid.length - 1;
 
@@ -170,59 +183,48 @@ function trimEmptyRows(grid: string[][]): string[][] {
       break;
     }
   }
-
   for (let i = grid.length - 1; i >= 0; i--) {
     if (!isRowEmpty(grid[i])) {
       lastNonEmptyRow = i;
       break;
     }
   }
-
-  return grid.slice(firstNonEmptyRow, lastNonEmptyRow + 1);
+  return {
+    grid: grid.slice(firstNonEmptyRow, lastNonEmptyRow + 1),
+    offsetRow: firstNonEmptyRow,
+  };
 }
 
-// Helper: Calculate tile opacity based on row position
 function calculateTileOpacity(rowIndex: number, totalRows: number): number {
   if (totalRows === 0) return OPACITY_MIN;
-
   const progress = rowIndex / totalRows;
   if (progress <= OPACITY_MID_POINT) {
     return (
       OPACITY_MIN + (progress / OPACITY_MID_POINT) * (OPACITY_MID - OPACITY_MIN)
     );
-  } else {
-    return (
-      OPACITY_MID +
-      ((progress - OPACITY_MID_POINT) / OPACITY_MID_POINT) *
-        (OPACITY_MAX - OPACITY_MID)
-    );
   }
+
+  return (
+    OPACITY_MID +
+    ((progress - OPACITY_MID_POINT) / OPACITY_MID_POINT) *
+      (OPACITY_MAX - OPACITY_MID)
+  );
 }
 
-// Helper: Check if character is text tile
 function isTextTile(char: string | undefined): boolean {
   return char === "0" || char === "1";
 }
 
-// Helper: Calculate displacement for a single tile
-function calculateTileDisplacement(
-  rowIndex: number,
-  colIndex: number,
-  baseChar: string | undefined,
+// Logic from original displacement
+function calculateDisplacement(
+  px: number,
+  py: number,
   mousePos: { x: number; y: number },
   tileSize: number,
 ): { x: number; y: number } {
-  if (!isTextTile(baseChar)) {
-    return { x: 0, y: 0 };
-  }
-
-  const tileCenterX = colIndex * tileSize + tileSize / 2;
-  const tileCenterY = rowIndex * tileSize + tileSize / 2;
-
-  const dx = tileCenterX - mousePos.x;
-  const dy = tileCenterY - mousePos.y;
+  const dx = px - mousePos.x;
+  const dy = py - mousePos.y;
   const distance = Math.sqrt(dx * dx + dy * dy);
-
   const influenceRadius = tileSize * DISPLACEMENT_INFLUENCE_RADIUS_TILES;
 
   if (distance < influenceRadius && distance > 0) {
@@ -233,393 +235,302 @@ function calculateTileDisplacement(
     const angle = Math.atan2(dy, dx);
     const rawX = Math.cos(angle) * strength;
     const rawY = Math.sin(angle) * strength;
-
     return {
       x: Math.round(rawX / tileSize) * tileSize,
       y: Math.round(rawY / tileSize) * tileSize,
     };
   }
-
   return { x: 0, y: 0 };
 }
 
-// Helper: Apply cascading push effect
-function applyCascadingPush(
-  initialDisplacement: { x: number; y: number }[][],
-  baseGrid: string[][],
-  tileSize: number,
-): { x: number; y: number }[][] {
-  const rows = initialDisplacement.length;
-  const cols = initialDisplacement[0]?.length || 0;
-  const finalDisplacement = initialDisplacement.map((row) =>
-    row.map((d) => ({ x: d.x, y: d.y })),
-  );
-
-  for (
-    let iteration = 0;
-    iteration < DISPLACEMENT_CASCADE_ITERATIONS;
-    iteration++
-  ) {
-    const pushedThisIteration = new Set<string>();
-
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        const displacement = finalDisplacement[row][col];
-
-        if (displacement.x === 0 && displacement.y === 0) continue;
-
-        const newRow = row + Math.round(displacement.y / tileSize);
-        const newCol = col + Math.round(displacement.x / tileSize);
-
-        if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
-          const targetTile = baseGrid[newRow]?.[newCol];
-          const targetKey = `${newRow},${newCol}`;
-
-          if (isTextTile(targetTile) && !pushedThisIteration.has(targetKey)) {
-            const currentTargetDisplacement = finalDisplacement[newRow][newCol];
-            if (
-              currentTargetDisplacement.x === 0 &&
-              currentTargetDisplacement.y === 0
-            ) {
-              finalDisplacement[newRow][newCol] = {
-                x: displacement.x,
-                y: displacement.y,
-              };
-              pushedThisIteration.add(targetKey);
-            }
-          }
-        }
-      }
-    }
-
-    if (pushedThisIteration.size === 0) break;
-  }
-
-  return finalDisplacement;
-}
-
-export default function BinaryGridText({ text, inView }: BinaryGridTextProps) {
+export default function BinaryGridText({
+  text,
+  inView,
+  className,
+}: BinaryGridTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const tileRefs = useRef<(HTMLSpanElement | null)[][]>([]);
-  const baseGridRef = useRef<string[][]>([]);
-  const rafIdRef = useRef<number>(0);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // State for logic
+  const particlesRef = useRef<Particle[]>([]);
+  const gridConfigRef = useRef({ cols: 0, rows: 0, tileSize: 0 });
+  const mouseRef = useRef({ x: -1000, y: -1000 });
+  const animationFrameRef = useRef<number | null>(null);
   const revealedRef = useRef(false);
 
-  // Only state that triggers re-render: grid structure (changes on mount + resize only)
-  const [gridConfig, setGridConfig] = useState({
-    cols: 0,
-    rows: 0,
-    tileSize: 0,
-  });
-  const [binaryGrid, setBinaryGrid] = useState<string[][]>([]);
-
-  // Stable ref callback for tile elements
-  const setTileRef = useCallback(
-    (rowIndex: number, colIndex: number, el: HTMLSpanElement | null) => {
-      if (!tileRefs.current[rowIndex]) {
-        tileRefs.current[rowIndex] = [];
-      }
-      tileRefs.current[rowIndex][colIndex] = el;
-    },
-    [],
-  );
-
-  // Generate binary pattern grid masked by text
+  // 1. Initialize Grid (Create Particles)
   useEffect(() => {
-    const calculateGrid = () => {
+    const init = () => {
       if (!containerRef.current) return;
-
       const containerWidth = containerRef.current.offsetWidth;
       const tileSize = getTileSize(containerWidth);
       const cols = Math.floor(containerWidth / tileSize);
       const rows = Math.floor(CONTAINER_HEIGHT / tileSize);
 
-      setGridConfig({ cols, rows, tileSize });
+      gridConfigRef.current = { cols, rows, tileSize };
 
       const canvasResult = createTextCanvas(text, cols, rows, tileSize);
       if (!canvasResult) return;
 
       const { canvas, ctx } = canvasResult;
-      const grid = generateBinaryGrid(canvas, ctx, cols, rows, tileSize);
-      const trimmedGrid = trimEmptyRows(grid);
+      const rawGrid = generateBinaryGrid(canvas, ctx, cols, rows, tileSize);
+      const { grid, offsetRow } = trimEmptyRows(rawGrid); // We might not need offsetRow if we center visually, but let's keep logic close
 
-      baseGridRef.current = trimmedGrid.map((row) => [...row]);
-      tileRefs.current = trimmedGrid.map((row) => row.map(() => null));
+      // Convert to particles
+      const newParticles: Particle[] = [];
+      const totalRows = grid.length;
+
+      grid.forEach((row, r) => {
+        row.forEach((char, c) => {
+          if (isTextTile(char)) {
+            // Calculate visual position
+            // Centering logic:
+            // The grid is trimmed. We want to display it.
+            // Let's assume standard flow layout.
+            const x = c * tileSize + tileSize / 2;
+            const y = r * tileSize + tileSize / 2;
+
+            newParticles.push({
+              char,
+              baseChar: char,
+              x,
+              y,
+              baseX: x,
+              baseY: y,
+              row: r,
+              col: c,
+              opacity: 0, // Start invisible for reveal
+              color: "#000",
+            });
+          }
+        });
+      });
+
+      particlesRef.current = newParticles;
       revealedRef.current = false;
-      setBinaryGrid(trimmedGrid);
+
+      // Update canvas size
+      if (canvasRef.current) {
+        const dpr = window.devicePixelRatio || 1;
+        // Height needs to match the grid height roughly
+        const h = totalRows * tileSize;
+        canvasRef.current.width = containerWidth * dpr;
+        canvasRef.current.height = h * dpr;
+        canvasRef.current.style.width = `${containerWidth}px`;
+        canvasRef.current.style.height = `${h}px`;
+      }
     };
 
-    calculateGrid();
+    init();
 
     let resizeTimeout: NodeJS.Timeout;
-    const debouncedCalculateGrid = () => {
+    const handleResize = () => {
       clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(calculateGrid, RESIZE_DEBOUNCE_MS);
+      resizeTimeout = setTimeout(init, RESIZE_DEBOUNCE_MS);
     };
-
-    window.addEventListener("resize", debouncedCalculateGrid);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener("resize", debouncedCalculateGrid);
+      window.removeEventListener("resize", handleResize);
       clearTimeout(resizeTimeout);
     };
   }, [text]);
 
-  // Reveal animation: each tile appears randomly — direct DOM manipulation
+  // 2. Reveal Animation
   useEffect(() => {
-    if (!inView || baseGridRef.current.length === 0 || revealedRef.current)
+    if (!inView || revealedRef.current || particlesRef.current.length === 0)
       return;
 
-    let revealInterval: NodeJS.Timeout;
+    let intervalId: NodeJS.Timeout;
+    const timeoutId = setTimeout(() => {
+      const particles = particlesRef.current;
+      // Calculate target opacities
+      const targets = particles.map((p) => ({
+        ...p,
+        targetOpacity: calculateTileOpacity(p.row, gridConfigRef.current.rows), // This might be wrong, need total rows of trimmed grid
+      }));
+      // Fix opacity calc using actual particle bounds
+      const maxRow = Math.max(...particles.map((p) => p.row));
+      targets.forEach((t, i) => {
+        // Store target opacity on the particle object?
+        // Simpler: just set a flag or handle it in the loop?
+        // The original code uses a randomized reveal.
+        // Let's create a queue of indices to reveal.
+      });
 
-    const delayTimeout = setTimeout(() => {
-      const baseGrid = baseGridRef.current;
-      const totalRows = baseGrid.length;
+      // Let's do it simply:
+      // Create a shuffled list of indices
+      const indices = Array.from({ length: particles.length }, (_, i) => i);
+      indices.sort(() => Math.random() - 0.5);
 
-      const allTiles: { row: number; col: number; opacity: number }[] = [];
-      for (let row = 0; row < totalRows; row++) {
-        const opacity = calculateTileOpacity(row, totalRows);
-        for (let col = 0; col < (baseGrid[row]?.length || 0); col++) {
-          if (isTextTile(baseGrid[row][col])) {
-            allTiles.push({ row, col, opacity });
-          }
-        }
-      }
-
-      const shuffledTiles = [...allTiles].sort(() => Math.random() - 0.5);
       let currentIndex = 0;
 
-      revealInterval = setInterval(() => {
-        const tilesPerFrame =
+      intervalId = setInterval(() => {
+        const count =
           Math.floor(
             Math.random() *
               (REVEAL_MAX_TILES_PER_FRAME - REVEAL_MIN_TILES_PER_FRAME + 1),
           ) + REVEAL_MIN_TILES_PER_FRAME;
-
-        for (
-          let i = 0;
-          i < tilesPerFrame && currentIndex < shuffledTiles.length;
-          i++
-        ) {
-          const tile = shuffledTiles[currentIndex];
-          const el = tileRefs.current[tile.row]?.[tile.col];
-          if (el) {
-            el.style.opacity = String(tile.opacity);
-          }
-          currentIndex++;
+        for (let i = 0; i < count && currentIndex < indices.length; i++) {
+          const idx = indices[currentIndex++];
+          const p = particles[idx];
+          // Calculate final opacity based on row
+          p.opacity = calculateTileOpacity(p.row, maxRow + 1);
         }
 
-        if (currentIndex >= shuffledTiles.length) {
+        if (currentIndex >= indices.length) {
           revealedRef.current = true;
-          clearInterval(revealInterval);
+          clearInterval(intervalId);
         }
       }, REVEAL_INTERVAL_MS);
     }, REVEAL_DELAY_MS);
 
     return () => {
-      clearTimeout(delayTimeout);
-      if (revealInterval) clearInterval(revealInterval);
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
     };
-  }, [inView, binaryGrid]);
+  }, [inView, text]); // Dependency on text ensures reset on prop change
 
-  // Glitch effect — direct DOM manipulation, paused when not in view
+  // 3. Glitch Loop (Data Update)
   useEffect(() => {
     if (!inView) return;
+    const interval = setInterval(() => {
+      const particles = particlesRef.current;
+      if (particles.length === 0) return;
 
-    const glitchInterval = setInterval(() => {
-      const baseGrid = baseGridRef.current;
-      if (baseGrid.length === 0) return;
-
-      const rows = baseGrid.length;
-      const cols = baseGrid[0]?.length || 0;
-
-      // Character glitch
-      const flipsCount =
+      // A. Char Glitch
+      const charCount =
         Math.floor(
           Math.random() * (CHAR_GLITCH_MAX_COUNT - CHAR_GLITCH_MIN_COUNT + 1),
         ) + CHAR_GLITCH_MIN_COUNT;
-
-      for (let i = 0; i < flipsCount; i++) {
-        const rowIndex = Math.floor(Math.random() * rows);
-        const colIndex = Math.floor(Math.random() * cols);
-        if (isTextTile(baseGrid[rowIndex]?.[colIndex])) {
-          const el = tileRefs.current[rowIndex]?.[colIndex];
-          if (el) el.textContent = getRandomChar();
-        }
+      for (let i = 0; i < charCount; i++) {
+        const idx = Math.floor(Math.random() * particles.length);
+        particles[idx].char = getRandomChar();
+        // Revert logic needed? Original didn't seem to revert quickly, just changed textContent.
+        // But usually glitches are transient. The original randomizes 0/1 again later?
+        // Actually original just sets it.
       }
 
-      // Single tile color glitches
-      const colorGlitchCount =
+      // B. Color Glitch
+      const colorCount =
         Math.floor(
           Math.random() * (COLOR_GLITCH_MAX_COUNT - COLOR_GLITCH_MIN_COUNT + 1),
         ) + COLOR_GLITCH_MIN_COUNT;
-
-      for (let i = 0; i < colorGlitchCount; i++) {
-        const rowIndex = Math.floor(Math.random() * rows);
-        const colIndex = Math.floor(Math.random() * cols);
-        if (isTextTile(baseGrid[rowIndex]?.[colIndex])) {
-          const el = tileRefs.current[rowIndex]?.[colIndex];
-          if (el) {
-            el.style.color =
-              Math.random() < COLOR_GLITCH_COLORFUL_CHANCE
-                ? GLITCH_COLORS[
-                    Math.floor(Math.random() * GLITCH_COLORS.length)
-                  ]
-                : "#000";
-          }
-        }
+      for (let i = 0; i < colorCount; i++) {
+        const idx = Math.floor(Math.random() * particles.length);
+        particles[idx].color =
+          Math.random() < COLOR_GLITCH_COLORFUL_CHANCE
+            ? GLITCH_COLORS[Math.floor(Math.random() * GLITCH_COLORS.length)]
+            : "#000";
       }
 
-      // Block color glitches
+      // C. Block Glitch
       if (Math.random() > 1 - BLOCK_GLITCH_CHANCE) {
-        const centerRow = Math.floor(Math.random() * rows);
-        const centerCol = Math.floor(Math.random() * cols);
-        const blockSize =
+        const centerIdx = Math.floor(Math.random() * particles.length);
+        const centerP = particles[centerIdx];
+        const size =
           Math.floor(
             Math.random() * (BLOCK_GLITCH_MAX_SIZE - BLOCK_GLITCH_MIN_SIZE + 1),
           ) + BLOCK_GLITCH_MIN_SIZE;
         const color =
           GLITCH_COLORS[Math.floor(Math.random() * GLITCH_COLORS.length)];
 
-        for (
-          let dr = -Math.floor(blockSize / 2);
-          dr <= Math.floor(blockSize / 2);
-          dr++
-        ) {
-          for (
-            let dc = -Math.floor(blockSize / 2);
-            dc <= Math.floor(blockSize / 2);
-            dc++
+        // Find neighbors (brute force or spatial? Brute force is O(N), acceptable for <2000 particles)
+        // Optimization: Use grid coordinates
+        for (const p of particles) {
+          if (
+            Math.abs(p.row - centerP.row) <= size / 2 &&
+            Math.abs(p.col - centerP.col) <= size / 2
           ) {
-            const r = centerRow + dr;
-            const c = centerCol + dc;
-            if (isTextTile(baseGrid[r]?.[c])) {
-              const el = tileRefs.current[r]?.[c];
-              if (el) el.style.color = color;
-            }
+            p.color = color;
           }
         }
       }
     }, GLITCH_INTERVAL_MS);
-
-    return () => clearInterval(glitchInterval);
+    return () => clearInterval(interval);
   }, [inView]);
 
-  // Mouse displacement — direct DOM manipulation via rAF, no React state
+  // 4. Main Render Loop (Canvas + Physics)
   useEffect(() => {
+    const canvas = canvasRef.current;
     const container = containerRef.current;
-    if (!container) return;
+    if (!canvas || !inView || !container) return;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const onMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
-      const mousePos = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    };
 
-      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+    const onLeave = () => {
+      mouseRef.current = { x: -1000, y: -1000 };
+    };
 
-      rafIdRef.current = requestAnimationFrame(() => {
-        rafIdRef.current = 0;
-        const baseGrid = baseGridRef.current;
-        const tileSize = gridConfig.tileSize;
-        if (baseGrid.length === 0 || tileSize === 0) return;
+    container.addEventListener("mousemove", onMove);
+    container.addEventListener("mouseleave", onLeave);
 
-        const rows = baseGrid.length;
-        const cols = baseGrid[0]?.length || 0;
+    const render = () => {
+      const particles = particlesRef.current;
+      const { tileSize } = gridConfigRef.current;
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.width / dpr;
+      const height = canvas.height / dpr;
 
-        const initialDisplacement: { x: number; y: number }[][] = [];
-        for (let row = 0; row < rows; row++) {
-          const rowDisp: { x: number; y: number }[] = [];
-          for (let col = 0; col < cols; col++) {
-            rowDisp.push(
-              calculateTileDisplacement(
-                row,
-                col,
-                baseGrid[row]?.[col],
-                mousePos,
-                tileSize,
-              ),
-            );
-          }
-          initialDisplacement.push(rowDisp);
-        }
+      ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear raw pixels
 
-        const finalDisplacement = applyCascadingPush(
-          initialDisplacement,
-          baseGrid,
+      ctx.save();
+      ctx.scale(dpr, dpr);
+
+      ctx.font = `${FONT_WEIGHT} ${tileSize}px "${FONT_FAMILY}", monospace`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      for (const p of particles) {
+        if (p.opacity <= 0.01) continue;
+
+        // Physics
+        const d = calculateDisplacement(
+          p.baseX,
+          p.baseY,
+          mouseRef.current,
           tileSize,
         );
 
-        for (let row = 0; row < rows; row++) {
-          for (let col = 0; col < cols; col++) {
-            const el = tileRefs.current[row]?.[col];
-            if (el) {
-              const d = finalDisplacement[row][col];
-              el.style.transform = `translate(${d.x}px, ${d.y}px)`;
-            }
-          }
-        }
-      });
+        p.x = p.baseX + d.x;
+        p.y = p.baseY + d.y;
+
+        // Draw
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.opacity;
+        ctx.fillText(p.char, p.x, p.y);
+      }
+
+      ctx.restore();
+
+      animationFrameRef.current = requestAnimationFrame(render);
     };
 
-    const handleMouseLeave = () => {
-      if (rafIdRef.current) {
-        cancelAnimationFrame(rafIdRef.current);
-        rafIdRef.current = 0;
-      }
-      for (const row of tileRefs.current) {
-        if (!row) continue;
-        for (const el of row) {
-          if (el) el.style.transform = "translate(0px, 0px)";
-        }
-      }
-    };
-
-    container.addEventListener("mousemove", handleMouseMove);
-    container.addEventListener("mouseleave", handleMouseLeave);
+    animationFrameRef.current = requestAnimationFrame(render);
 
     return () => {
-      container.removeEventListener("mousemove", handleMouseMove);
-      container.removeEventListener("mouseleave", handleMouseLeave);
-      if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current);
+      if (animationFrameRef.current)
+        cancelAnimationFrame(animationFrameRef.current);
+      container.removeEventListener("mousemove", onMove);
+      container.removeEventListener("mouseleave", onLeave);
     };
-  }, [gridConfig.tileSize]);
+  }, [inView]);
 
   return (
     <div
       ref={containerRef}
-      className="pointer-events-auto relative w-full overflow-hidden font-mono tracking-tighter whitespace-pre"
-      style={{
-        fontSize: `${gridConfig.tileSize}px`,
-        lineHeight: `${gridConfig.tileSize}px`,
-        letterSpacing: 0,
-        cursor: "default",
-      }}
+      className={cn(
+        "relative w-full cursor-default overflow-hidden",
+        className,
+      )}
+      style={{ minHeight: CONTAINER_HEIGHT }}
     >
-      {binaryGrid.map((row, rowIndex) => (
-        <div
-          key={rowIndex}
-          style={{
-            display: "flex",
-            width: "100%",
-          }}
-        >
-          {row.map((char, colIndex) => (
-            <span
-              key={colIndex}
-              ref={(el) => setTileRef(rowIndex, colIndex, el)}
-              style={{
-                width: `${gridConfig.tileSize}px`,
-                display: "inline-block",
-                textAlign: "center",
-                flexShrink: 0,
-                color: "#000",
-                opacity: 0,
-                transform: "translate(0px, 0px)",
-              }}
-            >
-              {char}
-            </span>
-          ))}
-        </div>
-      ))}
+      <canvas ref={canvasRef} className="pointer-events-none" />
     </div>
   );
 }
