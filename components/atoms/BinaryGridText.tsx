@@ -280,15 +280,26 @@ export default function BinaryGridText({
       const newParticles: Particle[] = [];
       const totalRows = grid.length;
 
+      // Preserve old particles if available to avoid re-reveal
+      const oldParticles = particlesRef.current;
+      const wasRevealed = revealedRef.current;
+
       grid.forEach((row, r) => {
         row.forEach((char, c) => {
           if (isTextTile(char)) {
-            // Calculate visual position
-            // Centering logic:
-            // The grid is trimmed. We want to display it.
-            // Let's assume standard flow layout.
             const x = c * tileSize + tileSize / 2;
             const y = r * tileSize + tileSize / 2;
+
+            // Try to find matching old particle to preserve opacity/color
+            // Simple heuristic: if we are resizing, relative position might change,
+            // but if we just want to avoid "blink", we can default to fully revealed if wasRevealed is true.
+
+            let opacity = 0;
+            const color = "#000";
+
+            if (wasRevealed) {
+              opacity = calculateTileOpacity(r, totalRows);
+            }
 
             newParticles.push({
               char,
@@ -299,15 +310,18 @@ export default function BinaryGridText({
               baseY: y,
               row: r,
               col: c,
-              opacity: 0, // Start invisible for reveal
-              color: "#000",
+              opacity,
+              color,
             });
           }
         });
       });
 
       particlesRef.current = newParticles;
-      revealedRef.current = false;
+      // Do not reset revealedRef if it was already true
+      if (!wasRevealed) {
+        revealedRef.current = false;
+      }
 
       // Update canvas size
       if (canvasRef.current) {
@@ -482,7 +496,9 @@ export default function BinaryGridText({
       ctx.save();
       ctx.scale(dpr, dpr);
 
-      ctx.font = `${FONT_WEIGHT} ${tileSize}px "${FONT_FAMILY}", monospace`;
+      // Use standard weight (400) for display to match original font-mono look
+      // The FONT_WEIGHT (800) constant was only for the mask generation
+      ctx.font = `400 ${tileSize}px "${FONT_FAMILY}", monospace`;
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
