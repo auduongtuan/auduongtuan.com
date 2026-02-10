@@ -243,6 +243,64 @@ function calculateDisplacement(
   return { x: 0, y: 0 };
 }
 
+// Logic from original displacement cascade
+function applyCascadingPush(
+  initialDisplacement: { x: number; y: number }[][],
+  baseGrid: string[][],
+  tileSize: number,
+): { x: number; y: number }[][] {
+  const rows = initialDisplacement.length;
+  const cols = initialDisplacement[0]?.length || 0;
+
+  // Clone the grid
+  const finalDisplacement = initialDisplacement.map((row) =>
+    row.map((d) => ({ x: d.x, y: d.y })),
+  );
+
+  for (
+    let iteration = 0;
+    iteration < DISPLACEMENT_CASCADE_ITERATIONS;
+    iteration++
+  ) {
+    const pushedThisIteration = new Set<string>();
+
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const displacement = finalDisplacement[row][col];
+
+        if (displacement.x === 0 && displacement.y === 0) continue;
+
+        const newRow = row + Math.round(displacement.y / tileSize);
+        const newCol = col + Math.round(displacement.x / tileSize);
+
+        if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+          const targetTile = baseGrid[newRow]?.[newCol];
+          const targetKey = `${newRow},${newCol}`;
+
+          if (isTextTile(targetTile) && !pushedThisIteration.has(targetKey)) {
+            const currentTargetDisplacement = finalDisplacement[newRow][newCol];
+            // If the target has NOT moved yet, move it by the same amount (push)
+            if (
+              currentTargetDisplacement.x === 0 &&
+              currentTargetDisplacement.y === 0
+            ) {
+              finalDisplacement[newRow][newCol] = {
+                x: displacement.x,
+                y: displacement.y,
+              };
+              pushedThisIteration.add(targetKey);
+            }
+          }
+        }
+      }
+    }
+
+    if (pushedThisIteration.size === 0) break;
+  }
+
+  return finalDisplacement;
+}
+
 export default function BinaryGridText({
   text,
   inView,
@@ -502,21 +560,46 @@ export default function BinaryGridText({
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
 
-      for (const p of particles) {
-        if (p.opacity <= 0.01) continue;
+      // Calculate displacement field
+      const { rows, cols } = gridConfigRef.current;
 
-        // Physics
+      // 1. Initial Displacement Grid
+      const initialDisplacement: { x: number; y: number }[][] = Array(rows)
+        .fill(null)
+        .map(() => Array(cols).fill({ x: 0, y: 0 }));
+      const baseGrid: string[][] = Array(rows)
+        .fill(null)
+        .map(() => Array(cols).fill(" "));
+
+      // Populate baseGrid and initialDisplacement from particles
+      // Optimization: Only iterate particles to populate grid. Empty cells stay " ".
+      for (const p of particles) {
+        baseGrid[p.row][p.col] = p.baseChar;
         const d = calculateDisplacement(
           p.baseX,
           p.baseY,
           mouseRef.current,
           tileSize,
         );
+        initialDisplacement[p.row][p.col] = d;
+      }
+
+      // 2. Apply Cascade
+      const finalDisplacement = applyCascadingPush(
+        initialDisplacement,
+        baseGrid,
+        tileSize,
+      );
+
+      // 3. Render
+      for (const p of particles) {
+        if (p.opacity <= 0.01) continue;
+
+        const d = finalDisplacement[p.row][p.col];
 
         p.x = p.baseX + d.x;
         p.y = p.baseY + d.y;
 
-        // Draw
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.opacity;
         ctx.fillText(p.char, p.x, p.y);
