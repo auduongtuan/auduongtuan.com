@@ -24,7 +24,7 @@ const ytmusicAPI = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     const yt = await getYTMusic();
-    const results = await yt.searchSongs(q);
+    const results = await yt.searchSongs(q + " audio");
 
     if (results.length === 0) {
       return res.status(404).json({ error: "No results found" });
