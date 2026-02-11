@@ -2,7 +2,7 @@ import CustomImage from "@atoms/CustomImage";
 import Skeleton from "@atoms/Skeleton";
 import Tooltip from "@atoms/Tooltip";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import useSWR from "swr";
 import { twMerge } from "tailwind-merge";
 
@@ -322,10 +322,16 @@ const TonearmSvg = () => (
   </svg>
 );
 
-const Tonearm = ({ active }: { active: boolean }) => (
+const Tonearm = ({
+  active,
+  onClick,
+}: {
+  active: boolean;
+  onClick?: () => void;
+}) => (
   <div
     className={twMerge(
-      "absolute overflow-visible transition-transform duration-500",
+      "absolute overflow-visible transition-transform duration-500 cursor-pointer",
       active ? "rotate-[34deg]" : "rotate-0",
     )}
     style={{
@@ -335,6 +341,7 @@ const Tonearm = ({ active }: { active: boolean }) => (
       height: 68,
       transformOrigin: "14px 14px",
     }}
+    onClick={onClick}
   >
     <TonearmSvg />
   </div>
@@ -452,39 +459,103 @@ const ThumbSvg = () => (
 
 const THUMB_TOP_OFF = 18.5;
 const THUMB_TOP_ON = 0;
+const SLIDER_STEPS = 7;
+const SLIDER_STEP_SIZE = THUMB_TOP_OFF / (SLIDER_STEPS - 1);
 
-const Slider = ({ active }: { active: boolean }) => (
-  <div
-    className="absolute"
-    style={{ left: 114, top: 83, width: 14, height: 24 }}
-  >
+const Slider = ({
+  volume,
+  onVolumeChange,
+}: {
+  volume: number;
+  onVolumeChange: (volume: number) => void;
+}) => {
+  const sliderRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+
+  // Convert volume (0-1) to thumb position (0-18.5)
+  const volumeToPosition = (vol: number) => {
+    return THUMB_TOP_OFF - vol * THUMB_TOP_OFF;
+  };
+
+  // Convert position to nearest snapped position and volume
+  const snapPositionToStep = (pos: number) => {
+    const clampedPos = Math.max(0, Math.min(THUMB_TOP_OFF, pos));
+    const stepIndex = Math.round(clampedPos / SLIDER_STEP_SIZE);
+    const snappedPos = stepIndex * SLIDER_STEP_SIZE;
+    const snappedVolume = 1 - stepIndex / (SLIDER_STEPS - 1);
+    return { position: snappedPos, volume: snappedVolume };
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!sliderRef.current) return;
+
+      const rect = sliderRef.current.getBoundingClientRect();
+      const relativeY = e.clientY - rect.top;
+      const { volume: newVolume } = snapPositionToStep(relativeY);
+      onVolumeChange(newVolume);
+    };
+
+    const handleMouseUp = () => {
+      setIsDragging(false);
+    };
+
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging, onVolumeChange]);
+
+  const thumbPosition = volumeToPosition(volume);
+
+  return (
     <div
-      className="absolute rounded-[2px]"
-      style={{
-        left: 4,
-        top: 0,
-        width: 6,
-        height: 24,
-        background: "linear-gradient(to bottom, #4e4e50, #3f3f41)",
-        border: "0.248px solid rgba(0,0,0,0.2)",
-        boxShadow:
-          "inset 0px 1px 1px 0px rgba(255,255,255,0.25), inset 0px 0.5px 0.5px 0px rgba(0,0,0,0.25), inset 0px 1.5px 2.5px 0px rgba(0,0,0,0.25), inset 0px 4px 5px 0px rgba(0,0,0,0.25)",
-      }}
-    />
-    {/* Thumb — content 14×5.5, viewBox 30×21.5 (includes shadow) */}
-    <div
-      className="absolute overflow-visible transition-[top] duration-500"
-      style={{
-        left: 0,
-        top: active ? THUMB_TOP_ON : THUMB_TOP_OFF,
-        width: 14,
-        height: 5.5,
-      }}
+      ref={sliderRef}
+      className="absolute"
+      style={{ left: 114, top: 83, width: 14, height: 24 }}
     >
-      <ThumbSvg />
+      <div
+        className="absolute rounded-[2px]"
+        style={{
+          left: 4,
+          top: 0,
+          width: 6,
+          height: 24,
+          background: "linear-gradient(to bottom, #4e4e50, #3f3f41)",
+          border: "0.248px solid rgba(0,0,0,0.2)",
+          boxShadow:
+            "inset 0px 1px 1px 0px rgba(255,255,255,0.25), inset 0px 0.5px 0.5px 0px rgba(0,0,0,0.25), inset 0px 1.5px 2.5px 0px rgba(0,0,0,0.25), inset 0px 4px 5px 0px rgba(0,0,0,0.25)",
+        }}
+      />
+      {/* Thumb — content 14×5.5, viewBox 30×21.5 (includes shadow) */}
+      <div
+        className={twMerge(
+          "absolute overflow-visible cursor-pointer",
+          !isDragging && "transition-[top] duration-300",
+        )}
+        style={{
+          left: 0,
+          top: thumbPosition,
+          width: 14,
+          height: 5.5,
+        }}
+        onMouseDown={handleMouseDown}
+      >
+        <ThumbSvg />
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const PlayButtonSvg = ({ paused }: { paused: boolean }) => (
   <svg
@@ -668,7 +739,7 @@ const PLAY_BUTTON_SIZE = 16;
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 const SpotifyPlayer = () => {
-  const { data } = useSWR("/api/spotify", fetcher);
+  const { data, mutate: mutateSpotify } = useSWR("/api/spotify", fetcher);
 
   const ytQuery =
     data?.title && data?.artist
@@ -677,13 +748,42 @@ const SpotifyPlayer = () => {
   const { data: ytData } = useSWR(ytQuery, fetcher);
 
   const [userIsPlaying, setUserIsPlaying] = useState(false);
+  const [volume, setVolume] = useState(0); // Start at 0 (paused)
 
   const videoId = ytData?.videoId as string | undefined;
 
-  // Reset playback when track changes
+  // Sync volume with play state: 0 when paused, 1 when playing
   useEffect(() => {
-    setUserIsPlaying(false);
+    setVolume(userIsPlaying ? 1 : 0);
+  }, [userIsPlaying]);
+
+  // Handle YouTube song end - revalidate Spotify and continue playing
+  const handleEnded = useCallback(async () => {
+    // Fetch latest Spotify track to get current/next song
+    await mutateSpotify();
+    // Keep userIsPlaying as true to auto-continue
+  }, [mutateSpotify]);
+
+  // Handle tonearm click to toggle play/pause
+  const handleTonearmClick = useCallback(() => {
+    if (!videoId) return;
+    setUserIsPlaying((prev) => !prev); // ✅ Functional setState for stable callback
   }, [videoId]);
+
+  // Handle volume change from slider
+  const handleVolumeChange = useCallback(
+    (newVolume: number) => {
+      setVolume(newVolume);
+      // If volume is set to 0, pause playback
+      if (newVolume === 0) {
+        setUserIsPlaying(false);
+      } else if (videoId) {
+        // If volume is turned up from 0, start playing
+        setUserIsPlaying((prev) => (prev ? prev : true)); // ✅ Functional setState
+      }
+    },
+    [videoId],
+  );
 
   return (
     <>
@@ -778,10 +878,25 @@ const SpotifyPlayer = () => {
             </svg>
 
             {/* Tonearm — rotates when Spotify is playing OR user is listening */}
-            <Tonearm active={data.isPlaying || userIsPlaying} />
+            <Tooltip
+              content={
+                userIsPlaying ? "Click to pause" : "Click to listen with me"
+              }
+            >
+              <div>
+                <Tonearm
+                  active={data.isPlaying || userIsPlaying}
+                  onClick={handleTonearmClick}
+                />
+              </div>
+            </Tooltip>
 
-            {/* Slider — thumb up when listening */}
-            <Slider active={userIsPlaying} />
+            {/* Slider — draggable volume control with 7 snapped steps */}
+            <Tooltip content={`Volume: ${Math.round(volume * 100)}%`}>
+              <div>
+                <Slider volume={volume} onVolumeChange={handleVolumeChange} />
+              </div>
+            </Tooltip>
 
             {/* Play button — inline Figma SVG */}
             <Tooltip
@@ -821,11 +936,11 @@ const SpotifyPlayer = () => {
             <ReactPlayer
               src={`https://www.youtube.com/watch?v=${videoId}`}
               playing={userIsPlaying}
-              volume={0.5}
+              volume={volume}
               width={0}
               height={0}
               style={{ position: "absolute", visibility: "hidden" }}
-              onEnded={() => setUserIsPlaying(false)}
+              onEnded={handleEnded}
               onError={() => setUserIsPlaying(false)}
             />
           )}
