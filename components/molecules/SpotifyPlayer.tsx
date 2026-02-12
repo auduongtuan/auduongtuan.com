@@ -739,7 +739,9 @@ const PLAY_BUTTON_SIZE = 16;
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 const SpotifyPlayer = () => {
-  const { data, mutate: mutateSpotify } = useSWR("/api/spotify", fetcher);
+  const { data, mutate: mutateSpotify } = useSWR("/api/spotify", fetcher, {
+    refreshInterval: 10000, // Poll Spotify API every 10 seconds
+  });
 
   const ytQuery =
     data?.title && data?.artist
