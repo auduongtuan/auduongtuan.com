@@ -1,0 +1,47 @@
+import type { NextApiRequest, NextApiResponse } from "next";
+
+const YTMUSIC_API_URL =
+  process.env.YTMUSIC_API_URL || "http://localhost:5001";
+const YTMUSIC_API_KEY = process.env.YTMUSIC_API_KEY;
+
+const ytmusicAPI = async (req: NextApiRequest, res: NextApiResponse) => {
+  if (req.method !== "GET") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const { q } = req.query;
+
+  if (!q || typeof q !== "string") {
+    return res.status(400).json({ error: "Missing query parameter: q" });
+  }
+
+  try {
+    // Prepare headers with API key if available
+    const headers: HeadersInit = {};
+    if (YTMUSIC_API_KEY) {
+      headers["X-API-Key"] = YTMUSIC_API_KEY;
+    }
+
+    // Call Python server
+    const response = await fetch(
+      `${YTMUSIC_API_URL}/search?q=${encodeURIComponent(q)}`,
+      { headers }
+    );
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("YouTube Music API error:", errorData);
+      return res
+        .status(response.status)
+        .json(errorData || { error: "Failed to search YouTube Music" });
+    }
+
+    const data = await response.json();
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error("YouTube Music API error:", error);
+    return res.status(500).json({ error: "Failed to search YouTube Music" });
+  }
+};
+
+export default ytmusicAPI;
