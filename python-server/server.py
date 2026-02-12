@@ -5,8 +5,11 @@ Provides endpoints for searching and retrieving YouTube Music data
 """
 
 import os
+from functools import wraps
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 from ytmusicapi import YTMusic
 from dotenv import load_dotenv
 
@@ -14,17 +17,73 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for Next.js frontend
+
+# Security Configuration
+ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', 'https://auduongtuan.com,http://localhost:7777').split(',')
+API_KEY = os.getenv('API_KEY')  # Optional API key for extra security
+
+# CORS - Only allow requests from your domain
+CORS(app, origins=ALLOWED_ORIGINS)
+
+# Rate limiting - Prevent abuse
+limiter = Limiter(
+    app=app,
+    key_func=get_remote_address,
+    default_limits=["100 per hour", "20 per minute"],
+    storage_uri="memory://"
+)
 
 # Initialize YTMusic
 ytmusic = YTMusic()
 
+
+def require_api_key(f):
+    """Decorator to require API key authentication"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Skip API key check if not configured
+        if not API_KEY:
+            return f(*args, **kwargs)
+
+        # Check for API key in header or query param
+        provided_key = request.headers.get('X-API-Key') or request.args.get('api_key')
+
+        if not provided_key or provided_key != API_KEY:
+            return jsonify({'error': 'Unauthorized - Invalid or missing API key'}), 401
+
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def check_origin(f):
+    """Decorator to check request origin"""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        origin = request.headers.get('Origin') or request.headers.get('Referer', '')
+
+        # Allow health checks without origin check
+        if request.path == '/health':
+            return f(*args, **kwargs)
+
+        # Check if origin is allowed
+        is_allowed = any(allowed in origin for allowed in ALLOWED_ORIGINS)
+
+        if not is_allowed and origin:
+            return jsonify({'error': 'Forbidden - Invalid origin'}), 403
+
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route('/health', methods=['GET'])
+@limiter.exempt  # No rate limit on health checks
 def health():
     """Health check endpoint"""
     return jsonify({'status': 'ok', 'service': 'ytmusic-api'}), 200
 
 @app.route('/search', methods=['GET'])
+@limiter.limit("30 per minute")  # More restrictive limit for search
+@check_origin
+# @require_api_key  # Uncomment to enable API key authentication
 def search_song():
     """
     Search for a song on YouTube Music
@@ -63,6 +122,8 @@ def search_song():
         return jsonify({'error': 'Failed to search YouTube Music', 'details': str(e)}), 500
 
 @app.route('/song/<video_id>', methods=['GET'])
+@check_origin
+# @require_api_key  # Uncomment to enable API key authentication
 def get_song(video_id):
     """
     Get detailed information about a specific song
@@ -75,6 +136,8 @@ def get_song(video_id):
         return jsonify({'error': 'Failed to fetch song', 'details': str(e)}), 500
 
 @app.route('/lyrics/<video_id>', methods=['GET'])
+@check_origin
+# @require_api_key  # Uncomment to enable API key authentication
 def get_lyrics(video_id):
     """
     Get lyrics for a specific song

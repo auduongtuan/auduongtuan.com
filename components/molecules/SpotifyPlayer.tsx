@@ -743,9 +743,12 @@ const SpotifyPlayer = () => {
     refreshInterval: 10000, // Poll Spotify API every 10 seconds
   });
 
+  // Call Python YouTube Music API directly
+  const ytmusicApiUrl =
+    process.env.NEXT_PUBLIC_YTMUSIC_API_URL || "http://localhost:5001";
   const ytQuery =
     data?.title && data?.artist
-      ? `/api/ytmusic?q=${encodeURIComponent(`${data.title} ${data.artist}`)}`
+      ? `${ytmusicApiUrl}/search?q=${encodeURIComponent(`${data.title} ${data.artist}`)}`
       : null;
   const { data: ytData } = useSWR(ytQuery, fetcher);
 

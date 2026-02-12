@@ -22,10 +22,18 @@
    Start Command: gunicorn server:app
    ```
 
-3. **Configure Environment (Optional)**
-   - Add environment variables if needed
+3. **Configure Environment**
+
+   **Required:**
+   - `ALLOWED_ORIGINS=https://auduongtuan.com` (restrict access to your domain)
+
+   **Recommended:**
+   - Generate API key: `openssl rand -hex 32`
+   - `API_KEY=<your-generated-key>` (add extra authentication)
+
+   **Optional:**
+   - `DEBUG=false` (automatically set for production)
    - `PORT` is automatically set by Render
-   - Set `DEBUG=false` for production
 
 4. **Deploy**
    - Click "Create Web Service"
@@ -52,16 +60,18 @@ YTMUSIC_API_URL=http://localhost:5000
 ```
 
 **Vercel Production:**
-Add environment variable in Vercel dashboard:
+Add environment variables in Vercel dashboard:
 ```
 YTMUSIC_API_URL=https://ytmusic-api-xxxx.onrender.com
+YTMUSIC_API_KEY=<same-key-as-render>  # If using API key
 ```
 
 ## Update Your Next.js API Route
 
 ```typescript
 // pages/api/ytmusic.ts
-const YTMUSIC_API_URL = process.env.YTMUSIC_API_URL || 'http://localhost:5000';
+const YTMUSIC_API_URL = process.env.YTMUSIC_API_URL || 'http://localhost:5001';
+const YTMUSIC_API_KEY = process.env.YTMUSIC_API_KEY;
 
 const ytmusicAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   const { q } = req.query;
@@ -71,8 +81,14 @@ const ytmusicAPI = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
+    const headers: HeadersInit = {};
+    if (YTMUSIC_API_KEY) {
+      headers['X-API-Key'] = YTMUSIC_API_KEY;
+    }
+
     const response = await fetch(
-      `${YTMUSIC_API_URL}/search?q=${encodeURIComponent(q)}`
+      `${YTMUSIC_API_URL}/search?q=${encodeURIComponent(q)}`,
+      { headers }
     );
 
     if (!response.ok) {
