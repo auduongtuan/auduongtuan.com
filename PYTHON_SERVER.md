@@ -1,6 +1,23 @@
-# YouTube Music Python Server
+# YouTube Music API
 
-Quick guide for using the Python server with ytmusicapi.
+Quick guide for YouTube Music integration with 3 deployment options.
+
+## Deployment Options
+
+### Option 1: Render (Recommended) 🚀
+Dedicated Python server - best performance, no cold starts.
+- **Pros:** Fast, can cache, no timeout limits
+- **Cons:** Separate deployment
+- **Setup:** See below
+
+### Option 2: Vercel Serverless ⚡
+Automatically deployed with Next.js - zero config backup.
+- **Pros:** Same deployment, auto-scaling
+- **Cons:** Cold starts, 10s timeout
+- **Endpoints:** `/api/ytmusic/search`, `/api/ytmusic/health`
+
+### Option 3: Local Development 🛠️
+Auto-starts with `bun run dev`
 
 ## Quick Start
 
@@ -18,7 +35,12 @@ cd python-server
 ./run.sh
 ```
 
-That's it! No activation needed. The server will start on `http://localhost:5000`
+Or just run (auto-starts Python server):
+```bash
+bun run dev
+```
+
+The server will start on `http://localhost:5001`
 
 ## Available Endpoints
 
@@ -100,7 +122,16 @@ const data = await response.json();
 ```
 
 **Environment variables:**
-- Local: Add `YTMUSIC_API_URL=http://localhost:5000` to `.env.local`
-- Production: Set `YTMUSIC_API_URL` in Vercel dashboard to your Render URL
 
-See `python-server/README.md` for more details.
+```env
+# Use Render (recommended)
+NEXT_PUBLIC_YTMUSIC_API_URL=https://your-app.onrender.com
+
+# Use Vercel Serverless (backup)
+NEXT_PUBLIC_YTMUSIC_API_URL=/api/ytmusic
+
+# Use Local (development)
+NEXT_PUBLIC_YTMUSIC_API_URL=http://localhost:5001
+```
+
+See `python-server/README.md` and `api/ytmusic/README.md` for more details.
