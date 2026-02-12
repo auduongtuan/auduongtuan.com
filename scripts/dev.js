@@ -26,8 +26,6 @@ const projectRoot = path.join(__dirname, '..');
 const pythonServerPath = path.join(projectRoot, 'python-server');
 const runScript = path.join(pythonServerPath, 'run.sh');
 
-console.log('🎵 Starting YouTube Music API server...');
-
 const pythonDev = spawn(runScript, [], {
   stdio: 'inherit',
   cwd: pythonServerPath,
