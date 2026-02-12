@@ -22,13 +22,17 @@ const nextArgs = args.filter(arg =>
 );
 
 // Start Python YouTube Music API server
-const pythonDev = spawn('bash', ['-c', 'cd python-server && ./run.sh'], {
-  stdio: ['inherit', 'inherit', 'inherit'],
-  shell: true,
-  cwd: path.join(__dirname, '..')
-});
+const projectRoot = path.join(__dirname, '..');
+const pythonServerPath = path.join(projectRoot, 'python-server');
+const runScript = path.join(pythonServerPath, 'run.sh');
 
 console.log('🎵 Starting YouTube Music API server...');
+
+const pythonDev = spawn(runScript, [], {
+  stdio: 'inherit',
+  cwd: pythonServerPath,
+  shell: true
+});
 
 pythonDev.on('error', (error) => {
   console.error(`⚠️  Python server error: ${error.message}`);
