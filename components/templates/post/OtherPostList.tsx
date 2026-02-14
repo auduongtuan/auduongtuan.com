@@ -105,7 +105,7 @@ const OtherPostList = ({ posts, post }: { post: Post; posts: Post[] }) => {
           <FiChevronLeft />
         </IconButton>
         <div
-          className="scrollbar-hidden -mx-[calc(min(var(--section-horizontal-padding),1rem))] flex snap-x snap-mandatory overflow-x-auto *:w-full *:shrink-0 *:grow-0"
+          className="scrollbar-hidden -mx-[calc(min(var(--section-horizontal-padding),1rem))] -my-4 flex snap-x snap-mandatory overflow-x-auto *:w-full *:shrink-0 *:grow-0 md:my-0"
           ref={scrollRef}
         >
           {pages.map((page, pageIndex) => (
@@ -116,7 +116,7 @@ const OtherPostList = ({ posts, post }: { post: Post; posts: Post[] }) => {
             >
               {page.map((postItem) => (
                 <div
-                  className="border-divider flex flex-col md:py-4 md:odd:border-r md:odd:pr-6 md:even:pl-6"
+                  className="group/post border-divider flex flex-col md:py-4 md:odd:border-r md:odd:pr-6 md:even:pl-6"
                   key={postItem.id}
                 >
                   <MiniPostCard post={postItem} />
@@ -126,7 +126,7 @@ const OtherPostList = ({ posts, post }: { post: Post; posts: Post[] }) => {
           ))}
         </div>
         {carouselPages.length > 1 && (
-          <div className="mt-3 flex items-center justify-center">
+          <div className="mt-4 flex items-center justify-center">
             {carouselPages.map((_, i) => (
               <button
                 key={i}
