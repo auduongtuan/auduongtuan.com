@@ -1,6 +1,5 @@
 import { Post } from "@lib/notion";
 import PostCard from "@molecules/post/PostCard";
-import Footer from "@molecules/Footer";
 import Fade from "@atoms/Fade";
 
 export default function BlogPage({ posts }: { posts: Post[] }) {
@@ -44,7 +43,6 @@ export default function BlogPage({ posts }: { posts: Post[] }) {
           })}
         </div>
       </section>
-      <Footer />
     </>
   );
 }

@@ -6,7 +6,6 @@ import { Post } from "@lib/notion";
 import { PasswordInfo } from "@lib/notion/password";
 import { cn } from "@lib/utils/cn";
 import ContentMenu from "@molecules/ContentMenu";
-import Footer from "@molecules/Footer";
 import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
 import PasswordProtect from "@molecules/PasswordProtect";
 import ReactionAndComment from "@molecules/comment/ReactionAndComment";
@@ -173,7 +172,6 @@ const PostSinglePage = ({
           <OtherPostList post={post} posts={posts}></OtherPostList>
         </div>
       </section>
-      <Footer />
     </>
   );
 };

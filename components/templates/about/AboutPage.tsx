@@ -15,7 +15,6 @@ import Now from "@molecules/about/Now";
 import PhotoCards from "@molecules/about/photo/PhotoCards";
 import { usePhotoStore } from "@molecules/about/photo/photoStore";
 import RandomFacts from "@molecules/about/RandomFacts";
-import Footer from "@molecules/Footer";
 import HoverGif from "@molecules/HoverGif";
 import { useCallback, useEffect, useState } from "react";
 import { FiInfo, FiMinus, FiPlus } from "react-icons/fi";
@@ -305,7 +304,6 @@ export default function AboutPage({
           </div>
         </div>
       </main>
-      <Footer></Footer>
     </div>
   );
 }
