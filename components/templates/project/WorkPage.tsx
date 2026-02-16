@@ -1,5 +1,4 @@
 import Header from "@molecules/header/Header";
-import Footer from "@molecules/Footer";
 import { Project, ProjectGroup } from "@lib/notion/project";
 import ProjectList from "@templates/project/ProjectList";
 import Fade from "@atoms/Fade";
@@ -42,7 +41,6 @@ export default function WorkPage({ projects, projectGroups }: WorksPageProps) {
         projectGroups={projectGroups}
         className="pb-subsection-vertical"
       />
-      <Footer />
     </div>
   );
 }

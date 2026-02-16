@@ -1,6 +1,5 @@
 import Button from "@atoms/Button";
 import HeadMeta from "@atoms/HeadMeta";
-import Footer from "@molecules/Footer";
 
 export default function About() {
   return (
@@ -27,7 +26,6 @@ export default function About() {
           </Button>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

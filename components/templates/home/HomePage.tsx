@@ -1,5 +1,4 @@
 import { Post, Project } from "@lib/notion";
-import Footer from "@molecules/Footer";
 import Header from "@molecules/header/Header";
 import MiniPostList from "@templates/home/MiniPostList";
 import MiniProductList from "@templates/home/MiniProductList";
@@ -23,7 +22,6 @@ export default function HomePage({ projects, posts }: HomePageProps) {
         <MiniPostList posts={posts} />
         <MiniProjectList projects={projects} />
       </div>
-      <Footer />
     </div>
   );
 }
