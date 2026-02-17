@@ -1,15 +1,15 @@
+import { useDraggable } from "@hooks/useDraggable";
+import { cn } from "@lib/utils/cn";
 import React, { MouseEventHandler } from "react";
 import {
   FiChevronLeft,
   FiChevronRight,
-  FiPlus,
   FiGrid,
+  FiPlus,
   FiZoomIn,
   FiZoomOut,
 } from "react-icons/fi";
 import Tooltip from "./Tooltip";
-import { cn } from "@lib/utils/cn";
-import { useDraggable } from "@hooks/useDraggable";
 
 export interface BaseFrameProps extends React.ComponentPropsWithoutRef<"div"> {
   inverted?: boolean;
@@ -35,11 +35,14 @@ export const BaseFrame = ({
 }: BaseFrameProps & {
   ref?: React.RefObject<HTMLDivElement>;
 }) => {
-  const draggleRef = useDraggable();
+  const draggleRef = useDraggable(!!draggable);
   const renderFrame = () => {
     return (
       <div
-        className={`bg-surface relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0 shadow-lg ${className}`}
+        className={cn(
+          `bg-surface relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0 shadow-lg`,
+          className,
+        )}
         ref={(el) => {
           draggleRef.current = el;
           if (ref && el) {
@@ -184,7 +187,7 @@ export const PhotoFrame = ({
 }: PhotoFrameProps & {
   ref?: React.RefObject<HTMLDivElement>;
 }) => {
-  const draggleRef = useDraggable();
+  const draggleRef = useDraggable(!!draggable);
   const renderFrame = () => (
     <div
       // ref={innerRef}

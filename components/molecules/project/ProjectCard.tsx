@@ -116,6 +116,105 @@ const ProjectCard = memo(
       </div>
     );
 
+    let coverContent: React.ReactNode = null;
+
+    if (project.type.includes("web")) {
+      const covers = project.cover || [];
+      if (covers.length === 1) {
+        const coverMedia = covers[0];
+        coverContent = (
+          <BrowserFrame
+            title={project.coverTitle}
+            url={project.link}
+            className="max-h-full"
+          >
+            {coverMedia.type === "image" ? (
+              <CustomImage
+                src={coverMedia.url}
+                alt={project.title + " cover image"}
+                width={coverMedia.width}
+                height={coverMedia.height}
+              />
+            ) : (
+              <CustomVideo
+                src={coverMedia.url}
+                width={coverMedia.width}
+                height={coverMedia.height}
+              ></CustomVideo>
+            )}
+          </BrowserFrame>
+        );
+      } else if (covers.length >= 2) {
+        // Stack the first two covers: the one below offset 12px up & right
+        const [firstCover, secondCover] = covers;
+        coverContent = (
+          <div className="relative inline-grid pt-7">
+            {/* Top card */}
+            <div className="z-10 col-start-1 row-start-1">
+              <BrowserFrame
+                title={project.coverTitle}
+                url={project.link}
+                className="max-h-full w-[calc(100%-2rem)]"
+              >
+                {firstCover.type === "image" ? (
+                  <CustomImage
+                    src={firstCover.url}
+                    alt={project.title + " cover image"}
+                    width={firstCover.width}
+                    height={firstCover.height}
+                  />
+                ) : (
+                  <CustomVideo
+                    src={firstCover.url}
+                    width={firstCover.width}
+                    height={firstCover.height}
+                  ></CustomVideo>
+                )}
+              </BrowserFrame>
+            </div>
+
+            {/* Card below, offset 12px up and to the right */}
+            <div className="col-start-1 row-start-1 translate-x-7 -translate-y-7 opacity-40">
+              <BrowserFrame
+                title={project.coverTitle}
+                url={project.link}
+                className="max-h-full w-[calc(100%-2rem)]"
+              >
+                {secondCover.type === "image" ? (
+                  <CustomImage
+                    src={secondCover.url}
+                    alt={project.title + " cover image"}
+                    width={secondCover.width}
+                    height={secondCover.height}
+                  />
+                ) : (
+                  <CustomVideo
+                    src={secondCover.url}
+                    width={secondCover.width}
+                    height={secondCover.height}
+                  ></CustomVideo>
+                )}
+              </BrowserFrame>
+            </div>
+          </div>
+        );
+      }
+    } else if (project.cover) {
+      coverContent = project.cover.map((coverMedia) => (
+        <div
+          className={`ease-bounce relative w-full transition-all`}
+          key={coverMedia.url}
+        >
+          <CustomImage
+            src={coverMedia.url}
+            alt={project.title + " cover image"}
+            width={coverMedia.width}
+            height={coverMedia.height}
+          />
+        </div>
+      ));
+    }
+
     const coverMedia = (
       <Fade
         className={twMerge(
@@ -127,44 +226,7 @@ const ProjectCard = memo(
         show={visibleRatio > 0.4}
       >
         {(!project.cover || !project.cover.length) && icon}
-        {project.cover &&
-          project.cover.map((coverMedia) =>
-            project.type.includes("web") ? (
-              <BrowserFrame
-                title={project.coverTitle}
-                url={project.link}
-                className="max-h-full"
-                key={coverMedia.url}
-              >
-                {coverMedia.type === "image" ? (
-                  <CustomImage
-                    src={coverMedia.url}
-                    alt={project.title + " cover image"}
-                    width={coverMedia.width}
-                    height={coverMedia.height}
-                  />
-                ) : (
-                  <CustomVideo
-                    src={coverMedia.url}
-                    width={coverMedia.width}
-                    height={coverMedia.height}
-                  ></CustomVideo>
-                )}
-              </BrowserFrame>
-            ) : (
-              <div
-                className={`ease-bounce relative w-full transition-all`}
-                key={coverMedia.url}
-              >
-                <CustomImage
-                  src={coverMedia.url}
-                  alt={project.title + " cover image"}
-                  width={coverMedia.width}
-                  height={coverMedia.height}
-                />
-              </div>
-            ),
-          )}
+        {coverContent}
       </Fade>
     );
 
