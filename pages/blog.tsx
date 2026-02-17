@@ -1,7 +1,6 @@
 import BlogPage from "../components/templates/post/BlogPage";
 import { getPosts, Post } from "@lib/notion";
 import HeadMeta from "../components/atoms/HeadMeta";
-import { isDevEnvironment } from "@lib/utils";
 
 export default function Blog({ posts }: { posts: Post[] }) {
   return (
@@ -18,7 +17,7 @@ export default function Blog({ posts }: { posts: Post[] }) {
 export async function getStaticProps() {
   return {
     props: {
-      posts: await getPosts(isDevEnvironment),
+      posts: await getPosts(),
     },
     revalidate: 120,
   };

@@ -1,20 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
-import ProjectCard from "@molecules/project/ProjectCard";
 import Fade from "@atoms/Fade";
+import IconButton from "@atoms/IconButton";
 import Select from "@atoms/Select";
+import Tooltip from "@atoms/Tooltip";
+import { event } from "@lib/gtag";
 import { Project, ProjectGroup } from "@lib/notion";
+import { trackEvent } from "@lib/utils";
+import ProjectCard from "@molecules/project/ProjectCard";
+import SectionTitle from "@molecules/SectionTitle";
+import { useEffect, useMemo, useState } from "react";
+import { FiInfo } from "react-icons/fi";
 import {
   PiClockCounterClockwiseBold,
   PiLightbulbBold,
   PiPaletteBold,
   PiWrenchBold,
 } from "react-icons/pi";
-import { event } from "@lib/gtag";
-import SectionTitle from "@molecules/SectionTitle";
-import { FiInfo } from "react-icons/fi";
-import Tooltip from "@atoms/Tooltip";
-import { trackEvent } from "@lib/utils";
-import IconButton from "@atoms/IconButton";
 
 export default function ProjectList({
   projects,
@@ -74,11 +74,15 @@ export default function ProjectList({
         : b.date?.localeCompare(a.date);
   };
 
-  // TODO: Remove this filter - temporarily hiding projects without cover images
-  const projectsWithCover = projects.filter((project) => 
-    project.cover && project.cover.length > 0
-  );
-  const shownProjects = projectsWithCover.sort(sortingFunction);
+  // Show all non-"my product" projects, even if they don't have cover images
+  const shownProjects = projects
+    .filter(
+      (project) =>
+        !project.tags?.includes("my product") ||
+        project.tags?.includes("selected"),
+    )
+    .sort(sortingFunction);
+
   const projectInGroups = useMemo(
     () =>
       shownProjects.reduce(
@@ -129,39 +133,39 @@ export default function ProjectList({
             .filter((group) => group !== undefined)
             .sort((a, b) => b.order - a.order)
             .map((group) => {
-            return (
-              <section key={group.id}>
-                <h2 className="muted-text mb-4 flex items-center gap-2 text-base font-normal">
-                  <span>{group.name}</span>
-                  {group.description && (
-                    <Tooltip
-                      content={group.description}
-                      onOpenChange={(open) => {
-                        if (open === true && !sent.includes(group.name)) {
-                          setSent([...sent, group.name]);
-                        }
-                      }}
-                    >
-                      <IconButton variant="ghost" size={"small"}>
-                        <FiInfo />
-                      </IconButton>
-                      {/* <FiInfo className="inline-block w-4 h-4 ml-2 hover:text-accent" /> */}
-                    </Tooltip>
-                  )}
-                </h2>
-                <div className="mb-6 grid grid-cols-1 gap-6 md:mb-8 md:grid-cols-2">
-                  {projectInGroups[group.id].map((project, i) => (
-                    <ProjectCard
-                      key={`${project.slug}-${i}`}
-                      index={i}
-                      project={project}
-                      projects={shownProjects}
-                    />
-                  ))}
-                </div>
-              </section>
-            );
-          })
+              return (
+                <section key={group.id}>
+                  <h2 className="muted-text mb-4 flex items-center gap-2 text-base font-normal">
+                    <span>{group.name}</span>
+                    {group.description && (
+                      <Tooltip
+                        content={group.description}
+                        onOpenChange={(open) => {
+                          if (open === true && !sent.includes(group.name)) {
+                            setSent([...sent, group.name]);
+                          }
+                        }}
+                      >
+                        <IconButton variant="ghost" size={"small"}>
+                          <FiInfo />
+                        </IconButton>
+                        {/* <FiInfo className="inline-block w-4 h-4 ml-2 hover:text-accent" /> */}
+                      </Tooltip>
+                    )}
+                  </h2>
+                  <div className="mb-6 grid grid-cols-1 gap-6 md:mb-8 md:grid-cols-2">
+                    {projectInGroups[group.id].map((project, i) => (
+                      <ProjectCard
+                        key={`${project.slug}-${i}`}
+                        index={i}
+                        project={project}
+                        projects={shownProjects}
+                      />
+                    ))}
+                  </div>
+                </section>
+              );
+            })
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             {shownProjects.map((project, i) => (

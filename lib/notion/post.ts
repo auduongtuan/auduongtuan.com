@@ -34,19 +34,19 @@ export async function getPostsWithCache() {
     if (cacheData) {
       posts = cacheData;
     } else {
-      posts = await getPosts(isDevEnvironment);
+      posts = await getPosts();
       cache.set("posts", posts, 24 * 1000 * 60 * 60);
       if (forceRevalidate) {
         console.log("🔄 Cache revalidated for posts");
       }
     }
   } else {
-    posts = await getPosts(isDevEnvironment);
+    posts = await getPosts();
   }
   return posts;
 }
 
-export async function getPosts(includeUnpublished?: boolean) {
+export async function getPosts(includeUnpublished: boolean = isDevEnvironment) {
   let filterQuery: any = {
     and: [
       {
