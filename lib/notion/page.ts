@@ -33,7 +33,6 @@ export const parseNotionPageAssets = async (page: any) => {
 
   let update: boolean = false;
   if (!("cover" in assets) || !assets.cover || assets.cover.length === 0) {
-    console.log("get cover of");
     const cover = await getMediaFromProperty(page, "Cover");
     if (cover) {
       assets.cover = cover;

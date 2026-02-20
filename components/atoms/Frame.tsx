@@ -55,15 +55,15 @@ export const BaseFrame = ({
         <header
           className={cn(
             `flex items-center justify-between`,
-            inverted ? "bg-slate-100" : "bg-slate-800",
+            inverted ? "bg-slate-100" : "bg-gray-700",
             draggable && "cursor-move",
             "z-1 rounded-t-[11px] px-3 py-1.5",
           )}
         >
           <div className="flex grow basis-0 items-center">
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
             {startContent}
           </div>
           {middleContent}
@@ -127,14 +127,14 @@ const BrowserFrame = ({
 }) => {
   const startContentRender = () => (
     <>
-      <FiChevronLeft className="mr-1 ml-2 hidden text-slate-400 md:inline-block" />
-      <FiChevronRight className="hidden text-slate-600 md:inline-block" />
+      <FiChevronLeft className="mr-1 ml-2 hidden text-gray-400 md:inline-block" />
+      <FiChevronRight className="hidden text-gray-400 md:inline-block" />
       {startContent}
     </>
   );
   const middleContentRender = () => (
     <>
-      <div className="bg-surface/20 inline-block min-h-[20px] w-[60%] justify-self-center rounded-md px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
+      <div className="inline-block min-h-[20px] w-[60%] justify-self-center rounded-md bg-black/20 px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
         {url && (
           <a href={url} target="_blank" rel="noreferrer">
             {(title || url).replace(/(^\w+:|^)\/\//, "")}
