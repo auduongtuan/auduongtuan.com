@@ -43,7 +43,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                 delay={400}
               >
                 {project.link && (
-                  <Button href={project.link} secondary showPopoutIcon>
+                  <Button href={project.link} variant="secondary" showPopoutIcon>
                     {project.tags.includes("my product")
                       ? "Get product"
                       : "View website"}

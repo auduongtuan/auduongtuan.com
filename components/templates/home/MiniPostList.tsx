@@ -11,7 +11,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
         <SectionTitle
           title="Writings"
           action={
-            <Button href="/blog" secondary>
+            <Button href="/blog" variant="ghost">
               View all
             </Button>
           }

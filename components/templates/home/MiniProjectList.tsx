@@ -6,7 +6,6 @@ import SectionTitle from "@molecules/SectionTitle";
 import SnapScrollContainer from "@molecules/SnapScrollContainer";
 
 export default function ProjectList({ projects }: { projects: Project[] }) {
-
   return (
     <section
       id="works"
@@ -27,7 +26,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
           <SectionTitle
             title="Featured works"
             action={
-              <Button href="/work" secondary>
+              <Button href="/work" variant="ghost">
                 View all
               </Button>
             }
@@ -48,7 +47,11 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
             ))}
         </SnapScrollContainer>
         <div className="main-container">
-          <Button href="/work" className="mt-6 w-full justify-center" secondary>
+          <Button
+            href="/work"
+            className="mt-6 w-full justify-center"
+            variant="secondary"
+          >
             View all projects
           </Button>
         </div>
