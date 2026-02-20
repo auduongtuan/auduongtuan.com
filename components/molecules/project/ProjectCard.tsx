@@ -1,4 +1,5 @@
 import Badge from "@atoms/Badge";
+import { Project } from "@lib/notion";
 import Button from "@atoms/Button";
 import CustomImage from "@atoms/CustomImage";
 import CustomVideo from "@atoms/CustomVideo";
@@ -8,7 +9,7 @@ import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
 import { useBreakpoint } from "@hooks";
 import useVisibleRatio from "@hooks/useVisiblePercentage";
-import { Project } from "@lib/notion";
+
 import { parseInternalLink } from "@lib/utils";
 import { formatProjectDate } from "@lib/utils/format";
 import ScrollableTagList from "@molecules/ScrollableTagList";
@@ -18,17 +19,64 @@ import { FiEye } from "react-icons/fi";
 import Balancer from "react-wrap-balancer";
 import { twMerge } from "tailwind-merge";
 
+type CoverMediaItem = NonNullable<Project["cover"]>[number];
+
+const CoverMediaItem = ({
+  media,
+  title,
+}: {
+  media: CoverMediaItem;
+  title: string;
+}) => {
+  return media.type === "image" ? (
+    <CustomImage
+      src={media.url}
+      alt={title + " cover image"}
+      width={media.width}
+      height={media.height}
+    />
+  ) : (
+    <CustomVideo src={media.url} width={media.width} height={media.height} />
+  );
+};
+
+const CoverBrowserFrame = ({
+  media,
+  title,
+  coverTitle,
+  link,
+  className,
+}: {
+  media: CoverMediaItem;
+  title: string;
+  coverTitle?: string;
+  link?: string;
+  className?: string;
+}) => (
+  <BrowserFrame title={coverTitle} url={link} className={className}>
+    <CoverMediaItem media={media} title={title} />
+  </BrowserFrame>
+);
+
 export type ProjectCardProps = {
   project: Project;
   projects: Project[];
   index: number;
   className?: string;
+  horizontal?: boolean;
 };
 
 const ProjectCard = memo(
-  ({ project, projects, index, className, ...rest }: ProjectCardProps) => {
+  ({
+    project,
+    projects,
+    index,
+    className,
+    horizontal = false,
+    ...rest
+  }: ProjectCardProps) => {
     const { ref, visibleRatio } = useVisibleRatio();
-    const isHalf = true;
+    const vertical = !horizontal;
     const internalLink = parseInternalLink(project.link || "");
     const formattedDate = formatProjectDate(project.date);
     const bp = useBreakpoint();
@@ -87,7 +135,12 @@ const ProjectCard = memo(
     const footer = (
       <div className="flex gap-4">
         {project.caseStudy && (
-          <Button scroll={false} href={`/project/${project.slug}`} arrow>
+          <Button
+            scroll={false}
+            href={`/project/${project.slug}`}
+            arrow
+            variant="secondary"
+          >
             View project
           </Button>
         )}
@@ -96,6 +149,7 @@ const ProjectCard = memo(
             scroll={false}
             href={project.link ? project.link : "#"}
             showPopoutIcon={true}
+            variant="secondary"
           >
             View website
           </Button>
@@ -123,26 +177,13 @@ const ProjectCard = memo(
       if (covers.length === 1) {
         const coverMedia = covers[0];
         coverContent = (
-          <BrowserFrame
-            title={project.coverTitle}
-            url={project.link}
+          <CoverBrowserFrame
+            media={coverMedia}
+            title={project.title}
+            coverTitle={project.coverTitle}
+            link={project.link}
             className="max-h-full"
-          >
-            {coverMedia.type === "image" ? (
-              <CustomImage
-                src={coverMedia.url}
-                alt={project.title + " cover image"}
-                width={coverMedia.width}
-                height={coverMedia.height}
-              />
-            ) : (
-              <CustomVideo
-                src={coverMedia.url}
-                width={coverMedia.width}
-                height={coverMedia.height}
-              ></CustomVideo>
-            )}
-          </BrowserFrame>
+          />
         );
       } else if (covers.length >= 2) {
         // Stack the first two covers: the one below offset 12px up & right
@@ -151,50 +192,24 @@ const ProjectCard = memo(
           <div className="relative inline-grid pt-7">
             {/* Top card */}
             <div className="z-10 col-start-1 row-start-1">
-              <BrowserFrame
-                title={project.coverTitle}
-                url={project.link}
+              <CoverBrowserFrame
+                media={firstCover}
+                title={project.title}
+                coverTitle={project.coverTitle}
+                link={project.link}
                 className="max-h-full w-[calc(100%-2rem)]"
-              >
-                {firstCover.type === "image" ? (
-                  <CustomImage
-                    src={firstCover.url}
-                    alt={project.title + " cover image"}
-                    width={firstCover.width}
-                    height={firstCover.height}
-                  />
-                ) : (
-                  <CustomVideo
-                    src={firstCover.url}
-                    width={firstCover.width}
-                    height={firstCover.height}
-                  ></CustomVideo>
-                )}
-              </BrowserFrame>
+              />
             </div>
 
             {/* Card below, offset 12px up and to the right */}
             <div className="col-start-1 row-start-1 translate-x-7 -translate-y-7 opacity-40">
-              <BrowserFrame
-                title={project.coverTitle}
-                url={project.link}
+              <CoverBrowserFrame
+                media={secondCover}
+                title={project.title}
+                coverTitle={project.coverTitle}
+                link={project.link}
                 className="max-h-full w-[calc(100%-2rem)]"
-              >
-                {secondCover.type === "image" ? (
-                  <CustomImage
-                    src={secondCover.url}
-                    alt={project.title + " cover image"}
-                    width={secondCover.width}
-                    height={secondCover.height}
-                  />
-                ) : (
-                  <CustomVideo
-                    src={secondCover.url}
-                    width={secondCover.width}
-                    height={secondCover.height}
-                  ></CustomVideo>
-                )}
-              </BrowserFrame>
+              />
             </div>
           </div>
         );
@@ -205,12 +220,7 @@ const ProjectCard = memo(
           className={`ease-bounce relative w-full transition-all`}
           key={coverMedia.url}
         >
-          <CustomImage
-            src={coverMedia.url}
-            alt={project.title + " cover image"}
-            width={coverMedia.width}
-            height={coverMedia.height}
-          />
+          <CoverMediaItem media={coverMedia} title={project.title} />
         </div>
       ));
     }
@@ -219,7 +229,7 @@ const ProjectCard = memo(
       <Fade
         className={twMerge(
           "col-span-12",
-          !isHalf ? "md:col-span-7 md:col-start-6" : "row-start-1",
+          !vertical ? "md:col-span-6 md:col-start-7" : "row-start-1",
           "flex items-stretch justify-stretch gap-8 md:gap-4 lg:gap-8",
         )}
         slide
@@ -237,6 +247,7 @@ const ProjectCard = memo(
           "text-primary rounded-2xl p-4 md:p-6 lg:p-6",
           "ease bg-card transition-all duration-400",
           className,
+          !vertical && "md:col-span-2",
         )}
         style={{
           opacity: visibleRatio,
@@ -245,8 +256,8 @@ const ProjectCard = memo(
       >
         <div
           className={twMerge(
-            "grid h-full grid-cols-12 items-center justify-end gap-4 gap-y-8",
-            isHalf && "grid-rows-[1fr_auto]",
+            "grid h-full grid-cols-12 items-center justify-end gap-x-4 gap-y-8",
+            vertical ? "grid-rows-[1fr_auto]" : "md:gap-x-16",
           )}
         >
           <Fade
@@ -255,8 +266,8 @@ const ProjectCard = memo(
             slide
             className={twMerge(
               `ease-bounce intro col-span-12 transition-all duration-200`,
-              !isHalf
-                ? "row-start-2 md:col-span-4 md:row-start-1"
+              !vertical
+                ? "row-start-2 md:col-span-6 md:row-start-1"
                 : "row-start-2",
             )}
           >
