@@ -160,6 +160,10 @@ export default function ProjectList({
                         index={i}
                         project={project}
                         projects={shownProjects}
+                        horizontal={
+                          projectInGroups[group.id].length % 2 == 1 &&
+                          i === projectInGroups[group.id].length - 1
+                        }
                       />
                     ))}
                   </div>

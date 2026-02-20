@@ -22,14 +22,14 @@ export default function ProductList({ products }: { products: Project[] }) {
       >
         <div className="main-container">
           <SectionTitle
-            title="My pet products"
+            title="Side projects"
             // action={
             //   <Button href="/work" secondary>
             //     View all
             //   </Button>
             // }
           />
-          <div className="grid gap-4 lg:grid-cols-3">
+          <div className="grid gap-4 lg:grid-cols-2">
             {products
               .sort((a, b) => b.point - a.point)
               .slice(0, 6)
@@ -39,8 +39,8 @@ export default function ProductList({ products }: { products: Project[] }) {
                   index={i}
                   project={project}
                   projects={products}
+                  horizontal
                   // className="w-[calc(min(440px,var(--vw)*100-var(--section-horizontal-padding)*2-60px))] shrink-0 translate-x-(--half-margin)"
-                  className="w-"
                 />
               ))}
           </div>
