@@ -1,15 +1,27 @@
 import { useCallback, useRef, useState } from "react";
 import { cn } from "@lib/utils/cn";
 
-interface FadeScrollableContainerProps
-  extends React.ComponentPropsWithoutRef<"div"> {
-  background: string;
-}
+type FadeScrollableContainerProps = React.ComponentPropsWithRef<"div">;
+
+const FADE_SIZE = "3rem";
+
+const getMaskImage = (showStart: boolean, showEnd: boolean): string => {
+  if (showStart && showEnd) {
+    return `linear-gradient(to right, transparent, black ${FADE_SIZE}, black calc(100% - ${FADE_SIZE}), transparent)`;
+  }
+  if (showStart) {
+    return `linear-gradient(to right, transparent, black ${FADE_SIZE})`;
+  }
+  if (showEnd) {
+    return `linear-gradient(to right, black calc(100% - ${FADE_SIZE}), transparent)`;
+  }
+  return "none";
+};
 
 const FadeScrollableContainer = ({
-  background,
   className,
   children,
+  ...props
 }: FadeScrollableContainerProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [showStart, setShowStart] = useState(false);
@@ -31,29 +43,13 @@ const FadeScrollableContainer = ({
   }, []);
 
   return (
-    <div className={cn("relative w-full", className)}>
-      {showStart && (
-        <span
-          className="absolute top-0 left-0 block h-full w-4 bg-linear-to-r from-inherit to-transparent"
-          style={
-            {
-              "--tw-gradient-from": background,
-            } as React.CSSProperties
-          }
-        ></span>
-      )}
-      {showEnd && (
-        <span
-          className="absolute top-0 right-0 block h-full w-4 bg-linear-to-r from-transparent to-inherit"
-          style={
-            {
-              "--tw-gradient-to": background,
-            } as React.CSSProperties
-          }
-        ></span>
-      )}
+    <div
+      className={cn("w-full", className)}
+      style={{ maskImage: getMaskImage(showStart, showEnd) }}
+      {...props}
+    >
       <div
-        className="scrollbar-hidden overflow-y-scroll"
+        className="scrollbar-hidden overflow-x-scroll"
         ref={ref}
         onScroll={onScroll}
       >
