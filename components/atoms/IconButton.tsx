@@ -2,7 +2,7 @@ import { cn } from "@lib/utils/cn";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const iconButtonVariants = cva(
-  "focus-visible:ring-2 ring-accent outline-hidden flex items-center transition-all ease justify-center rounded-full text-secondary cursor-pointer",
+  "flex justify-center items-center rounded-full outline-hidden ring-accent focus-visible:ring-2 text-secondary transition-all cursor-pointer ease",
   {
     variants: {
       size: {
@@ -28,12 +28,12 @@ const iconButtonVariants = cva(
       {
         variant: "default",
         size: "medium",
-        class: "w-10 h-10 text-xl",
+        class: "w-8.5 h-8.5 text-lg",
       },
       {
         variant: "default",
         size: "large",
-        class: "w-14 h-14 text-2xl",
+        class: "w-12 h-12 text-2xl",
       },
       {
         variant: "ghost",

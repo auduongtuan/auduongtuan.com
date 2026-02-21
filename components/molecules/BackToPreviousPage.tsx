@@ -27,6 +27,8 @@ const BackToPreviousPage = ({
       <IconButton
         as="button"
         ref={ref}
+        size="large"
+        className="mt-1.5"
         onClick={(e) => {
           e.preventDefault();
           if (hasHistory) {
