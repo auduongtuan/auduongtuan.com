@@ -1,7 +1,7 @@
 {
   "name": "auduongtuan.com",
   "private": true,
-  "version": "3.6.3",
+  "version": "3.7.0",
   "scripts": {
     "dev": "node scripts/dev.js",
     "build": "next build",
