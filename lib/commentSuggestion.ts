@@ -1,4 +1,4 @@
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, type GenerateContentResponse } from "@google/genai";
 
 const genAI = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY || "",
@@ -31,15 +31,24 @@ export async function getCommentSuggestion(
     }
     ${url}
   `;
-
-  const result = await genAI.models.generateContent({
-    model: "gemini-3-flash-preview",
-    contents: prompt,
-    config: {
-      responseMimeType: "application/json",
-    },
-  });
-
+  let result: GenerateContentResponse;
+  try {
+    result = await genAI.models.generateContent({
+      model: "gemini-3-flash-preview",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+      },
+    });
+  } catch (error) {
+    result = await genAI.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+      },
+    });
+  }
   return result.text
     ? JSON.parse(result.text)
     : {
@@ -59,22 +68,25 @@ function isCacheFresh(lastEditedTime: string): boolean {
 }
 
 // Get cached comment suggestions for a page
-export async function getCommentSuggestionsCache(
-  page: string,
-): Promise<CommentSuggestion | null> {
+export async function getCommentSuggestionsCache(page: string): Promise<{
+  commentSuggestions: CommentSuggestion;
+  lastEditedTime: string;
+  isFresh: boolean;
+} | null> {
   const metadata = await getMetadata("comment-suggestions", page);
+
+  console.log("Cache metadata for page", page, metadata);
 
   if (!metadata || !metadata.value) {
     return null;
   }
 
-  // Check if cache is fresh (within 1 month)
-  if (!isCacheFresh(metadata.lastEditedTime)) {
-    return null;
-  }
-
   try {
-    return JSON.parse(metadata.value) as CommentSuggestion;
+    return {
+      commentSuggestions: JSON.parse(metadata.value) as CommentSuggestion,
+      lastEditedTime: metadata.lastEditedTime,
+      isFresh: isCacheFresh(metadata.lastEditedTime),
+    };
   } catch (error) {
     console.error("Failed to parse cached comment suggestions:", error);
     return null;
