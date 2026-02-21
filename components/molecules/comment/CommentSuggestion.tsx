@@ -1,8 +1,10 @@
+import FadeScrollableContainer from "@atoms/FadeScrollableContainer";
 import PillButton from "@atoms/PillButton";
 import Skeleton from "@atoms/Skeleton";
 import Tooltip from "@atoms/Tooltip";
+import { useResizeObserver } from "@hooks/useResizeObserver";
 import { type CommentSuggestion } from "@lib/commentSuggestion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RiAiGenerate2 } from "react-icons/ri";
 import useSWR from "swr";
 
@@ -15,6 +17,60 @@ function getComments(
 }
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+const CommentTagScrollContainer = ({
+  children,
+  ...rest
+}: React.ComponentPropsWithoutRef<"div">) => {
+  const { width, ref } = useResizeObserver<HTMLDivElement>();
+  const tagContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!ref.current) return;
+    if (!tagContainerRef.current) return;
+    console.log(ref.current.clientWidth);
+    const tagContainer = tagContainerRef.current as HTMLDivElement;
+    tagContainer.style.maxWidth = "200%";
+    let largestRowWidth = 0;
+    let currentRowWidth = 0;
+    let currentRowTop = 0;
+    let isFirstChild = true;
+    const tagContainerStyles = window.getComputedStyle(tagContainer);
+    const gap = parseFloat(tagContainerStyles.gap) || 0;
+    Array.from(tagContainer.childNodes).forEach((child, index) => {
+      const element = child as HTMLElement;
+      const rect = element.getBoundingClientRect();
+      if (isFirstChild) {
+        currentRowTop = rect.top;
+        currentRowWidth = rect.width;
+        isFirstChild = false;
+      } else {
+        // If element is on a new row (different top position)
+        if (Math.abs(rect.top - currentRowTop) > 1) {
+          largestRowWidth = Math.max(largestRowWidth, currentRowWidth);
+          currentRowWidth = rect.width;
+          currentRowTop = rect.top;
+        } else {
+          // Same row, add to current row width including gap
+          currentRowWidth += rect.width + gap;
+        }
+      }
+    });
+
+    // Don't forget the last row
+    largestRowWidth = Math.max(largestRowWidth, currentRowWidth);
+    if (largestRowWidth) tagContainer.style.maxWidth = `${largestRowWidth}px`;
+  }, [width, tagContainerRef, children]);
+  return (
+    <FadeScrollableContainer ref={ref} {...rest}>
+      <div
+        ref={tagContainerRef}
+        className="inline-flex flex-wrap gap-1 w-max max-w-[200%] shrink-0 grow"
+      >
+        {children}
+      </div>
+    </FadeScrollableContainer>
+  );
+};
 
 const CommentSuggestion = ({
   onButtonClick,
@@ -35,11 +91,11 @@ const CommentSuggestion = ({
 
   return (
     <div>
-      <p className="muted-text mb-2 flex items-center gap-2">
+      <p className="flex items-center gap-2 mb-2 muted-text">
         <Tooltip
           content={"AI-generated content powered by Gemini. Use cautiously."}
         >
-          <RiAiGenerate2 className="hover:text-accent inline-block h-4 w-4" />
+          <RiAiGenerate2 className="inline-block w-4 h-4 hover:text-accent" />
         </Tooltip>
         Suggestion{" "}
         <Tooltip
@@ -59,7 +115,7 @@ const CommentSuggestion = ({
         className={`mb-4 flex w-full flex-col`}
         loaded={comments.length > 0}
       >
-        <Skeleton.Group className="flex w-full grow flex-wrap gap-1">
+        <Skeleton.Group className="flex flex-wrap gap-1 w-full grow">
           {[
             "w-32",
             "w-16",
@@ -83,7 +139,7 @@ const CommentSuggestion = ({
           ))}
         </Skeleton.Group>
         <Skeleton.Content className="w-full shrink">
-          <div className="flex grow flex-wrap gap-1">
+          <CommentTagScrollContainer>
             {comments.map((content, index) => (
               <PillButton
                 key={content}
@@ -93,7 +149,7 @@ const CommentSuggestion = ({
                 {content}
               </PillButton>
             ))}
-          </div>
+          </CommentTagScrollContainer>
         </Skeleton.Content>
       </Skeleton.Wrapper>
     </div>

@@ -1,13 +1,16 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-export const useResizeObserver = (ref: React.RefObject<HTMLElement | null>) => {
+export const useResizeObserver = <T extends Element = HTMLElement>(
+  ref?: React.RefObject<T | null>,
+) => {
   const [size, setSize] = useState({
     width: undefined as number | undefined,
     height: undefined as number | undefined,
   });
+  const targetRef = ref || (useRef<T>(null) as React.RefObject<T>);
   useEffect(() => {
-    if (!ref.current) return;
+    if (!targetRef.current) return;
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const target = entry.target as HTMLElement;
@@ -17,10 +20,10 @@ export const useResizeObserver = (ref: React.RefObject<HTMLElement | null>) => {
         });
       }
     });
-    resizeObserver.observe(ref.current);
+    resizeObserver.observe(targetRef.current);
     return () => {
       resizeObserver.disconnect();
     };
   }, [ref]);
-  return size;
+  return { ...size, ref: targetRef };
 };
