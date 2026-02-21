@@ -5,7 +5,6 @@ import DefaultErrorPage from "next/error";
 import { getPosts, getPostContent, Post } from "@lib/notion";
 import PostPage from "@templates/post/PostPage";
 import CryptoJS from "crypto-js";
-import { isDevEnvironment } from "@lib/utils";
 import { getPassword } from "@lib/notion/password";
 
 type BlogProps = {
@@ -68,7 +67,7 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   // Grab the slug from the post URL
   const slug = context.params && context.params.slug;
   // Get all posts from the Notion database
-  const posts = await getPosts(isDevEnvironment);
+  const posts = await getPosts();
   // Find the post with a matching slug property
   let post: Post | null = null;
   const filteredPosts = posts.filter((post) => post.slug === slug);

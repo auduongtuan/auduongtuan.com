@@ -1,87 +1,69 @@
 {
-  "project_panel": {
-    "default_width": 300
-  },
-  "buffer_font_size": 14,
-  "ui_font_size": 14,
-  "theme": "One Dark",
-  "vim_mode": false,
   "tab_size": 2,
   "format_on_save": "on",
   "formatter": "prettier",
   "code_actions_on_format": {
     "source.fixAll.eslint": true,
-    "source.organizeImports": true
+    "source.organizeImports": true,
   },
   "languages": {
     "TypeScript": {
       "formatter": "prettier",
       "tab_size": 2,
       "hard_tabs": false,
-      "format_on_save": "on"
+      "format_on_save": "on",
     },
     "TSX": {
-      "formatter": "prettier", 
+      "formatter": "prettier",
       "tab_size": 2,
       "hard_tabs": false,
-      "format_on_save": "on"
+      "format_on_save": "on",
     },
     "JavaScript": {
       "formatter": "prettier",
       "tab_size": 2,
       "hard_tabs": false,
-      "format_on_save": "on"
+      "format_on_save": "on",
     },
     "JSON": {
       "formatter": "prettier",
       "tab_size": 2,
       "hard_tabs": false,
-      "format_on_save": "on"
+      "format_on_save": "on",
     },
     "CSS": {
       "formatter": "prettier",
       "tab_size": 2,
       "hard_tabs": false,
-      "format_on_save": "on"
-    }
+      "format_on_save": "on",
+    },
   },
   "lsp": {
     "typescript-language-server": {
       "initialization_options": {
         "preferences": {
           "includeCompletionsForModuleExports": true,
-          "includeCompletionsForImportStatements": true
-        }
-      }
+          "includeCompletionsForImportStatements": true,
+        },
+      },
     },
     "eslint": {
       "settings": {
         "codeActionOnSave": {
           "mode": "all",
-          "rules": ["!debugger", "!no-only-tests/*"]
-        }
-      }
-    }
-  },
-  "assistant": {
-    "default_model": {
-      "provider": "anthropic",
-      "model": "claude-3-5-sonnet-20241022"
+          "rules": ["!debugger", "!no-only-tests/*"],
+        },
+      },
     },
-    "version": "2"
   },
   "file_types": {
     "Dockerfile": ["Dockerfile*"],
     "JSON": ["*.json", ".cursorrules", ".windsurfrules"],
-    "Markdown": ["*.md", "CLAUDE.md"]
-  },
-  "git": {
-    "git_gutter": "tracked_files"
+    "Markdown": ["*.md", "CLAUDE.md"],
   },
   "terminal": {
     "shell": {
-      "program": "zsh"
+      "program": "zsh",
     },
-    "font_size": 13
-  }
+  },
 }

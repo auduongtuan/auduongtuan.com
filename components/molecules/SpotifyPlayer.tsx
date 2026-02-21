@@ -840,7 +840,7 @@ const SpotifyPlayer = () => {
               <div
                 className={twMerge(
                   "absolute overflow-hidden rounded-full",
-                  (data.isPlaying || userIsPlaying) && "animate-spin-slow",
+                  (data.isPlaying || userIsPlaying) && "animate-spin-slow shrink-0 grow-0",
                 )}
                 style={{
                   width: COVER_SIZE,

@@ -11,7 +11,7 @@ export type HomePageProps = {
 
 export default function HomePage({ projects, posts }: HomePageProps) {
   const products = projects.filter((project) => {
-    return project.tags.length > 0;
+    return project.tags?.includes("my product");
   });
   return (
     <div className="bg-surface">

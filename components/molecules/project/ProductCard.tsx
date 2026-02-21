@@ -20,10 +20,18 @@ export type ProjectCardProps = {
   projects: Project[];
   index: number;
   className?: string;
+  horizontal?: boolean;
 };
 
 const ProductCard = memo(
-  ({ project, projects, index, className, ...rest }: ProjectCardProps) => {
+  ({
+    project,
+    projects,
+    index,
+    className,
+    horizontal = false,
+    ...rest
+  }: ProjectCardProps) => {
     const { ref, visibleRatio } = useVisibleRatio();
     const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
@@ -77,7 +85,12 @@ const ProductCard = memo(
     const footer = (
       <div className="flex space-x-4">
         {project.caseStudy && (
-          <Button scroll={false} href={`/project/${project.slug}`} arrow>
+          <Button
+            scroll={false}
+            href={`/project/${project.slug}`}
+            arrow
+            variant="secondary"
+          >
             View product
           </Button>
         )}
@@ -86,6 +99,7 @@ const ProductCard = memo(
             scroll={false}
             href={project.link ? project.link : "#"}
             showPopoutIcon={true}
+            variant="secondary"
           >
             View website
           </Button>
@@ -96,6 +110,7 @@ const ProductCard = memo(
             href={project.link ? project.link : "#"}
             showPopoutIcon={!internalLink}
             arrow={!!internalLink}
+            variant="secondary"
           >
             View product
           </Button>
@@ -136,7 +151,15 @@ const ProductCard = memo(
               `ease-bounce intro flex h-full flex-col transition-all duration-200`,
             )}
           >
-            {bp.up("lg") ? (
+            {horizontal || !bp.up("lg") ? (
+              <div className="flex gap-4 md:gap-6">
+                {icon}
+                <div className="flex grow flex-col items-start justify-start gap-6 lg:flex-col">
+                  {info}
+                  {footer}
+                </div>
+              </div>
+            ) : (
               <div className="flex grow flex-col gap-6">
                 <div className="flex grow flex-col items-start justify-start lg:flex-col">
                   {icon}
@@ -144,14 +167,6 @@ const ProductCard = memo(
                 </div>
 
                 {footer}
-              </div>
-            ) : (
-              <div className="flex gap-4 md:gap-6">
-                {icon}
-                <div className="flex grow flex-col items-start justify-start gap-6 lg:flex-col">
-                  {info}
-                  {footer}
-                </div>
               </div>
             )}
           </Fade>

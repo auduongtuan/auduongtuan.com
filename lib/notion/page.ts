@@ -1,11 +1,11 @@
-import { isFullPage } from "@notionhq/client";
 import {
-  notion,
-  getProperty,
-  getPageIconFile,
-  getMediaFromProperty,
   getBlockChildren,
+  getMediaFromProperty,
+  getPageIconFile,
+  getProperty,
+  notion,
 } from "@lib/notion";
+import { isFullPage } from "@notionhq/client";
 
 export async function updateNotionPageAssets(assets: any, pageId: string) {
   let json = JSON.stringify(assets);
@@ -32,7 +32,7 @@ export const parseNotionPageAssets = async (page: any) => {
   const assets = JSON.parse(assetsJson);
 
   let update: boolean = false;
-  if (!("cover" in assets)) {
+  if (!("cover" in assets) || !assets.cover || assets.cover.length === 0) {
     const cover = await getMediaFromProperty(page, "Cover");
     if (cover) {
       assets.cover = cover;

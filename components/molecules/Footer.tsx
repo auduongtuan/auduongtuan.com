@@ -156,7 +156,10 @@ export default function Footer() {
                     >
                       See site history
                     </Button>
-                    <Button secondary onClick={() => setIsOpen(false)}>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setIsOpen(false)}
+                    >
                       Close
                     </Button>
                   </div>

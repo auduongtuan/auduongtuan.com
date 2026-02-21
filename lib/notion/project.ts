@@ -64,14 +64,14 @@ export async function getProjectsWithCache() {
     if (cacheData) {
       projects = cacheData;
     } else {
-      projects = await getProjects(isDevEnvironment);
+      projects = await getProjects();
       cache.set("projects", projects, 24 * 1000 * 60 * 60);
       if (forceRevalidate) {
         console.log("🔄 Cache revalidated for projects");
       }
     }
   } else {
-    projects = await getProjects(isDevEnvironment);
+    projects = await getProjects();
   }
   return projects;
 }
@@ -103,7 +103,7 @@ export async function getProjectGroups(): Promise<ProjectGroup[]> {
 }
 
 export async function getProjects(
-  includeUnpublished?: boolean,
+  includeUnpublished: boolean = isDevEnvironment,
 ): Promise<Project[]> {
   let filterQuery: any = {
     and: [
