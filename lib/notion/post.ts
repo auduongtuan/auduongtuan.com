@@ -14,15 +14,15 @@ import { cache, shouldRevalidateCache } from "@lib/utils/cache";
 export interface Post {
   id: string;
   slug: string;
-  meta: {
-    title: string;
-    icon?: PageIcon;
-    date: string;
-    tags: string[];
-    excerpt?: string;
-    protected: boolean;
-    passwordId?: string;
-  };
+  title: string;
+  icon?: PageIcon;
+  date: string;
+  tags: string[];
+  excerpt?: string;
+  protected: boolean;
+  passwordId?: string;
+  createdTime: string;
+  lastEditedTime: string;
   assets: NotionAssets;
 }
 
@@ -88,15 +88,19 @@ export async function getPosts(includeUnpublished: boolean = isDevEnvironment) {
       return {
         id: page.id,
         slug: getProperty(page, "Slug", "rich_text"),
-        meta: {
-          title: getProperty(page, "Title", "title"),
-          date: getProperty(page, "Date", "date"),
-          protected: getProperty(page, "Protected", "checkbox"),
-          tags: getProperty(page, "Tags", "multi_select"),
-          excerpt: getProperty(page, "Excerpt", "rich_text"),
-          icon: "icon" in page ? page.icon : undefined,
-          passwordId: getProperty(page, "Password", "relation")[0] || null,
-        },
+        title: getProperty(page, "Title", "title"),
+        date: getProperty(page, "Date", "date"),
+        createdTime: getProperty(page, "Created Time", "created_time"),
+        lastEditedTime: getProperty(
+          page,
+          "Last Edited Time",
+          "last_edited_time",
+        ),
+        protected: getProperty(page, "Protected", "checkbox"),
+        tags: getProperty(page, "Tags", "multi_select"),
+        excerpt: getProperty(page, "Excerpt", "rich_text"),
+        icon: "icon" in page ? page.icon : undefined,
+        passwordId: getProperty(page, "Password", "relation")[0] || null,
         assets: assets,
       };
     }),

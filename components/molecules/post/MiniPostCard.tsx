@@ -11,7 +11,7 @@ type MiniPostCardProps = {
 };
 
 const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
-  const formattedDate = formatPostDate(post.meta.date);
+  const formattedDate = formatPostDate(post.date);
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -22,9 +22,7 @@ const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
       )}
     >
       <span className="mr-4 shrink-0 grow-0 text-xl md:text-xl">
-        {post.meta.icon && post.meta.icon.type == "emoji"
-          ? post.meta.icon.emoji
-          : null}
+        {post.icon && post.icon.type == "emoji" ? post.icon.emoji : null}
       </span>
       <div className="flex flex-col">
         <h5
@@ -32,13 +30,13 @@ const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
             "inline-flex grow space-x-3 font-sans text-base font-semibold md:text-lg",
           )}
         >
-          <span className="">{post.meta.title}</span>
-          {post.meta.protected && (
+          <span className="">{post.title}</span>
+          {post.protected && (
             <FiLock className="text-tertiary mt-1 shrink-0 grow-0"></FiLock>
           )}
         </h5>
         <div className={clsx("mt-3 flex flex-wrap items-start space-x-2")}>
-          {post.meta.tags.map((tag, i) => (
+          {post.tags.map((tag, i) => (
             <Tag key={`tag-${i}`}>{tag}</Tag>
           ))}
         </div>

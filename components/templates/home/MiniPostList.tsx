@@ -19,7 +19,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
 
         <div className="group mt-6 grid grid-cols-1 gap-6 md:-mx-6 md:mt-2 md:grid-cols-2 md:gap-0">
           {posts
-            .filter((post) => !post.meta.protected)
+            .filter((post) => !post.protected)
             .slice(0, 6)
             .map((postItem) => (
               <div
