@@ -7,7 +7,17 @@ import { FieldValues, useForm } from "react-hook-form";
 import { FiSend } from "react-icons/fi";
 import CommentSuggestion from "./CommentSuggestion";
 
-const CommentForm = ({ page, wording, onSubmit }) => {
+const CommentForm = ({
+  page,
+  wording,
+  onSubmit,
+  lastEditedTime,
+}: {
+  page: string;
+  wording: any;
+  onSubmit?: () => void;
+  lastEditedTime: number | string;
+}) => {
   const [state, setState] = useReducer(
     (state, newState) => ({ ...state, ...newState }),
     {
@@ -63,7 +73,11 @@ const CommentForm = ({ page, wording, onSubmit }) => {
       {/* {state.sent && ( */}
 
       {/* )} */}
-      <CommentSuggestion onButtonClick={quickComment} page={page} />
+      <CommentSuggestion
+        onButtonClick={quickComment}
+        page={page}
+        lastEditedTime={lastEditedTime}
+      />
       <form
         onSubmit={handleSubmit(submitHandler)}
         className={state.loading ? "pointer-events-none animate-pulse" : ""}
@@ -80,7 +94,7 @@ const CommentForm = ({ page, wording, onSubmit }) => {
                 formContentRef(e);
                 // messageRef.current = e;
               }}
-              className="text-primary focus:border-accent relative block h-32 w-full rounded-lg border-2 border-gray-300 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:z-10 focus:shadow-xs focus:shadow-blue-400/40 md:rounded-b-none"
+              className="focus:border-accent text-primary relative block h-32 w-full rounded-lg border-2 border-gray-300 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:z-10 focus:shadow-xs focus:shadow-blue-400/40 md:rounded-b-none"
             />
           </div>
 

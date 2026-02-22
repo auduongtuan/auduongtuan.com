@@ -6,9 +6,13 @@ import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import Reaction from "./Reaction";
 
+const fetcher = ([url, page]) =>
+  axios.get(url, { params: { page: page } }).then((r) => r.data);
+
 const ReactionAndComment = React.memo(
   ({
     page,
+    lastEditedTime,
     wording = {
       singular: "comment",
       plural: "comment",
@@ -22,9 +26,8 @@ const ReactionAndComment = React.memo(
   }: {
     page: string;
     wording?: { [key: string]: string };
+    lastEditedTime: number | string;
   } & React.ComponentPropsWithRef<"div">) => {
-    const fetcher = ([url, page]) =>
-      axios.get(url, { params: { page: page } }).then((r) => r.data);
     const { data, mutate } = useSWR(["/api/comment", page], fetcher);
 
     return (
@@ -46,6 +49,7 @@ const ReactionAndComment = React.memo(
             page={page}
             wording={wording}
             onSubmit={mutate}
+            lastEditedTime={lastEditedTime}
           ></CommentForm>
           <div className="mt-6 md:mt-9">
             <CommentList comments={data} wording={wording} />
