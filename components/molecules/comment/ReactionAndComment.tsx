@@ -1,13 +1,9 @@
 import { cn } from "@lib/utils/cn";
-import axios from "axios";
+import { useAxiosSWR } from "@hooks/index";
 import React from "react";
-import useSWR from "swr";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import Reaction from "./Reaction";
-
-const fetcher = ([url, page]) =>
-  axios.get(url, { params: { page: page } }).then((r) => r.data);
 
 const ReactionAndComment = React.memo(
   ({
@@ -28,7 +24,7 @@ const ReactionAndComment = React.memo(
     wording?: { [key: string]: string };
     lastEditedTime: number | string;
   } & React.ComponentPropsWithRef<"div">) => {
-    const { data, mutate } = useSWR(["/api/comment", page], fetcher);
+    const { data, mutate } = useAxiosSWR(["/api/comment", { page }]);
 
     return (
       <div

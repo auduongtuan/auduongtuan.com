@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState, useReducer, Dispatch } from "react";
-import useSWR from "swr";
-import axios from "axios";
 import Tooltip from "@atoms/Tooltip";
 import Skeleton from "@atoms/Skeleton";
 import { cn } from "@lib/utils/cn";
+import axios from "axios";
+import { useAxiosSWR } from "@hooks/index";
 import { emojiBlast } from "emoji-blast";
 
 type Emoji = string;
@@ -192,10 +192,8 @@ const Reaction = ({
   onReact?: (emoji: string) => void;
 }) => {
   const [counter, dispatch] = useReducer(counterReducer, {});
-  const { data, isLoading } = useSWR(
-    ["/api/reaction", page],
-    ([url, page]) =>
-      axios.get(url, { params: { page: page } }).then((res) => res.data),
+  const { data, isLoading } = useAxiosSWR<Counter>(
+    ["/api/reaction", { page }],
     { revalidateOnMount: true },
   );
   useEffect(() => {

@@ -4,9 +4,8 @@ import Tooltip from "@atoms/Tooltip";
 import { type CommentSuggestion } from "@lib/commentSuggestion";
 import { useState } from "react";
 import { RiAiGenerate2 } from "react-icons/ri";
-import useSWR from "swr";
 import CommentTagScrollContainer from "./CommentTagScrollContainer";
-import axios from "axios";
+import { useAxiosSWR } from "@hooks/index";
 
 function getComments(
   suggestion: CommentSuggestion,
@@ -15,11 +14,6 @@ function getComments(
   const sets = suggestion[language] as string[][];
   return sets[Math.floor(Math.random() * sets.length)] || [];
 }
-
-const fetcher = ([url, page, lastEditedTime]) =>
-  axios
-    .get(url, { params: { page: page, lastEditedTime: lastEditedTime } })
-    .then((r) => r.data);
 
 const CommentSuggestion = ({
   onButtonClick,
@@ -30,9 +24,8 @@ const CommentSuggestion = ({
   page: string;
   lastEditedTime: number | string;
 }) => {
-  const { data: suggestion } = useSWR<CommentSuggestion>(
-    ["/api/comment-suggestion", page, lastEditedTime],
-    fetcher,
+  const { data: suggestion } = useAxiosSWR<CommentSuggestion>(
+    ["/api/comment-suggestion", { page, lastEditedTime }],
   );
 
   const [useEnglish, setUseEnglish] = useState(false);
