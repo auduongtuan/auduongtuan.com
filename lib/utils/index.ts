@@ -32,4 +32,11 @@ export function trackEvent(obj: {
 export const isDevEnvironment =
   process && process.env.NODE_ENV === "development";
 
+export const axiosFetcher = (
+  key: string | [string, Record<string, unknown>?],
+) => {
+  const [url, params] = Array.isArray(key) ? key : [key];
+  return axios.get(url, { params }).then((r) => r.data);
+};
+
 export * from "./base64";
