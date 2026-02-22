@@ -4,6 +4,7 @@ import { cn } from "@lib/utils/cn";
 import {
   CSSProperties,
   useEffect,
+  useEffectEvent,
   useLayoutEffect,
   useMemo,
   useRef,
@@ -168,8 +169,7 @@ export default function PhotoCards() {
   // Store the calculated height
   const [calculatedHeight, setCalculatedHeight] = useState(0);
 
-  const recalculateHeight = useRef(() => {});
-  recalculateHeight.current = () => {
+  const recalculateHeight = useEffectEvent(() => {
     const cards = Object.values(cardRefs.current);
     let height = 0;
     if (isExpanded) {
@@ -181,19 +181,19 @@ export default function PhotoCards() {
       height = calculateCardStackHeight(cards);
     }
     setCalculatedHeight(height);
-  };
+  });
 
   // Recalculate on layout changes
   useEffect(() => {
     requestAnimationFrame(() => {
-      recalculateHeight.current();
+      recalculateHeight();
     });
   }, [isExpanded, visiblePhotos.length, columns, width]);
 
   // Observe card size changes to recalculate height
   useEffect(() => {
     const observer = new ResizeObserver(() => {
-      recalculateHeight.current();
+      recalculateHeight();
     });
     Object.values(cardRefs.current).forEach((card) => {
       if (card) observer.observe(card);
