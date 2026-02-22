@@ -11,7 +11,6 @@ const CommentTagScrollContainer = ({
   useEffect(() => {
     if (!ref.current) return;
     if (!tagContainerRef.current) return;
-    console.log(ref.current.clientWidth);
     const tagContainer = tagContainerRef.current as HTMLDivElement;
     tagContainer.style.maxWidth = "200%";
     let largestRowWidth = 0;

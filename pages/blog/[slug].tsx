@@ -80,18 +80,15 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   if (post) {
     const rawPostContent = await getPostContent(post.id);
     if (post.protected && post.passwordId) {
-      const passsword = post.passwordId
+      const password = post.passwordId
         ? await getPassword(post.passwordId)
         : undefined;
       const json = JSON.stringify(rawPostContent);
-      if (passsword) {
-        const encrypted = CryptoJS.AES.encrypt(
-          json,
-          passsword.value,
-        ).toString();
+      if (password) {
+        const encrypted = CryptoJS.AES.encrypt(json, password.value).toString();
         postContent = encrypted;
-        passwordInfo.hint = passsword.hint;
-        passwordInfo.length = passsword.value.length;
+        passwordInfo.hint = password.hint;
+        passwordInfo.length = password.value.length;
       }
     } else {
       postContent = rawPostContent;
