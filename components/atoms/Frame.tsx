@@ -40,7 +40,7 @@ export const BaseFrame = ({
     return (
       <div
         className={cn(
-          `bg-surface relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0 shadow-lg`,
+          `relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0 shadow-lg`,
           className,
         )}
         ref={(el) => {
@@ -54,16 +54,16 @@ export const BaseFrame = ({
         <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full rounded-xl rounded-t-[11px] border border-solid border-black/20"></div>
         <header
           className={cn(
-            `flex items-center justify-between`,
-            inverted ? "bg-slate-100" : "bg-gray-700",
+            `flex items-center justify-between backdrop-blur-md`,
+            inverted ? "bg-slate-100" : "bg-white/40",
             draggable && "cursor-move",
             "z-1 rounded-t-[11px] px-3 py-1.5",
           )}
         >
           <div className="flex grow basis-0 items-center">
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-black/15"></span>
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-black/15"></span>
+            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-black/15"></span>
             {startContent}
           </div>
           {middleContent}
@@ -75,7 +75,7 @@ export const BaseFrame = ({
         </header>
         <main
           className={cn(
-            "grow-0 overflow-hidden rounded-b-xl p-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
+            "bg-surface grow-0 overflow-hidden rounded-b-xl p-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
             mainClassname,
           )}
         >
@@ -101,7 +101,7 @@ export const AppFrame = ({
   ref?: React.RefObject<HTMLDivElement>;
 }) => {
   const middleContentRender = () => (
-    <div className="inline-block min-h-[20px] w-[60%] justify-self-center rounded-md px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
+    <div className="inline-block min-h-5 w-[60%] justify-self-center rounded-md px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
       {title && title.replace(/(^\w+:|^)\/\//, "")}
     </div>
   );
@@ -127,14 +127,14 @@ const BrowserFrame = ({
 }) => {
   const startContentRender = () => (
     <>
-      <FiChevronLeft className="mr-1 ml-2 hidden text-gray-400 md:inline-block" />
-      <FiChevronRight className="hidden text-gray-400 md:inline-block" />
+      <FiChevronLeft className="mr-1 ml-2 hidden text-black/20 md:inline-block" />
+      <FiChevronRight className="hidden text-black/20 md:inline-block" />
       {startContent}
     </>
   );
   const middleContentRender = () => (
     <>
-      <div className="inline-block min-h-[20px] w-[60%] justify-self-center rounded-md bg-black/20 px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
+      <div className="inline-block min-h-5 w-[60%] justify-self-center rounded-md bg-black/10 px-4 py-0.5 text-center text-xs text-black/60 md:w-1/2">
         {url && (
           <a href={url} target="_blank" rel="noreferrer">
             {(title || url).replace(/(^\w+:|^)\/\//, "")}
@@ -146,8 +146,8 @@ const BrowserFrame = ({
   );
   const endContentRender = () => (
     <>
-      <FiGrid className="hidden text-slate-400 md:inline-block" />
-      <FiPlus className="hidden text-slate-400 md:inline-block" />
+      <FiGrid className="hidden text-black/20 md:inline-block" />
+      <FiPlus className="hidden text-black/20 md:inline-block" />
       {endContent}
     </>
   );
