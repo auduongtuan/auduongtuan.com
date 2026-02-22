@@ -230,8 +230,8 @@ const ProjectCard = memo(
     const coverMedia = (
       <Fade
         className={twMerge(
-          "col-span-12",
-          !vertical ? "md:col-span-6 md:col-start-7" : "row-start-1",
+          "col-span-2",
+          !vertical ? "md:col-span-1 md:col-start-2" : "row-start-1",
           "flex items-stretch justify-stretch gap-8 md:gap-4 lg:gap-8",
         )}
         slide
@@ -258,7 +258,7 @@ const ProjectCard = memo(
       >
         <div
           className={twMerge(
-            "grid h-full grid-cols-12 items-center justify-end gap-x-4 gap-y-8",
+            "grid h-full grid-cols-2 items-center justify-end gap-x-4 gap-y-8",
             vertical ? "grid-rows-[1fr_auto]" : "md:gap-x-16",
           )}
         >
@@ -267,9 +267,9 @@ const ProjectCard = memo(
             show={visibleRatio > 0.4}
             slide
             className={twMerge(
-              `ease-bounce intro col-span-12 transition-all duration-200`,
+              `ease-bounce intro col-span-2 transition-all duration-200`,
               !vertical
-                ? "row-start-2 md:col-span-6 md:row-start-1"
+                ? "row-start-2 md:col-span-1 md:row-start-1"
                 : "row-start-2",
             )}
           >
