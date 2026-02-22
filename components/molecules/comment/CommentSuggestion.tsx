@@ -24,9 +24,10 @@ const CommentSuggestion = ({
   page: string;
   lastEditedTime: number | string;
 }) => {
-  const { data: suggestion } = useAxiosSWR<CommentSuggestion>(
-    ["/api/comment-suggestion", { page, lastEditedTime }],
-  );
+  const { data: suggestion } = useAxiosSWR<CommentSuggestion>([
+    "/api/comment-suggestion",
+    { page, lastEditedTime },
+  ]);
 
   const [useEnglish, setUseEnglish] = useState(false);
   const comments = suggestion
@@ -82,7 +83,7 @@ const CommentSuggestion = ({
             ></Skeleton>
           ))}
         </Skeleton.Group>
-        <Skeleton.Content className="w-full shrink">
+        <Skeleton.Content className="w-full shrink" unmount>
           <CommentTagScrollContainer>
             {comments.map((content, index) => (
               <PillButton
