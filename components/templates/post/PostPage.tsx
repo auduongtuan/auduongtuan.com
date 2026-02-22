@@ -5,6 +5,7 @@ import { Transition } from "@atoms/Transition";
 import { Post } from "@lib/notion";
 import { PasswordInfo } from "@lib/notion/password";
 import { cn } from "@lib/utils/cn";
+import { formatPostDate } from "@lib/utils/format";
 import ContentMenu from "@molecules/ContentMenu";
 import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
 import PasswordProtect from "@molecules/PasswordProtect";
@@ -93,13 +94,7 @@ const PostSinglePage = ({
               className="text-tertiary muted-text mt-1 font-mono"
               delay={200}
             >
-              Posted on{" "}
-              {post.date &&
-                new Date(post.date).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+              Posted on {formatPostDate(post.date)}
             </Fade>
           </div>
         </HeaderWithBackButton>
