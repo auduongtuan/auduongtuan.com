@@ -8,3 +8,4 @@ export { useRandomInterval } from "./useRandomInterval";
 export { useAnimationsFinished } from "./useAnimationsFinished";
 export { useTransitionStatus } from "./useTransitionStatus";
 export type { TransitionStatus } from "./useTransitionStatus";
+export { useAxiosSWR } from "./useAxiosSWR";

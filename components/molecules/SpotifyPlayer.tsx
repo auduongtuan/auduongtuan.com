@@ -3,8 +3,8 @@ import Skeleton from "@atoms/Skeleton";
 import Tooltip from "@atoms/Tooltip";
 import dynamic from "next/dynamic";
 import { useEffect, useState, useRef, useCallback } from "react";
-import useSWR from "swr";
 import { twMerge } from "tailwind-merge";
+import { useAxiosSWR } from "@hooks/index";
 
 const ReactPlayer = dynamic(() => import("react-player"), {
   ssr: false,
@@ -736,10 +736,17 @@ const COVER_SIZE = 50;
 const VINYL_OFFSET = 7;
 const PLAY_BUTTON_SIZE = 16;
 
-const fetcher = (url: string) => fetch(url).then((r) => r.json());
+type SpotifyTrack = {
+  isPlaying: boolean;
+  title: string;
+  artist: string;
+  album: string;
+  albumImageUrl: string;
+  songUrl: string;
+};
 
 const SpotifyPlayer = () => {
-  const { data, mutate: mutateSpotify } = useSWR("/api/spotify", fetcher, {
+  const { data, mutate: mutateSpotify } = useAxiosSWR<SpotifyTrack>("/api/spotify", {
     refreshInterval: 10000, // Poll Spotify API every 10 seconds
   });
 
@@ -750,12 +757,12 @@ const SpotifyPlayer = () => {
     data?.title && data?.artist
       ? `${ytmusicApiUrl}/search?q=${encodeURIComponent(`${data.title} ${data.artist}`)}`
       : null;
-  const { data: ytData } = useSWR(ytQuery, fetcher);
+  const { data: ytData } = useAxiosSWR<{ videoId?: string }>(ytQuery);
 
   const [userIsPlaying, setUserIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0); // Start at 0 (paused)
 
-  const videoId = ytData?.videoId as string | undefined;
+  const videoId = ytData?.videoId;
 
   // Sync volume with play state: 0 when paused, 1 when playing
   useEffect(() => {

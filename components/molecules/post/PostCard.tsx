@@ -19,7 +19,7 @@ const PostCard = ({
   className = "",
   layout = "horizontal",
 }: PostCardProps) => {
-  const formattedDate = formatPostDate(post.meta.date);
+  const formattedDate = formatPostDate(post.date);
   return (
     <Link
       href={`/blog/${post.slug}`}
@@ -40,31 +40,27 @@ const PostCard = ({
         <div className="col-span-3 row-start-2 md:row-start-auto">
           <aside className="flex flex-col gap-2 pl-10 font-mono text-xl md:pl-0">
             {formattedDate && (
-              <p className={clsx("muted-text mt-1")}>
-                {formattedDate}
-              </p>
+              <p className={clsx("muted-text mt-1")}>{formattedDate}</p>
             )}
           </aside>
         </div>
         <div className="col-span-9 flex lg:pr-24">
           <span className="-mt-1 mr-4 shrink-0 grow-0 text-2xl md:mr-6 md:text-3xl">
-            {post.meta.icon && post.meta.icon.type == "emoji"
-              ? post.meta.icon.emoji
-              : null}
+            {post.icon && post.icon.type == "emoji" ? post.icon.emoji : null}
           </span>
           <div className="grow">
             <h2 className={clsx("h4 flex items-start space-x-3")}>
-              <Balancer ratio={0.67}>{post.meta.title}</Balancer>
-              {post.meta.protected && (
+              <Balancer ratio={0.67}>{post.title}</Balancer>
+              {post.protected && (
                 <FiLock className="text-tertiary mt-1"></FiLock>
               )}
             </h2>
 
             <p className="text-secondary body-text mt-2 leading-relaxed tracking-tight md:mt-3">
-              <Balancer ratio={0.3}>{post.meta.excerpt}</Balancer>
+              <Balancer ratio={0.3}>{post.excerpt}</Balancer>
             </p>
             <div className={clsx("mt-4 flex flex-wrap items-start space-x-2")}>
-              {post.meta.tags.map((tag, i) => (
+              {post.tags.map((tag, i) => (
                 <Tag key={`tag-${i}`}>{tag}</Tag>
               ))}
             </div>

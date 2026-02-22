@@ -103,7 +103,7 @@ const ProjectCard = memo(
     );
 
     const info = (
-      <div className="flex flex-col grow">
+      <div className="flex grow flex-col">
         <header className="flex items-center">
           <div className="grow">
             <h2 className="h3">
@@ -116,12 +116,12 @@ const ProjectCard = memo(
               )}
             </h2>
             {formattedDate && (
-              <p className="mt-0.5 md:mt-1 muted-text">{formattedDate}</p>
+              <p className="muted-text mt-0.5 md:mt-1">{formattedDate}</p>
             )}
           </div>
           {achievements}
         </header>
-        <p className="mt-2 md:mt-3 text-secondary body-text">
+        <p className="text-secondary body-text mt-2 md:mt-3">
           <Balancer ratio={0.67}>{project.tagline}</Balancer>
         </p>
         <ScrollableTagList tags={project.roles || []} className="mt-4" />
@@ -185,27 +185,33 @@ const ProjectCard = memo(
         // Stack the first two covers: the one below offset 12px up & right
         const [firstCover, secondCover] = covers;
         coverContent = (
-          <div className="inline-grid relative pt-7">
+          <div className="group relative inline-grid pt-7">
             {/* Top card */}
             <div className="z-10 col-start-1 row-start-1">
-              <CoverBrowserFrame
-                media={firstCover}
-                title={project.title}
-                coverTitle={project.coverTitle}
-                link={project.link}
-                className="w-[calc(100%-2rem)] max-h-full"
-              />
+              <div className="relative max-h-full w-[calc(100%-1rem)]">
+                <CoverBrowserFrame
+                  media={firstCover}
+                  title={project.title}
+                  coverTitle={project.coverTitle}
+                  link={project.link}
+                  className="max-h-full max-w-full group-hover:opacity-0"
+                />
+                <div className="border-divider absolute top-0 left-0 h-full w-full rounded-xl border border-dashed opacity-0 group-hover:opacity-100"></div>
+              </div>
             </div>
 
             {/* Card below, offset 12px up and to the right */}
-            <div className="col-start-1 row-start-1 opacity-40 -translate-y-7 translate-x-7">
-              <CoverBrowserFrame
-                media={secondCover}
-                title={project.title}
-                coverTitle={project.coverTitle}
-                link={project.link}
-                className="w-[calc(100%-2rem)] max-h-full"
-              />
+            <div className="col-start-1 row-start-1 translate-x-4 -translate-y-4 group-hover:z-20">
+              <div className="relative max-h-full w-[calc(100%-1rem)]">
+                <CoverBrowserFrame
+                  media={secondCover}
+                  title={project.title}
+                  coverTitle={project.coverTitle}
+                  link={project.link}
+                  className="max-h-full max-w-full opacity-0 group-hover:opacity-100"
+                />
+                <div className="border-divider absolute top-0 left-0 h-full w-full rounded-xl border border-dashed group-hover:opacity-0"></div>
+              </div>
             </div>
           </div>
         );
@@ -224,8 +230,8 @@ const ProjectCard = memo(
     const coverMedia = (
       <Fade
         className={twMerge(
-          "col-span-12",
-          !vertical ? "md:col-span-6 md:col-start-7" : "row-start-1",
+          "col-span-2",
+          !vertical ? "md:col-span-1 md:col-start-2" : "row-start-1",
           "flex items-stretch justify-stretch gap-8 md:gap-4 lg:gap-8",
         )}
         slide
@@ -240,7 +246,7 @@ const ProjectCard = memo(
       <div
         ref={ref}
         className={twMerge(
-          "p-4 md:p-6 lg:p-6 rounded-2xl text-primary",
+          "text-primary rounded-2xl p-4 md:p-6 lg:p-6",
           "ease bg-card transition-all duration-400",
           className,
           !vertical && "md:col-span-2",
@@ -252,7 +258,7 @@ const ProjectCard = memo(
       >
         <div
           className={twMerge(
-            "justify-end items-center gap-x-4 gap-y-8 grid grid-cols-12 h-full",
+            "grid h-full grid-cols-2 items-center justify-end gap-x-4 gap-y-8",
             vertical ? "grid-rows-[1fr_auto]" : "md:gap-x-16",
           )}
         >
@@ -261,13 +267,13 @@ const ProjectCard = memo(
             show={visibleRatio > 0.4}
             slide
             className={twMerge(
-              `col-span-12 transition-all duration-200 ease-bounce intro`,
+              `ease-bounce intro col-span-2 transition-all duration-200`,
               !vertical
-                ? "row-start-2 md:col-span-6 md:row-start-1"
+                ? "row-start-2 md:col-span-1 md:row-start-1"
                 : "row-start-2",
             )}
           >
-            <div className="flex flex-col gap-6 grow">
+            <div className="flex grow flex-col gap-6">
               {info}
               {footer}
             </div>

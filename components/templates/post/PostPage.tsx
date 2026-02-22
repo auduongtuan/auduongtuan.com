@@ -5,6 +5,7 @@ import { Transition } from "@atoms/Transition";
 import { Post } from "@lib/notion";
 import { PasswordInfo } from "@lib/notion/password";
 import { cn } from "@lib/utils/cn";
+import { formatPostDate } from "@lib/utils/format";
 import ContentMenu from "@molecules/ContentMenu";
 import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
 import PasswordProtect from "@molecules/PasswordProtect";
@@ -30,7 +31,7 @@ const PostSinglePage = ({
   const { decryptedContent, setDecryptedContent, setPassword, setError } =
     usePasswordProtectStore();
   const { setPost, setPostContent, setPosts } = usePostStore();
-  const isShown = !post.meta.protected || decryptedContent != null;
+  const isShown = !post.protected || decryptedContent != null;
 
   useEffect(() => {
     setPost(post);
@@ -48,12 +49,10 @@ const PostSinglePage = ({
   return (
     <>
       <HeadMeta
-        title={post.meta.title}
-        description={post.meta.excerpt}
-        tagline={post.meta.tags.map((tag) => "#" + tag).join("  ")}
-        emoji={
-          post.meta.icon?.type == "emoji" ? post.meta.icon.emoji : undefined
-        }
+        title={post.title}
+        description={post.excerpt}
+        tagline={post.tags.map((tag) => "#" + tag).join("  ")}
+        emoji={post.icon?.type == "emoji" ? post.icon.emoji : undefined}
       />
       <div className="z-10 w-full" key={post.slug + "_header"}>
         <HeaderWithBackButton
@@ -70,23 +69,23 @@ const PostSinglePage = ({
                   slide
                   duration={100}
                 >
-                  <Balancer>{post.meta.title}</Balancer>
+                  <Balancer>{post.title}</Balancer>
                 </Fade>
               </div>
-              {post.meta.icon && post.meta.icon.type == "emoji" ? (
+              {post.icon && post.icon.type == "emoji" ? (
                 <Fade
                   as="span"
                   delay={100}
                   duration={100}
                   className="text-3xl md:text-4xl"
                 >
-                  {post.meta.icon.emoji}
+                  {post.icon.emoji}
                 </Fade>
               ) : null}
             </div>
-            {post.meta.tags.length > 0 && (
+            {post.tags.length > 0 && (
               <Fade className="mt-2 flex flex-wrap space-x-2" delay={200}>
-                {post.meta.tags.map((tag, i) => (
+                {post.tags.map((tag, i) => (
                   <Tag key={`tag-${i}`}>{tag}</Tag>
                 ))}
               </Fade>
@@ -95,13 +94,7 @@ const PostSinglePage = ({
               className="text-tertiary muted-text mt-1 font-mono"
               delay={200}
             >
-              Posted on{" "}
-              {post.meta.date &&
-                new Date(post.meta.date).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+              Posted on {formatPostDate(post.date)}
             </Fade>
           </div>
         </HeaderWithBackButton>
@@ -113,7 +106,7 @@ const PostSinglePage = ({
       >
         <ContentMenu />
         <div className="main-container px-0">
-          {post.meta.protected ? (
+          {post.protected ? (
             <>
               <Transition
                 show={decryptedContent != null}
@@ -159,6 +152,7 @@ const PostSinglePage = ({
               cta: "Or wanna share your thoughts?",
               placeholder: "Hmmm... I think...",
             }}
+            lastEditedTime={post.lastEditedTime}
           ></ReactionAndComment>
         </Transition>
         <div

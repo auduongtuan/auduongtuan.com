@@ -37,14 +37,14 @@ function Dialog({ children, open, onClose, title, className }: DialogProps) {
           )}
         >
           <div className="flex w-full max-w-md translate-z-0 flex-col overflow-hidden rounded-xl border border-solid border-black/20 shadow-lg">
-            <header className="relative z-1 flex items-center justify-between rounded-t-[11px] bg-slate-100 px-3 py-1.5 shadow-[0_0_0_1px_rgba(0,0,0,0.06)]">
+            <header className="bg-card relative z-1 flex items-center justify-between rounded-t-[11px] px-3 py-1.5 shadow-[0_0_0_1px_rgba(0,0,0,0.06)]">
               <div className="absolute flex grow basis-0 items-center gap-2">
                 <BaseDialog.Close
                   aria-label="Close dialog"
-                  className="block h-2 w-2 cursor-pointer rounded-sm bg-slate-400 hover:bg-red-500 active:bg-red-700"
+                  className="bg-primary/40 block h-2 w-2 cursor-pointer rounded-sm hover:bg-red-500 active:bg-red-700"
                 />
               </div>
-              <BaseDialog.Title className="w-full px-8 py-[2px] text-center text-sm font-semibold text-slate-700">
+              <BaseDialog.Title className="w-full px-8 py-0.5 text-center text-sm font-semibold text-slate-700">
                 {title}
               </BaseDialog.Title>
             </header>

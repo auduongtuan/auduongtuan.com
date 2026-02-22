@@ -51,6 +51,8 @@ export type Project = {
   assets: NotionAssets;
   coverTitle?: string;
   passwordId?: string;
+  lastEditedTime: string;
+  createdTime: string;
   // [key: string]: unknown;
 };
 
@@ -160,6 +162,12 @@ export async function getProjects(
         slug: getProperty(page, "Slug", "rich_text"),
         title: getProperty(page, "Title", "title"),
         date: getProperty(page, "Date", "date"),
+        createdTime: getProperty(page, "Created Time", "created_time"),
+        lastEditedTime: getProperty(
+          page,
+          "Last Edited Time",
+          "last_edited_time",
+        ),
         description: getProperty(page, "Description", "rich_text"),
         type: getProperty(page, "Type", "multi_select"),
         tagline: getProperty(page, "Tagline", "rich_text"),

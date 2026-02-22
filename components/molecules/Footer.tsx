@@ -37,7 +37,7 @@ export default function Footer() {
     <div id="contact" className="relative">
       <footer className="text-primary sticky bottom-0 z-0">
         <div className="relative pt-0 pb-0" ref={ref}>
-          <section className="main-container border-t-divider pt-section-vertical relative mb-8 grid grid-cols-12 gap-x-3 gap-y-8 border-t lg:grid-rows-[auto_auto]">
+          <section className="pt-section-vertical border-t-divider main-container relative mb-8 grid grid-cols-12 gap-x-3 gap-y-8 border-t lg:grid-rows-[auto_auto]">
             <Fade
               slide
               show={inView}
@@ -168,7 +168,7 @@ export default function Footer() {
             </Fade>
             {/* Binary grid text at the bottom - full width to edges */}
           </section>
-          <div className="">
+          <div className="pb-3">
             <BinaryGridText text="AUDUONGTUAN" inView={inView} />
           </div>
         </div>

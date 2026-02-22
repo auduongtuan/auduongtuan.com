@@ -31,23 +31,18 @@ export async function getCommentSuggestion(
     }
     ${url}
   `;
+  const generateContent = (model: string) =>
+    genAI.models.generateContent({
+      model,
+      contents: prompt,
+      config: { responseMimeType: "application/json" },
+    });
+
   let result: GenerateContentResponse;
   try {
-    result = await genAI.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-      },
-    });
-  } catch (error) {
-    result = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-      },
-    });
+    result = await generateContent("gemini-3-flash-preview");
+  } catch {
+    result = await generateContent("gemini-2.5-flash");
   }
   return result.text
     ? JSON.parse(result.text)
@@ -60,22 +55,14 @@ export async function getCommentSuggestion(
 // Cache helper functions
 import { getMetadata, setMetadata } from "@lib/notion/metadata";
 
-// Helper function to check if cache is fresh (within 1 month)
-function isCacheFresh(lastEditedTime: string): boolean {
-  const oneMonthAgo = new Date();
-  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-  return new Date(lastEditedTime) > oneMonthAgo;
-}
-
 // Get cached comment suggestions for a page
 export async function getCommentSuggestionsCache(page: string): Promise<{
-  commentSuggestions: CommentSuggestion;
+  data: CommentSuggestion;
   lastEditedTime: string;
-  isFresh: boolean;
 } | null> {
   const metadata = await getMetadata("comment-suggestions", page);
 
-  console.log("Cache metadata for page", page, metadata);
+  // console.log("Cache metadata for page", page, metadata);
 
   if (!metadata || !metadata.value) {
     return null;
@@ -83,9 +70,8 @@ export async function getCommentSuggestionsCache(page: string): Promise<{
 
   try {
     return {
-      commentSuggestions: JSON.parse(metadata.value) as CommentSuggestion,
+      data: JSON.parse(metadata.value) as CommentSuggestion,
       lastEditedTime: metadata.lastEditedTime,
-      isFresh: isCacheFresh(metadata.lastEditedTime),
     };
   } catch (error) {
     console.error("Failed to parse cached comment suggestions:", error);

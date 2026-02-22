@@ -3,6 +3,7 @@ import ReactionAndComment from "@molecules/comment/ReactionAndComment";
 import usePasswordProtectStore from "@store/usePasswordProtectStore";
 import { Fragment } from "react";
 import OtherProjectList from "./OtherProjectList";
+
 interface ProjectSingleFooterProps {
   projects: Project[];
   project: Project;
@@ -22,10 +23,11 @@ const ProjectSingleFooter = ({
           {isShown && (
             <ReactionAndComment
               page={`project/${project.slug}`}
+              lastEditedTime={project.lastEditedTime}
             ></ReactionAndComment>
           )}
           {/*{isShown && (
-            <hr className="pt-section-vertical mt-section-vertical border-t border-gray-200"></hr>
+            <hr className="mt-section-vertical pt-section-vertical border-gray-200 border-t"></hr>
           )}*/}
           <div className="pt-section-vertical relative">
             <OtherProjectList projects={projects} project={project} />

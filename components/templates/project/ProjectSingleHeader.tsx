@@ -4,6 +4,7 @@ import Fade from "@atoms/Fade";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { twMerge } from "tailwind-merge";
 import { Project } from "@lib/notion";
+import { formatProjectDate } from "@lib/utils/format";
 import HeaderWithBackButton from "@molecules/HeaderWithBackButton";
 import Button from "@atoms/Button";
 interface ProjectSingleHeaderProps {
@@ -24,10 +25,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
             <Fade duration={200} slide className="grow">
               <h1 className="h1">{project.title}</h1>
               <p className="muted-text mt-1 md:mt-2">
-                {new Date(project.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                })}
+                {formatProjectDate(project.date)}
               </p>
             </Fade>
             {(project.link ||

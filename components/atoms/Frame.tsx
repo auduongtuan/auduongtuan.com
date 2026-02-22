@@ -12,79 +12,95 @@ import {
 import Tooltip from "./Tooltip";
 
 export interface BaseFrameProps extends React.ComponentPropsWithoutRef<"div"> {
-  inverted?: boolean;
   mainClassname?: string;
+  headerClassName?: string;
+  borderOverlayClassName?: string;
+  startContainerClassName?: string;
   draggable?: boolean;
   startContent?: React.ReactNode;
   middleContent?: React.ReactNode;
   endContent?: React.ReactNode;
+  dots?: React.ReactNode;
 }
 
 export const BaseFrame = ({
   ref,
   children,
   title,
-  inverted = false,
   mainClassname,
+  headerClassName,
+  borderOverlayClassName,
+  startContainerClassName,
   className = "",
   draggable = false,
   startContent,
   middleContent,
   endContent,
+  dots,
   ...rest
 }: BaseFrameProps & {
   ref?: React.RefObject<HTMLDivElement>;
 }) => {
   const draggleRef = useDraggable(!!draggable);
-  const renderFrame = () => {
-    return (
+  const defaultDots = (
+    <>
+      <span className="bg-primary/15 mr-1.5 block h-2.5 w-2.5 rounded-full"></span>
+      <span className="bg-primary/15 mr-1.5 block h-2.5 w-2.5 rounded-full"></span>
+      <span className="bg-primary/15 mr-1.5 block h-2.5 w-2.5 rounded-full"></span>
+    </>
+  );
+  return (
+    <div
+      className={cn(
+        `relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0 shadow-lg`,
+        className,
+      )}
+      ref={(el) => {
+        draggleRef.current = el;
+        if (ref && el) {
+          ref.current = el;
+        }
+      }}
+      {...rest}
+    >
       <div
         className={cn(
-          `bg-surface relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0 shadow-lg`,
-          className,
+          "border-primary/20 pointer-events-none absolute top-0 left-0 z-10 h-full w-full rounded-xl rounded-t-[11px] border border-solid",
+          borderOverlayClassName,
         )}
-        ref={(el) => {
-          draggleRef.current = el;
-          if (ref && el) {
-            ref.current = el;
-          }
-        }}
-        {...rest}
+      ></div>
+      <header
+        className={cn(
+          `bg-surface/40 flex items-center justify-between backdrop-blur-md`,
+          draggable && "cursor-move",
+          "z-1 rounded-t-[11px] px-3 py-1.5",
+          headerClassName,
+        )}
       >
-        <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full rounded-xl rounded-t-[11px] border border-solid border-black/20"></div>
-        <header
+        <div
           className={cn(
-            `flex items-center justify-between`,
-            inverted ? "bg-slate-100" : "bg-gray-700",
-            draggable && "cursor-move",
-            "z-1 rounded-t-[11px] px-3 py-1.5",
+            "flex grow basis-0 items-center",
+            startContainerClassName,
           )}
         >
-          <div className="flex grow basis-0 items-center">
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
-            <span className="mr-1.5 block h-2.5 w-2.5 rounded-full bg-gray-500"></span>
-            {startContent}
-          </div>
-          {middleContent}
-          <div className="flex grow basis-0 items-center justify-end gap-2 justify-self-end">
-            {/* <FiGrid className="hidden md:inline-block text-slate-400" />
-            <FiPlus className="hidden md:inline-block text-slate-400" /> */}
-            {endContent}
-          </div>
-        </header>
-        <main
-          className={cn(
-            "grow-0 overflow-hidden rounded-b-xl p-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
-            mainClassname,
-          )}
-        >
-          {children}
-        </main>
-      </div>
-    );
-  };
-  return renderFrame();
+          {dots ?? defaultDots}
+          {startContent}
+        </div>
+        {middleContent}
+        <div className="flex grow basis-0 items-center justify-end gap-2 justify-self-end">
+          {endContent}
+        </div>
+      </header>
+      <main
+        className={cn(
+          "bg-surface relative grow-0 overflow-hidden rounded-b-xl p-0 leading-0 after:pointer-events-none after:absolute after:inset-0 after:z-10 after:shadow-[inset_0_1px_0_0_rgba(0,0,0,0.1)] [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
+          mainClassname,
+        )}
+      >
+        {children}
+      </main>
+    </div>
+  );
 };
 BaseFrame.displayName = "BaseFrame";
 
@@ -101,7 +117,7 @@ export const AppFrame = ({
   ref?: React.RefObject<HTMLDivElement>;
 }) => {
   const middleContentRender = () => (
-    <div className="inline-block min-h-[20px] w-[60%] justify-self-center rounded-md px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
+    <div className="text-surface/80 inline-block min-h-5 w-[60%] justify-self-center rounded-md px-4 py-[2px] text-center text-xs md:w-1/2">
       {title && title.replace(/(^\w+:|^)\/\//, "")}
     </div>
   );
@@ -127,14 +143,14 @@ const BrowserFrame = ({
 }) => {
   const startContentRender = () => (
     <>
-      <FiChevronLeft className="mr-1 ml-2 hidden text-gray-400 md:inline-block" />
-      <FiChevronRight className="hidden text-gray-400 md:inline-block" />
+      {/* <FiChevronLeft className="hidden md:inline-block opacity-20 mr-1 ml-2 text-primary" />
+      <FiChevronRight className="hidden md:inline-block opacity-20 text-primary" /> */}
       {startContent}
     </>
   );
   const middleContentRender = () => (
     <>
-      <div className="inline-block min-h-[20px] w-[60%] justify-self-center rounded-md bg-black/20 px-4 py-[2px] text-center text-xs text-white/80 md:w-1/2">
+      <div className="bg-primary/5 text-primary/70 inline-block min-h-5 w-[80%] justify-self-center rounded-md px-4 py-0.5 text-center text-xs md:w-1/2">
         {url && (
           <a href={url} target="_blank" rel="noreferrer">
             {(title || url).replace(/(^\w+:|^)\/\//, "")}
@@ -146,8 +162,8 @@ const BrowserFrame = ({
   );
   const endContentRender = () => (
     <>
-      <FiGrid className="hidden text-slate-400 md:inline-block" />
-      <FiPlus className="hidden text-slate-400 md:inline-block" />
+      <FiGrid className="text-primary hidden opacity-30 md:inline-block" />
+      <FiPlus className="text-primary hidden opacity-30 md:inline-block" />
       {endContent}
     </>
   );
@@ -165,96 +181,67 @@ const BrowserFrame = ({
 
 BrowserFrame.displayName = "BrowserFrame";
 
-export interface PhotoFrameProps extends React.HTMLProps<HTMLDivElement> {
+export interface PhotoFrameProps extends BaseFrameProps {
   name?: string;
-  inverted?: boolean;
   onClose?: MouseEventHandler;
   closeTooltipContent?: string;
-  mainClassname?: string;
 }
 export const PhotoFrame = ({
   ref,
-  children,
-  inverted = false,
   name,
-  className = "",
   onClose,
   closeTooltipContent,
-  mainClassname,
-  draggable,
-  as,
   ...rest
 }: PhotoFrameProps & {
   ref?: React.RefObject<HTMLDivElement>;
 }) => {
-  const draggleRef = useDraggable(!!draggable);
-  const renderFrame = () => (
-    <div
-      // ref={innerRef}
-      // ref={ref}
-      ref={(el) => {
-        draggleRef.current = el;
-        if (typeof ref === "function") {
-          ref(el);
-        } else if (ref && el) {
-          ref.current = el;
-        }
-      }}
-      className={cn(
-        `relative flex w-full translate-z-0 flex-col overflow-hidden rounded-xl border border-solid border-black/20 shadow-lg`,
-        className,
-      )}
+  const closeDot = onClose ? (
+    closeTooltipContent ? (
+      <Tooltip content={closeTooltipContent}>
+        <button
+          aria-label="Close it"
+          className="bg-primary/15 mr-1.5 block h-2.5 w-2.5 cursor-pointer rounded-full hover:bg-red-500 active:bg-red-700"
+          onClick={onClose}
+        ></button>
+      </Tooltip>
+    ) : (
+      <button
+        aria-label="Close it"
+        className="bg-primary/15 mr-1.5 block h-2.5 w-2.5 cursor-pointer rounded-full hover:bg-red-500 active:bg-red-700"
+        onClick={onClose}
+      ></button>
+    )
+  ) : null;
+
+  return (
+    <BaseFrame
+      ref={ref}
       {...rest}
-    >
-      <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-full rounded-xl"></div>
-      <header
-        className={cn(
-          "flex items-center justify-between font-sans",
-          inverted ? "bg-slate-100" : "bg-slate-800",
-          draggable && "cursor-move",
-          "z-1 rounded-t-xl border-b border-black/10 px-3 py-1.5",
-        )}
-      >
-        <div className="flex grow basis-0 items-center gap-2">
-          {closeTooltipContent ? (
-            <Tooltip content={closeTooltipContent}>
-              <button
-                aria-label="Close it"
-                className="block h-2.5 w-2.5 cursor-pointer rounded-full bg-slate-400 hover:bg-red-500 active:bg-red-700"
-                onClick={onClose}
-              ></button>
-            </Tooltip>
-          ) : (
-            <span className="block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
-          )}
-          <span className="block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
-          <span className="block h-2.5 w-2.5 rounded-full bg-slate-400"></span>
-          {/* <FiChevronLeft className="ml-3 text-slate-400" />
-      <FiChevronRight className="text-slate-600" /> */}
-        </div>
-        <div
-          className={`text-sm font-semibold ${
-            inverted ? "text-slate-700" : "text-white/80"
-          } w-full px-8 py-[2px]`}
-        >
-          {name}
-        </div>
-        <div className="flex grow basis-0 items-center justify-end gap-2 justify-self-end">
-          <FiZoomOut className="text-slate-400" />
-          <FiZoomIn className="text-slate-400" />
-        </div>
-      </header>
-      <main
-        className={cn(
-          "grow-0 leading-0 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
-          mainClassname,
-        )}
-      >
-        {children}
-      </main>
-    </div>
+      dots={
+        closeDot ? (
+          <>
+            {closeDot}
+            <span className="bg-primary/15 mr-1.5 block h-2.5 w-2.5 rounded-full"></span>
+            <span className="bg-primary/15 mr-1.5 block h-2.5 w-2.5 rounded-full"></span>
+          </>
+        ) : undefined
+      }
+      middleContent={
+        name ? (
+          <div className="text-primary/70 w-full px-6 py-0.5 text-center text-sm font-medium">
+            {name}
+          </div>
+        ) : undefined
+      }
+      endContent={
+        <>
+          <FiZoomOut className="text-primary opacity-30" />
+          <FiZoomIn className="text-primary opacity-30" />
+          {rest.endContent}
+        </>
+      }
+    />
   );
-  return renderFrame();
 };
 
 PhotoFrame.displayName = "PhotoFrame";

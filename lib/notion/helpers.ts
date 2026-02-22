@@ -1,12 +1,7 @@
-import { richTextObject } from "@notion/richText";
-import { Client } from "@notionhq/client";
 import {
   BlockObjectResponse,
   BookmarkBlockObjectResponse,
-  ImageBlockObjectResponse,
-  VideoBlockObjectResponse,
   FileBlockObjectResponse,
-  PdfBlockObjectResponse,
   PageObjectResponse,
   PartialPageObjectResponse,
   RichTextItemResponse,
@@ -138,9 +133,17 @@ export function getProperty(
 export function getProperty(
   page: PageObjectResponse | PartialPageObjectResponse,
   prop: string,
+  propType: "last_edited_time" | "created_time",
+): string;
+
+export function getProperty(
+  page: PageObjectResponse | PartialPageObjectResponse,
+  prop: string,
   propType:
     | "checkbox"
     | "date"
+    | "last_edited_time"
+    | "created_time"
     | "multi_select"
     | "rich_text"
     | "title"
@@ -149,6 +152,7 @@ export function getProperty(
     | "url"
     | "number"
     | "relation",
+
   plain: boolean = true,
 ) {
   if (
@@ -172,6 +176,12 @@ export function getProperty(
         break;
       case "date":
         returnValue = data && "start" in data ? data?.start : undefined;
+        break;
+      case "last_edited_time":
+        returnValue = data;
+        break;
+      case "created_time":
+        returnValue = data;
         break;
       case "checkbox":
         returnValue = data as boolean;
