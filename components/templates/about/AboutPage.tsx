@@ -77,8 +77,8 @@ export default function AboutPage({
   }, [setIsExpanded, setIsExpanding]);
   return (
     <div className="bg-surface overflow-x-hidden overflow-y-hidden">
-      <main className="text-primary bg-surface z-10 w-full">
-        <div className="main-container py-section-vertical" ref={containerRef}>
+      <main className="bg-surface text-primary z-10 w-full">
+        <div className="py-section-vertical main-container" ref={containerRef}>
           <div
             className={cn(
               "flex flex-wrap [--gap-x:calc(var(--spacing)*4)] [--gap-y:calc(var(--spacing)*8)] md:flex-nowrap md:[--gap-x:calc(var(--spacing)*8)] md:[--gap-y:calc(var(--spacing)*8)]",
@@ -104,7 +104,7 @@ export default function AboutPage({
                   content={isExpanded ? "Collapse as stack" : "Expand as grid"}
                 >
                   <button
-                    className="subheading2 group inline-flex items-center justify-center gap-2 transition-colors hover:text-accent focus-visible:text-accent focus-visible:outline-none"
+                    className="group hover:text-accent focus-visible:text-accent subheading2 inline-flex items-center justify-center gap-2 transition-colors focus-visible:outline-none"
                     onClick={() => {
                       // if (isExpanding) return;
                       if (isExpanded === true) {
@@ -215,7 +215,7 @@ export default function AboutPage({
                 .
               </Fade>
               <Fade as="h3" delay={300} className="subheading2 section">
-                How I got into the industry
+                Professional bio
               </Fade>
               <Fade delay={350} as="p" className="item">
                 It started with teaching myself design and code to tinker with{" "}

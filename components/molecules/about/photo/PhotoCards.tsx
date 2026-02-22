@@ -168,32 +168,38 @@ export default function PhotoCards() {
   // Store the calculated height
   const [calculatedHeight, setCalculatedHeight] = useState(0);
 
-  // Calculate height with a delay using requestAnimationFrame
-  useEffect(() => {
+  const recalculateHeight = useRef(() => {});
+  recalculateHeight.current = () => {
     const cards = Object.values(cardRefs.current);
-
-    // Use two frames to ensure DOM has updated
-    function calculateHeight() {
-      let height = 0;
-      if (isExpanded) {
-        height = calculateGridLayoutHeight(cards, {
-          columns: columns,
-          gapY: 32,
-        });
-      } else {
-        height = calculateCardStackHeight(cards);
-      }
-      setCalculatedHeight(height);
+    let height = 0;
+    if (isExpanded) {
+      height = calculateGridLayoutHeight(cards, {
+        columns: columns,
+        gapY: 32,
+      });
+    } else {
+      height = calculateCardStackHeight(cards);
     }
+    setCalculatedHeight(height);
+  };
+
+  // Recalculate on layout changes
+  useEffect(() => {
     requestAnimationFrame(() => {
-      calculateHeight();
+      recalculateHeight.current();
     });
-    // a bit hacky: re-calculate height when animations finished
-    setTimeout(() => {
-      calculateHeight();
-    }, 300);
-    // }
   }, [isExpanded, visiblePhotos.length, columns, width]);
+
+  // Observe card size changes to recalculate height
+  useEffect(() => {
+    const observer = new ResizeObserver(() => {
+      recalculateHeight.current();
+    });
+    Object.values(cardRefs.current).forEach((card) => {
+      if (card) observer.observe(card);
+    });
+    return () => observer.disconnect();
+  }, [isExpanded, visiblePhotos.length, columns]);
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-2">
