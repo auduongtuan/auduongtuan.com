@@ -51,6 +51,8 @@ export type Project = {
   assets: NotionAssets;
   coverTitle?: string;
   passwordId?: string;
+  lastEditedTime: string;
+  createdTime: string;
   // [key: string]: unknown;
 };
 
