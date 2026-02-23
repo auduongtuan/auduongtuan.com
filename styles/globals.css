@@ -306,12 +306,12 @@
   @apply text-primary body-text;
   @apply flex flex-col items-center;
   .full {
-    width: 100%;
+    @apply px-section-horizontal w-full;
   }
   > *:not(.full) {
     /*@apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2; */
-    /* @apply w-full max-w-[calc(var(--content-width)-var(--section-horizontal-padding)*2)]; */
-    @apply max-w-content w-full;
+    @apply w-full max-w-[calc(var(--content-width)-var(--section-horizontal-padding)*2)];
+    /* @apply max-w-content w-full; */
   }
   > *:first-child {
     @apply mt-0;
