@@ -132,7 +132,6 @@ const ProjectCard = memo(
       <div className="flex gap-4">
         {project.caseStudy && (
           <Button
-            scroll={false}
             href={`/project/${project.slug}`}
             arrow
             variant="secondary"
@@ -142,7 +141,6 @@ const ProjectCard = memo(
         )}
         {project.type.includes("web") && !project.caseStudy && (
           <Button
-            scroll={false}
             href={project.link ? project.link : "#"}
             showPopoutIcon={true}
             variant="secondary"
