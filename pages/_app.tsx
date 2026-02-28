@@ -83,7 +83,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             />
           </>
         )}
-        <main className="relative">
+        <main className="bg-surface relative">
           <Navigation />
           <ToastList />
           <Component {...pageProps} />

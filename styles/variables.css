@@ -1,0 +1,79 @@
+@layer base {
+  :root {
+    color-scheme: light;
+    --base-fg: oklch(0.1925 0 0);
+    --base-bg: oklch(1 0 0);
+
+    --bg-surface: var(--base-bg);
+    --bg-surface-raised: oklch(from var(--base-fg) l c h / 0.075);
+    --bg-card: oklch(0.961 0.001 286.4);
+    --bg-navigation: var(--bg-surface);
+    --bg-pill: oklch(from var(--base-fg) l c h / 0.07);
+    --fg-decorative: oklch(from var(--base-fg) l c h / 0.2);
+    --fg-primary: light-dark(
+      oklch(from var(--base-fg) calc(l + 0.05) c h),
+      oklch(from var(--base-fg) calc(l - 0.05) c h)
+    );
+    --fg-secondary: light-dark(
+      oklch(from var(--base-fg) calc(l + 0.25) c h),
+      oklch(from var(--base-fg) calc(l - 0.15) c h)
+    );
+    --fg-tertiary: light-dark(
+      oklch(from var(--base-fg) calc(l + 0.45) c h),
+      oklch(from var(--base-fg) calc(l - 0.35) c h)
+    );
+    --bg-inverted: var(--base-fg);
+    --fg-button-primary: var(--base-bg);
+    --bg-button-primary: var(--base-fg);
+    --bg-button-primary-hover: var(--accent-bolder);
+    --bg-button-primary-pressed: var(--accent-boldest);
+    --bg-button-secondary: oklch(from var(--base-fg) l c h / 0.1);
+    --bg-button-secondary-hover: oklch(from var(--base-fg) l c h / 0.12);
+    --bg-button-secondary-pressed: oklch(from var(--base-fg) l c h / 0.2);
+    --bg-button-secondary-activated: oklch(from var(--base-fg) l c h / 0.2);
+
+    --fg-oncolor: oklch(0.95 0 0);
+    --accent-boldest: var(--color-blue-900);
+    --accent-bolder: var(--color-blue-800);
+    --accent: var(--color-blue-600);
+    --accent-subtle: var(--color-blue-200);
+    --accent-subtlest: var(--color-blue-50);
+    --control: oklch(from var(--base-fg) l c h / 0.15);
+    --divider: oklch(from var(--base-fg) l c h / 0.1);
+    --underline: oklch(from var(--base-fg) l c h / 0.15);
+    --main-width: min(calc(var(--vw, 1vw) * 100), 70rem);
+    --content-width: min(calc(var(--vw, 1vw) * 100), 52rem);
+    /* --main-width: min(100vw, 70rem);
+    --content-width: min(100vw, 52rem); */
+    --section-horizontal-padding: 1rem;
+    --section-vertical-padding: 2rem;
+    --subsection-vertical-padding: 1.5rem;
+    --content-element-spacing: 0.5rem;
+    --content-node-spacing: 1rem;
+    --content-group-spacing: 2rem;
+    --content-section-spacing: 2.5rem;
+
+    @media (width >= theme(--breakpoint-md)) {
+      --section-horizontal-padding: 1.5rem;
+      --section-vertical-padding: 3rem;
+      --subsection-vertical-padding: 2.5rem;
+      --content-element-spacing: 1rem;
+      --content-node-spacing: 1.25rem;
+      --content-group-spacing: 2rem;
+      --content-section-spacing: 2.75rem;
+    }
+
+    @media (width >= theme(--breakpoint-lg)) {
+      --content-node-spacing: 1.5rem;
+      --content-group-spacing: 2.5rem;
+      --content-section-spacing: 3rem;
+    }
+  }
+
+  .dark {
+    color-scheme: dark;
+    --base-fg: oklch(0.99 0 0);
+    --base-bg: oklch(0.252 0 0);
+    --bg-card: oklch(0.313 0 0);
+  }
+}
