@@ -23,7 +23,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
             .slice(0, 6)
             .map((postItem) => (
               <div
-                className="flex flex-col border-gray-200 md:px-6 md:py-4 md:odd:border-r"
+                className="border-divider flex flex-col md:px-6 md:py-4 md:odd:border-r"
                 key={postItem.id}
               >
                 <MiniPostCard post={postItem} className="grow" />

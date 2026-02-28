@@ -68,7 +68,7 @@ const PasswordProtect = ({
   ]);
 
   return (
-    <div className="rounded-lg border-2 border-dashed border-gray-200 p-6">
+    <div className="border-divider rounded-lg border-2 border-dashed p-6">
       <div className="flex w-full gap-4">
         <div className="grow">
           <h3 className="h3">This {mode} is password-protected</h3>
@@ -80,7 +80,7 @@ const PasswordProtect = ({
             {passwordInfo.length > 0 ? passwordInfo.hint : "No hint available"}
           </p>
         </div>
-        <FiLock className="shrink-0 text-[24px] text-gray-400 md:text-[32px]"></FiLock>
+        <FiLock className="text-tertiary shrink-0 text-[24px] md:text-[32px]"></FiLock>
       </div>
       <div className="mt-6">
         {/* <TextField

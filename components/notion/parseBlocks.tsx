@@ -52,7 +52,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
         content.push(
           <blockquote
             key={block.id}
-            className="mt-content-node border-l-2 border-gray-300 pl-4"
+            className="mt-content-node border-divider border-l-2 pl-4"
           >
             <p className="body-text mt-content-node">{richTextBlock(block)}</p>
             {parseBlocks(block.children, assets)}
