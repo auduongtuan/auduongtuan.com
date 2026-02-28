@@ -12,7 +12,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "text-white bg-button-primary hover:bg-button-primary-hover active:bg-button-primary-pressed",
+          "text-fg-button-primary bg-button-primary hover:bg-button-primary-hover hover:text-oncolor active:text-oncolor active:bg-button-primary-pressed",
         secondary:
           "bg-surface py-1.5 h-8.5 border border-control text-secondary hover:bg-button-secondary-hover active:bg-button-secondary-pressed",
         ghost:
@@ -36,7 +36,7 @@ const buttonVariants = cva(
         variant: "primary",
         colorful: true,
         className:
-          "bg-surface/80 text-primary hover:text-white hover:bg-button-primary-hover active:bg-button-primary-pressed active:outline-hidden focus:shadow-blue-400",
+          "bg-surface/80 text-primary hover:text-oncolor hover:bg-button-primary-hover active:bg-button-primary-pressed active:outline-hidden focus:shadow-blue-400",
       },
     ],
   },

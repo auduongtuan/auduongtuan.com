@@ -24,7 +24,7 @@ const Disclosure = ({
       className={className}
       onOpenChange={setOpen}
     >
-      <Collapsible.Trigger className="-mx-4 -my-2 flex w-full items-center rounded-md px-4 py-2 text-left font-semibold hover:bg-gray-100">
+      <Collapsible.Trigger className="hover:bg-surface-raised -mx-4 -my-2 flex w-full items-center rounded-md px-4 py-2 text-left font-semibold">
         <span className="mr-2">
           {open ? <FiChevronDown /> : <FiChevronRight />}
         </span>

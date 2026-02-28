@@ -19,7 +19,7 @@ const Switch = ({ checked, onChange, label }: SwitchProps) => {
           className={`${
             checked
               ? "bg-accent focus:ring-accent/20 focus:ring-[3px]"
-              : "focus:ring-accent bg-slate-300 focus:ring-2"
+              : "focus:ring-accent bg-control focus:ring-2"
           } relative inline-flex h-6 w-11 items-center rounded-full border-transparent bg-clip-padding outline-hidden focus:shadow-xs focus:shadow-blue-400/40`}
         >
           <span className="sr-only">{label}</span>

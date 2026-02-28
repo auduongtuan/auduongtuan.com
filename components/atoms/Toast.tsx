@@ -100,7 +100,7 @@ const Toast = ({ children, type, afterLeave, duration }: ToastProps) => {
     >
       <div
         role="alert"
-        className={`inline-flex items-center space-x-1 p-4 text-gray-100 ${
+        className={`text-oncolor inline-flex items-center space-x-1 p-4 ${
           type == "success" ? "bg-green-700/90" : "bg-red-700/90"
         } rounded-lg shadow`}
       >
