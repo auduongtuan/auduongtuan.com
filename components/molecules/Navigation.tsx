@@ -3,9 +3,17 @@ import { Transition } from "@atoms/Transition";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useAppStore from "@store/useAppStore";
 import { useRouter } from "next/router";
-import React, { Fragment, useEffect, useRef, useState, useCallback } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import React, {
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
+import { FiMenu, FiX, FiMoon, FiSun } from "react-icons/fi";
 import { twMerge } from "tailwind-merge";
+import IconButton from "@atoms/IconButton";
+import { useTheme } from "next-themes";
 
 const menuItems = [
   { href: "/", name: "Home" },
@@ -18,14 +26,20 @@ const Navigation = React.memo(() => {
   const { menuOpened, pauseScrollEvent, setMenuOpened } = useAppStore();
   const [hidden, setHidden] = useState(false);
   const bp = useBreakpoint();
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const router = useRouter();
-  const isActive = useCallback((href: string) =>
-    router.asPath == href ||
-    router.pathname == href.split("#")[0] ||
-    router.pathname.includes(href + "/") ||
-    (href.includes("/work") && router.pathname.includes("/project/")), 
-    [router.asPath, router.pathname]
+  const isActive = useCallback(
+    (href: string) =>
+      router.asPath == href ||
+      router.pathname == href.split("#")[0] ||
+      router.pathname.includes(href + "/") ||
+      (href.includes("/work") && router.pathname.includes("/project/")),
+    [router.asPath, router.pathname],
   );
   const [currentActive, setCurrentActive] = useState(
     menuItems.find((item) => isActive(item.href))?.href,
@@ -139,6 +153,19 @@ const Navigation = React.memo(() => {
                     className="bg-secondary absolute -bottom-3.75 h-1 w-0 origin-center rounded-t-full opacity-0 transition-all ease-in-out"
                     style={indicatorStyle}
                   ></span>
+                )}
+                {mounted && (
+                  <IconButton
+                    variant="ghost"
+                    size="small"
+                    className="ml-4 md:ml-10"
+                    onClick={() =>
+                      setTheme(theme === "dark" ? "light" : "dark")
+                    }
+                    aria-label="Toggle Dark Mode"
+                  >
+                    {theme === "dark" ? <FiSun /> : <FiMoon />}
+                  </IconButton>
                 )}
               </div>
             </>
