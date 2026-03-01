@@ -54,6 +54,7 @@
   --color-button-secondary-activated: var(--bg-button-secondary-activated);
   --color-navigation: var(--bg-navigation);
   --color-inverted: var(--bg-inverted);
+  --color-modal-backdrop: var(--bg-modal-backdrop);
   --color-pill: var(--bg-pill);
   --color-surface: var(--bg-surface);
   --color-surface-raised: var(--bg-surface-raised);
