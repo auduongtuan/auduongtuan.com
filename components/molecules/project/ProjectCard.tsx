@@ -2,6 +2,7 @@ import Badge from "@atoms/Badge";
 import { Project } from "@lib/notion";
 import Button from "@atoms/Button";
 import CustomImage from "@atoms/CustomImage";
+import ProjectIcon from "@atoms/ProjectIcon";
 import CustomVideo from "@atoms/CustomVideo";
 import Fade from "@atoms/Fade";
 import BrowserFrame from "@atoms/Frame";
@@ -94,12 +95,10 @@ const ProjectCard = memo(
     );
 
     const icon = project.icon && (
-      <CustomImage
+      <ProjectIcon
         src={project.icon.url}
-        width={72}
-        height={72}
+        size={72}
         alt={project.title}
-        autoDarkSvg={false}
       />
     );
 

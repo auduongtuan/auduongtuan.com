@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { cn } from "@lib/utils/cn";
+import { useTheme } from "next-themes";
 
 interface BinaryGridTextProps {
   text: string;
@@ -306,6 +307,8 @@ export default function BinaryGridText({
   inView,
   className,
 }: BinaryGridTextProps) {
+  const { resolvedTheme } = useTheme();
+  const baseColor = resolvedTheme === "dark" ? "#fff" : "#000";
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -353,7 +356,7 @@ export default function BinaryGridText({
             // but if we just want to avoid "blink", we can default to fully revealed if wasRevealed is true.
 
             let opacity = 0;
-            const color = "#000";
+            const color = baseColor;
 
             if (wasRevealed) {
               opacity = calculateTileOpacity(r, totalRows);
@@ -405,7 +408,13 @@ export default function BinaryGridText({
       window.removeEventListener("resize", handleResize);
       clearTimeout(resizeTimeout);
     };
-  }, [text]);
+  }, [text, baseColor]);
+
+  useEffect(() => {
+    for (const particle of particlesRef.current) {
+      particle.color = baseColor;
+    }
+  }, [baseColor]);
 
   // 2. Reveal Animation
   useEffect(() => {
@@ -492,7 +501,7 @@ export default function BinaryGridText({
         particles[idx].color =
           Math.random() < COLOR_GLITCH_COLORFUL_CHANCE
             ? GLITCH_COLORS[Math.floor(Math.random() * GLITCH_COLORS.length)]
-            : "#000";
+            : baseColor;
       }
 
       // C. Block Glitch
@@ -519,7 +528,7 @@ export default function BinaryGridText({
       }
     }, GLITCH_INTERVAL_MS);
     return () => clearInterval(interval);
-  }, [inView]);
+  }, [inView, baseColor]);
 
   // 4. Main Render Loop (Canvas + Physics)
   useEffect(() => {

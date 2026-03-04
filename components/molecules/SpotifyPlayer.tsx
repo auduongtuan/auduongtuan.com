@@ -2,6 +2,7 @@ import CustomImage from "@atoms/CustomImage";
 import Skeleton from "@atoms/Skeleton";
 import Tooltip from "@atoms/Tooltip";
 import dynamic from "next/dynamic";
+import { useTheme } from "next-themes";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 import { useAxiosSWR } from "@hooks/index";
@@ -746,6 +747,7 @@ type SpotifyTrack = {
 };
 
 const SpotifyPlayer = () => {
+  const { resolvedTheme } = useTheme();
   const { data, mutate: mutateSpotify } = useAxiosSWR<SpotifyTrack>("/api/spotify", {
     refreshInterval: 10000, // Poll Spotify API every 10 seconds
   });
@@ -806,7 +808,10 @@ const SpotifyPlayer = () => {
             style={{
               width: BOX_WIDTH,
               height: BOX_HEIGHT,
-              background: "rgba(0,0,0,0.1)",
+              background:
+                resolvedTheme === "dark"
+                  ? "rgba(255,255,255,0.4)"
+                  : "rgba(0,0,0,0.1)",
               boxShadow:
                 "0px 1px 2px 0px rgba(0,0,0,0.3), 0px 2px 6px 2px rgba(0,0,0,0.15)",
             }}
