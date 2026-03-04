@@ -15,6 +15,7 @@ const MiniProjectCard = ({ project }: { project: Project }) => {
             width={48}
             height={48}
             alt={project.title}
+            autoDarkSvg={false}
           />
         </div>
       )}

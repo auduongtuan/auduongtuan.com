@@ -184,6 +184,7 @@ export const parseCallout = (
             {media.type == "image" && (
               <CustomImage
                 src={media.url}
+                svgCode={media.svgCode}
                 width={media.width}
                 height={media.height}
               />

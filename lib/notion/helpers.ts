@@ -252,6 +252,11 @@ export async function getBlockChildren(
           currentAssets[block.id] = media;
         }
         block[block.type].url = media.url;
+        if (media.ext === "svg" && media.svgCode) {
+          block[block.type].svgCode = media.svgCode;
+        } else if ("svgCode" in block[block.type]) {
+          delete block[block.type].svgCode;
+        }
         block[block.type].width = media.width || null;
         block[block.type].height = media.height || null;
       }

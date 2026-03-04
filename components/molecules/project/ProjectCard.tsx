@@ -99,6 +99,7 @@ const ProjectCard = memo(
         width={72}
         height={72}
         alt={project.title}
+        autoDarkSvg={false}
       />
     );
 

@@ -4,7 +4,6 @@ import {
   FileBlockObjectResponse,
   ImageBlockObjectResponse,
   PageObjectResponse,
-  PartialPageObjectResponse,
   VideoBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { get } from "@lib/utils/common";
@@ -17,6 +16,7 @@ export type NotionMedia = {
   type: MediaType;
   url: string;
   ext: string;
+  svgCode?: string;
   caption?: string;
   width?: number;
   height?: number;
@@ -41,12 +41,46 @@ export function getBlockFileUrl(blockId: string) {
   return `/api/notion-asset/block/${blockId}`;
 }
 
+async function getSvgCodeFromUrl(url: string): Promise<string | undefined> {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) return undefined;
+    return await response.text();
+  } catch {
+    return undefined;
+  }
+}
+
+function createDirectSvgMedia(
+  url: string,
+  lastUpdated?: string,
+  svgCode?: string,
+): NotionMedia {
+  return {
+    type: "image",
+    url,
+    ext: "svg",
+    svgCode,
+    lastUpdated,
+  };
+}
+
 export async function getPageIconFile(page: PageObjectResponse) {
   if (page.icon?.type == "file") {
+    const iconUrl = page.icon.file.url;
+    if (getExtFromUrl(iconUrl) === "svg") {
+      const svgCode = await getSvgCodeFromUrl(iconUrl);
+      return createDirectSvgMedia(
+        iconUrl,
+        page.last_edited_time,
+        svgCode,
+      );
+    }
+
     return await getMediaFromCloudinary(
       `page_${page.id}_icon`,
       "image",
-      page.icon.file.url,
+      iconUrl,
     );
   }
   return null;
@@ -59,7 +93,7 @@ export function getFileUrl(file: FileBlockObjectResponse) {
 export function getExtFromUrl(url: string): string {
   try {
     const ext = (url && url.split("?")[0].split(".").pop()) || "";
-    return ext;
+    return ext.toLowerCase();
   } catch (e) {
     // console.error(e);
     return "";
@@ -67,7 +101,10 @@ export function getExtFromUrl(url: string): string {
 }
 
 export function getTypeFromExt(ext: string): MediaType {
-  const isImage = ["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(ext);
+  const normalizedExt = ext.toLowerCase();
+  const isImage = ["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(
+    normalizedExt,
+  );
   if (isImage) return "image";
   const isVideo = [
     "amv",
@@ -85,7 +122,7 @@ export function getTypeFromExt(ext: string): MediaType {
     "m4v",
     "qt",
     "wmv",
-  ].includes(ext);
+  ].includes(normalizedExt);
   if (isVideo) return "video";
   return "raw";
 }
@@ -147,16 +184,27 @@ export async function getMediaFromBlock(
     | VideoBlockObjectResponse,
 ) {
   if (block.type == "image" || block.type == "video") {
-    const url = getFileUrl(block[block.type]);
-    const type = getTypeFromUrl(url);
+    const sourceUrl = getFileUrl(block[block.type]);
+    const type = getTypeFromUrl(sourceUrl);
     const public_id = `block_${block.id}`;
-    if (!url) {
+
+    if (!sourceUrl) {
       throw new Error("Block does not have a file URL");
     }
+
+    if (block.type === "image" && getExtFromUrl(sourceUrl) === "svg") {
+      const svgCode = await getSvgCodeFromUrl(sourceUrl);
+      return createDirectSvgMedia(
+        sourceUrl,
+        block.last_edited_time,
+        svgCode,
+      );
+    }
+
     return await getMediaFromCloudinary(
       public_id,
       type,
-      url,
+      sourceUrl,
       block.last_edited_time,
     );
   } else {
@@ -173,13 +221,23 @@ export async function getMediaFromProperty(
   // const dimensions = getProperty(page, prop + " Dimensions", "rich_text");
   return Promise.all(
     files.map(async (file, i): Promise<NotionMedia> => {
-      const url = getFileUrl(file);
-      const type = getTypeFromUrl(url);
+      const sourceUrl = getFileUrl(file);
+      const type = getTypeFromUrl(sourceUrl);
       const public_id = `page_${page.id}_${prop}_${i}`;
+
+      if (getExtFromUrl(sourceUrl) === "svg") {
+        const svgCode = await getSvgCodeFromUrl(sourceUrl);
+        return createDirectSvgMedia(
+          sourceUrl,
+          page.last_edited_time,
+          svgCode,
+        );
+      }
+
       return await getMediaFromCloudinary(
         public_id,
         type,
-        url,
+        sourceUrl,
         page.last_edited_time,
       );
       // let width = 0;

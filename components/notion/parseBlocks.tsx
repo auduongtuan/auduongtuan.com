@@ -39,6 +39,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
               <CustomImage
                 className="max-w-full text-center"
                 src={block.image.url}
+                svgCode={block.image.svgCode}
                 // src={`/api/notion-asset/block/${block.id}`}
                 alt={block.image.alt ? block.image.alt : "Post Content Image"}
                 width={block.image.width}

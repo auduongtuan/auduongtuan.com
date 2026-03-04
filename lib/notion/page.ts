@@ -32,6 +32,25 @@ export const parseNotionPageAssets = async (page: any) => {
   const assets = JSON.parse(assetsJson);
 
   let update: boolean = false;
+
+  // Keep asset payload lean: only SVG entries may include svgCode.
+  Object.entries(assets).forEach(([key, value]) => {
+    const mediaList = Array.isArray(value) ? value : [value];
+    let changed = false;
+
+    mediaList.forEach((media: any) => {
+      if (media && media.ext !== "svg" && "svgCode" in media) {
+        delete media.svgCode;
+        changed = true;
+      }
+    });
+
+    if (changed) {
+      assets[key] = Array.isArray(value) ? mediaList : mediaList[0];
+      update = true;
+    }
+  });
+
   if (!("cover" in assets) || !assets.cover || assets.cover.length === 0) {
     const cover = await getMediaFromProperty(page, "Cover");
     if (cover) {

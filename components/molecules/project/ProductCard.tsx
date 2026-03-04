@@ -55,6 +55,7 @@ const ProductCard = memo(
           width={48}
           height={48}
           alt={project.title}
+          autoDarkSvg={false}
         />
       </div>
     );
