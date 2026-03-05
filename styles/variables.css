@@ -78,7 +78,7 @@
     --base-fg: oklch(0.99 0 0);
     --base-bg: oklch(0.252 0 0);
     --bg-card: oklch(0.313 0 0);
-    --bg-badge: oklch(from var(--base-fg) l c h / 0.1);
+    --bg-badge: oklch(from var(--base-fg) l c h / 0.2);
     --project-icon-inner-border: oklch(1 0 0 / 0.16);
   }
 }
