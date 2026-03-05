@@ -26,7 +26,9 @@ const Navigation = React.memo(() => {
   const { menuOpened, pauseScrollEvent, setMenuOpened } = useAppStore();
   const [hidden, setHidden] = useState(false);
   const bp = useBreakpoint();
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
+  const activeTheme = resolvedTheme ?? theme;
+  const isDarkTheme = activeTheme === "dark";
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -159,12 +161,10 @@ const Navigation = React.memo(() => {
                     variant="ghost"
                     size="small"
                     className="ml-4 md:ml-10"
-                    onClick={() =>
-                      setTheme(theme === "dark" ? "light" : "dark")
-                    }
+                    onClick={() => setTheme(isDarkTheme ? "light" : "dark")}
                     aria-label="Toggle Dark Mode"
                   >
-                    {theme === "dark" ? <FiSun /> : <FiMoon />}
+                    {isDarkTheme ? <FiSun /> : <FiMoon />}
                   </IconButton>
                 )}
               </div>

@@ -7,6 +7,7 @@
     --bg-surface: var(--base-bg);
     --bg-surface-raised: oklch(from var(--base-fg) l c h / 0.075);
     --bg-card: oklch(0.961 0.001 286.4);
+    --bg-badge: oklch(0.875 0.004 286);
     --bg-navigation: var(--bg-surface);
     --bg-pill: oklch(from var(--base-fg) l c h / 0.07);
     --bg-modal-backdrop: oklch(0 0 0 / 0.6);
@@ -77,6 +78,7 @@
     --base-fg: oklch(0.99 0 0);
     --base-bg: oklch(0.252 0 0);
     --bg-card: oklch(0.313 0 0);
+    --bg-badge: oklch(from var(--base-fg) l c h / 0.1);
     --project-icon-inner-border: oklch(1 0 0 / 0.16);
   }
 }

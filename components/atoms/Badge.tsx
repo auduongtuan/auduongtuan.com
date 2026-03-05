@@ -47,7 +47,7 @@ const Badge = ({ content, index, size = "medium" }: BadgeProps) => {
       </div>
       {/* <svg className='absolute top-0 left-0 w-full h-full fill-gray-300' */}
       <svg
-        className="absolute top-0 left-0 h-full w-full fill-gray-300"
+        className="fill-badge absolute top-0 left-0 h-full w-full"
         xmlns="http://www.w3.org/2000/svg"
         x="0"
         y="0"
