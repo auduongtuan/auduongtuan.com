@@ -25,6 +25,7 @@ import {
   parseCssColor,
   PAINTABLE_SELECTOR,
   sanitizeSvg,
+  splitCompoundPaths,
 } from "@lib/utils/svgDarkModeUtils";
 
 // Dark/neutral/light thresholds were tuned from the previous iteration of the
@@ -142,6 +143,7 @@ export function transformSvgMarkupForDarkMode(
     return svgMarkup;
   }
   const svg = root as unknown as SVGSVGElement;
+  splitCompoundPaths(svg);
 
   const candidates = collectCandidates(svg);
   const candidateByElement = new Map(
@@ -231,6 +233,9 @@ export function transformSvgMarkupForDarkMode(
   const dimmedSurfaceCandidates = candidates.filter(
     (candidate) => shouldDimFillByElement.get(candidate.element) === true,
   );
+  const dimmedLineCandidates = candidates.filter(
+    (candidate) => shouldDimLineByElement.get(candidate.element) === true,
+  );
 
   // Pass 3: lighten/reverse foreground when dark content would otherwise sit on
   // an unsuitable dark-mode backdrop.
@@ -246,16 +251,24 @@ export function transformSvgMarkupForDarkMode(
     const lightBelow = hasLightBelow(candidate, candidates);
     const filledBelow = hasNonTransparentFilledBelow(candidate, candidates);
     const dimmedSurfaceBelow = hasCandidateBelow(candidate, dimmedSurfaceCandidates);
+    const dimmedLineBelow = hasCandidateBelow(candidate, dimmedLineCandidates);
     // Once a supporting light surface is selected for dimming, dark foreground
     // above it should be allowed to reverse/lighten against the new darkened
     // panel rather than staying locked to the original light-surface rule.
     const supportedByLightSurface =
       candidate.hasLightSurfaceBelow && !dimmedSurfaceBelow;
+    const onlyDimmedLineSupport =
+      lightBelow &&
+      dimmedLineBelow &&
+      !filledBelow &&
+      !supportedByLightSurface;
     const faintBackgroundNeutral =
       candidate.hasDarkNeutralPaint && candidate.effectiveOpacity <= 0.12;
     const shouldLighten =
       (candidate.hasDarkNeutralPaint &&
-        ((!lightBelow && !filledBelow) || faintBackgroundNeutral) &&
+        ((!lightBelow && !filledBelow) ||
+          faintBackgroundNeutral ||
+          onlyDimmedLineSupport) &&
         !supportedByLightSurface) ||
       (!supportedByLightSurface &&
         dimmedSurfaceBelow &&
@@ -318,6 +331,10 @@ export function transformSvgMarkupForDarkMode(
       target.setAttribute(
         "data-dark-dimmed-surface-below",
         candidate && hasCandidateBelow(candidate, dimmedSurfaceCandidates) ? "1" : "0",
+      );
+      target.setAttribute(
+        "data-dark-dimmed-line-below",
+        candidate && hasCandidateBelow(candidate, dimmedLineCandidates) ? "1" : "0",
       );
       target.setAttribute(
         "data-dark-supported-by-light-surface",

@@ -170,6 +170,155 @@ export function sanitizeSvg(doc: Document): void {
   });
 }
 
+function splitPathDataIntoSubpaths(d: string): string[] {
+  const commandPattern = /([AaCcHhLlMmQqSsTtVvZz])([^AaCcHhLlMmQqSsTtVvZz]*)/g;
+  const chunks: string[] = [];
+  let current = "";
+
+  for (const match of d.matchAll(commandPattern)) {
+    const chunk = `${match[1]}${match[2]}`.trim();
+    if (!chunk) continue;
+
+    if ((match[1] === "M" || match[1] === "m") && current) {
+      chunks.push(current.trim());
+      current = chunk;
+      continue;
+    }
+
+    current = current ? `${current} ${chunk}` : chunk;
+  }
+
+  if (current) chunks.push(current.trim());
+  return chunks;
+}
+
+function getPathBBoxFromData(d: string): DOMRect | null {
+  const points = getPathPointsFromData(d);
+  if (!points || points.length === 0) return null;
+
+  let minX = Number.POSITIVE_INFINITY;
+  let minY = Number.POSITIVE_INFINITY;
+  let maxX = Number.NEGATIVE_INFINITY;
+  let maxY = Number.NEGATIVE_INFINITY;
+
+  for (const point of points) {
+    minX = Math.min(minX, point.x);
+    minY = Math.min(minY, point.y);
+    maxX = Math.max(maxX, point.x);
+    maxY = Math.max(maxY, point.y);
+  }
+
+  if (!Number.isFinite(minX) || !Number.isFinite(minY)) return null;
+  if (maxX <= minX || maxY <= minY) return null;
+
+  return new DOMRect(minX, minY, maxX - minX, maxY - minY);
+}
+
+function getPathEndpointsFromData(d: string): { start: SvgPoint; end: SvgPoint } | null {
+  const points = getPathPointsFromData(d);
+  if (!points || points.length === 0) return null;
+  return {
+    start: points[0],
+    end: points[points.length - 1],
+  };
+}
+
+function distanceBetweenPoints(a: SvgPoint, b: SvgPoint): number {
+  return Math.hypot(a.x - b.x, a.y - b.y);
+}
+
+function rectGap(a: DOMRect, b: DOMRect): number {
+  const dx = Math.max(a.x - (b.x + b.width), b.x - (a.x + a.width), 0);
+  const dy = Math.max(a.y - (b.y + b.height), b.y - (a.y + a.height), 0);
+  return Math.hypot(dx, dy);
+}
+
+function areSubpathsConnected(a: string, b: string): boolean {
+  const bboxA = getPathBBoxFromData(a);
+  const bboxB = getPathBBoxFromData(b);
+  const endpointsA = getPathEndpointsFromData(a);
+  const endpointsB = getPathEndpointsFromData(b);
+
+  if (bboxA && bboxB && rectGap(bboxA, bboxB) <= 3) {
+    return true;
+  }
+
+  if (endpointsA && endpointsB) {
+    const endpointPairs = [
+      distanceBetweenPoints(endpointsA.start, endpointsB.start),
+      distanceBetweenPoints(endpointsA.start, endpointsB.end),
+      distanceBetweenPoints(endpointsA.end, endpointsB.start),
+      distanceBetweenPoints(endpointsA.end, endpointsB.end),
+    ];
+
+    if (Math.min(...endpointPairs) <= 4) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function splitCompoundPaths(svg: SVGSVGElement): void {
+  // Split disconnected compound paths into connected groups. Subpaths that
+  // touch or nearly touch (for example a connector body and arrowhead) stay in
+  // the same output path, while visually separate groups become separate paths.
+  for (const path of svg.querySelectorAll<SVGPathElement>("path")) {
+    if (isResourceElement(path)) continue;
+
+    const d = path.getAttribute("d");
+    if (!d) continue;
+
+    const subpaths = splitPathDataIntoSubpaths(d);
+    if (subpaths.length <= 1) continue;
+
+    const groups: string[][] = [];
+    const visited = new Set<number>();
+
+    for (let start = 0; start < subpaths.length; start++) {
+      if (visited.has(start)) continue;
+
+      const queue = [start];
+      const group: string[] = [];
+      visited.add(start);
+
+      while (queue.length > 0) {
+        const current = queue.shift();
+        if (current === undefined) continue;
+
+        group.push(subpaths[current]);
+
+        for (let next = 0; next < subpaths.length; next++) {
+          if (visited.has(next)) continue;
+          if (!areSubpathsConnected(subpaths[current], subpaths[next])) {
+            continue;
+          }
+
+          visited.add(next);
+          queue.push(next);
+        }
+      }
+
+      groups.push(group);
+    }
+
+    if (groups.length <= 1) continue;
+
+    const fragment = path.ownerDocument.createDocumentFragment();
+
+    for (let index = 0; index < groups.length; index++) {
+      const clone = path.cloneNode(false) as SVGPathElement;
+      if (index > 0 && clone.hasAttribute("id")) {
+        clone.removeAttribute("id");
+      }
+      clone.setAttribute("d", groups[index].join(" "));
+      fragment.appendChild(clone);
+    }
+
+    path.replaceWith(fragment);
+  }
+}
+
 function parseSvgNumber(
   value: string | null | undefined,
   fallback = 0,
