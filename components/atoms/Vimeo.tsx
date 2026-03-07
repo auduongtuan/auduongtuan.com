@@ -6,7 +6,7 @@ const Vimeo = ({
   ratio?: number;
 }) => (
   <div
-    className="vimeo"
+    className="vimeo overflow-hidden rounded-md"
     style={{ padding: `${ratio}% 0 0 0`, position: "relative" }}
   >
     <iframe

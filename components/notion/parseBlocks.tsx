@@ -164,19 +164,21 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
           );
         } else {
           const embedElement = (
-            <iframe
-              src={block.embed.url}
-              className="w-full overflow-hidden rounded-md border-0"
-              style={{
-                aspectRatio:
-                  embedWidth && embedHeight
-                    ? `${embedWidth}/${embedHeight}`
-                    : undefined,
-              }}
-              title={embedCaption || "Embedded content"}
-              allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-              sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-            ></iframe>
+            <div className="overflow-hidden rounded-md">
+              <iframe
+                src={block.embed.url}
+                className="w-full border-0"
+                style={{
+                  aspectRatio:
+                    embedWidth && embedHeight
+                      ? `${embedWidth}/${embedHeight}`
+                      : undefined,
+                }}
+                title={embedCaption || "Embedded content"}
+                allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+                sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+              ></iframe>
+            </div>
           );
 
           if (embedCaption) {
