@@ -10,7 +10,7 @@ export const PAINTABLE_SELECTOR =
   "path,rect,circle,ellipse,polygon,polyline,line,text,use";
 export const DARK_LIGHTNESS_THRESHOLD = 0.56;
 export const LIGHT_ELEMENT_THRESHOLD = 0.72;
-export const SUPER_LIGHT_FILL_THRESHOLD = 0.9;
+export const SUPER_LIGHT_FILL_THRESHOLD = 0.8;
 export const OVERLAP_THRESHOLD = 0.02;
 export const FILLED_OVERLAP_THRESHOLD = 0.04;
 
@@ -137,13 +137,19 @@ export function isSuperLightColor(parsed: ParsedColor): boolean {
   return oklch.l >= SUPER_LIGHT_FILL_THRESHOLD;
 }
 
+export function isPureWhiteColor(parsed: ParsedColor): boolean {
+  return parsed.r >= 250 && parsed.g >= 250 && parsed.b >= 250;
+}
+
 export function isLightNeutralColor(parsed: ParsedColor): boolean {
   const oklch = rgbToOklch(parsed);
   return oklch.l >= LIGHT_ELEMENT_THRESHOLD && oklch.c <= 0.08;
 }
 
 export function sanitizeSvg(doc: Document): void {
-  doc.querySelectorAll("script, foreignObject").forEach((node) => node.remove());
+  doc
+    .querySelectorAll("script, foreignObject")
+    .forEach((node) => node.remove());
 
   doc.querySelectorAll("*").forEach((el) => {
     [...el.attributes].forEach((attr) => {
@@ -164,10 +170,83 @@ export function sanitizeSvg(doc: Document): void {
   });
 }
 
-function parseSvgNumber(value: string | null | undefined, fallback = 0): number {
+function parseSvgNumber(
+  value: string | null | undefined,
+  fallback = 0,
+): number {
   if (!value) return fallback;
   const parsed = Number.parseFloat(value);
   return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function parseFontSize(element: SVGGraphicsElement, fallback = 16): number {
+  const direct = parseSvgNumber(element.getAttribute("font-size"), fallback);
+  if (direct !== fallback || element.hasAttribute("font-size")) return direct;
+
+  const style = element.getAttribute("style");
+  if (style) {
+    const match = style.match(/font-size\s*:\s*([0-9.]+)/i);
+    if (match) {
+      const parsed = Number(match[1]);
+      if (Number.isFinite(parsed) && parsed > 0) return parsed;
+    }
+  }
+
+  return fallback;
+}
+
+function estimateTextWidth(text: string, fontSize: number): number {
+  const trimmed = text.replace(/\s+/g, " ").trim();
+  if (!trimmed) return 0;
+  return trimmed.length * fontSize * 0.56;
+}
+
+function getTextAttributeBBox(element: SVGGraphicsElement): DOMRect | null {
+  const fontSize = parseFontSize(element, 16);
+  const tspans = [...element.querySelectorAll("tspan")];
+
+  if (tspans.length > 0) {
+    let minX = Number.POSITIVE_INFINITY;
+    let minY = Number.POSITIVE_INFINITY;
+    let maxX = Number.NEGATIVE_INFINITY;
+    let maxY = Number.NEGATIVE_INFINITY;
+
+    for (const tspan of tspans) {
+      const text = tspan.textContent ?? "";
+      const width = estimateTextWidth(text, fontSize);
+      if (width <= 0) continue;
+
+      const x = parseSvgNumber(tspan.getAttribute("x"), Number.NaN);
+      const y = parseSvgNumber(tspan.getAttribute("y"), Number.NaN);
+      if (!Number.isFinite(x) || !Number.isFinite(y)) continue;
+
+      minX = Math.min(minX, x);
+      minY = Math.min(minY, y - fontSize);
+      maxX = Math.max(maxX, x + width);
+      maxY = Math.max(maxY, y + fontSize * 0.3);
+    }
+
+    if (
+      Number.isFinite(minX) &&
+      Number.isFinite(minY) &&
+      Number.isFinite(maxX) &&
+      Number.isFinite(maxY) &&
+      maxX > minX &&
+      maxY > minY
+    ) {
+      return new DOMRect(minX, minY, maxX - minX, maxY - minY);
+    }
+  }
+
+  const text = element.textContent ?? "";
+  const width = estimateTextWidth(text, fontSize);
+  if (width <= 0) return null;
+
+  const x = parseSvgNumber(element.getAttribute("x"), Number.NaN);
+  const y = parseSvgNumber(element.getAttribute("y"), Number.NaN);
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+
+  return new DOMRect(x, y - fontSize, width, fontSize * 1.3);
 }
 
 function getPathPointsFromData(d: string): SvgPoint[] | null {
@@ -479,6 +558,10 @@ function getAttributeBBox(element: SVGGraphicsElement): DOMRect | null {
     return getPathAttributeBBox(d);
   }
 
+  if (tag === "text") {
+    return getTextAttributeBBox(element);
+  }
+
   return null;
 }
 
@@ -573,8 +656,10 @@ export function intersects(a: DOMRect, b: DOMRect): number {
 
 function extractPaintColors(element: SVGGraphicsElement): ParsedColor[] {
   const values: string[] = [];
-  const fill = element.getAttribute("fill");
-  const stroke = element.getAttribute("stroke");
+  const fill =
+    element.getAttribute("data-original-fill") ?? element.getAttribute("fill");
+  const stroke =
+    element.getAttribute("data-original-stroke") ?? element.getAttribute("stroke");
   if (fill) values.push(fill);
   if (stroke) values.push(stroke);
 
@@ -595,7 +680,8 @@ function extractPaintColor(
   element: SVGGraphicsElement,
   attr: "fill" | "stroke",
 ): ParsedColor | null {
-  const direct = element.getAttribute(attr);
+  const direct =
+    element.getAttribute(`data-original-${attr}`) ?? element.getAttribute(attr);
   if (direct) {
     const parsed = parseCssColor(direct);
     if (parsed) return parsed;
@@ -609,10 +695,9 @@ function extractPaintColor(
 }
 
 export function collectCandidates(svg: SVGSVGElement): ElementCandidate[] {
-  const nodes = [...svg.querySelectorAll<SVGGraphicsElement>(PAINTABLE_SELECTOR)].slice(
-    0,
-    MAX_PROCESSABLE_NODES,
-  );
+  const nodes = [
+    ...svg.querySelectorAll<SVGGraphicsElement>(PAINTABLE_SELECTOR),
+  ].slice(0, MAX_PROCESSABLE_NODES);
 
   const candidates: ElementCandidate[] = [];
 
@@ -633,8 +718,12 @@ export function collectCandidates(svg: SVGSVGElement): ElementCandidate[] {
       const effectiveOpacity = getEffectiveOpacity(element);
       const hasFillPaint =
         fillColor !== null && effectiveOpacity * fillColor.a > 0.08;
-      const hasLightPaint = parsedPaintColors.some((color) => isLightColor(color));
-      const hasDarkPaint = parsedPaintColors.some((color) => isDarkColor(color));
+      const hasLightPaint = parsedPaintColors.some((color) =>
+        isLightColor(color),
+      );
+      const hasDarkPaint = parsedPaintColors.some((color) =>
+        isDarkColor(color),
+      );
       const hasDarkNeutralPaint = parsedPaintColors.some((color) =>
         isDarkNeutralColor(color),
       );
@@ -660,7 +749,10 @@ export function collectCandidates(svg: SVGSVGElement): ElementCandidate[] {
   }
 
   for (const candidate of candidates) {
-    candidate.hasLightSurfaceBelow = hasLightSurfaceBelow(candidate, candidates);
+    candidate.hasLightSurfaceBelow = hasLightSurfaceBelow(
+      candidate,
+      candidates,
+    );
   }
 
   return candidates;
@@ -799,9 +891,14 @@ export function hasLightSurfaceBelow(
   candidate: ElementCandidate,
   allCandidates: ElementCandidate[],
 ): boolean {
-  // Real surface support should come from local adjacency, not raw bbox
-  // overlap. For line-like geometry we sample along the line itself; for other
-  // elements we sample a few local points in the candidate box.
+  // "Light surface below" is the broad local-support signal used by the later
+  // passes. It asks: does this element sit on a nearby light filled surface?
+  //
+  // Rules:
+  // - only earlier painted filled surfaces count
+  // - support is sampled locally, not from raw bbox-overlap percentages
+  // - line-like geometry samples along the line itself
+  // - other geometry samples points inside the candidate box
   const surfaces = getLightSurfaceCandidatesBelow(candidate, allCandidates);
   if (surfaces.length === 0) return false;
 
@@ -816,9 +913,9 @@ export function hasStrongLightSurfaceSupportBelow(
   candidate: ElementCandidate,
   allCandidates: ElementCandidate[],
 ): boolean {
-  // Line dimming should only be blocked when the line is mostly carried by a
-  // light surface, not when a long connector just touches or passes through
-  // one part of a card.
+  // Strong support is the stricter variant used only to block decorative-line
+  // dimming. It answers: is this line mostly carried by a light surface rather
+  // than merely touching one part of it?
   const surfaces = getLightSurfaceCandidatesBelow(candidate, allCandidates);
   if (surfaces.length === 0) return false;
 
@@ -833,7 +930,8 @@ export function hasCandidateBelow(
   candidate: ElementCandidate,
   belowCandidates: ElementCandidate[],
 ): boolean {
-  // Used to find content painted above surfaces we decided to dim.
+  // Generic "painted below me" check used after pass 1 to find content sitting
+  // above surfaces we decided to dim.
   for (const below of belowCandidates) {
     if (below.paintIndex >= candidate.paintIndex) continue;
     if (isResourceElement(below.element)) continue;
@@ -848,6 +946,60 @@ export function hasCandidateBelow(
   }
 
   return false;
+}
+
+export function hasCandidateAbove(
+  candidate: ElementCandidate,
+  allCandidates: ElementCandidate[],
+): boolean {
+  // Surfaces should only dim when they actually carry painted content above
+  // them. This prevents isolated light circles/blobs/cards from darkening just
+  // because they are bright.
+  for (const above of allCandidates) {
+    if (above.paintIndex <= candidate.paintIndex) continue;
+    if (isResourceElement(above.element)) continue;
+
+    const overlapArea = intersects(candidate.bbox, above.bbox);
+    if (overlapArea <= 0) continue;
+
+    const overlapPortion = overlapArea / Math.max(1, above.area);
+    if (overlapPortion >= Math.max(OVERLAP_THRESHOLD, 0.015)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function hasMostlySuperLightContentAbove(
+  candidate: ElementCandidate,
+  allCandidates: ElementCandidate[],
+): boolean {
+  // If most of the overlapping content above a surface is already super-light,
+  // dimming the surface would usually reduce contrast instead of improving it.
+  // This is the final guard in pass 1 that preserves light-on-light hero/logo
+  // treatments from being inverted unnecessarily.
+  let totalOverlap = 0;
+  let superLightOverlap = 0;
+
+  for (const above of allCandidates) {
+    if (above.paintIndex <= candidate.paintIndex) continue;
+    if (isResourceElement(above.element)) continue;
+
+    const overlapArea = intersects(candidate.bbox, above.bbox);
+    if (overlapArea <= 0) continue;
+
+    const overlapPortion = overlapArea / Math.max(1, above.area);
+    if (overlapPortion < Math.max(OVERLAP_THRESHOLD, 0.015)) continue;
+
+    totalOverlap += overlapArea;
+    if (above.parsedPaintColors.some((color) => isSuperLightColor(color))) {
+      superLightOverlap += overlapArea;
+    }
+  }
+
+  if (totalOverlap <= 0) return false;
+  return superLightOverlap / totalOverlap >= 0.6;
 }
 
 export function isLineLikeCandidate(candidate: ElementCandidate): boolean {

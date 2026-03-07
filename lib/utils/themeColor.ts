@@ -23,6 +23,7 @@ type DimLightSurfaceColorOptions = {
   brightThreshold?: number;
   targetDarkLightness?: number;
   chromaScale?: number;
+  force?: boolean;
 };
 
 // Theme helpers intentionally parse only the simple color formats used by
@@ -82,13 +83,14 @@ export function dimLightSurfaceColorForDarkMode(
     brightThreshold = 0.68,
     targetDarkLightness = 0.3,
     chromaScale = 0.82,
+    force = false,
   } = options;
 
   const parsed = parseColor(color);
   if (!parsed) return color;
 
   const oklch = rgbToOklch(parsed);
-  if (oklch.l <= brightThreshold) return color;
+  if (!force && oklch.l <= brightThreshold) return color;
 
   const transformed: OklchColor = {
     l: clamp(targetDarkLightness, 0.16, 0.5),

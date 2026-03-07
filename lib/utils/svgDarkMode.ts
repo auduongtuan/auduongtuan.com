@@ -10,14 +10,17 @@ import {
   collectCandidates,
   DARK_LIGHTNESS_THRESHOLD,
   extractGradientId,
+  hasCandidateAbove,
   hasCandidateBelow,
   hasLightBelow,
+  hasMostlySuperLightContentAbove,
   hasNonTransparentFilledBelow,
   hasStrongLightSurfaceSupportBelow,
   isDarkNeutralColor,
   LIGHT_ELEMENT_THRESHOLD,
   isLightNeutralColor,
   isLineLikeCandidate,
+  isPureWhiteColor,
   isSuperLightColor,
   parseCssColor,
   PAINTABLE_SELECTOR,
@@ -95,6 +98,7 @@ function dimSuperLightFillColor(value: string): string {
     brightThreshold: SUPER_LIGHT_FILL_THRESHOLD,
     targetDarkLightness: 0.3,
     chromaScale: 0.82,
+    force: true,
   });
 }
 
@@ -106,6 +110,13 @@ function dimLightLineColor(value: string): string {
     targetDarkLightness: 0.4,
     chromaScale: 0.7,
   });
+}
+
+function preserveOriginalPaint(target: Element, attr: "fill" | "stroke", value: string) {
+  const originalAttr = `data-original-${attr}`;
+  if (!target.hasAttribute(originalAttr)) {
+    target.setAttribute(originalAttr, value);
+  }
 }
 
 export function transformSvgMarkupForDarkMode(
@@ -142,10 +153,16 @@ export function transformSvgMarkupForDarkMode(
   const shouldDimFillByElement = new Map<Element, boolean>();
   const shouldDimLineByElement = new Map<Element, boolean>();
 
-  // Pass 1: detect exposed, very light filled surfaces that should become
-  // darker in dark mode. A candidate is skipped when another visible filled
-  // surface already sits underneath it, because that means it behaves like
-  // foreground/detail content rather than an exposed panel.
+  // Pass 1: dim filled "panel-like" surfaces only when all of these are true:
+  // - the element is a non-text filled shape
+  // - the fill is super-light, but not pure white
+  // - the shape actually carries painted content above it
+  // - there is no light/filled surface below that would make this shape behave
+  //   like foreground/detail content instead of an exposed panel
+  //
+  // This keeps dark mode focused on cards/chips/panels that need a darker
+  // backdrop, while leaving isolated decorative light blobs and white badges
+  // alone.
   for (const candidate of candidates) {
     const tagName = candidate.element.tagName.toLowerCase();
     const shouldDimFill =
@@ -153,6 +170,8 @@ export function transformSvgMarkupForDarkMode(
       candidate.hasFillPaint &&
       candidate.fillColor !== null &&
       isSuperLightColor(candidate.fillColor) &&
+      !isPureWhiteColor(candidate.fillColor) &&
+      hasCandidateAbove(candidate, candidates) &&
       !candidate.hasLightSurfaceBelow &&
       !hasNonTransparentFilledBelow(candidate, candidates);
 
@@ -170,11 +189,16 @@ export function transformSvgMarkupForDarkMode(
     shouldDimLineByElement.set(candidate.element, false);
   }
 
-  // Pass 2: dim only exposed decorative line geometry. This uses a stricter
-  // "strong light surface support" test than the generic surface classifier:
-  // small icon details fully inside a light control should stay unchanged,
-  // while large dashed frames and connector arrows still dim even if light
-  // cards exist somewhere inside their bounding box.
+  // Pass 2: dim only exposed decorative line geometry.
+  //
+  // Rules:
+  // - never dim text here
+  // - never dim line-like content that is actually carried by a light surface
+  // - allow true decorative strokes/connectors/frames to recede in dark mode
+  //
+  // The support check here is intentionally stricter than the generic
+  // light-surface check, so tiny icon details inside a light control are
+  // preserved while long dashed frames and connectors can still dim.
   for (const candidate of candidates) {
     const tagName = candidate.element.tagName.toLowerCase();
     const shouldDimFill = shouldDimFillByElement.get(candidate.element) === true;
@@ -208,15 +232,25 @@ export function transformSvgMarkupForDarkMode(
     (candidate) => shouldDimFillByElement.get(candidate.element) === true,
   );
 
-  // Pass 3: lighten dark foreground only when it floats on transparent space,
-  // or when it is painted above a surface we deliberately dimmed. The broader
-  // "light support below" signal still tracks light strokes/fills separately
-  // from the stricter filled-surface signals used in passes 1 and 2.
+  // Pass 3: lighten/reverse foreground when dark content would otherwise sit on
+  // an unsuitable dark-mode backdrop.
+  //
+  // There are two supported cases:
+  // - dark neutral content floating on transparent/dark space
+  // - dark content painted above a surface we deliberately dimmed in pass 1
+  //
+  // Raw "light surface below" is not enough to block this pass when that
+  // supporting surface has itself been selected for dimming. In that case the
+  // foreground should reverse against the new darkened panel.
   for (const candidate of candidates) {
     const lightBelow = hasLightBelow(candidate, candidates);
     const filledBelow = hasNonTransparentFilledBelow(candidate, candidates);
     const dimmedSurfaceBelow = hasCandidateBelow(candidate, dimmedSurfaceCandidates);
-    const supportedByLightSurface = candidate.hasLightSurfaceBelow;
+    // Once a supporting light surface is selected for dimming, dark foreground
+    // above it should be allowed to reverse/lighten against the new darkened
+    // panel rather than staying locked to the original light-surface rule.
+    const supportedByLightSurface =
+      candidate.hasLightSurfaceBelow && !dimmedSurfaceBelow;
     const faintBackgroundNeutral =
       candidate.hasDarkNeutralPaint && candidate.effectiveOpacity <= 0.12;
     const shouldLighten =
@@ -264,9 +298,34 @@ export function transformSvgMarkupForDarkMode(
         "data-dark-has-dark-paint",
         candidate?.hasDarkPaint ? "1" : "0",
       );
+      // Debug attrs intentionally expose both raw and effective support:
+      // - raw: what the original geometry/color analysis found
+      // - effective: what remains true after dimmed-surface overrides
       target.setAttribute(
         "data-dark-has-light-surface-below",
         candidate?.hasLightSurfaceBelow ? "1" : "0",
+      );
+      target.setAttribute(
+        "data-dark-has-content-above",
+        candidate && hasCandidateAbove(candidate, candidates) ? "1" : "0",
+      );
+      target.setAttribute(
+        "data-dark-has-mostly-super-light-content-above",
+        candidate && hasMostlySuperLightContentAbove(candidate, candidates)
+          ? "1"
+          : "0",
+      );
+      target.setAttribute(
+        "data-dark-dimmed-surface-below",
+        candidate && hasCandidateBelow(candidate, dimmedSurfaceCandidates) ? "1" : "0",
+      );
+      target.setAttribute(
+        "data-dark-supported-by-light-surface",
+        candidate &&
+          candidate.hasLightSurfaceBelow &&
+          !hasCandidateBelow(candidate, dimmedSurfaceCandidates)
+          ? "1"
+          : "0",
       );
       target.setAttribute(
         "data-dark-has-dark-neutral-paint",
@@ -277,9 +336,10 @@ export function transformSvgMarkupForDarkMode(
       target.setAttribute("data-dark-dim-line", shouldDimLine ? "1" : "0");
     }
 
-    ["fill", "stroke"].forEach((attr) => {
+    (["fill", "stroke"] as const).forEach((attr) => {
       const value = target.getAttribute(attr);
       if (!value) return;
+      preserveOriginalPaint(target, attr, value);
 
       const gradientId = extractGradientId(value.trim());
       if (gradientId && shouldLighten) {
@@ -308,13 +368,15 @@ export function transformSvgMarkupForDarkMode(
     const style = target.getAttribute("style");
     if (!style) return;
 
-    const transformedStyle = style.replace(
-      /(fill|stroke)\s*:\s*([^;]+)(;?)/gi,
-      (_, property: string, rawValue: string, semicolon: string) => {
-        let next = rawValue.trim();
-        if (property.toLowerCase() === "fill" && shouldDimFill) {
-          next = dimSuperLightFillColor(next);
-        } else if (shouldDimLine) {
+      const transformedStyle = style.replace(
+        /(fill|stroke)\s*:\s*([^;]+)(;?)/gi,
+        (_, property: string, rawValue: string, semicolon: string) => {
+          let next = rawValue.trim();
+          const normalizedProperty = property.toLowerCase() as "fill" | "stroke";
+          preserveOriginalPaint(target, normalizedProperty, next);
+          if (property.toLowerCase() === "fill" && shouldDimFill) {
+            next = dimSuperLightFillColor(next);
+          } else if (shouldDimLine) {
           next = dimLightLineColor(next);
         } else if (shouldLighten) {
           next = strongLighten
