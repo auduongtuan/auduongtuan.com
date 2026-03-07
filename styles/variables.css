@@ -2,6 +2,7 @@
   :root,
   .light {
     color-scheme: light;
+    color: var(--fg-primary);
     --base-fg: oklch(0.1925 0 0);
     --base-bg: oklch(1 0 0);
 
@@ -88,6 +89,7 @@
 
   .dark {
     color-scheme: dark;
+    color: var(--fg-primary);
     --base-fg: oklch(0.99 0 0);
     --base-bg: oklch(0.252 0 0);
     --bg-card: oklch(0.313 0 0);

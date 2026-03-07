@@ -21,7 +21,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--divider, currentColor);
   }
 }
 
@@ -71,7 +71,7 @@
   @apply text-primary body-text;
   @apply flex flex-col items-center;
   .full {
-    @apply px-section-horizontal w-full;
+    @apply w-full;
   }
   > *:not(.full) {
     /*@apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2; */
@@ -163,7 +163,6 @@
       @apply mt-0;
     }
   }
-
   /* .full {
       @apply col-span-3 col-start-1;
     } */
