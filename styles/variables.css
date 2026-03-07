@@ -55,7 +55,10 @@
       oklch(from var(--accent) 0.97 calc(c * 0.06) h),
       oklch(from var(--accent) calc(l - 0.14) calc(c * 0.18) h / 0.12)
     );
-    --control: oklch(from var(--base-fg) l c h / 0.15);
+    --control: light-dark(
+      oklch(from var(--base-fg) calc(l + 0.675) c h),
+      oklch(from var(--base-fg) calc(l - 0.6) c h)
+    );
     --divider: oklch(from var(--base-fg) l c h / 0.1);
     --underline: oklch(from var(--base-fg) l c h / 0.15);
     --main-width: min(calc(var(--vw, 1vw) * 100), 70rem);

@@ -71,7 +71,7 @@
   @apply text-primary body-text;
   @apply flex flex-col items-center;
   .full {
-    @apply w-full;
+    @apply max-w-[calc(var(--content-width)-var(--section-horizontal-padding)*2)];
   }
   > *:not(.full) {
     /*@apply col-span-3 col-start-1 lg:col-span-2 lg:col-start-2; */
