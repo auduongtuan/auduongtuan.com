@@ -1,17 +1,21 @@
 import {
   clamp,
+  oklchToRgb,
   ParsedColor,
   OklchColor,
   rgbToOklch,
   toCssOklch,
 } from "@lib/utils/colorSpace";
+import { dimLightSurfaceColorForDarkMode } from "@lib/utils/themeColor";
 
 const MAX_PROCESSABLE_NODES = 180;
 const PAINTABLE_SELECTOR =
   "path,rect,circle,ellipse,polygon,polyline,line,text,use";
 const DARK_LIGHTNESS_THRESHOLD = 0.56;
 const LIGHT_ELEMENT_THRESHOLD = 0.72;
+const SUPER_LIGHT_FILL_THRESHOLD = 0.9;
 const OVERLAP_THRESHOLD = 0.02;
+const FILLED_OVERLAP_THRESHOLD = 0.04;
 const NEUTRAL_THRESHOLD = 0.04;
 
 type ElementCandidate = {
@@ -21,6 +25,9 @@ type ElementCandidate = {
   paintIndex: number;
   parsedPaintColors: ParsedColor[];
   effectiveOpacity: number;
+  fillColor: ParsedColor | null;
+  strokeColor: ParsedColor | null;
+  hasFillPaint: boolean;
   hasLightPaint: boolean;
   hasDarkPaint: boolean;
   hasDarkNeutralPaint: boolean;
@@ -53,6 +60,30 @@ function isNonTransformableColor(value: string): boolean {
 
 function parseCssColor(value: string): ParsedColor | null {
   if (isNonTransformableColor(value)) return null;
+
+  const normalized = value.trim().toLowerCase();
+  const oklchMatch = normalized.match(
+    /^oklch\(\s*([0-9.]+%?)\s+([0-9.]+)\s+([0-9.\-]+)(?:\s*\/\s*([0-9.]+%?))?\s*\)$/i,
+  );
+  if (oklchMatch) {
+    const rawL = oklchMatch[1];
+    const rawAlpha = oklchMatch[4];
+    const l = rawL.endsWith("%")
+      ? clamp(Number(rawL.slice(0, -1)) / 100, 0, 1)
+      : clamp(Number(rawL), 0, 1);
+    const c = Math.max(Number(oklchMatch[2]), 0);
+    const h = Number(oklchMatch[3]);
+    const alpha =
+      rawAlpha === undefined
+        ? 1
+        : rawAlpha.endsWith("%")
+          ? clamp(Number(rawAlpha.slice(0, -1)) / 100, 0, 1)
+          : clamp(Number(rawAlpha), 0, 1);
+
+    if (Number.isFinite(l) && Number.isFinite(c) && Number.isFinite(h)) {
+      return oklchToRgb({ l, c, h }, alpha);
+    }
+  }
 
   const parser = getColorParserElement();
   if (!parser) return null;
@@ -88,6 +119,16 @@ function isLightColor(parsed: ParsedColor): boolean {
 function isDarkNeutralColor(parsed: ParsedColor): boolean {
   const oklch = rgbToOklch(parsed);
   return oklch.l < DARK_LIGHTNESS_THRESHOLD && oklch.c <= 0.08;
+}
+
+function isSuperLightColor(parsed: ParsedColor): boolean {
+  const oklch = rgbToOklch(parsed);
+  return oklch.l >= SUPER_LIGHT_FILL_THRESHOLD;
+}
+
+function isLightNeutralColor(parsed: ParsedColor): boolean {
+  const oklch = rgbToOklch(parsed);
+  return oklch.l >= LIGHT_ELEMENT_THRESHOLD && oklch.c <= 0.08;
 }
 
 function lightenDarkColor(value: string): string {
@@ -142,6 +183,22 @@ export function transformForegroundColorForDarkMode(value: string): string {
 
 export function transformBackgroundColorForDarkMode(value: string): string {
   return lightenDarkColor(value);
+}
+
+function dimSuperLightFillColor(value: string): string {
+  return dimLightSurfaceColorForDarkMode(value, {
+    brightThreshold: SUPER_LIGHT_FILL_THRESHOLD,
+    targetDarkLightness: 0.3,
+    chromaScale: 0.82,
+  });
+}
+
+function dimLightLineColor(value: string): string {
+  return dimLightSurfaceColorForDarkMode(value, {
+    brightThreshold: LIGHT_ELEMENT_THRESHOLD,
+    targetDarkLightness: 0.4,
+    chromaScale: 0.7,
+  });
 }
 
 function sanitizeSvg(doc: Document): void {
@@ -322,6 +379,23 @@ function extractPaintColors(element: SVGGraphicsElement): ParsedColor[] {
     .filter((color): color is ParsedColor => Boolean(color));
 }
 
+function extractPaintColor(
+  element: SVGGraphicsElement,
+  attr: "fill" | "stroke",
+): ParsedColor | null {
+  const direct = element.getAttribute(attr);
+  if (direct) {
+    const parsed = parseCssColor(direct);
+    if (parsed) return parsed;
+  }
+
+  const style = element.getAttribute("style");
+  if (!style) return null;
+  const match = style.match(new RegExp(`${attr}\\s*:\\s*([^;]+)`, "i"));
+  if (!match) return null;
+  return parseCssColor(match[1].trim());
+}
+
 function collectCandidates(svg: SVGSVGElement): ElementCandidate[] {
   const nodes = [...svg.querySelectorAll<SVGGraphicsElement>(PAINTABLE_SELECTOR)].slice(
     0,
@@ -341,8 +415,12 @@ function collectCandidates(svg: SVGSVGElement): ElementCandidate[] {
       const area = effectiveWidth * effectiveHeight;
       if (!Number.isFinite(area) || area <= 0) continue;
 
+      const fillColor = extractPaintColor(element, "fill");
+      const strokeColor = extractPaintColor(element, "stroke");
       const parsedPaintColors = extractPaintColors(element);
       const effectiveOpacity = getEffectiveOpacity(element);
+      const hasFillPaint =
+        fillColor !== null && effectiveOpacity * fillColor.a > 0.08;
       const hasLightPaint = parsedPaintColors.some((color) => isLightColor(color));
       const hasDarkPaint = parsedPaintColors.some((color) => isDarkColor(color));
       const hasDarkNeutralPaint = parsedPaintColors.some((color) =>
@@ -356,6 +434,9 @@ function collectCandidates(svg: SVGSVGElement): ElementCandidate[] {
         paintIndex,
         parsedPaintColors,
         effectiveOpacity,
+        fillColor,
+        strokeColor,
+        hasFillPaint,
         hasLightPaint,
         hasDarkPaint,
         hasDarkNeutralPaint,
@@ -388,6 +469,72 @@ function hasLightBelow(
   }
 
   return false;
+}
+
+function hasNonTransparentFilledBelow(
+  candidate: ElementCandidate,
+  allCandidates: ElementCandidate[],
+): boolean {
+  for (const below of allCandidates) {
+    if (below.paintIndex >= candidate.paintIndex) continue;
+    if (!below.hasFillPaint) continue;
+    if (below.effectiveOpacity < 0.08) continue;
+
+    const overlapArea = intersects(candidate.bbox, below.bbox);
+    if (overlapArea <= 0) continue;
+
+    const overlapPortion = overlapArea / Math.max(1, candidate.area);
+    if (overlapPortion >= FILLED_OVERLAP_THRESHOLD) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function hasCandidateBelow(
+  candidate: ElementCandidate,
+  belowCandidates: ElementCandidate[],
+): boolean {
+  for (const below of belowCandidates) {
+    if (below.paintIndex >= candidate.paintIndex) continue;
+
+    const overlapArea = intersects(candidate.bbox, below.bbox);
+    if (overlapArea <= 0) continue;
+
+    const overlapPortion = overlapArea / Math.max(1, candidate.area);
+    if (overlapPortion >= Math.max(OVERLAP_THRESHOLD, 0.015)) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function isLineLikeCandidate(candidate: ElementCandidate): boolean {
+  const tagName = candidate.element.tagName.toLowerCase();
+  if (tagName === "line" || tagName === "polyline") return true;
+
+  const width = Math.max(candidate.bbox.width, 1);
+  const height = Math.max(candidate.bbox.height, 1);
+  const aspectRatio = Math.max(width / height, height / width);
+  const thinDimension = Math.min(width, height);
+
+  if (tagName === "rect") {
+    const hasDashArray = candidate.element.hasAttribute("stroke-dasharray");
+    return hasDashArray || thinDimension <= 6 || aspectRatio >= 8;
+  }
+
+  if (tagName === "circle" || tagName === "ellipse") {
+    return false;
+  }
+
+  return thinDimension <= 12 || aspectRatio >= 8;
+}
+
+function canUseFillAsLinePaint(candidate: ElementCandidate): boolean {
+  const tagName = candidate.element.tagName.toLowerCase();
+  return tagName === "path" || tagName === "polygon" || tagName === "polyline";
 }
 
 function extractGradientId(value: string): string | null {
@@ -426,15 +573,80 @@ export function transformSvgMarkupForDarkMode(
 
   const shouldLightenByElement = new Map<Element, boolean>();
   const strongLightenByElement = new Map<Element, boolean>();
+  const shouldDimFillByElement = new Map<Element, boolean>();
+  const shouldDimLineByElement = new Map<Element, boolean>();
+
+  for (const candidate of candidates) {
+    const tagName = candidate.element.tagName.toLowerCase();
+    const shouldDimFill =
+      tagName !== "text" &&
+      candidate.hasFillPaint &&
+      candidate.fillColor !== null &&
+      isSuperLightColor(candidate.fillColor) &&
+      !hasNonTransparentFilledBelow(candidate, candidates);
+
+    shouldDimFillByElement.set(candidate.element, shouldDimFill);
+
+    const hasStandaloneLightStroke =
+      candidate.strokeColor &&
+      isLightNeutralColor(candidate.strokeColor) &&
+      !candidate.hasFillPaint;
+    const hasLineLikeLightFill =
+      canUseFillAsLinePaint(candidate) &&
+      candidate.fillColor &&
+      isLightNeutralColor(candidate.fillColor);
+    const lightStrokeLikePaint = hasStandaloneLightStroke || hasLineLikeLightFill;
+    shouldDimLineByElement.set(candidate.element, false);
+  }
+
+  for (const candidate of candidates) {
+    const tagName = candidate.element.tagName.toLowerCase();
+    const shouldDimFill = shouldDimFillByElement.get(candidate.element) === true;
+    const isDecorativeStrokeRect =
+      tagName === "rect" && candidate.element.hasAttribute("stroke-dasharray");
+    const hasStandaloneLightStroke =
+      candidate.strokeColor &&
+      isLightNeutralColor(candidate.strokeColor) &&
+      !candidate.hasFillPaint &&
+      (tagName !== "rect" || isDecorativeStrokeRect);
+    const hasLineLikeLightFill =
+      canUseFillAsLinePaint(candidate) &&
+      candidate.fillColor &&
+      isLightNeutralColor(candidate.fillColor);
+    const lightStrokeLikePaint = hasStandaloneLightStroke || hasLineLikeLightFill;
+    const hasFilledBelow = hasNonTransparentFilledBelow(candidate, candidates);
+    const shouldDimLine =
+      tagName !== "text" &&
+      !shouldDimFill &&
+      Boolean(lightStrokeLikePaint) &&
+      isLineLikeCandidate(candidate) &&
+      !hasFilledBelow;
+
+    shouldDimLineByElement.set(candidate.element, shouldDimLine);
+  }
+
+  const dimmedSurfaceCandidates = candidates.filter(
+    (candidate) => shouldDimFillByElement.get(candidate.element) === true,
+  );
 
   for (const candidate of candidates) {
     const lightBelow = hasLightBelow(candidate, candidates);
+    const filledBelow = hasNonTransparentFilledBelow(candidate, candidates);
+    const dimmedSurfaceBelow = hasCandidateBelow(candidate, dimmedSurfaceCandidates);
     const faintBackgroundNeutral =
       candidate.hasDarkNeutralPaint && candidate.effectiveOpacity <= 0.12;
     const shouldLighten =
-      candidate.hasDarkNeutralPaint && (!lightBelow || faintBackgroundNeutral);
+      (candidate.hasDarkNeutralPaint &&
+        ((!lightBelow && !filledBelow) || faintBackgroundNeutral)) ||
+      (dimmedSurfaceBelow &&
+        (candidate.hasDarkPaint || candidate.hasDarkNeutralPaint));
     shouldLightenByElement.set(candidate.element, shouldLighten);
-    strongLightenByElement.set(candidate.element, faintBackgroundNeutral);
+    strongLightenByElement.set(
+      candidate.element,
+      faintBackgroundNeutral ||
+        (dimmedSurfaceBelow &&
+          (candidate.hasDarkPaint || candidate.hasDarkNeutralPaint)),
+    );
   }
 
   const paintableElements = [
@@ -446,7 +658,12 @@ export function transformSvgMarkupForDarkMode(
 
   paintableElements.forEach((element) => {
     const shouldLighten = shouldLightenByElement.get(element) || false;
-    const strongLighten = strongLightenByElement.get(element) || false;
+    const strongLighten =
+      shouldLighten &&
+      ((strongLightenByElement.get(element) || false) ||
+        element.tagName.toLowerCase() === "text");
+    const shouldDimFill = shouldDimFillByElement.get(element) || false;
+    const shouldDimLine = shouldDimLineByElement.get(element) || false;
     const candidate = candidateByElement.get(element);
     const target = element as Element;
 
@@ -465,6 +682,8 @@ export function transformSvgMarkupForDarkMode(
         candidate?.hasDarkNeutralPaint ? "1" : "0",
       );
       target.setAttribute("data-dark-strong-lighten", strongLighten ? "1" : "0");
+      target.setAttribute("data-dark-dim-fill", shouldDimFill ? "1" : "0");
+      target.setAttribute("data-dark-dim-line", shouldDimLine ? "1" : "0");
     }
 
     ["fill", "stroke"].forEach((attr) => {
@@ -479,10 +698,17 @@ export function transformSvgMarkupForDarkMode(
         }
       }
 
-      if (!shouldLighten) return;
-      const next = strongLighten
-        ? stronglyLightenDarkColor(value)
-        : lightenDarkColor(value);
+      let next = value;
+      if (attr === "fill" && shouldDimFill) {
+        next = dimSuperLightFillColor(value);
+      } else if (shouldDimLine) {
+        next = dimLightLineColor(value);
+      } else if (shouldLighten) {
+        next = strongLighten
+          ? stronglyLightenDarkColor(value)
+          : lightenDarkColor(value);
+      }
+
       if (next !== value) {
         target.setAttribute(attr, next);
       }
@@ -494,10 +720,16 @@ export function transformSvgMarkupForDarkMode(
     const transformedStyle = style.replace(
       /(fill|stroke)\s*:\s*([^;]+)(;?)/gi,
       (_, property: string, rawValue: string, semicolon: string) => {
-        if (!shouldLighten) return `${property}:${rawValue}${semicolon}`;
-        const next = strongLighten
-          ? stronglyLightenDarkColor(rawValue.trim())
-          : lightenDarkColor(rawValue.trim());
+        let next = rawValue.trim();
+        if (property.toLowerCase() === "fill" && shouldDimFill) {
+          next = dimSuperLightFillColor(next);
+        } else if (shouldDimLine) {
+          next = dimLightLineColor(next);
+        } else if (shouldLighten) {
+          next = strongLighten
+            ? stronglyLightenDarkColor(next)
+            : lightenDarkColor(next);
+        }
         return `${property}:${next}${semicolon}`;
       },
     );

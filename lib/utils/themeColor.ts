@@ -19,6 +19,12 @@ type ResolveThemedSurfaceColorOptions = {
   chromaScale?: number;
 };
 
+type DimLightSurfaceColorOptions = {
+  brightThreshold?: number;
+  targetDarkLightness?: number;
+  chromaScale?: number;
+};
+
 function parseHexColor(value: string): ParsedColor | null {
   const normalized = value.trim();
   if (!normalized.startsWith("#")) return null;
@@ -63,6 +69,31 @@ function parseColor(value: string): ParsedColor | null {
   return parseHexColor(value) ?? parseRgbColor(value);
 }
 
+export function dimLightSurfaceColorForDarkMode(
+  color: string,
+  options: DimLightSurfaceColorOptions = {},
+): string {
+  const {
+    brightThreshold = 0.68,
+    targetDarkLightness = 0.3,
+    chromaScale = 0.82,
+  } = options;
+
+  const parsed = parseColor(color);
+  if (!parsed) return color;
+
+  const oklch = rgbToOklch(parsed);
+  if (oklch.l <= brightThreshold) return color;
+
+  const transformed: OklchColor = {
+    l: clamp(targetDarkLightness, 0.16, 0.5),
+    c: oklch.c > 0.04 ? clamp(oklch.c * chromaScale, 0, 0.28) : oklch.c,
+    h: oklch.h,
+  };
+
+  return toCssOklch(transformed, parsed.a);
+}
+
 export function resolveThemedTextColor(
   color: string,
   theme: string | undefined,
@@ -104,18 +135,9 @@ export function resolveThemedSurfaceColor(
   } = options;
 
   if (theme !== "dark" || preserveInDark) return color;
-
-  const parsed = parseColor(color);
-  if (!parsed) return color;
-
-  const oklch = rgbToOklch(parsed);
-  if (oklch.l <= brightThreshold) return color;
-
-  const transformed: OklchColor = {
-    l: clamp(targetDarkLightness, 0.16, 0.5),
-    c: oklch.c > 0.04 ? clamp(oklch.c * chromaScale, 0, 0.28) : oklch.c,
-    h: oklch.h,
-  };
-
-  return toCssOklch(transformed, parsed.a);
+  return dimLightSurfaceColorForDarkMode(color, {
+    brightThreshold,
+    targetDarkLightness,
+    chromaScale,
+  });
 }

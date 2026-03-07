@@ -19,6 +19,10 @@ function srgbToLinear(v: number): number {
   return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
 }
 
+function linearToSrgb(v: number): number {
+  return v <= 0.0031308 ? v * 12.92 : 1.055 * Math.pow(v, 1 / 2.4) - 0.055;
+}
+
 export function rgbToOklch({ r, g, b }: ParsedColor): OklchColor {
   const rLinear = srgbToLinear(r / 255);
   const gLinear = srgbToLinear(g / 255);
@@ -48,6 +52,48 @@ export function rgbToOklch({ r, g, b }: ParsedColor): OklchColor {
   };
 }
 
+export function oklchToRgb(
+  { l, c, h }: OklchColor,
+  alpha = 1,
+): ParsedColor {
+  const hueRadians = ((Number.isFinite(h) ? h : 0) * Math.PI) / 180;
+  const a = c * Math.cos(hueRadians);
+  const bComponent = c * Math.sin(hueRadians);
+
+  const lComponent = Math.pow(
+    l + 0.3963377774 * a + 0.2158037573 * bComponent,
+    3,
+  );
+  const mComponent = Math.pow(
+    l - 0.1055613458 * a - 0.0638541728 * bComponent,
+    3,
+  );
+  const sComponent = Math.pow(
+    l - 0.0894841775 * a - 1.291485548 * bComponent,
+    3,
+  );
+
+  const rLinear =
+    4.0767416621 * lComponent -
+    3.3077115913 * mComponent +
+    0.2309699292 * sComponent;
+  const gLinear =
+    -1.2684380046 * lComponent +
+    2.6097574011 * mComponent -
+    0.3413193965 * sComponent;
+  const bLinear =
+    -0.0041960863 * lComponent -
+    0.7034186147 * mComponent +
+    1.707614701 * sComponent;
+
+  return {
+    r: clamp(Math.round(linearToSrgb(rLinear) * 255), 0, 255),
+    g: clamp(Math.round(linearToSrgb(gLinear) * 255), 0, 255),
+    b: clamp(Math.round(linearToSrgb(bLinear) * 255), 0, 255),
+    a: clamp(alpha, 0, 1),
+  };
+}
+
 export function toCssOklch(color: OklchColor, alpha = 1): string {
   const l = clamp(color.l, 0, 1);
   const c = Math.max(color.c, 0);
@@ -59,4 +105,3 @@ export function toCssOklch(color: OklchColor, alpha = 1): string {
   }
   return `oklch(${l.toFixed(4)} ${c.toFixed(4)} ${h.toFixed(2)} / ${a.toFixed(3)})`;
 }
-
