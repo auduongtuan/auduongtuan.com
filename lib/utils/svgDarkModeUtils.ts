@@ -14,6 +14,8 @@ export const SUPER_LIGHT_FILL_THRESHOLD = 0.9;
 export const OVERLAP_THRESHOLD = 0.02;
 export const FILLED_OVERLAP_THRESHOLD = 0.04;
 
+type SvgPoint = { x: number; y: number };
+
 function isResourceElement(element: Element): boolean {
   return Boolean(
     element.closest(
@@ -168,7 +170,7 @@ function parseSvgNumber(value: string | null | undefined, fallback = 0): number 
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
-function getPathAttributeBBox(d: string): DOMRect | null {
+function getPathPointsFromData(d: string): SvgPoint[] | null {
   const tokens = d.match(/[a-zA-Z]|-?\d*\.?\d+(?:e[-+]?\d+)?/g);
   if (!tokens || tokens.length === 0) return null;
 
@@ -178,7 +180,7 @@ function getPathAttributeBBox(d: string): DOMRect | null {
   let currentY = 0;
   let startX = 0;
   let startY = 0;
-  const points: Array<{ x: number; y: number }> = [];
+  const points: SvgPoint[] = [];
 
   const isCommand = (token: string) => /^[a-zA-Z]$/.test(token);
   const readNumber = (): number | null => {
@@ -224,8 +226,6 @@ function getPathAttributeBBox(d: string): DOMRect | null {
       startX = currentX;
       startY = currentY;
       pushPoint(currentX, currentY);
-
-      // Subsequent pairs after M/m are treated as L/l.
       command = relative ? "l" : "L";
       continue;
     }
@@ -269,8 +269,7 @@ function getPathAttributeBBox(d: string): DOMRect | null {
     }
 
     if (upper === "S" || upper === "Q") {
-      const valueCount = upper === "S" ? 4 : 4;
-      const values = Array.from({ length: valueCount }, () => readNumber());
+      const values = Array.from({ length: 4 }, () => readNumber());
       if (values.some((value) => value === null)) break;
       const [x1, y1, x, y] = values as number[];
       pushPoint(relative ? currentX + x1 : x1, relative ? currentY + y1 : y1);
@@ -305,11 +304,15 @@ function getPathAttributeBBox(d: string): DOMRect | null {
       continue;
     }
 
-    // Unsupported command or malformed sequence. Abort so we can fall back to
-    // getBBox() for anything more complex than our conservative approximation.
     return null;
   }
 
+  return points.length > 0 ? points : null;
+}
+
+function getPathAttributeBBox(d: string): DOMRect | null {
+  const points = getPathPointsFromData(d);
+  if (!points) return null;
   if (points.length === 0) return null;
   const xs = points.map((point) => point.x);
   const ys = points.map((point) => point.y);
@@ -324,108 +327,12 @@ function getPathAttributeBBox(d: string): DOMRect | null {
 }
 
 function isConnectorLikePathData(d: string): boolean {
-  const tokens = d.match(/[a-zA-Z]|-?\d*\.?\d+(?:e[-+]?\d+)?/g);
-  if (!tokens || tokens.length === 0) return false;
-
-  let index = 0;
-  let command = "";
-  let currentX = 0;
-  let currentY = 0;
-  const points: Array<{ x: number; y: number }> = [];
-
-  const isCommand = (token: string) => /^[a-zA-Z]$/.test(token);
-  const readNumber = (): number | null => {
-    if (index >= tokens.length) return null;
-    const token = tokens[index];
-    if (isCommand(token)) return null;
-    index += 1;
-    const parsed = Number(token);
-    return Number.isFinite(parsed) ? parsed : null;
-  };
-  const pushPoint = (x: number, y: number) => {
-    if (Number.isFinite(x) && Number.isFinite(y)) points.push({ x, y });
-  };
-
-  while (index < tokens.length) {
-    const token = tokens[index];
-    if (isCommand(token)) {
-      command = token;
-      index += 1;
-    } else if (!command) {
-      return false;
-    }
-
-    const relative = command === command.toLowerCase();
-    const upper = command.toUpperCase();
-
-    if (upper === "Z") {
-      continue;
-    }
-
-    if (upper === "M" || upper === "L" || upper === "T") {
-      const x = readNumber();
-      const y = readNumber();
-      if (x === null || y === null) break;
-      currentX = relative ? currentX + x : x;
-      currentY = relative ? currentY + y : y;
-      pushPoint(currentX, currentY);
-      if (upper === "M") command = relative ? "l" : "L";
-      continue;
-    }
-
-    if (upper === "H") {
-      const x = readNumber();
-      if (x === null) break;
-      currentX = relative ? currentX + x : x;
-      pushPoint(currentX, currentY);
-      continue;
-    }
-
-    if (upper === "V") {
-      const y = readNumber();
-      if (y === null) break;
-      currentY = relative ? currentY + y : y;
-      pushPoint(currentX, currentY);
-      continue;
-    }
-
-    if (upper === "C") {
-      const values = Array.from({ length: 6 }, () => readNumber());
-      if (values.some((value) => value === null)) break;
-      const [_x1, _y1, _x2, _y2, x, y] = values as number[];
-      currentX = relative ? currentX + x : x;
-      currentY = relative ? currentY + y : y;
-      pushPoint(currentX, currentY);
-      continue;
-    }
-
-    if (upper === "S" || upper === "Q") {
-      const values = Array.from({ length: 4 }, () => readNumber());
-      if (values.some((value) => value === null)) break;
-      const [_x1, _y1, x, y] = values as number[];
-      currentX = relative ? currentX + x : x;
-      currentY = relative ? currentY + y : y;
-      pushPoint(currentX, currentY);
-      continue;
-    }
-
-    if (upper === "A") {
-      const values = Array.from({ length: 7 }, () => readNumber());
-      if (values.some((value) => value === null)) break;
-      const [_rx, _ry, _rotation, _largeArcFlag, _sweepFlag, x, y] =
-        values as number[];
-      currentX = relative ? currentX + x : x;
-      currentY = relative ? currentY + y : y;
-      pushPoint(currentX, currentY);
-      continue;
-    }
-
-    return false;
-  }
-
+  const points = getPathPointsFromData(d);
+  if (!points) return false;
   if (points.length < 3) return false;
 
-  let longHorizontalOrVerticalSegments = 0;
+  let longAxisAlignedSegments = 0;
+  let longSegments = 0;
   let shortDiagonalSegments = 0;
 
   for (let i = 1; i < points.length; i += 1) {
@@ -434,17 +341,95 @@ function isConnectorLikePathData(d: string): boolean {
     const length = Math.hypot(dx, dy);
     if (length <= 0) continue;
 
+    if (length >= 18) {
+      longSegments += 1;
+    }
+
     if ((dx >= 18 && dy <= 6) || (dy >= 18 && dx <= 6)) {
-      longHorizontalOrVerticalSegments += 1;
+      longAxisAlignedSegments += 1;
     } else if (length <= 18 && dx > 0 && dy > 0) {
       shortDiagonalSegments += 1;
     }
   }
 
+  // This remains only a fallback signal for path-based connectors. It keeps
+  // arrow-like geometry eligible without being the primary source of truth for
+  // line support/dimming decisions.
   return (
-    longHorizontalOrVerticalSegments >= 1 &&
-    shortDiagonalSegments >= 2
+    (longAxisAlignedSegments >= 1 || longSegments >= 1) &&
+    shortDiagonalSegments >= 1
   );
+}
+
+function parsePointList(value: string): SvgPoint[] {
+  return value
+    .trim()
+    .split(/\s+/)
+    .map((pair) => pair.split(",").map(Number))
+    .filter((pair) => pair.length === 2 && pair.every(Number.isFinite))
+    .map(([x, y]) => ({ x, y }));
+}
+
+function pointInsideRect(point: SvgPoint, rect: DOMRect): boolean {
+  return (
+    point.x >= rect.x &&
+    point.x <= rect.x + rect.width &&
+    point.y >= rect.y &&
+    point.y <= rect.y + rect.height
+  );
+}
+
+function getCandidatePolylinePoints(
+  candidate: ElementCandidate,
+): SvgPoint[] | null {
+  const tagName = candidate.element.tagName.toLowerCase();
+
+  if (tagName === "line") {
+    return [
+      {
+        x: parseSvgNumber(candidate.element.getAttribute("x1"), 0),
+        y: parseSvgNumber(candidate.element.getAttribute("y1"), 0),
+      },
+      {
+        x: parseSvgNumber(candidate.element.getAttribute("x2"), 0),
+        y: parseSvgNumber(candidate.element.getAttribute("y2"), 0),
+      },
+    ];
+  }
+
+  if (tagName === "polyline" || tagName === "polygon") {
+    const rawPoints = candidate.element.getAttribute("points");
+    if (!rawPoints) return null;
+    const points = parsePointList(rawPoints);
+    if (tagName === "polygon" && points.length > 0) {
+      points.push(points[0]);
+    }
+    return points.length >= 2 ? points : null;
+  }
+
+  if (tagName === "rect") {
+    const x = parseSvgNumber(candidate.element.getAttribute("x"), 0);
+    const y = parseSvgNumber(candidate.element.getAttribute("y"), 0);
+    const width = parseSvgNumber(candidate.element.getAttribute("width"), 0);
+    const height = parseSvgNumber(candidate.element.getAttribute("height"), 0);
+    if (width <= 0 || height <= 0) return null;
+    return [
+      { x, y },
+      { x: x + width, y },
+      { x: x + width, y: y + height },
+      { x, y: y + height },
+      { x, y },
+    ];
+  }
+
+  if (tagName === "path") {
+    const d = candidate.element.getAttribute("d");
+    if (!d) return null;
+    const points = getPathPointsFromData(d);
+    return points && points.length >= 2 ? points : null;
+  }
+
+  return null;
 }
 
 function getAttributeBBox(element: SVGGraphicsElement): DOMRect | null {
@@ -730,78 +715,118 @@ export function hasNonTransparentFilledBelow(
   return false;
 }
 
+function getLightSurfaceCandidatesBelow(
+  candidate: ElementCandidate,
+  allCandidates: ElementCandidate[],
+): ElementCandidate[] {
+  return allCandidates.filter((below) => {
+    return (
+      below.paintIndex < candidate.paintIndex &&
+      !isResourceElement(below.element) &&
+      below.hasFillPaint &&
+      Boolean(below.fillColor && isLightColor(below.fillColor)) &&
+      below.effectiveOpacity >= 0.5
+    );
+  });
+}
+
+function getSampledBoxSupportRatio(
+  candidate: ElementCandidate,
+  surfaces: ElementCandidate[],
+): number {
+  if (surfaces.length === 0) return 0;
+
+  const { x, y, width, height } = candidate.bbox;
+  const insetX = width * 0.2;
+  const insetY = height * 0.2;
+  const samplePoints: SvgPoint[] = [
+    { x: x + width / 2, y: y + height / 2 },
+    { x: x + insetX, y: y + insetY },
+    { x: x + width - insetX, y: y + insetY },
+    { x: x + insetX, y: y + height - insetY },
+    { x: x + width - insetX, y: y + height - insetY },
+  ];
+
+  let insideCount = 0;
+  for (const point of samplePoints) {
+    if (surfaces.some((surface) => pointInsideRect(point, surface.bbox))) {
+      insideCount += 1;
+    }
+  }
+
+  return insideCount / samplePoints.length;
+}
+
+function getLineSupportRatio(
+  candidate: ElementCandidate,
+  surfaces: ElementCandidate[],
+): number {
+  const points = getCandidatePolylinePoints(candidate);
+  if (!points || points.length < 2 || surfaces.length === 0) return 0;
+
+  let supportedLength = 0;
+  let totalLength = 0;
+
+  for (let i = 1; i < points.length; i += 1) {
+    const start = points[i - 1];
+    const end = points[i];
+    const dx = end.x - start.x;
+    const dy = end.y - start.y;
+    const length = Math.hypot(dx, dy);
+    if (length <= 0) continue;
+
+    totalLength += length;
+
+    const segmentSamples: SvgPoint[] = [0.25, 0.5, 0.75].map((t) => ({
+      x: start.x + dx * t,
+      y: start.y + dy * t,
+    }));
+
+    let localSupport = 0;
+    for (const point of segmentSamples) {
+      if (surfaces.some((surface) => pointInsideRect(point, surface.bbox))) {
+        localSupport += 1;
+      }
+    }
+
+    supportedLength += length * (localSupport / segmentSamples.length);
+  }
+
+  return totalLength > 0 ? supportedLength / totalLength : 0;
+}
+
 export function hasLightSurfaceBelow(
   candidate: ElementCandidate,
   allCandidates: ElementCandidate[],
 ): boolean {
-  // Stricter than hasLightBelow(): only real light fills with >= 0.5 effective
-  // opacity count as a supporting surface. For generic surface/foreground
-  // classification we allow either full containment (small icon/control detail
-  // inside a light card) or meaningful overlap.
-  for (const below of allCandidates) {
-    if (below.paintIndex >= candidate.paintIndex) continue;
-    if (isResourceElement(below.element)) continue;
-    if (!below.hasFillPaint) continue;
-    if (!below.fillColor || !isLightColor(below.fillColor)) continue;
-    if (below.effectiveOpacity < 0.5) continue;
+  // Real surface support should come from local adjacency, not raw bbox
+  // overlap. For line-like geometry we sample along the line itself; for other
+  // elements we sample a few local points in the candidate box.
+  const surfaces = getLightSurfaceCandidatesBelow(candidate, allCandidates);
+  if (surfaces.length === 0) return false;
 
-    const fullyContained =
-      candidate.bbox.x >= below.bbox.x &&
-      candidate.bbox.y >= below.bbox.y &&
-      candidate.bbox.x + candidate.bbox.width <= below.bbox.x + below.bbox.width &&
-      candidate.bbox.y + candidate.bbox.height <= below.bbox.y + below.bbox.height;
-    if (fullyContained) {
-      return true;
-    }
-
-    const overlapArea = intersects(candidate.bbox, below.bbox);
-    if (overlapArea <= 0) continue;
-
-    const overlapPortion = overlapArea / Math.max(1, candidate.area);
-    if (overlapPortion >= FILLED_OVERLAP_THRESHOLD) {
-      return true;
-    }
+  if (isLineLikeCandidate(candidate)) {
+    return getLineSupportRatio(candidate, surfaces) >= 0.3;
   }
 
-  return false;
+  return getSampledBoxSupportRatio(candidate, surfaces) >= 0.6;
 }
 
 export function hasStrongLightSurfaceSupportBelow(
   candidate: ElementCandidate,
   allCandidates: ElementCandidate[],
 ): boolean {
-  // Line dimming needs a stricter notion of "supported by a light surface"
-  // than generic foreground/surface classification. Small icons fully inside a
-  // light control should stay unchanged, but large dashed frames or connector
-  // paths should still dim even if their bounding box overlaps light panels
-  // elsewhere inside the same region. We therefore require either full
-  // containment or a strong overlap ratio.
-  for (const below of allCandidates) {
-    if (below.paintIndex >= candidate.paintIndex) continue;
-    if (isResourceElement(below.element)) continue;
-    if (!below.hasFillPaint) continue;
-    if (!below.fillColor || !isLightColor(below.fillColor)) continue;
-    if (below.effectiveOpacity < 0.5) continue;
+  // Line dimming should only be blocked when the line is mostly carried by a
+  // light surface, not when a long connector just touches or passes through
+  // one part of a card.
+  const surfaces = getLightSurfaceCandidatesBelow(candidate, allCandidates);
+  if (surfaces.length === 0) return false;
 
-    const fullyContained =
-      candidate.bbox.x >= below.bbox.x &&
-      candidate.bbox.y >= below.bbox.y &&
-      candidate.bbox.x + candidate.bbox.width <= below.bbox.x + below.bbox.width &&
-      candidate.bbox.y + candidate.bbox.height <= below.bbox.y + below.bbox.height;
-    if (fullyContained) {
-      return true;
-    }
-
-    const overlapArea = intersects(candidate.bbox, below.bbox);
-    if (overlapArea <= 0) continue;
-
-    const overlapPortion = overlapArea / Math.max(1, candidate.area);
-    if (overlapPortion >= 0.35) {
-      return true;
-    }
+  if (isLineLikeCandidate(candidate)) {
+    return getLineSupportRatio(candidate, surfaces) >= 0.72;
   }
 
-  return false;
+  return getSampledBoxSupportRatio(candidate, surfaces) >= 0.8;
 }
 
 export function hasCandidateBelow(
@@ -850,7 +875,7 @@ export function isLineLikeCandidate(candidate: ElementCandidate): boolean {
     if (d && isConnectorLikePathData(d)) {
       return true;
     }
-    return thinDimension <= 12 || aspectRatio >= 8;
+    return thinDimension <= 12 || aspectRatio >= 6;
   }
 
   return thinDimension <= 12 || aspectRatio >= 8;
