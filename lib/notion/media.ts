@@ -55,18 +55,6 @@ export async function getSvgCodeFromUrl(
   }
 }
 
-function createDirectSvgMedia(
-  url: string,
-  lastUpdated?: string,
-): NotionMedia {
-  return {
-    type: "image",
-    url,
-    ext: "svg",
-    lastUpdated,
-  };
-}
-
 export function stripSvgCodeFromMedia(media: NotionMedia): NotionMedia {
   if (!media || !("svgCode" in media)) return media;
   const { svgCode: _svgCode, ...rest } = media;
@@ -114,10 +102,6 @@ export async function hydrateSvgAssetsForRender(
 export async function getPageIconFile(page: PageObjectResponse) {
   if (page.icon?.type == "file") {
     const iconUrl = page.icon.file.url;
-    if (getExtFromUrl(iconUrl) === "svg") {
-      return createDirectSvgMedia(iconUrl, page.last_edited_time);
-    }
-
     return await getMediaFromCloudinary(
       `page_${page.id}_icon`,
       "image",
@@ -233,10 +217,6 @@ export async function getMediaFromBlock(
       throw new Error("Block does not have a file URL");
     }
 
-    if (block.type === "image" && getExtFromUrl(sourceUrl) === "svg") {
-      return createDirectSvgMedia(sourceUrl, block.last_edited_time);
-    }
-
     return await getMediaFromCloudinary(
       public_id,
       type,
@@ -260,10 +240,6 @@ export async function getMediaFromProperty(
       const sourceUrl = getFileUrl(file);
       const type = getTypeFromUrl(sourceUrl);
       const public_id = `page_${page.id}_${prop}_${i}`;
-
-      if (getExtFromUrl(sourceUrl) === "svg") {
-        return createDirectSvgMedia(sourceUrl, page.last_edited_time);
-      }
 
       return await getMediaFromCloudinary(
         public_id,
