@@ -16,6 +16,8 @@ export type NotionMedia = {
   type: MediaType;
   url: string;
   ext: string;
+  // Render-only field. This must never be persisted back into the Notion
+  // Assets property.
   svgCode?: string;
   caption?: string;
   width?: number;
@@ -41,7 +43,9 @@ export function getBlockFileUrl(blockId: string) {
   return `/api/notion-asset/block/${blockId}`;
 }
 
-async function getSvgCodeFromUrl(url: string): Promise<string | undefined> {
+export async function getSvgCodeFromUrl(
+  url: string,
+): Promise<string | undefined> {
   try {
     const response = await fetch(url);
     if (!response.ok) return undefined;
@@ -54,27 +58,64 @@ async function getSvgCodeFromUrl(url: string): Promise<string | undefined> {
 function createDirectSvgMedia(
   url: string,
   lastUpdated?: string,
-  svgCode?: string,
 ): NotionMedia {
   return {
     type: "image",
     url,
     ext: "svg",
-    svgCode,
     lastUpdated,
   };
+}
+
+export function stripSvgCodeFromMedia(media: NotionMedia): NotionMedia {
+  if (!media || !("svgCode" in media)) return media;
+  const { svgCode: _svgCode, ...rest } = media;
+  return rest;
+}
+
+export function stripSvgCodeFromAssets(assets: NotionAssets): NotionAssets {
+  return Object.fromEntries(
+    Object.entries(assets).map(([key, value]) => {
+      if (Array.isArray(value)) {
+        return [key, value.map(stripSvgCodeFromMedia)];
+      }
+      return [key, stripSvgCodeFromMedia(value)];
+    }),
+  );
+}
+
+export async function hydrateSvgMediaForRender(
+  media: NotionMedia,
+): Promise<NotionMedia> {
+  if (media.ext !== "svg" || media.svgCode) return media;
+  const svgCode = await getSvgCodeFromUrl(media.url);
+  if (!svgCode) return media;
+  return {
+    ...media,
+    svgCode,
+  };
+}
+
+export async function hydrateSvgAssetsForRender(
+  assets: NotionAssets,
+): Promise<NotionAssets> {
+  return Object.fromEntries(
+    await Promise.all(
+      Object.entries(assets).map(async ([key, value]) => {
+        if (Array.isArray(value)) {
+          return [key, await Promise.all(value.map(hydrateSvgMediaForRender))];
+        }
+        return [key, await hydrateSvgMediaForRender(value)];
+      }),
+    ),
+  );
 }
 
 export async function getPageIconFile(page: PageObjectResponse) {
   if (page.icon?.type == "file") {
     const iconUrl = page.icon.file.url;
     if (getExtFromUrl(iconUrl) === "svg") {
-      const svgCode = await getSvgCodeFromUrl(iconUrl);
-      return createDirectSvgMedia(
-        iconUrl,
-        page.last_edited_time,
-        svgCode,
-      );
+      return createDirectSvgMedia(iconUrl, page.last_edited_time);
     }
 
     return await getMediaFromCloudinary(
@@ -193,12 +234,7 @@ export async function getMediaFromBlock(
     }
 
     if (block.type === "image" && getExtFromUrl(sourceUrl) === "svg") {
-      const svgCode = await getSvgCodeFromUrl(sourceUrl);
-      return createDirectSvgMedia(
-        sourceUrl,
-        block.last_edited_time,
-        svgCode,
-      );
+      return createDirectSvgMedia(sourceUrl, block.last_edited_time);
     }
 
     return await getMediaFromCloudinary(
@@ -226,12 +262,7 @@ export async function getMediaFromProperty(
       const public_id = `page_${page.id}_${prop}_${i}`;
 
       if (getExtFromUrl(sourceUrl) === "svg") {
-        const svgCode = await getSvgCodeFromUrl(sourceUrl);
-        return createDirectSvgMedia(
-          sourceUrl,
-          page.last_edited_time,
-          svgCode,
-        );
+        return createDirectSvgMedia(sourceUrl, page.last_edited_time);
       }
 
       return await getMediaFromCloudinary(

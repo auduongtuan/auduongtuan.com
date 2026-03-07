@@ -4,11 +4,12 @@ import {
   getPageIconFile,
   getProperty,
   notion,
+  stripSvgCodeFromAssets,
 } from "@lib/notion";
 import { isFullPage } from "@notionhq/client";
 
 export async function updateNotionPageAssets(assets: any, pageId: string) {
-  let json = JSON.stringify(assets);
+  let json = JSON.stringify(stripSvgCodeFromAssets(assets));
   let chunks: string[] = [];
   for (var i = 0, charsLength = json.length; i < charsLength; i += 2000) {
     chunks.push(json.substring(i, i + 2000));
@@ -29,29 +30,16 @@ export async function updateNotionPageAssets(assets: any, pageId: string) {
 export const parseNotionPageAssets = async (page: any) => {
   if (!isFullPage(page)) return undefined;
   const assetsJson = getProperty(page, "Assets", "rich_text") || "{}";
-  const assets = JSON.parse(assetsJson);
+  const persistedAssets = stripSvgCodeFromAssets(JSON.parse(assetsJson));
+  const assets = { ...persistedAssets };
 
   let update: boolean = false;
 
-  // Keep asset payload lean: only SVG entries may include svgCode.
-  Object.entries(assets).forEach(([key, value]) => {
-    const mediaList = Array.isArray(value) ? value : [value];
-    let changed = false;
-
-    mediaList.forEach((media: any) => {
-      if (media && media.ext !== "svg" && "svgCode" in media) {
-        delete media.svgCode;
-        changed = true;
-      }
-    });
-
-    if (changed) {
-      assets[key] = Array.isArray(value) ? mediaList : mediaList[0];
-      update = true;
-    }
-  });
-
-  if (!("cover" in assets) || !assets.cover || assets.cover.length === 0) {
+  if (
+    !("cover" in assets) ||
+    !Array.isArray(assets.cover) ||
+    assets.cover.length === 0
+  ) {
     const cover = await getMediaFromProperty(page, "Cover");
     if (cover) {
       assets.cover = cover;
@@ -75,9 +63,7 @@ export const getNotionPageContent = async (pageId: string) => {
   const page = await notion.pages.retrieve({
     page_id: pageId,
   });
-  const assetsJson = getProperty(page, "Assets", "rich_text") || "{}";
-  const assets = JSON.parse(assetsJson);
+  const assets = await parseNotionPageAssets(page);
   const results = await getBlockChildren(pageId, assets);
-  await updateNotionPageAssets(assets, pageId);
   return results;
 };

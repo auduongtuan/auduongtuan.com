@@ -2,7 +2,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import DefaultErrorPage from "next/error";
-import { getPosts, getPostContent, Post } from "@lib/notion";
+import {
+  getPosts,
+  getPostContent,
+  hydrateSvgAssetsForRender,
+  Post,
+} from "@lib/notion";
 import PostPage from "@templates/post/PostPage";
 import CryptoJS from "crypto-js";
 import { getPassword } from "@lib/notion/password";
@@ -78,6 +83,10 @@ export async function getStaticProps(context: GetStaticPropsContext) {
   let postContent: any = null;
   let passwordInfo = { hint: "", length: 0 };
   if (post) {
+    post = {
+      ...post,
+      assets: await hydrateSvgAssetsForRender(post.assets),
+    };
     const rawPostContent = await getPostContent(post.id);
     if (post.protected && post.passwordId) {
       const password = post.passwordId

@@ -84,7 +84,7 @@ export async function getPosts(includeUnpublished: boolean = isDevEnvironment) {
   const posts = await Promise.all(
     response.results.map(async (page) => {
       if (!isFullPage(page)) return undefined;
-      const assets = await parseNotionPageAssets(page);
+      const assets = (await parseNotionPageAssets(page)) || {};
       return {
         id: page.id,
         slug: getProperty(page, "Slug", "rich_text"),
