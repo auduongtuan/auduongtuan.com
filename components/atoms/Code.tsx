@@ -6,8 +6,7 @@ import IconButton from "./IconButton";
 import { FiCheck, FiCopy } from "react-icons/fi";
 import Tooltip from "./Tooltip";
 
-export interface CodeHighlighterProps
-  extends React.ComponentPropsWithRef<"pre"> {
+export interface CodeHighlighterProps extends React.ComponentPropsWithRef<"pre"> {
   children: string;
   language: string;
 }
@@ -42,7 +41,7 @@ const Code = ({
   }, [children]);
 
   return (
-    <div className={cn("group relative text-[0.8em]", className)}>
+    <div className={cn("group relative max-w-full text-[0.8em]", className)}>
       <Tooltip
         open={open}
         content={copied ? "Copied!" : "Copy"}
@@ -62,7 +61,9 @@ const Code = ({
           {copied ? <FiCheck /> : <FiCopy />}
         </IconButton>
       </Tooltip>
-      <Highlight className={`language-${language}`}>{children}</Highlight>
+      <Highlight className={`language-${language} max-w-full`}>
+        {children}
+      </Highlight>
     </div>
   );
 };
