@@ -44,13 +44,21 @@ function getCalloutComponentWithOptions(
     const parts = componentWithOptions.split(" ");
     const component = parts[0];
     const optionPartString = parts.splice(1).join(" ");
-    const options = optionPartString
-      // .matchAll(/(\w+)=("[^<>"]*"|'[^<>']*'|\w+)/g);
-      .matchAll(/(\w+)=["']?((?:.(?!["']?\s+(?:\S+)=|\s*\/?[>"']))+.)["']?/g);
     let optionsObject: { [key: string]: string } = {};
-    [...options].forEach((m) => {
-      optionsObject[m[1]] = trimAny(m[2], ['"', "'"]);
-    });
+    const remainingOptionString = optionPartString.replace(
+      /(\w+)=["']?((?:.(?!["']?\s+(?:\S+)=|\s*\/?[>"']))+.)["']?/g,
+      (_, key: string, value: string) => {
+        optionsObject[key] = trimAny(value, ['"', "'"]);
+        return " ";
+      },
+    );
+
+    remainingOptionString
+      .split(/\s+/)
+      .filter(Boolean)
+      .forEach((flag) => {
+        optionsObject[flag] = "true";
+      });
 
     // const optionsObject = [...options].reduce((acc, m) => {
     //   console.log(m[1], m[2]);

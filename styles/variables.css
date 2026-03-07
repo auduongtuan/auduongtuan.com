@@ -1,5 +1,6 @@
 @layer base {
-  :root {
+  :root,
+  .light {
     color-scheme: light;
     --base-fg: oklch(0.1925 0 0);
     --base-bg: oklch(1 0 0);
