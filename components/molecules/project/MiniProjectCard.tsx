@@ -1,6 +1,6 @@
 import Link from "next/link";
 import ProjectIcon from "@atoms/ProjectIcon";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Project } from "@lib/notion";
 import { parseInternalLink } from "@lib/utils";
 import { resolveThemedSurfaceColor } from "@lib/utils/themeColor";
@@ -8,11 +8,17 @@ import { useTheme } from "next-themes";
 
 const MiniProjectCard = ({ project }: { project: Project }) => {
   const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const internalLink = parseInternalLink(project.link || "") || "";
   const themedBackgroundColor = resolveThemedSurfaceColor(
     project.background || "var(--bg-card)",
-    resolvedTheme,
+    mounted ? resolvedTheme : "light",
   );
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const content = (
     <Fragment>
       {project.icon && (
