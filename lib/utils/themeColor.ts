@@ -25,6 +25,9 @@ type DimLightSurfaceColorOptions = {
   chromaScale?: number;
 };
 
+// Theme helpers intentionally parse only the simple color formats used by
+// app-level props. SVGs use a separate parser because they need broader input
+// support and browser-resolved paint values.
 function parseHexColor(value: string): ParsedColor | null {
   const normalized = value.trim();
   if (!normalized.startsWith("#")) return null;
@@ -73,6 +76,8 @@ export function dimLightSurfaceColorForDarkMode(
   color: string,
   options: DimLightSurfaceColorOptions = {},
 ): string {
+  // Shared "light surface in dark mode" transform. This is used by both
+  // project cards and SVG surface dimming so they converge on the same target.
   const {
     brightThreshold = 0.68,
     targetDarkLightness = 0.3,
@@ -99,6 +104,8 @@ export function resolveThemedTextColor(
   theme: string | undefined,
   options: ResolveThemedTextColorOptions = {},
 ): string {
+  // Text colors keep their hue identity in dark mode, but dark inputs are
+  // lifted to a minimum readable lightness.
   const {
     preserveInDark = false,
     minDarkLightness = 0.72,
@@ -127,6 +134,8 @@ export function resolveThemedSurfaceColor(
   theme: string | undefined,
   options: ResolveThemedSurfaceColorOptions = {},
 ): string {
+  // Surface colors only change in dark mode when they are too bright to carry
+  // light foreground content comfortably.
   const {
     preserveInDark = false,
     brightThreshold = 0.68,

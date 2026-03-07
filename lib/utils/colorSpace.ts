@@ -11,6 +11,7 @@ export type OklchColor = {
   h: number;
 };
 
+// Shared numeric guard used by both the generic theme helpers and SVG transforms.
 export function clamp(value: number, min: number, max: number): number {
   return Math.min(Math.max(value, min), max);
 }
@@ -24,6 +25,7 @@ function linearToSrgb(v: number): number {
 }
 
 export function rgbToOklch({ r, g, b }: ParsedColor): OklchColor {
+  // Convert sRGB into OKLCH so light/dark adjustments happen in a perceptual space.
   const rLinear = srgbToLinear(r / 255);
   const gLinear = srgbToLinear(g / 255);
   const bLinear = srgbToLinear(b / 255);
@@ -56,6 +58,8 @@ export function oklchToRgb(
   { l, c, h }: OklchColor,
   alpha = 1,
 ): ParsedColor {
+  // Inverse conversion used when callers provide OKLCH input that must be parsed
+  // back into normalized RGB channels for internal comparisons.
   const hueRadians = ((Number.isFinite(h) ? h : 0) * Math.PI) / 180;
   const a = c * Math.cos(hueRadians);
   const bComponent = c * Math.sin(hueRadians);
@@ -95,6 +99,8 @@ export function oklchToRgb(
 }
 
 export function toCssOklch(color: OklchColor, alpha = 1): string {
+  // Preserve OKLCH output all the way to CSS so downstream transforms do not
+  // collapse back into RGB and lose perceptual intent.
   const l = clamp(color.l, 0, 1);
   const c = Math.max(color.c, 0);
   const h = Number.isFinite(color.h) ? color.h : 0;
