@@ -219,18 +219,22 @@ export function transformSvgMarkupForDarkMode(
     const lightBelow = hasLightBelow(candidate, candidates);
     const filledBelow = hasNonTransparentFilledBelow(candidate, candidates);
     const dimmedSurfaceBelow = hasCandidateBelow(candidate, dimmedSurfaceCandidates);
+    const supportedByLightSurface = candidate.hasLightSurfaceBelow;
     const faintBackgroundNeutral =
       candidate.hasDarkNeutralPaint && candidate.effectiveOpacity <= 0.12;
     const shouldLighten =
       (candidate.hasDarkNeutralPaint &&
-        ((!lightBelow && !filledBelow) || faintBackgroundNeutral)) ||
-      (dimmedSurfaceBelow &&
+        ((!lightBelow && !filledBelow) || faintBackgroundNeutral) &&
+        !supportedByLightSurface) ||
+      (!supportedByLightSurface &&
+        dimmedSurfaceBelow &&
         (candidate.hasDarkPaint || candidate.hasDarkNeutralPaint));
     shouldLightenByElement.set(candidate.element, shouldLighten);
     strongLightenByElement.set(
       candidate.element,
-      faintBackgroundNeutral ||
-        (dimmedSurfaceBelow &&
+      (faintBackgroundNeutral && !supportedByLightSurface) ||
+        (!supportedByLightSurface &&
+          dimmedSurfaceBelow &&
           (candidate.hasDarkPaint || candidate.hasDarkNeutralPaint)),
     );
   }
