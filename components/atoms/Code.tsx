@@ -1,7 +1,6 @@
 "use client";
-import { useState, useRef, useCallback } from "react";
+import { useState, useCallback } from "react";
 import Highlight from "react-highlight";
-import "highlight.js/styles/atom-one-light.css";
 import { cn } from "@lib/utils/cn";
 import IconButton from "./IconButton";
 import { FiCheck, FiCopy } from "react-icons/fi";

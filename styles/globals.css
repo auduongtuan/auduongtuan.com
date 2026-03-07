@@ -3,6 +3,7 @@
 @import "./theme.css";
 @import "./fonts.css";
 @import "./typography.css";
+@import "./code-highlight.css";
 /* @config '../tailwind.config.js'; */
 
 /*
