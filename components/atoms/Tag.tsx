@@ -17,7 +17,7 @@ const Tag = ({
     <span
       className={cn(
         "font-mono text-[10px] font-medium tracking-wide uppercase md:text-[11px]",
-        inverted ? "bg-surface/20 text-white" : "text-tertiary bg-pill",
+        "text-tertiary bg-pill",
         "rounded-md px-2 py-1",
         className,
       )}

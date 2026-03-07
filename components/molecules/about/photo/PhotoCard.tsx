@@ -140,7 +140,7 @@ export const PhotoCard = React.memo(
         data-card-type={isActive ? "active" : "stack"}
         ref={combinedRef}
         className={cn(
-          `border-divider flex flex-col items-center justify-center gap-3 rounded-lg border bg-white px-2 pt-2 pb-3 shadow-lg md:px-3 md:pt-3 md:pb-4`,
+          `border-divider bg-surface flex flex-col items-center justify-center gap-3 rounded-lg border px-2 pt-2 pb-3 shadow-lg md:px-3 md:pt-3 md:pb-4`,
 
           "select-none",
           className,

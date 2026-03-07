@@ -39,6 +39,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
               <CustomImage
                 className="max-w-full text-center"
                 src={block.image.url}
+                svgCode={block.image.svgCode}
                 // src={`/api/notion-asset/block/${block.id}`}
                 alt={block.image.alt ? block.image.alt : "Post Content Image"}
                 width={block.image.width}
@@ -52,7 +53,7 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
         content.push(
           <blockquote
             key={block.id}
-            className="mt-content-node border-l-2 border-gray-300 pl-4"
+            className="mt-content-node border-divider border-l-2 pl-4"
           >
             <p className="body-text mt-content-node">{richTextBlock(block)}</p>
             {parseBlocks(block.children, assets)}
@@ -163,19 +164,21 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
           );
         } else {
           const embedElement = (
-            <iframe
-              src={block.embed.url}
-              className="w-full overflow-hidden rounded-md border-0"
-              style={{
-                aspectRatio:
-                  embedWidth && embedHeight
-                    ? `${embedWidth}/${embedHeight}`
-                    : undefined,
-              }}
-              title={embedCaption || "Embedded content"}
-              allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-              sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-            ></iframe>
+            <div className="overflow-hidden rounded-md">
+              <iframe
+                src={block.embed.url}
+                className="w-full border-0"
+                style={{
+                  aspectRatio:
+                    embedWidth && embedHeight
+                      ? `${embedWidth}/${embedHeight}`
+                      : undefined,
+                }}
+                title={embedCaption || "Embedded content"}
+                allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+                sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+              ></iframe>
+            </div>
           );
 
           if (embedCaption) {

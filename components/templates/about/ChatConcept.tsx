@@ -20,9 +20,9 @@ const ChatBubble = ({
   return (
     <div
       className={twMerge(
-        "inline-block p-4  bg-subtle body-text rounded-2xl rounded-l-md",
+        "bg-card body-text inline-block rounded-2xl rounded-l-md p-4",
         first && "rounded-tl-2xl",
-        last && "rounded-bl-2xl"
+        last && "rounded-bl-2xl",
       )}
     >
       <div>{children}</div>
@@ -33,7 +33,7 @@ const ChatBubble = ({
 const ChatList = () => {
   return (
     <div className="flex gap-2">
-      <div className="flex flex-col ">
+      <div className="flex flex-col">
         <Fade delay={150}>
           <ChatBubble first>Xin chào!</ChatBubble>
         </Fade>
@@ -71,7 +71,7 @@ const ChatList = () => {
         <Fade delay={250} className="mt-2">
           <ChatBubble>
             <span>💼 Looking for more details?</span>{" "}
-            <InlineLink href={cvLink} className="font-medium body-text">
+            <InlineLink href={cvLink} className="body-text font-medium">
               Download my CV
             </InlineLink>
           </ChatBubble>
@@ -89,7 +89,7 @@ const ChatConcept = () => {
       <div className="flex items-center gap-4 px-6 py-6">
         <textarea
           placeholder="Send me a message"
-          className="relative grow block w-full h-12 px-3 py-2 text-base leading-tight text-primary transition-all duration-200 border-2 border-gray-300 rounded-lg outline-hidden focus:border-accent focus:shadow-xs focus:shadow-blue-400/40 focus:z-10"
+          className="text-primary focus:border-accent border-control relative block h-12 w-full grow rounded-lg border-2 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:z-10 focus:shadow-xs focus:shadow-blue-400/40"
         />
         <IconButton className="shrink-0 grow-0">
           <FiSend />

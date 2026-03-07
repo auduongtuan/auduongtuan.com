@@ -12,19 +12,19 @@ const SkeletonDisplay = ({
 }) => {
   const skeletonSTyles = cn(
     "flex items-center justify-center",
-    "bg-slate-900/[0.075]",
+    "bg-inverted/[0.075]",
     type != "inline" ? "absolute top-0 left-0 w-full h-full z-10" : "relative",
     className,
   );
   const context = useContext(SkeletonContext);
   return !context.loaded ? (
     <span role="status" className={skeletonSTyles}>
-      <span className="absolute top-0 left-0 isolate z-5 h-full w-full overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-linear-to-r before:from-transparent before:via-white/40 before:to-transparent"></span>
+      <span className="before:via-surface/70 absolute top-0 left-0 isolate z-5 h-full w-full overflow-hidden before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-linear-to-r before:from-transparent before:to-transparent"></span>
       {type == "image" && (
-        <FiImage className="h-12 w-12 max-w-[calc(100%-28px)] text-slate-900 opacity-[0.15]"></FiImage>
+        <FiImage className="text-primary h-12 w-12 max-w-[calc(100%-28px)] opacity-[0.15]"></FiImage>
       )}
       {type == "video" && (
-        <FiVideo className="h-12 w-12 max-w-[calc(100%-28px)] text-slate-900 opacity-[0.15]"></FiVideo>
+        <FiVideo className="text-primary h-12 w-12 max-w-[calc(100%-28px)] opacity-[0.15]"></FiVideo>
       )}
     </span>
   ) : null;

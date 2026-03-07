@@ -146,7 +146,7 @@ export async function getProjects(
   const projects = await Promise.all(
     projectResponse.results.map(async (page) => {
       if (!isFullPage(page)) return undefined;
-      const assets = await parseNotionPageAssets(page);
+      const assets = (await parseNotionPageAssets(page)) || {};
       const achievementsText = getProperty(page, "Achievements", "rich_text");
       const achievements =
         achievementsText && achievementsText.length > 0

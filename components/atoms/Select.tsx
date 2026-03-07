@@ -127,7 +127,7 @@ const Select = <TType, TActualType>({
                       "data-disabled:pointer-events-none data-disabled:opacity-50",
                       multiple
                         ? "data-selected:hover:bg-accent-subtlest data-highlighted:bg-accent-subtlest data-selected:bg-transparent"
-                        : "data-selected:bg-accent data-selected:text-oncolor data-highlighted:bg-subtle",
+                        : "data-selected:bg-accent data-selected:text-oncolor data-highlighted:bg-surface-raised",
                     )}
                   >
                     {multiple && (

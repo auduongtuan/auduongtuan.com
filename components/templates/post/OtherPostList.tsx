@@ -97,7 +97,7 @@ const OtherPostList = ({ posts, post }: { post: Post; posts: Post[] }) => {
           ref={leftChevronRef}
           onClick={() => prev()}
           className={cn(
-            "absolute top-1/2 left-0 -translate-x-16 -translate-y-1/2",
+            "absolute top-1/2 left-0 hidden -translate-x-16 -translate-y-1/2 md:block",
             !isLeftInViewport && "hidden",
             activePageIndex === 0 && "pointer-events-none invisible opacity-0",
           )}
@@ -145,7 +145,7 @@ const OtherPostList = ({ posts, post }: { post: Post; posts: Post[] }) => {
           ref={rightChevronRef}
           onClick={() => next()}
           className={cn(
-            "absolute top-1/2 right-0 translate-x-16 -translate-y-1/2",
+            "absolute top-1/2 right-0 hidden translate-x-16 -translate-y-1/2 md:block",
             !isRightInViewport && "hidden",
             activePageIndex === carouselPages.length - 1 &&
               "pointer-events-none invisible opacity-0",

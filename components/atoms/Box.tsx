@@ -1,17 +1,20 @@
 import Balancer from "react-wrap-balancer";
 import { cn } from "@lib/utils/cn";
+import { ThemeProvider } from "next-themes";
 
 const Box = ({
   children,
   className = "",
   caption,
   contentMaxWidth,
+  whiteBg,
   ...rest
 }: {
   children: React.ReactNode;
   className?: string;
   caption?: string;
   contentMaxWidth?: string;
+  whiteBg?: boolean;
 }) => {
   const renderChildren = () =>
     contentMaxWidth ? (
@@ -23,23 +26,26 @@ const Box = ({
   return (
     <div
       className={cn(
-        "border-divider box bg-surface h-full rounded-xl border p-4 shadow-[0_4px_5px_-1px_rgb(0_0_0/0.02),_0_2px_3px_-2px_rgb(0_0_0/0.03)] [&>*:first-child]:mt-0",
+        "bg-surface border-divider mt-content-node box h-full rounded-xl border p-4 shadow-[0_4px_5px_-1px_rgb(0_0_0/0.02),0_2px_3px_-2px_rgb(0_0_0/0.03)] [&>*:first-child]:mt-0",
+        whiteBg ? "light bg-white" : "",
         className,
       )}
       {...rest}
     >
-      {caption ? (
-        <figure className="flex h-full flex-col justify-center">
-          <div className="flex grow items-center justify-center [&>*:first-child]:mt-0">
-            {renderChildren()}
-          </div>
-          <figcaption className="text-secondary mt-6 text-center text-sm">
-            {caption}
-          </figcaption>
-        </figure>
-      ) : (
-        renderChildren()
-      )}
+      <ThemeProvider forcedTheme={whiteBg ? "light" : undefined}>
+        {caption ? (
+          <figure className="flex h-full flex-col justify-center">
+            <div className="flex grow items-center justify-center [&>*:first-child]:mt-0">
+              {renderChildren()}
+            </div>
+            <figcaption className="text-secondary mt-6 text-center text-sm">
+              {caption}
+            </figcaption>
+          </figure>
+        ) : (
+          renderChildren()
+        )}
+      </ThemeProvider>
     </div>
   );
 };

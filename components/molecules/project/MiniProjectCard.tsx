@@ -1,22 +1,28 @@
 import Link from "next/link";
-import CustomImage from "@atoms/CustomImage";
-import { Fragment } from "react";
+import ProjectIcon from "@atoms/ProjectIcon";
+import { Fragment, useEffect, useState } from "react";
 import { Project } from "@lib/notion";
 import { parseInternalLink } from "@lib/utils";
+import { resolveThemedSurfaceColor } from "@lib/utils/themeColor";
+import { useTheme } from "next-themes";
 
 const MiniProjectCard = ({ project }: { project: Project }) => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const internalLink = parseInternalLink(project.link || "") || "";
+  const themedBackgroundColor = resolveThemedSurfaceColor(
+    project.background || "var(--bg-card)",
+    mounted ? resolvedTheme : "light",
+  );
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const content = (
     <Fragment>
       {project.icon && (
-        <div className="w-12 h-12 grow-0 shrink-0">
-          <CustomImage
-            src={project.icon.url}
-            width={48}
-            height={48}
-            alt={project.title}
-          />
-        </div>
+        <ProjectIcon src={project.icon.url} size={48} alt={project.title} />
       )}
       <div>
         <h3 className="text-lg leading-tight h3">{project.title}</h3>
@@ -32,7 +38,7 @@ const MiniProjectCard = ({ project }: { project: Project }) => {
     <Link
       href={project.caseStudy ? `/project/${project.slug}` : internalLink}
       className={classname}
-      style={{ backgroundColor: project.background }}
+      style={{ backgroundColor: themedBackgroundColor }}
     >
       {content}
     </Link>
@@ -42,7 +48,7 @@ const MiniProjectCard = ({ project }: { project: Project }) => {
       rel="noreferrer"
       className={classname}
       href={project.link}
-      style={{ backgroundColor: project.background }}
+      style={{ backgroundColor: themedBackgroundColor }}
     >
       {content}
     </a>

@@ -14,8 +14,8 @@ interface ProjectSingleHeaderProps {
 export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
   const bp = useBreakpoint();
   return (
-    <header className="text-primary bg-surface border-divider z-10 w-full border-b">
-      {/* <div className="flex justify-center p-0 lg:px-section-horizontal main-container py-section-vertical"> */}
+    <header className="bg-surface border-divider text-primary z-10 w-full border-b">
+      {/* <div className="flex justify-center p-0 lg:px-section-horizontal py-section-vertical main-container"> */}
       <HeaderWithBackButton backLink="/work" backLinkLabel="Back to Work">
         <div
           className="grid grid-cols-12 gap-x-4"
@@ -32,7 +32,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
               (project.achievements && project.achievements.length > 0)) && (
               <Fade
                 className={twMerge(
-                  "flex shrink-0 grow-0",
+                  "flex shrink-0 grow-0 flex-col items-end gap-2",
                   project.achievements &&
                     bp.breakpoint == "sm" &&
                     "mt-2 w-full",
@@ -40,19 +40,28 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                 duration={300}
                 delay={400}
               >
+                {project.achievements && project.achievements.length > 0 && (
+                  <div className="flex gap-4">
+                    {project.achievements.map((achievement, i) => (
+                      <Badge
+                        key={i}
+                        index={i}
+                        content={achievement}
+                        size={project.link ? "small" : "medium"}
+                      />
+                    ))}
+                  </div>
+                )}
                 {project.link && (
-                  <Button href={project.link} variant="secondary" showPopoutIcon>
+                  <Button
+                    href={project.link}
+                    variant="secondary"
+                    showPopoutIcon
+                  >
                     {project.tags.includes("my product")
                       ? "Get product"
                       : "View website"}
                   </Button>
-                )}
-                {project.achievements && project.achievements.length > 0 && (
-                  <div className="flex gap-4">
-                    {project.achievements.map((achievement, i) => (
-                      <Badge key={i} index={i} content={achievement} />
-                    ))}
-                  </div>
                 )}
               </Fade>
             )}

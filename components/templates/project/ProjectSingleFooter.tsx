@@ -18,7 +18,7 @@ const ProjectSingleFooter = ({
 
   return (
     <Fragment>
-      <div className="bg-surface py-section-vertical relative border-t border-gray-200">
+      <div className="bg-surface py-section-vertical border-divider relative border-t">
         <div className="main-container">
           {isShown && (
             <ReactionAndComment
@@ -27,7 +27,7 @@ const ProjectSingleFooter = ({
             ></ReactionAndComment>
           )}
           {/*{isShown && (
-            <hr className="mt-section-vertical pt-section-vertical border-gray-200 border-t"></hr>
+            <hr className="mt-section-vertical pt-section-vertical border-divider border-t"></hr>
           )}*/}
           <div className="pt-section-vertical relative">
             <OtherProjectList projects={projects} project={project} />

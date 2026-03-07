@@ -23,8 +23,8 @@ const Tooltip = ({
         <BaseTooltip.Positioner sideOffset={10} className="z-2000">
           <BaseTooltip.Popup
             className={cn(
-              "origin-[var(--transform-origin)]",
-              "ease max-w-[48ch] rounded-lg bg-blue-800 px-2 py-1 font-mono text-sm font-medium text-white shadow-md duration-300",
+              "origin-(--transform-origin)",
+              "ease bg-accent-bolder text-oncolor max-w-[48ch] rounded-lg px-2 py-1 font-mono text-sm font-medium shadow-md duration-300",
               "transition-[transform,scale,opacity] data-ending-style:scale-90",
               "data-ending-style:opacity-0 data-instant:duration-0",
               "data-starting-style:scale-90 data-starting-style:opacity-0",

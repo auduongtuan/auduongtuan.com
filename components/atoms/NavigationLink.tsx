@@ -58,7 +58,7 @@ const NavigationLink = ({
     "font-book inline-block text-base rounded-xl",
     // logo && "uppercase",
     inverted
-      ? "text-white hover:bg-surface/10"
+      ? "text-oncolor hover:bg-surface/10"
       : "text-primary hover:bg-surface-raised",
     isActive && !logo ? {} : "",
     className,

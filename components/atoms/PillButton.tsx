@@ -26,7 +26,7 @@ const PillButton = <T extends "a" | "button">({
   ref?: React.RefObject<HTMLElement>;
 }) => {
   const buttonStyles = cn(
-    "shrink-0 text-secondary inline-flex items-center transition-all duration-100 ease-out border-2 border-gray-300 rounded-full flex-shrink-1 px-3 py-1 hover:border-accent justify-items-center hover:bg-surface/40 group",
+    "shrink-0 text-secondary inline-flex items-center transition-all duration-100 ease-out border-2 border-control rounded-full flex-shrink-1 px-3 py-1 hover:border-accent justify-items-center hover:bg-surface/40 group",
     active && "border-accent text-accent",
     size === "small" && "text-sm px-2.5 py-1",
     className,

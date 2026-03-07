@@ -8,7 +8,12 @@ import {
 } from "@notionhq/client/build/src/api-endpoints";
 import fetchMeta from "fetch-meta-tags";
 import { NOTION_RICH_TEXT_LIMIT, notion } from "./base";
-import { NotionMedia, NotionAssets, getMediaFromBlock } from "./media";
+import {
+  NotionMedia,
+  NotionAssets,
+  getMediaFromBlock,
+  hydrateSvgMediaForRender,
+} from "./media";
 
 // Metadata types for blocks enhanced by our code
 export type BlockMeta = {
@@ -236,7 +241,6 @@ export async function getBlockChildren(
   await Promise.all(
     results.map(async (block) => {
       if (block.type == "image" || block.type == "video") {
-        // const { width, height } = await probe(block.video.file.url);
         let media: NotionMedia | undefined = undefined;
         const assetValue = currentAssets[block.id];
         if (block.id in currentAssets && !Array.isArray(assetValue)) {
@@ -252,6 +256,17 @@ export async function getBlockChildren(
           currentAssets[block.id] = media;
         }
         block[block.type].url = media.url;
+
+        if (media.ext === "svg") {
+          const renderMedia = await hydrateSvgMediaForRender(media);
+          if (renderMedia.svgCode) {
+            block[block.type].svgCode = renderMedia.svgCode;
+          } else if ("svgCode" in block[block.type]) {
+            delete block[block.type].svgCode;
+          }
+        } else if ("svgCode" in block[block.type]) {
+          delete block[block.type].svgCode;
+        }
         block[block.type].width = media.width || null;
         block[block.type].height = media.height || null;
       }

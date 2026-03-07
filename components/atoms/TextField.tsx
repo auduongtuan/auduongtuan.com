@@ -26,7 +26,7 @@ const TextField = ({
       <input
         id={id}
         className={cn(
-          "text-primary focus:border-accent w-full rounded-lg border-2 border-gray-300 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:shadow-xs focus:shadow-blue-400/40",
+          "text-primary focus:border-accent border-control w-full rounded-lg border-2 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:shadow-xs focus:shadow-blue-400/40",
           error &&
             "border-red-300 focus:border-red-600 focus:shadow-xs focus:shadow-red-400/40",
           className,
