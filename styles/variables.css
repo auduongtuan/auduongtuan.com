@@ -37,11 +37,23 @@
     --project-icon-inner-border: oklch(0 0 0 / 0.12);
 
     --fg-oncolor: oklch(0.95 0 0);
-    --accent-boldest: var(--color-blue-900);
-    --accent-bolder: var(--color-blue-800);
-    --accent: var(--color-blue-600);
-    --accent-subtle: var(--color-blue-200);
-    --accent-subtlest: var(--color-blue-50);
+    --accent: light-dark(oklch(54.6% 0.245 262.881), oklch(66% 0.19 262.881));
+    --accent-bolder: light-dark(
+      oklch(from var(--accent) calc(l - 0.122) calc(c * 0.81) h),
+      oklch(from var(--accent) calc(l - 0.08) calc(c * 0.92) h)
+    );
+    --accent-boldest: light-dark(
+      oklch(from var(--accent) calc(l - 0.167) calc(c * 0.6) h),
+      oklch(from var(--accent) calc(l - 0.14) calc(c * 0.75) h)
+    );
+    --accent-subtle: light-dark(
+      oklch(from var(--accent) 0.882 calc(c * 0.24) h),
+      oklch(from var(--accent) calc(l - 0.22) calc(c * 0.36) h / 0.22)
+    );
+    --accent-subtlest: light-dark(
+      oklch(from var(--accent) 0.97 calc(c * 0.06) h),
+      oklch(from var(--accent) calc(l - 0.14) calc(c * 0.18) h / 0.12)
+    );
     --control: oklch(from var(--base-fg) l c h / 0.15);
     --divider: oklch(from var(--base-fg) l c h / 0.1);
     --underline: oklch(from var(--base-fg) l c h / 0.15);

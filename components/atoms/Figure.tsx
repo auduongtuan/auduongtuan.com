@@ -16,7 +16,7 @@ const Figure = ({
   <figure className={className} {...rest}>
     <div
       className={cn(
-        borderRadius && "rounded-xl",
+        borderRadius && "rounded-md",
         "translate-z-0 overflow-hidden leading-0",
       )}
     >
