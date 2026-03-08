@@ -120,20 +120,8 @@ export const PhotoCard = React.memo(
       if (!card) return;
       if (!isExpanded) {
         Object.assign(card.style, getCardStyle());
-        return;
       }
-      const cardWidth = card.offsetWidth;
-      const cardHeight = card.offsetHeight;
-      const columns = Number(
-        getComputedStyle(card).getPropertyValue("--columns"),
-      );
-      const column = (index || 0) % columns;
-      const row = Math.floor((index || 0) / columns);
-      card.style.opacity = "1";
-      card.style.transform = "";
-      card.style.left = `calc((${cardWidth}px + var(--gap-x)) * ${column})`;
-      card.style.top = `calc((${cardHeight}px + var(--gap-y)) * ${row})`;
-    }, [isExpanded, index, cardRef.current, getCardStyle]);
+    }, [isExpanded, getCardStyle]);
 
     return (
       <div

@@ -97,3 +97,34 @@ export const calculateGridLayoutHeight = (
     gapY
   );
 };
+
+export const calculateGridRowOffsets = (
+  cardEls: HTMLElement[],
+  {
+    columns,
+    gapY,
+  }: {
+    columns: number;
+    gapY: number;
+  },
+) => {
+  const bestHeightInRow = new Map<number, number>();
+
+  cardEls.forEach((card, index) => {
+    const row = Math.floor(index / columns);
+    const height = card.getBoundingClientRect().height;
+    bestHeightInRow.set(row, Math.max(bestHeightInRow.get(row) || 0, height));
+  });
+
+  let currentOffset = 0;
+  const rowOffsets = new Map<number, number>();
+
+  Array.from(bestHeightInRow.entries())
+    .sort(([rowA], [rowB]) => rowA - rowB)
+    .forEach(([row, height]) => {
+      rowOffsets.set(row, currentOffset);
+      currentOffset += height + gapY;
+    });
+
+  return rowOffsets;
+};

@@ -12,6 +12,7 @@ import {
 } from "react";
 import {
   calculateCardStackHeight,
+  calculateGridRowOffsets,
   getStackCardTransform,
   swipeAction,
 } from "./functions";
@@ -173,6 +174,22 @@ export default function PhotoCards() {
     const cards = Object.values(cardRefs.current);
     let height = 0;
     if (isExpanded) {
+      const rowOffsets = calculateGridRowOffsets(cards, {
+        columns,
+        gapY: 32,
+      });
+
+      cards.forEach((card, index) => {
+        const column = index % columns;
+        const row = Math.floor(index / columns);
+        const cardWidth = card.offsetWidth;
+
+        card.style.opacity = "1";
+        card.style.transform = "";
+        card.style.left = `calc((${cardWidth}px + var(--gap-x)) * ${column})`;
+        card.style.top = `${rowOffsets.get(row) ?? 0}px`;
+      });
+
       height = calculateGridLayoutHeight(cards, {
         columns: columns,
         gapY: 32,
@@ -183,11 +200,28 @@ export default function PhotoCards() {
     setCalculatedHeight(height);
   });
 
-  // Recalculate on layout changes
-  useEffect(() => {
-    requestAnimationFrame(() => {
+  // Recalculate on layout changes. Expanded cards animate width/position, so a
+  // later pass is needed after the transition settles to avoid requiring a
+  // manual resize.
+  useLayoutEffect(() => {
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    let rafId = requestAnimationFrame(() => {
       recalculateHeight();
+      rafId = requestAnimationFrame(() => {
+        recalculateHeight();
+      });
     });
+
+    if (isExpanded) {
+      timeoutId = setTimeout(() => {
+        recalculateHeight();
+      }, 350);
+    }
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, [isExpanded, visiblePhotos.length, columns, width]);
 
   // Observe card size changes to recalculate height
