@@ -141,6 +141,11 @@ export function isPureWhiteColor(parsed: ParsedColor): boolean {
   return parsed.r >= 250 && parsed.g >= 250 && parsed.b >= 250;
 }
 
+export function isYellowHueColor(parsed: ParsedColor): boolean {
+  const oklch = rgbToOklch(parsed);
+  return oklch.h >= 65 && oklch.h <= 110;
+}
+
 export function isLightNeutralColor(parsed: ParsedColor): boolean {
   const oklch = rgbToOklch(parsed);
   return oklch.l >= LIGHT_ELEMENT_THRESHOLD && oklch.c <= 0.08;

@@ -22,6 +22,7 @@ import {
   isLineLikeCandidate,
   isPureWhiteColor,
   isSuperLightColor,
+  isYellowHueColor,
   parseCssColor,
   PAINTABLE_SELECTOR,
   sanitizeSvg,
@@ -157,7 +158,7 @@ export function transformSvgMarkupForDarkMode(
 
   // Pass 1: dim filled "panel-like" surfaces only when all of these are true:
   // - the element is a non-text filled shape
-  // - the fill is super-light, but not pure white
+  // - the fill is super-light, but not pure white or yellow-hued
   // - the shape actually carries painted content above it
   // - there is no light/filled surface below that would make this shape behave
   //   like foreground/detail content instead of an exposed panel
@@ -173,6 +174,7 @@ export function transformSvgMarkupForDarkMode(
       candidate.fillColor !== null &&
       isSuperLightColor(candidate.fillColor) &&
       !isPureWhiteColor(candidate.fillColor) &&
+      !isYellowHueColor(candidate.fillColor) &&
       hasCandidateAbove(candidate, candidates) &&
       !candidate.hasLightSurfaceBelow &&
       !hasNonTransparentFilledBelow(candidate, candidates);
