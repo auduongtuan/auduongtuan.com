@@ -95,11 +95,7 @@ const ProjectCard = memo(
     );
 
     const icon = project.icon && (
-      <ProjectIcon
-        src={project.icon.url}
-        size={72}
-        alt={project.title}
-      />
+      <ProjectIcon src={project.icon.url} size={72} alt={project.title} />
     );
 
     const info = (
@@ -131,11 +127,7 @@ const ProjectCard = memo(
     const footer = (
       <div className="flex gap-4">
         {project.caseStudy && (
-          <Button
-            href={`/project/${project.slug}`}
-            arrow
-            variant="secondary"
-          >
+          <Button href={`/project/${project.slug}`} arrow variant="secondary">
             View project
           </Button>
         )}
@@ -230,7 +222,7 @@ const ProjectCard = memo(
         className={twMerge(
           "col-span-2",
           !vertical ? "md:col-span-1 md:col-start-2" : "row-start-1",
-          "flex items-stretch justify-stretch gap-8 md:gap-4 lg:gap-8",
+          "flex items-stretch justify-stretch gap-4 md:gap-4 lg:gap-8",
         )}
         slide
         show={visibleRatio > 0.4}
@@ -256,7 +248,7 @@ const ProjectCard = memo(
       >
         <div
           className={twMerge(
-            "grid h-full grid-cols-2 items-center justify-end gap-x-4 gap-y-8",
+            "grid h-full grid-cols-2 items-center justify-end gap-x-4 gap-y-6 md:gap-y-8",
             vertical ? "grid-rows-[1fr_auto]" : "md:gap-x-16",
           )}
         >
