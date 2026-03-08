@@ -41,7 +41,7 @@ export const InstructionOverlay = () => {
       className="absolute inset-0 z-30 flex h-full items-center justify-center transition-opacity duration-100"
       asChild={false}
     >
-      <div className="animate-shadow-grow absolute inset-0 top-1/2 left-1/2 h-[calc(100%-50px)] w-[calc(100%-10px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/90 blur-2xl" />
+      <div className="animate-shadow-grow bg-instruction-glow/90 absolute inset-0 top-1/2 left-1/2 h-[calc(100%-50px)] w-[calc(100%-10px)] -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl" />
       <div className="text-primary z-1 mx-4 flex max-w-md flex-col items-center">
         <div className="flex items-center justify-center text-4xl">
           <MdOutlineSwipe className="animate-hand-wave text-accent origin-bottom" />

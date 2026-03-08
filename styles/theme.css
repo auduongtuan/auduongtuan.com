@@ -61,6 +61,7 @@
   --color-modal-backdrop: var(--bg-modal-backdrop);
   --color-pill: var(--bg-pill);
   --color-surface: var(--bg-surface);
+  --color-instruction-glow: var(--bg-instruction-glow);
   --color-surface-subtle: var(--bg-surface-subtle);
   --color-surface-raised: var(--bg-surface-raised);
   --color-card: var(--bg-card);
@@ -129,10 +130,10 @@
   @keyframes shadow-grow {
     0%,
     100% {
-      box-shadow: 0 0 50px 10px oklch(1 0 0 / 0.8);
+      box-shadow: 0 0 50px 10px oklch(from var(--bg-instruction-glow) l c h / 0.8);
     }
     50% {
-      box-shadow: 0 0 50px 20px oklch(1 0 0 / 0.8);
+      box-shadow: 0 0 50px 20px oklch(from var(--bg-instruction-glow) l c h / 0.8);
     }
   }
 
