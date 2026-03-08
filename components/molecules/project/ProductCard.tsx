@@ -70,7 +70,7 @@ const ProductCard = memo(
         {formattedDate && (
           <p className="muted-text mt-0.5 md:mt-1">{formattedDate}</p>
         )}
-        <p className="body-text text-secondary mt-2 md:mt-3">
+        <p className="text-secondary body-text mt-2 md:mt-3">
           <Balancer ratio={0.67}>{project.tagline}</Balancer>
         </p>
         {/* <ScrollableTagList
@@ -83,11 +83,7 @@ const ProductCard = memo(
     const footer = (
       <div className="flex space-x-4">
         {project.caseStudy && (
-          <Button
-            href={`/project/${project.slug}`}
-            arrow
-            variant="secondary"
-          >
+          <Button href={`/project/${project.slug}`} arrow variant="secondary">
             View product
           </Button>
         )}
@@ -138,7 +134,7 @@ const ProductCard = memo(
         }}
         {...rest}
       >
-        <div className={twMerge("flex h-full gap-4 gap-y-8")}>
+        <div className={twMerge("flex h-full gap-4 md:gap-y-8")}>
           <Fade
             duration={200}
             slide
