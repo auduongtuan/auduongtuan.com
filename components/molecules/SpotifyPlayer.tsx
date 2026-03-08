@@ -332,7 +332,7 @@ const Tonearm = ({
 }) => (
   <div
     className={twMerge(
-      "absolute overflow-visible transition-transform duration-500 cursor-pointer",
+      "absolute cursor-pointer overflow-visible transition-transform duration-500",
       active ? "rotate-[34deg]" : "rotate-0",
     )}
     style={{
@@ -541,7 +541,7 @@ const Slider = ({
       {/* Thumb — content 14×5.5, viewBox 30×21.5 (includes shadow) */}
       <div
         className={twMerge(
-          "absolute overflow-visible cursor-pointer",
+          "absolute cursor-pointer overflow-visible",
           !isDragging && "transition-[top] duration-300",
         )}
         style={{
@@ -748,9 +748,12 @@ type SpotifyTrack = {
 
 const SpotifyPlayer = () => {
   const { resolvedTheme } = useTheme();
-  const { data, mutate: mutateSpotify } = useAxiosSWR<SpotifyTrack>("/api/spotify", {
-    refreshInterval: 10000, // Poll Spotify API every 10 seconds
-  });
+  const { data, mutate: mutateSpotify } = useAxiosSWR<SpotifyTrack>(
+    "/api/spotify",
+    {
+      refreshInterval: 10000, // Poll Spotify API every 10 seconds
+    },
+  );
 
   // Call Python YouTube Music API directly
   const ytmusicApiUrl =
@@ -810,7 +813,7 @@ const SpotifyPlayer = () => {
               height: BOX_HEIGHT,
               background:
                 resolvedTheme === "dark"
-                  ? "rgba(255,255,255,0.4)"
+                  ? "rgba(255,255,255,0.6)"
                   : "rgba(0,0,0,0.1)",
               boxShadow:
                 "0px 1px 2px 0px rgba(0,0,0,0.3), 0px 2px 6px 2px rgba(0,0,0,0.15)",
@@ -852,7 +855,8 @@ const SpotifyPlayer = () => {
               <div
                 className={twMerge(
                   "absolute overflow-hidden rounded-full",
-                  (data.isPlaying || userIsPlaying) && "animate-spin-slow shrink-0 grow-0",
+                  (data.isPlaying || userIsPlaying) &&
+                    "animate-spin-slow shrink-0 grow-0",
                 )}
                 style={{
                   width: COVER_SIZE,
@@ -964,7 +968,7 @@ const SpotifyPlayer = () => {
 
           {/* Song info */}
           <div className="flex shrink grow flex-col">
-            <p className="muted-text _text-sm _text-secondary">
+            <p className="_text-secondary _text-sm muted-text">
               {data.isPlaying ? "Now playing" : "Offline - Recently played"}
             </p>
             <p className="max-w-full text-base font-normal tracking-tight">
