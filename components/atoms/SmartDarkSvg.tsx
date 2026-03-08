@@ -29,6 +29,7 @@ function SmartDarkSvg({
   const [error, setError] = useState(false);
 
   const isDarkMode = resolvedTheme === "dark";
+  const enableSvgDebug = process.env.NODE_ENV === "development";
 
   useEffect(() => {
     if (svgCode) {
@@ -67,8 +68,12 @@ function SmartDarkSvg({
 
   const transformedSvg = useMemo(() => {
     if (!rawSvg) return "";
-    return transformSvgMarkupForDarkMode(rawSvg, autoDark && isDarkMode, true);
-  }, [rawSvg, autoDark, isDarkMode]);
+    return transformSvgMarkupForDarkMode(
+      rawSvg,
+      autoDark && isDarkMode,
+      enableSvgDebug,
+    );
+  }, [rawSvg, autoDark, isDarkMode, enableSvgDebug]);
 
   useEffect(() => {
     if (transformedSvg && onLoad) {
