@@ -166,8 +166,35 @@ export function sanitizeSvg(doc: Document): void {
       ) {
         el.removeAttribute(attr.name);
       }
+
+      if (name === "font-family") {
+        const normalizedFont = normalizeSvgFontFamily(value);
+        if (normalizedFont) {
+          el.setAttribute(attr.name, normalizedFont);
+        }
+      }
+
+      if (name === "style" && /font-family\s*:/i.test(value)) {
+        const normalizedStyle = value.replace(
+          /font-family\s*:\s*([^;]+)/gi,
+          (_match, familyValue: string) => {
+            const normalizedFont = normalizeSvgFontFamily(familyValue.trim());
+            return `font-family: ${normalizedFont ?? familyValue.trim()}`;
+          },
+        );
+        if (normalizedStyle !== value) {
+          el.setAttribute(attr.name, normalizedStyle);
+        }
+      }
     });
   });
+}
+
+function normalizeSvgFontFamily(value: string): "inherit" | "Roboto Mono" | null {
+  const normalized = value.trim().replace(/^['"]|['"]$/g, "").toLowerCase();
+  if (!normalized) return null;
+  if (normalized.includes("mono")) return "Roboto Mono";
+  return "inherit";
 }
 
 function splitPathDataIntoSubpaths(d: string): string[] {
