@@ -214,17 +214,15 @@ const ROW_SPAN_CLASSES: { [key: string]: { [key: string]: string } } = {
     "12": "row-span-12",
   },
 };
-const getClass = (
+const getResponsiveClass = (
   classes: { [key: string]: { [key: string]: string } },
-  span: string | number | undefined,
-  breakpoint: string = "lg",
+  value: string | number | undefined,
+  breakpoint: "sm" | "md" | "lg",
+  fallback: string = "",
 ): string => {
-  if (span && span in classes[breakpoint]) {
-    return classes[breakpoint][span];
-  } else {
-    if (breakpoint == "sm") return "col-span-12";
-    return "";
-  }
+  if (value == null) return fallback;
+  const key = String(value);
+  return classes[breakpoint][key] ?? fallback;
 };
 export const Col = ({
   span,
@@ -266,21 +264,28 @@ export const Col = ({
   className?: string;
   children?: React.ReactNode;
 }) => {
+  // `spanSm` and similar `*Sm` props are kept as backward-compatible aliases
+  // for the base, unprefixed classes.
+  const baseSpan = spanSm ?? span;
+  const baseRowSpan = rowSpanSm ?? rowSpan;
+  const baseRowStart = rowStartSm ?? rowStart;
+  const baseColStart = colStartSm ?? colStart;
+
   return (
     <div
       className={cn(
-        getClass(COL_SPAN_CLASSES, spanSm || span, "sm"),
-        getClass(COL_SPAN_CLASSES, spanMd, "md"),
-        getClass(COL_SPAN_CLASSES, spanLg, "lg"),
-        getClass(ROW_SPAN_CLASSES, rowSpanSm || rowSpan, "sm"),
-        getClass(ROW_SPAN_CLASSES, rowSpanMd, "md"),
-        getClass(ROW_SPAN_CLASSES, rowSpanLg, "lg"),
-        getClass(ROW_START_CLASSES, rowStartSm || rowStart, "sm"),
-        getClass(ROW_START_CLASSES, rowStartMd, "md"),
-        getClass(ROW_START_CLASSES, rowStartLg, "lg"),
-        getClass(COL_START_CLASSES, colStartSm || colStart, "sm"),
-        getClass(COL_START_CLASSES, colStartMd, "md"),
-        getClass(COL_START_CLASSES, colStartLg, "lg"),
+        getResponsiveClass(COL_SPAN_CLASSES, baseSpan, "sm", "col-span-12"),
+        getResponsiveClass(COL_SPAN_CLASSES, spanMd, "md"),
+        getResponsiveClass(COL_SPAN_CLASSES, spanLg, "lg"),
+        getResponsiveClass(ROW_SPAN_CLASSES, baseRowSpan, "sm"),
+        getResponsiveClass(ROW_SPAN_CLASSES, rowSpanMd, "md"),
+        getResponsiveClass(ROW_SPAN_CLASSES, rowSpanLg, "lg"),
+        getResponsiveClass(ROW_START_CLASSES, baseRowStart, "sm"),
+        getResponsiveClass(ROW_START_CLASSES, rowStartMd, "md"),
+        getResponsiveClass(ROW_START_CLASSES, rowStartLg, "lg"),
+        getResponsiveClass(COL_START_CLASSES, baseColStart, "sm"),
+        getResponsiveClass(COL_START_CLASSES, colStartMd, "md"),
+        getResponsiveClass(COL_START_CLASSES, colStartLg, "lg"),
         className,
       )}
       {...rest}
