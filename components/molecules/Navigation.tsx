@@ -115,16 +115,14 @@ const Navigation = React.memo(() => {
             Au Duong Tuan
           </NavigationLink>
           <>
-            {bp.breakpoint == "sm" && (
-              <button
-                className={`text-primary hover:bg-surface-raised -mx-2 inline-block cursor-pointer rounded-xl px-2 py-1`}
-                aria-label={menuOpened ? "Close menu" : "Open menu"}
-                aria-expanded={menuOpened}
-                onClick={() => setMenuOpened(!menuOpened)}
-              >
-                <MenuMorphIcon open={menuOpened} className="h-6 w-6" />
-              </button>
-            )}
+            <button
+              className="text-primary hover:bg-surface-raised -mx-2 inline-block cursor-pointer rounded-xl px-2 py-1 md:hidden"
+              aria-label={menuOpened ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpened}
+              onClick={() => setMenuOpened(!menuOpened)}
+            >
+              <MenuMorphIcon open={menuOpened} className="h-6 w-6" />
+            </button>
             {!menuOpened && (
               <>
               <div className="relative hidden items-center md:flex">

@@ -222,7 +222,7 @@ const ProjectCard = memo(
         className={twMerge(
           "col-span-2",
           !vertical ? "md:col-span-1 md:col-start-2" : "row-start-1",
-          "flex items-stretch justify-stretch gap-4 md:gap-4 lg:gap-8",
+          "flex items-stretch justify-stretch gap-4 lg:gap-6",
         )}
         slide
         show={visibleRatio > 0.4}
