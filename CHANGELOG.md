@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.8.0] - 2026-03-08
+
+### Added
+- **Dark Mode Foundation**: Added OKLCH-based theme tokens, a navigation dark-mode toggle, and theme-aware code highlighting.
+- **Smart SVG Theming**: Added SVG dark-mode transformation with preprocessing, font normalization, and smarter dim/lighten heuristics.
+- **Inline Notion SVG Rendering**: Switched Notion SVG handling to inline render-time hydration while keeping persisted asset records URL-only.
+
+### Changed
+- **Theme Tokens**: Refined surfaces, accents, badges, borders, shadows, and component colors across the site for more consistent light/dark behavior.
+- **UI Components**: Updated project cards, media frames, callout boxes, dialog/frame shadows, and mobile navigation interactions.
+
+### Fixed
+- Fixed SVG dark-mode edge cases for connectors, bright surfaces, and foreground contrast.
+- Fixed mobile navigation icon behavior and reduced toggle layout shift.
+- Fixed other-post carousel arrows visibility on small screens.
+
+---
+
 ## [3.7.0] - 2026-02-21
 
 ### Added
