@@ -36,8 +36,8 @@ function Dialog({ children, open, onClose, title, className }: DialogProps) {
             className,
           )}
         >
-          <div className="border-control flex w-full max-w-md translate-z-0 flex-col overflow-hidden rounded-xl border border-solid shadow-lg">
-            <header className="bg-card relative z-1 flex items-center justify-between rounded-t-[11px] px-3 py-1.5 shadow-[0_0_0_1px_rgba(0,0,0,0.06)]">
+          <div className="shadow-elevation-high border-control-outline flex w-full max-w-md translate-z-0 flex-col overflow-hidden rounded-xl border border-solid">
+            <header className="bg-card relative z-1 flex items-center justify-between rounded-t-[11px] px-3 py-1.5">
               <div className="absolute flex grow basis-0 items-center gap-2">
                 <BaseDialog.Close
                   aria-label="Close dialog"
@@ -48,7 +48,9 @@ function Dialog({ children, open, onClose, title, className }: DialogProps) {
                 {title}
               </BaseDialog.Title>
             </header>
-            <main className="bg-surface grow-0">{children}</main>
+            <main className="shadow-surface-inset-top bg-surface grow-0">
+              {children}
+            </main>
           </div>
         </BaseDialog.Popup>
       </BaseDialog.Portal>

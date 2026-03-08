@@ -26,7 +26,7 @@ const Box = ({
   return (
     <div
       className={cn(
-        "bg-surface border-divider mt-content-node box h-full rounded-xl border p-4 shadow-[0_4px_5px_-1px_rgb(0_0_0/0.02),0_2px_3px_-2px_rgb(0_0_0/0.03)] [&>*:first-child]:mt-0",
+        "bg-surface shadow-elevation-medium border-surface-outline mt-content-node box h-full rounded-xl border p-4 [&>*:first-child]:mt-0",
         whiteBg ? "light bg-white" : "",
         className,
       )}

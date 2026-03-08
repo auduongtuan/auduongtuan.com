@@ -150,7 +150,7 @@ const ReactButton = ({
                 ? "gap-x-2 px-3 py-2 md:px-4 md:py-2"
                 : "gap-x-1 px-2 py-[calc(var(--spacing)*0.5)] md:px-2.5 md:py-[calc(var(--spacing)*0.625)]",
               "hover:border-accent hover:bg-surface/40",
-              "group border-control inline-flex flex-shrink-1 items-center justify-center justify-items-center rounded-full border-2 transition-all duration-100 ease-out",
+              "group border-control-outline inline-flex flex-shrink-1 items-center justify-center justify-items-center rounded-full border-2 transition-all duration-100 ease-out",
             )}
             onClick={sendReaction}
           >

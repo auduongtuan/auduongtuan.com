@@ -41,7 +41,7 @@ const PasswordField = ({
       >
         <div
           className={cn(
-            "password-base text-primary group-data-focus:border-accent border-control w-full rounded-lg border-2 px-3 py-2 font-mono leading-tight font-medium outline-hidden transition-all duration-200 group-data-focus:shadow-xs group-data-focus:shadow-blue-400/40",
+            "border-control-outline group-data-focus:border-accent text-primary password-base w-full rounded-lg border-2 px-3 py-2 font-mono leading-tight font-medium outline-hidden transition-all duration-200 group-data-focus:shadow-xs group-data-focus:shadow-blue-400/40",
             error &&
               "border-red-300 group-data-focus:border-red-600 group-data-focus:shadow-xs group-data-focus:shadow-red-400/40",
             className,

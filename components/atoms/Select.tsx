@@ -88,7 +88,7 @@ const Select = <TType, TActualType>({
         >
           <BaseSelect.Trigger
             className={cn(
-              "border-control bg-background ring-offset-background placeholder:text-muted focus:ring-ring flex w-full items-center justify-between rounded-lg border px-3 py-1.5 text-base focus:ring-offset-2 focus:outline-hidden focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
+              "bg-background border-control-outline focus:ring-ring ring-offset-background placeholder:text-muted flex w-full items-center justify-between rounded-lg border px-3 py-1.5 text-base focus:ring-offset-2 focus:outline-hidden focus-visible:ring-2 disabled:cursor-not-allowed disabled:opacity-50",
               buttonClassName,
               "data-disabled:cursor-not-allowed data-disabled:opacity-50",
             )}
@@ -112,7 +112,7 @@ const Select = <TType, TActualType>({
               align={align}
               alignItemWithTrigger={false}
             >
-              <BaseSelect.Popup className="border-control bg-surface text-primary z-[var(--stack-popup)] grid grid-cols-1 gap-0.5 rounded-md border p-1 shadow-lg focus:outline-hidden data-closed:hidden data-ending-style:opacity-0 data-starting-style:opacity-0">
+              <BaseSelect.Popup className="bg-surface border-control-outline text-primary z-[var(--stack-popup)] grid grid-cols-1 gap-0.5 rounded-md border p-1 shadow-lg focus:outline-hidden data-closed:hidden data-ending-style:opacity-0 data-starting-style:opacity-0">
                 {options.map((option, i) => (
                   <BaseSelect.Item
                     key={

@@ -25,7 +25,7 @@ const Checkbox = ({
         checked={checked}
         onCheckedChange={onChange}
         className={cn(
-          "bg-surface border-control focus:ring-accent border focus:ring-2",
+          "bg-surface border-control-outline focus:ring-accent border focus:ring-2",
           "relative flex h-4 w-4 items-center justify-center rounded-xs bg-clip-padding outline-hidden focus:shadow-xs focus:shadow-blue-400/40",
           "data-checked:bg-accent data-checked:focus:ring-accent/20 data-checked:focus:ring-[3px]",
           className,

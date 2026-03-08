@@ -3,6 +3,10 @@
   --shadow-navigation-inner:
     inset 0px 1px 1px oklch(0 0 0 / 0.08),
     inset 0px 2px 1px oklch(0 0 0 / 0.06), inset 0px 4px 4px oklch(0 0 0 / 0.06);
+  --shadow-surface-inset-top: var(--shadow-surface-inset-top);
+  --shadow-elevation-low: var(--shadow-elevation-low);
+  --shadow-elevation-medium: var(--shadow-elevation-medium);
+  --shadow-elevation-high: var(--shadow-elevation-high);
   --shadow-button-inner: 0px 2px 0px 0px oklch(1 0 0 / 0.25) inset;
   --spacing-section-vertical: var(--section-vertical-padding);
   --spacing-section-horizontal: var(--section-horizontal-padding);
@@ -65,7 +69,8 @@
   --color-secondary: var(--fg-secondary);
   --color-tertiary: var(--fg-tertiary);
   --color-oncolor: var(--fg-oncolor);
-  --color-control: var(--control);
+  --color-control-outline: var(--control-outline);
+  --color-surface-outline: var(--surface-outline);
   --color-accent-bolder: var(--accent-bolder);
   --color-accent-boldest: var(--accent-boldest);
   --color-accent: var(--accent);

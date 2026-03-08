@@ -16,6 +16,7 @@ export interface BaseFrameProps extends React.ComponentPropsWithoutRef<"div"> {
   headerClassName?: string;
   borderOverlayClassName?: string;
   startContainerClassName?: string;
+  shadowLevel?: "low" | "medium" | "high";
   draggable?: boolean;
   startContent?: React.ReactNode;
   middleContent?: React.ReactNode;
@@ -31,6 +32,7 @@ export const BaseFrame = ({
   headerClassName,
   borderOverlayClassName,
   startContainerClassName,
+  shadowLevel = "medium",
   className = "",
   draggable = false,
   startContent,
@@ -42,6 +44,12 @@ export const BaseFrame = ({
   ref?: React.RefObject<HTMLDivElement>;
 }) => {
   const draggleRef = useDraggable(!!draggable);
+  const shadowClass =
+    shadowLevel === "high"
+      ? "shadow-elevation-high"
+      : shadowLevel === "low"
+        ? "shadow-elevation-low"
+        : "shadow-elevation-medium";
   const defaultDots = (
     <>
       <span className="bg-primary/15 mr-1.5 block h-2.5 w-2.5 rounded-full"></span>
@@ -52,7 +60,8 @@ export const BaseFrame = ({
   return (
     <div
       className={cn(
-        `relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0 shadow-lg`,
+        shadowClass,
+        `relative z-40 flex w-full translate-z-0 flex-col rounded-xl border-0`,
         className,
       )}
       ref={(el) => {
@@ -93,7 +102,7 @@ export const BaseFrame = ({
       </header>
       <main
         className={cn(
-          "bg-surface relative grow-0 overflow-hidden rounded-b-xl p-0 leading-0 after:pointer-events-none after:absolute after:inset-0 after:z-10 after:shadow-[inset_0_1px_0_0_rgba(0,0,0,0.1)] [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
+          "after:shadow-surface-inset-top bg-surface relative grow-0 overflow-hidden rounded-b-xl p-0 leading-0 after:pointer-events-none after:absolute after:inset-0 after:z-10 [&_*[data-skeleton]]:rounded-tl-none [&_*[data-skeleton]]:rounded-tr-none",
           mainClassname,
         )}
       >

@@ -94,7 +94,7 @@ const CommentForm = ({
                 formContentRef(e);
                 // messageRef.current = e;
               }}
-              className="focus:border-accent text-primary border-control relative block h-32 w-full rounded-lg border-2 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:z-10 focus:shadow-xs focus:shadow-blue-400/40 md:rounded-b-none"
+              className="border-control-outline focus:border-accent text-primary relative block h-32 w-full rounded-lg border-2 px-3 py-2 text-base leading-tight outline-hidden transition-all duration-200 focus:z-10 focus:shadow-xs focus:shadow-blue-400/40 md:rounded-b-none"
             />
           </div>
 
