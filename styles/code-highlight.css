@@ -13,7 +13,7 @@
   .light {
     .hljs {
       color: var(--fg-secondary);
-      background: var(--bg-surface-raised);
+      background: var(--bg-surface-subtle);
     }
 
     .hljs-comment,

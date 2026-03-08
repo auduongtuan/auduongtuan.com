@@ -7,6 +7,10 @@
     --base-bg: oklch(1 0 0);
 
     --bg-surface: var(--base-bg);
+    --bg-surface-subtle: light-dark(
+      oklch(from var(--base-bg) calc(l - 0.025) c h),
+      oklch(from var(--base-bg) calc(l + 0.025) c h)
+    );
     --bg-surface-raised: oklch(from var(--base-fg) l c h / 0.075);
     --bg-card: oklch(0.961 0.001 286.4);
     --bg-badge: oklch(0.875 0.004 286);

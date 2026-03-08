@@ -61,6 +61,7 @@
   --color-modal-backdrop: var(--bg-modal-backdrop);
   --color-pill: var(--bg-pill);
   --color-surface: var(--bg-surface);
+  --color-surface-subtle: var(--bg-surface-subtle);
   --color-surface-raised: var(--bg-surface-raised);
   --color-card: var(--bg-card);
   --color-badge: var(--bg-badge);
