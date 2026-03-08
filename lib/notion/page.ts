@@ -64,6 +64,9 @@ export const getNotionPageContent = async (pageId: string) => {
     page_id: pageId,
   });
   const assets = await parseNotionPageAssets(page);
-  const results = await getBlockChildren(pageId, assets);
-  return results;
+  const { blocks, assetsChanged } = await getBlockChildren(pageId, assets);
+  if (assets && assetsChanged) {
+    await updateNotionPageAssets(assets, pageId);
+  }
+  return blocks;
 };

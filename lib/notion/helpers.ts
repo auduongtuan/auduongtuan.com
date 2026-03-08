@@ -42,6 +42,11 @@ export type BlockObjectResponseWithChildren<T = BlockObjectResponse> = T & {
   children?: BlockObjectResponseWithChildren[];
 };
 
+export type BlockChildrenResult = {
+  blocks: EnhancedBlockObjectResponse[];
+  assetsChanged: boolean;
+};
+
 export function breakRichTextChunks(longText: string): {
   type: "text";
   text: { content: string };
@@ -219,9 +224,9 @@ export function getProperty(
 export async function getBlockChildren(
   block_id: string,
   assets?: NotionAssets,
-): Promise<EnhancedBlockObjectResponse[]> {
-  const blocks: EnhancedBlockObjectResponse[] = [];
+): Promise<BlockChildrenResult> {
   const currentAssets: NotionAssets = assets || {};
+  let assetsChanged = false;
 
   const baseQuery = {
     block_id: block_id,
@@ -254,6 +259,7 @@ export async function getBlockChildren(
         ) {
           media = await getMediaFromBlock(block);
           currentAssets[block.id] = media;
+          assetsChanged = true;
         }
         block[block.type].url = media.url;
 
@@ -284,9 +290,11 @@ export async function getBlockChildren(
       }
       // get children
       if (block.has_children) {
-        block.children = await getBlockChildren(block.id, assets);
+        const childResult = await getBlockChildren(block.id, assets);
+        block.children = childResult.blocks;
+        assetsChanged = assetsChanged || childResult.assetsChanged;
       }
     }),
   );
-  return results;
+  return { blocks: results, assetsChanged };
 }
