@@ -78,7 +78,7 @@ const CustomVideo = ({
         >
           <video
             ref={innerRef}
-            className={cn(`absolute top-0 left-0 h-full w-full`, className)}
+            className={cn("absolute top-0 left-0 h-full w-full", className)}
             poster={poster && `/uploads/${slug}/${poster}`}
             data-src={slug ? `/uploads/${slug}/${src}` : src}
             width={width ? width : undefined}

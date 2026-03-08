@@ -110,7 +110,7 @@ const ContentMenu = () => {
                 <div className="ease-bounce col-start-1 row-start-1 ml-2 w-8 origin-left transition-all duration-350 group-hover:scale-x-3 group-hover:opacity-0">
                   <span
                     className={`block h-[2px] rounded ${
-                      i == active ? "bg-gray-900" : "bg-gray-300"
+                      i == active ? "bg-primary" : "bg-divider"
                     }`}
                     style={
                       visibleInfo[i] && maxLength
@@ -132,7 +132,7 @@ const ContentMenu = () => {
                     }
                   }}
                   className={`ease-bounce hover:text-primary col-start-1 row-start-1 ml-3 origin-left -translate-x-10 truncate pl-0 text-sm font-semibold opacity-0 transition-all duration-400 group-hover:-translate-x-0 group-hover:opacity-100 ${
-                    i == active ? "text-primary" : "text-gray-400"
+                    i == active ? "text-primary" : "text-tertiary"
                   }`}
                   href={`#${heading.id}`}
                 >

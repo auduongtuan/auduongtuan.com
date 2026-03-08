@@ -2,8 +2,10 @@ import { Checkbox as BaseCheckbox } from "@base-ui/react";
 import { FiCheck } from "react-icons/fi";
 import { cn } from "@lib/utils/cn";
 
-export interface CheckboxProps
-  extends Omit<BaseCheckbox.Root.Props, "onCheckedChange"> {
+export interface CheckboxProps extends Omit<
+  BaseCheckbox.Root.Props,
+  "onCheckedChange"
+> {
   label?: React.ReactNode;
   onChange?: BaseCheckbox.Root.Props["onCheckedChange"];
 }
@@ -23,7 +25,7 @@ const Checkbox = ({
         checked={checked}
         onCheckedChange={onChange}
         className={cn(
-          "bg-surface border-control focus:ring-accent border focus:ring-2",
+          "bg-surface border-control-outline focus:ring-accent border focus:ring-2",
           "relative flex h-4 w-4 items-center justify-center rounded-xs bg-clip-padding outline-hidden focus:shadow-xs focus:shadow-blue-400/40",
           "data-checked:bg-accent data-checked:focus:ring-accent/20 data-checked:focus:ring-[3px]",
           className,
@@ -33,7 +35,7 @@ const Checkbox = ({
         <BaseCheckbox.Indicator
           className={"transition-opacity duration-200 data-checked:opacity-0"}
         >
-          <FiCheck className="h-3 w-3 text-white" />
+          <FiCheck className="text-oncolor h-3 w-3" />
         </BaseCheckbox.Indicator>
       </BaseCheckbox.Root>
       {label && (

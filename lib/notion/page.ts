@@ -4,11 +4,12 @@ import {
   getPageIconFile,
   getProperty,
   notion,
+  stripSvgCodeFromAssets,
 } from "@lib/notion";
 import { isFullPage } from "@notionhq/client";
 
 export async function updateNotionPageAssets(assets: any, pageId: string) {
-  let json = JSON.stringify(assets);
+  let json = JSON.stringify(stripSvgCodeFromAssets(assets));
   let chunks: string[] = [];
   for (var i = 0, charsLength = json.length; i < charsLength; i += 2000) {
     chunks.push(json.substring(i, i + 2000));
@@ -29,10 +30,16 @@ export async function updateNotionPageAssets(assets: any, pageId: string) {
 export const parseNotionPageAssets = async (page: any) => {
   if (!isFullPage(page)) return undefined;
   const assetsJson = getProperty(page, "Assets", "rich_text") || "{}";
-  const assets = JSON.parse(assetsJson);
+  const persistedAssets = stripSvgCodeFromAssets(JSON.parse(assetsJson));
+  const assets = { ...persistedAssets };
 
   let update: boolean = false;
-  if (!("cover" in assets) || !assets.cover || assets.cover.length === 0) {
+
+  if (
+    !("cover" in assets) ||
+    !Array.isArray(assets.cover) ||
+    assets.cover.length === 0
+  ) {
     const cover = await getMediaFromProperty(page, "Cover");
     if (cover) {
       assets.cover = cover;
@@ -56,9 +63,10 @@ export const getNotionPageContent = async (pageId: string) => {
   const page = await notion.pages.retrieve({
     page_id: pageId,
   });
-  const assetsJson = getProperty(page, "Assets", "rich_text") || "{}";
-  const assets = JSON.parse(assetsJson);
-  const results = await getBlockChildren(pageId, assets);
-  await updateNotionPageAssets(assets, pageId);
-  return results;
+  const assets = await parseNotionPageAssets(page);
+  const { blocks, assetsChanged } = await getBlockChildren(pageId, assets);
+  if (assets && assetsChanged) {
+    await updateNotionPageAssets(assets, pageId);
+  }
+  return blocks;
 };

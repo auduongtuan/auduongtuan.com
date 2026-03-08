@@ -1,0 +1,139 @@
+@layer base {
+  :root,
+  .light {
+    color-scheme: light;
+    color: var(--fg-primary);
+    --base-fg: oklch(0.1925 0 0);
+    --base-bg: oklch(1 0 0);
+
+    --bg-surface: var(--base-bg);
+    --bg-surface-subtle: light-dark(
+      oklch(from var(--base-bg) calc(l - 0.025) c h),
+      oklch(from var(--base-bg) calc(l + 0.025) c h)
+    );
+    --bg-surface-raised: oklch(from var(--base-fg) l c h / 0.075);
+    --bg-instruction-glow: light-dark(
+      oklch(from var(--base-bg) l c h),
+      oklch(from var(--base-bg) calc(l - 0.02) c h)
+    );
+    --bg-card: oklch(0.961 0.001 286.4);
+    --bg-badge: oklch(0.875 0.004 286);
+    --bg-navigation: var(--bg-surface);
+    --bg-pill: oklch(from var(--base-fg) l c h / 0.07);
+    --bg-modal-backdrop: oklch(0 0 0 / 0.6);
+    --shadow-color: 0.1925 0 0;
+    --shadow-base-opacity: 0.03;
+    --shadow-surface-inset-top: 0px 1px 0px oklch(var(--shadow-color) / 0.12)
+      inset;
+    --shadow-elevation-low:
+      0px 0.5px 0.6px oklch(var(--shadow-color) / var(--shadow-base-opacity)),
+      0px 0.8px 0.9px -1.2px
+        oklch(var(--shadow-color) / var(--shadow-base-opacity)),
+      0px 1.8px 2px -2.5px
+        oklch(var(--shadow-color) / var(--shadow-base-opacity));
+    --shadow-elevation-medium:
+      0px 0.5px 0.5px oklch(var(--shadow-color) / var(--shadow-base-opacity)),
+      0px 1.5px 2px 0px
+        oklch(var(--shadow-color) / calc(var(--shadow-base-opacity) + 0.01)),
+      0.1px 4px 4px -1.7px
+        oklch(var(--shadow-color) / calc(var(--shadow-base-opacity) + 0.01)),
+      0.1px 9px 10px -1px
+        oklch(var(--shadow-color) / calc(var(--shadow-base-opacity) + 0.01));
+    --shadow-elevation-high:
+      0px 0.5px 0.5px
+        oklch(var(--shadow-color) / calc(var(--shadow-base-opacity) + 0.04)),
+      0px 2px 3px -0.4px
+        oklch(var(--shadow-color) / calc(var(--shadow-base-opacity) + 0.04)),
+      0.3px 16px 18px -1.8px
+        oklch(var(--shadow-color) / calc(var(--shadow-base-opacity) + 0.03)),
+      0.6px 35px 40px -2.5px
+        oklch(var(--shadow-color) / calc(var(--shadow-base-opacity) + 0.03));
+    --fg-decorative: oklch(from var(--base-fg) l c h / 0.2);
+    --fg-primary: light-dark(
+      oklch(from var(--base-fg) calc(l + 0.05) c h),
+      oklch(from var(--base-fg) calc(l - 0.05) c h)
+    );
+    --fg-secondary: light-dark(
+      oklch(from var(--base-fg) calc(l + 0.25) c h),
+      oklch(from var(--base-fg) calc(l - 0.15) c h)
+    );
+    --fg-tertiary: light-dark(
+      oklch(from var(--base-fg) calc(l + 0.45) c h),
+      oklch(from var(--base-fg) calc(l - 0.35) c h)
+    );
+    --bg-inverted: var(--base-fg);
+    --fg-button-primary: var(--base-bg);
+    --bg-button-primary: var(--base-fg);
+    --bg-button-primary-hover: var(--accent-bolder);
+    --bg-button-primary-pressed: var(--accent-boldest);
+    --bg-button-secondary: oklch(from var(--base-fg) l c h / 0.1);
+    --bg-button-secondary-hover: oklch(from var(--base-fg) l c h / 0.12);
+    --bg-button-secondary-pressed: oklch(from var(--base-fg) l c h / 0.2);
+    --bg-button-secondary-activated: oklch(from var(--base-fg) l c h / 0.2);
+    --project-icon-inner-border: oklch(0 0 0 / 0.12);
+
+    --fg-oncolor: oklch(0.95 0 0);
+    --accent: light-dark(oklch(54.6% 0.245 262.881), oklch(66% 0.19 262.881));
+    --accent-bolder: light-dark(
+      oklch(from var(--accent) calc(l - 0.122) calc(c * 0.81) h),
+      oklch(from var(--accent) calc(l - 0.08) calc(c * 0.92) h)
+    );
+    --accent-boldest: light-dark(
+      oklch(from var(--accent) calc(l - 0.167) calc(c * 0.6) h),
+      oklch(from var(--accent) calc(l - 0.14) calc(c * 0.75) h)
+    );
+    --accent-subtle: light-dark(
+      oklch(from var(--accent) 0.882 calc(c * 0.24) h),
+      oklch(from var(--accent) calc(l - 0.22) calc(c * 0.36) h / 0.22)
+    );
+    --accent-subtlest: light-dark(
+      oklch(from var(--accent) 0.97 calc(c * 0.06) h),
+      oklch(from var(--accent) calc(l - 0.14) calc(c * 0.18) h / 0.12)
+    );
+    --control-outline: light-dark(
+      oklch(from var(--base-fg) calc(l + 0.675) c h),
+      oklch(from var(--base-fg) calc(l - 0.6) c h)
+    );
+    --surface-outline: oklch(from var(--base-fg) l c h / 0.12);
+    --divider: oklch(from var(--base-fg) l c h / 0.1);
+    --underline: oklch(from var(--base-fg) l c h / 0.15);
+    --main-width: min(calc(var(--vw, 1vw) * 100), 70rem);
+    --content-width: min(calc(var(--vw, 1vw) * 100), 52rem);
+    /* --main-width: min(100vw, 70rem);
+    --content-width: min(100vw, 52rem); */
+    --section-horizontal-padding: 1rem;
+    --section-vertical-padding: 2rem;
+    --subsection-vertical-padding: 1.5rem;
+    --content-element-spacing: 0.5rem;
+    --content-node-spacing: 1rem;
+    --content-group-spacing: 2rem;
+    --content-section-spacing: 2.5rem;
+
+    @media (width >= theme(--breakpoint-md)) {
+      --section-horizontal-padding: 1.5rem;
+      --section-vertical-padding: 3rem;
+      --subsection-vertical-padding: 2.5rem;
+      --content-element-spacing: 1rem;
+      --content-node-spacing: 1.25rem;
+      --content-group-spacing: 2rem;
+      --content-section-spacing: 2.75rem;
+    }
+
+    @media (width >= theme(--breakpoint-lg)) {
+      --content-node-spacing: 1.5rem;
+      --content-group-spacing: 2.5rem;
+      --content-section-spacing: 3rem;
+    }
+  }
+
+  .dark {
+    color-scheme: dark;
+    color: var(--fg-primary);
+    --base-fg: oklch(0.99 0 0);
+    --base-bg: oklch(0.252 0 0);
+    --bg-card: oklch(0.313 0 0);
+    --bg-badge: oklch(from var(--base-fg) l c h / 0.2);
+    --project-icon-inner-border: oklch(1 0 0 / 0.16);
+    --shadow-base-opacity: 0.16;
+  }
+}

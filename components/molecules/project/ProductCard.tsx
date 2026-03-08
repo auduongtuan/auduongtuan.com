@@ -1,6 +1,6 @@
 import Badge from "@atoms/Badge";
 import Button from "@atoms/Button";
-import CustomImage from "@atoms/CustomImage";
+import ProjectIcon from "@atoms/ProjectIcon";
 import Fade from "@atoms/Fade";
 import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
@@ -49,14 +49,12 @@ const ProductCard = memo(
     );
     const bp = useBreakpoint();
     const icon = project.icon && (
-      <div className="mb-4 h-12 w-12 shrink-0 grow-0">
-        <CustomImage
-          src={project.icon.url}
-          width={48}
-          height={48}
-          alt={project.title}
-        />
-      </div>
+      <ProjectIcon
+        src={project.icon.url}
+        size={48}
+        alt={project.title}
+        className="mb-4"
+      />
     );
     const info = (
       <div className="flex grow flex-col">

@@ -11,11 +11,13 @@ import { NotionNowItem } from "@lib/notion/now";
 import { trackEvent } from "@lib/utils";
 import { cn } from "@lib/utils/cn";
 import { getInnerDimensions } from "@lib/utils/getElementContentWidth";
+import { resolveThemedTextColor } from "@lib/utils/themeColor";
 import Now from "@molecules/about/Now";
 import PhotoCards from "@molecules/about/photo/PhotoCards";
 import { usePhotoStore } from "@molecules/about/photo/photoStore";
 import RandomFacts from "@molecules/about/RandomFacts";
 import HoverGif from "@molecules/HoverGif";
+import { useTheme } from "next-themes";
 import { useCallback, useEffect, useState } from "react";
 import { FiInfo, FiMinus, FiPlus } from "react-icons/fi";
 import { RiCrossFill } from "react-icons/ri";
@@ -42,6 +44,7 @@ export default function AboutPage({
 
   const { isExpanded, setIsExpanded, setIsExpanding, isExpanding } =
     usePhotoStore();
+  const { resolvedTheme } = useTheme();
 
   const [aboutSectionExpanded, setAboutSectionExpanded] = useState(false);
 
@@ -75,6 +78,13 @@ export default function AboutPage({
       setIsExpanding(false);
     };
   }, [setIsExpanded, setIsExpanding]);
+
+  const getThemedLinkColor = useCallback(
+    (color: string, preserveInDark = false) =>
+      resolveThemedTextColor(color, resolvedTheme, { preserveInDark }),
+    [resolvedTheme],
+  );
+
   return (
     <div className="bg-surface overflow-x-hidden overflow-y-hidden">
       <main className="bg-surface text-primary z-10 w-full">
@@ -181,7 +191,7 @@ export default function AboutPage({
                 I spend my days crafting bioinformatics products and design
                 systems at{" "}
                 <InlineLink
-                  className="text-[#00B4DB]"
+                  style={{ color: getThemedLinkColor("#00B4DB", true) }}
                   href="https://bioturing.com/"
                 >
                   BioTuring
@@ -191,7 +201,7 @@ export default function AboutPage({
                   text={
                     <InlineLink
                       href="https://www.baemin.vn"
-                      className="text-[#54b0ad]"
+                      style={{ color: getThemedLinkColor("#54b0ad", true) }}
                     >
                       BAEMIN VN
                     </InlineLink>
@@ -207,7 +217,7 @@ export default function AboutPage({
                 </HoverGif>
                 <RiCrossFill className="text-secondary mb-1 inline h-4 w-4" />,{" "}
                 <InlineLink
-                  className="text-[#05295d]"
+                  style={{ color: getThemedLinkColor("#05295d") }}
                   href="https://aperia.com"
                 >
                   Aperia
@@ -226,7 +236,7 @@ export default function AboutPage({
                 <HoverGif
                   text={
                     <InlineLink
-                      className="text-[#ab3632]"
+                      style={{ color: getThemedLinkColor("#ab3632") }}
                       href="https://uah.edu.vn"
                     >
                       UAH
@@ -244,7 +254,7 @@ export default function AboutPage({
                 <HoverGif
                   text={
                     <InlineLink
-                      className="text-[#183679]"
+                      style={{ color: getThemedLinkColor("#183679") }}
                       href="https://hcmus.edu.vn/"
                     >
                       HCMUS

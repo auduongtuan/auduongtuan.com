@@ -58,7 +58,7 @@ const CommentList = ({ comments, wording }) => {
                     : "Anonymous";
                   const avatarColor = hasName
                     ? avatarColors[getHashOfString(name) % avatarColors.length]
-                    : "bg-gray-300 text-primary/70";
+                    : "bg-surface-raised text-primary/70";
                   return (
                     <div key={`comment-${i}`} className="flex space-x-3">
                       <span
@@ -70,7 +70,7 @@ const CommentList = ({ comments, wording }) => {
                           <GiDominoMask className="text-base" />
                         )}
                       </span>
-                      <div className="w-full rounded-xl bg-gray-100 px-4 py-3">
+                      <div className="bg-surface-raised w-full rounded-xl px-4 py-3">
                         <div className="flex justify-between">
                           <h6 className="text-primary font-medium">
                             {hasName ? richTextObject(comment.name) : "Someone"}

@@ -17,7 +17,7 @@ const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
       href={`/blog/${post.slug}`}
       key={post.slug}
       className={clsx(
-        "ease -m-4 flex rounded-lg p-4 transition-all duration-100 group-first/post:mt-0 group-last/post:mb-0 hover:bg-gray-100",
+        "ease hover:bg-surface-raised -m-4 flex rounded-lg p-4 transition-all duration-100 group-first/post:mt-0 group-last/post:mb-0",
         className,
       )}
     >

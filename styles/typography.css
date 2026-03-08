@@ -1,0 +1,60 @@
+/* Typography */
+/*------------------------------*/
+
+@utility hero-text {
+  @apply text-[1.75rem] leading-[1.11] font-semibold md:text-5xl md:leading-[1.11] lg:text-[3.75rem] lg:leading-[1.11];
+}
+
+@utility h1 {
+  @apply text-[1.75rem] leading-[1.1] font-semibold tracking-tight md:text-4xl lg:text-5xl;
+}
+
+@utility h2 {
+  @apply text-2xl leading-tight font-semibold md:text-3xl md:leading-tight;
+}
+
+@utility h3 {
+  @apply text-lg leading-tight font-semibold md:text-2xl md:leading-tight;
+}
+
+@utility h4 {
+  @apply text-lg font-semibold md:text-xl;
+}
+
+@utility h5 {
+  @apply text-xs font-medium tracking-wide uppercase md:text-sm;
+}
+
+@utility big-body-text {
+  /* @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-3xl md:text-4xl font-sans; */
+  /* tracking-tight */
+  @apply text-base leading-normal md:text-xl md:leading-normal lg:leading-normal;
+}
+
+@utility body-text {
+  /* .big-text {
+    @apply leading-normal md:leading-normal lg:leading-normal tracking-tight font-semibold text-2xl md:text-3xl font-sans;
+  } */
+  @apply text-base leading-[1.57] md:text-lg md:leading-[1.57];
+}
+
+@utility small-body-text {
+  @apply text-sm leading-[1.57] md:text-base md:leading-[1.57];
+}
+
+@utility page-description {
+  @apply body-text text-secondary;
+}
+
+@utility subheading {
+  @apply text-tertiary font-mono text-sm font-normal tracking-wide uppercase md:text-base;
+}
+
+@utility subheading2 {
+  @apply text-tertiary font-mono text-sm font-normal tracking-wide uppercase md:text-sm;
+}
+
+@utility muted-text {
+  @apply text-tertiary font-mono text-sm tracking-tight md:text-sm;
+}
+

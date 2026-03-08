@@ -140,7 +140,9 @@ export default function HoverGif({
               ending="opacity-0 translate-y-10"
               className="translate-y-0 transition-all duration-200"
             >
-              <PhotoFrame name={label}>{children}</PhotoFrame>
+              <PhotoFrame name={label} shadowLevel="high">
+                {children}
+              </PhotoFrame>
             </Transition>
           </div>,
           document.body,

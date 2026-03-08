@@ -1,11 +1,21 @@
 import NavigationLink from "@atoms/NavigationLink";
 import { Transition } from "@atoms/Transition";
+import MenuMorphIcon from "@atoms/MenuMorphIcon";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useAppStore from "@store/useAppStore";
 import { useRouter } from "next/router";
-import React, { Fragment, useEffect, useRef, useState, useCallback } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
+import React, {
+  Fragment,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from "react";
+import { FiMoon, FiSun } from "react-icons/fi";
 import { twMerge } from "tailwind-merge";
+import IconButton from "@atoms/IconButton";
+import Tooltip from "@atoms/Tooltip";
+import { useTheme } from "next-themes";
 
 const menuItems = [
   { href: "/", name: "Home" },
@@ -18,14 +28,22 @@ const Navigation = React.memo(() => {
   const { menuOpened, pauseScrollEvent, setMenuOpened } = useAppStore();
   const [hidden, setHidden] = useState(false);
   const bp = useBreakpoint();
+  const { theme, resolvedTheme, setTheme } = useTheme();
+  const activeTheme = resolvedTheme ?? theme;
+  const isDarkTheme = activeTheme === "dark";
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const router = useRouter();
-  const isActive = useCallback((href: string) =>
-    router.asPath == href ||
-    router.pathname == href.split("#")[0] ||
-    router.pathname.includes(href + "/") ||
-    (href.includes("/work") && router.pathname.includes("/project/")), 
-    [router.asPath, router.pathname]
+  const isActive = useCallback(
+    (href: string) =>
+      router.asPath == href ||
+      router.pathname == href.split("#")[0] ||
+      router.pathname.includes(href + "/") ||
+      (href.includes("/work") && router.pathname.includes("/project/")),
+    [router.asPath, router.pathname],
   );
   const [currentActive, setCurrentActive] = useState(
     menuItems.find((item) => isActive(item.href))?.href,
@@ -83,7 +101,7 @@ const Navigation = React.memo(() => {
   }, [currentActive, bp.breakpoint]);
 
   const NavigationStyles = twMerge(
-    "w-full top-0 left-0 z-42 transition-transform duration-150 sticky",
+    "top-0 left-0 z-42 sticky w-full transition-transform duration-150",
     "bg-navigation backdrop-blur-md text-primary",
     "border-b border-divider",
     hidden && "-translate-y-full",
@@ -96,23 +114,19 @@ const Navigation = React.memo(() => {
           <NavigationLink href="/" logo callback={() => setMenuOpened(false)}>
             Au Duong Tuan
           </NavigationLink>
-          {menuOpened ? (
-            <button
-              className={`text-primary hover:bg-surface-raised -mx-2 inline-block cursor-pointer rounded-xl px-2 py-1`}
-              onClick={() => setMenuOpened(false)}
-            >
-              <FiX className="h-6 w-6" />
-            </button>
-          ) : (
-            <>
-              {bp.breakpoint == "sm" && (
-                <button
-                  className={`-mx-2 inline-block cursor-pointer rounded-xl px-2 py-1 ${"text-primary hover:bg-surface-raised"}`}
-                  onClick={() => setMenuOpened(true)}
-                >
-                  <FiMenu className="h-6 w-6" />
-                </button>
-              )}
+          <>
+            {bp.breakpoint == "sm" && (
+              <button
+                className={`text-primary hover:bg-surface-raised -mx-2 inline-block cursor-pointer rounded-xl px-2 py-1`}
+                aria-label={menuOpened ? "Close menu" : "Open menu"}
+                aria-expanded={menuOpened}
+                onClick={() => setMenuOpened(!menuOpened)}
+              >
+                <MenuMorphIcon open={menuOpened} className="h-6 w-6" />
+              </button>
+            )}
+            {!menuOpened && (
+              <>
               <div className="relative hidden items-center md:flex">
                 <ul className="flex items-center gap-8">
                   {menuItems.map((item, i) => (
@@ -140,9 +154,30 @@ const Navigation = React.memo(() => {
                     style={indicatorStyle}
                   ></span>
                 )}
+                <Tooltip
+                  content={`Switch to ${isDarkTheme ? "light" : "dark"} mode`}
+                >
+                  <IconButton
+                    variant="ghost"
+                    size="small"
+                    className="ml-4 md:ml-10"
+                    onClick={() => setTheme(isDarkTheme ? "light" : "dark")}
+                  >
+                    {mounted ? (
+                      isDarkTheme ? (
+                        <FiSun />
+                      ) : (
+                        <FiMoon />
+                      )
+                    ) : (
+                      <FiMoon />
+                    )}
+                  </IconButton>
+                </Tooltip>
               </div>
-            </>
-          )}
+              </>
+            )}
+          </>
         </nav>
       </header>
       {/* MOBILE MENU */}
@@ -150,11 +185,11 @@ const Navigation = React.memo(() => {
         show={menuOpened}
         starting="opacity-0 -translate-y-12"
         ending="opacity-0 -translate-y-12"
-        className="transition-all duration-300 ease-out"
+        className="max-h-[calc(100dvh-3rem)] transition-all duration-300 ease-out"
       >
         <div className={`bg-surface fixed z-40 h-full w-full`}>
-          <div className="main-container font-sans">
-            <ul className="py-section-vertical flex w-full flex-col gap-y-2">
+          <div className="py-section-vertical main-container flex h-full flex-col font-sans">
+            <ul className="flex w-full grow flex-col gap-y-2">
               {menuItems.map((item, i) => (
                 <li key={i} className="w-full">
                   <NavigationLink
@@ -168,6 +203,17 @@ const Navigation = React.memo(() => {
                 </li>
               ))}
             </ul>
+            <div>
+              <button
+                onClick={() => {
+                  setTheme(isDarkTheme ? "light" : "dark");
+                  setMenuOpened(false);
+                }}
+                className="block w-full px-4 py-4 text-left"
+              >
+                Switch to {isDarkTheme ? "light" : "dark"} mode
+              </button>
+            </div>
           </div>
         </div>
       </Transition>

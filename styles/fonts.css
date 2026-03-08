@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "ABCOracle";
+  src: url("/fonts/ABCOracle/ABCOracleVariable-Trial.woff2")
+    format("woff2-variations");
+  font-weight: 100 900; /* Full weight range: Thin (100) to Ultra (900) */
+  font-style: normal;
+  font-display: swap; /* Prevents flash of unstyled text */
+}
+
+@font-face {
+  font-family: "ABCOracle";
+  src: url("/fonts/ABCOracle/ABCOracleVariable-Trial.woff2")
+    format("woff2-variations");
+  font-weight: 100 900; /* Full weight range: Thin (100) to Ultra (900) */
+  font-style: italic;
+  font-display: swap;
+}
+

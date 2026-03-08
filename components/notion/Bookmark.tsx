@@ -11,7 +11,7 @@ const Bookmark = ({ block }: BookmarkProps) => {
     <div>
       <ExternalLink
         href={block.bookmark.url}
-        className="mt-4 block rounded-md border border-gray-200 px-4 py-3 text-sm hover:bg-gray-100"
+        className="border-divider hover:bg-surface-raised mt-4 block rounded-md border px-4 py-3 text-sm"
       >
         {block.bookmark.meta?.image &&
           block.bookmark.meta.image !== block.bookmark.meta.icon && (

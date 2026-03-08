@@ -8,7 +8,12 @@ import {
 } from "@notionhq/client/build/src/api-endpoints";
 import fetchMeta from "fetch-meta-tags";
 import { NOTION_RICH_TEXT_LIMIT, notion } from "./base";
-import { NotionMedia, NotionAssets, getMediaFromBlock } from "./media";
+import {
+  NotionMedia,
+  NotionAssets,
+  getMediaFromBlock,
+  hydrateSvgMediaForRender,
+} from "./media";
 
 // Metadata types for blocks enhanced by our code
 export type BlockMeta = {
@@ -35,6 +40,11 @@ const limitRegex = new RegExp(`.{1,${NOTION_RICH_TEXT_LIMIT}}`, "g");
 
 export type BlockObjectResponseWithChildren<T = BlockObjectResponse> = T & {
   children?: BlockObjectResponseWithChildren[];
+};
+
+export type BlockChildrenResult = {
+  blocks: EnhancedBlockObjectResponse[];
+  assetsChanged: boolean;
 };
 
 export function breakRichTextChunks(longText: string): {
@@ -214,9 +224,9 @@ export function getProperty(
 export async function getBlockChildren(
   block_id: string,
   assets?: NotionAssets,
-): Promise<EnhancedBlockObjectResponse[]> {
-  const blocks: EnhancedBlockObjectResponse[] = [];
+): Promise<BlockChildrenResult> {
   const currentAssets: NotionAssets = assets || {};
+  let assetsChanged = false;
 
   const baseQuery = {
     block_id: block_id,
@@ -236,7 +246,6 @@ export async function getBlockChildren(
   await Promise.all(
     results.map(async (block) => {
       if (block.type == "image" || block.type == "video") {
-        // const { width, height } = await probe(block.video.file.url);
         let media: NotionMedia | undefined = undefined;
         const assetValue = currentAssets[block.id];
         if (block.id in currentAssets && !Array.isArray(assetValue)) {
@@ -250,8 +259,20 @@ export async function getBlockChildren(
         ) {
           media = await getMediaFromBlock(block);
           currentAssets[block.id] = media;
+          assetsChanged = true;
         }
         block[block.type].url = media.url;
+
+        if (media.ext === "svg") {
+          const renderMedia = await hydrateSvgMediaForRender(media);
+          if (renderMedia.svgCode) {
+            block[block.type].svgCode = renderMedia.svgCode;
+          } else if ("svgCode" in block[block.type]) {
+            delete block[block.type].svgCode;
+          }
+        } else if ("svgCode" in block[block.type]) {
+          delete block[block.type].svgCode;
+        }
         block[block.type].width = media.width || null;
         block[block.type].height = media.height || null;
       }
@@ -269,9 +290,11 @@ export async function getBlockChildren(
       }
       // get children
       if (block.has_children) {
-        block.children = await getBlockChildren(block.id, assets);
+        const childResult = await getBlockChildren(block.id, assets);
+        block.children = childResult.blocks;
+        assetsChanged = assetsChanged || childResult.assetsChanged;
       }
     }),
   );
-  return results;
+  return { blocks: results, assetsChanged };
 }

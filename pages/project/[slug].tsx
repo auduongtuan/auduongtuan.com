@@ -1,4 +1,9 @@
-import { Project, getProjectContent, getProjectsWithCache } from "@lib/notion";
+import {
+  Project,
+  getProjectContent,
+  getProjectsWithCache,
+  hydrateSvgAssetsForRender,
+} from "@lib/notion";
 import { getPassword } from "@lib/notion/password";
 import ProjectSinglePage, {
   ProjectSinglePageProps,
@@ -57,6 +62,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   let passwordInfo = {
     hint: "",
     length: 0,
+  };
+  project = {
+    ...project,
+    assets: await hydrateSvgAssetsForRender(project.assets),
   };
   // Get the Notion page data and all child block data
   const rawNotionContent = await getProjectContent(project.id);
