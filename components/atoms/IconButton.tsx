@@ -1,3 +1,4 @@
+"use client";
 import { cn } from "@lib/utils/cn";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -38,17 +39,17 @@ const iconButtonVariants = cva(
       {
         variant: "ghost",
         size: "small",
-        class: "text-base",
+        class: "w-6 h-6 text-base",
       },
       {
         variant: "ghost",
         size: "medium",
-        class: "text-xl",
+        class: "w-8 h-8 text-xl",
       },
       {
         variant: "ghost",
         size: "large",
-        class: "text-2xl",
+        class: "w-12 h-12 text-2xl",
       },
       {
         variant: "overlay",

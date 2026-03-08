@@ -156,17 +156,15 @@ const Navigation = React.memo(() => {
                     style={indicatorStyle}
                   ></span>
                 )}
-                {mounted && (
-                  <IconButton
-                    variant="ghost"
-                    size="small"
-                    className="ml-4 md:ml-10"
-                    onClick={() => setTheme(isDarkTheme ? "light" : "dark")}
-                    aria-label="Toggle Dark Mode"
-                  >
-                    {isDarkTheme ? <FiSun /> : <FiMoon />}
-                  </IconButton>
-                )}
+                <IconButton
+                  variant="ghost"
+                  size="small"
+                  className="ml-4 md:ml-10"
+                  onClick={() => setTheme(isDarkTheme ? "light" : "dark")}
+                  aria-label="Toggle Dark Mode"
+                >
+                  {mounted ? (isDarkTheme ? <FiSun /> : <FiMoon />) : <FiMoon />}
+                </IconButton>
               </div>
             </>
           )}

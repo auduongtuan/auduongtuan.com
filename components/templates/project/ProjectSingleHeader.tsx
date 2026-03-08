@@ -32,7 +32,7 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
               (project.achievements && project.achievements.length > 0)) && (
               <Fade
                 className={twMerge(
-                  "flex shrink-0 grow-0 flex-col items-end gap-2",
+                  "flex shrink-0 grow-0 items-center justify-between gap-2 md:flex-col md:items-end",
                   project.achievements &&
                     bp.breakpoint == "sm" &&
                     "mt-2 w-full",
@@ -47,7 +47,9 @@ export const ProjectSingleHeader = ({ project }: ProjectSingleHeaderProps) => {
                         key={i}
                         index={i}
                         content={achievement}
-                        size={project.link ? "small" : "medium"}
+                        size={
+                          project.link || bp.down("md") ? "small" : "medium"
+                        }
                       />
                     ))}
                   </div>
