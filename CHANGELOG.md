@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - **Theme Tokens**: Refined surfaces, accents, badges, borders, shadows, and component colors across the site for more consistent light/dark behavior.
 - **UI Components**: Updated project cards, media frames, callout boxes, dialog/frame shadows, and mobile navigation interactions.
+- **Notion Asset Pipeline**: Normalized SVG assets to Cloudinary-backed URLs, kept raw SVG markup render-only, and now persist refreshed block assets only when hydration changes them.
 
 ### Fixed
 - Fixed SVG dark-mode edge cases for connectors, bright surfaces, and foreground contrast.
