@@ -1,4 +1,5 @@
 import IconButton from "@atoms/IconButton";
+import useBreakpoint from "@hooks/useBreakpoint";
 import { Post } from "@lib/notion";
 import { cn } from "@lib/utils/cn";
 import MiniPostCard from "@molecules/post/MiniPostCard";
@@ -89,21 +90,26 @@ const OtherPostList = ({ posts, post }: { post: Post; posts: Post[] }) => {
     inViewportRight: isRightInViewport,
   } = useChevronVisibility(parentRef, leftChevronRef, rightChevronRef);
 
+  const bp = useBreakpoint();
+
   return (
     <>
       <h3 className="subheading">Other posts</h3>
       <div className="relative mt-6 md:mt-2" ref={parentRef}>
-        <IconButton
-          ref={leftChevronRef}
-          onClick={() => prev()}
-          className={cn(
-            "absolute top-1/2 left-0 hidden -translate-x-16 -translate-y-1/2 md:block",
-            !isLeftInViewport && "hidden",
-            activePageIndex === 0 && "pointer-events-none invisible opacity-0",
-          )}
-        >
-          <FiChevronLeft />
-        </IconButton>
+        {bp.up("sm") && (
+          <IconButton
+            ref={leftChevronRef}
+            onClick={() => prev()}
+            className={cn(
+              "absolute top-1/2 left-0 -translate-x-16 -translate-y-1/2",
+              !isLeftInViewport && "hidden",
+              activePageIndex === 0 &&
+                "pointer-events-none invisible opacity-0",
+            )}
+          >
+            <FiChevronLeft />
+          </IconButton>
+        )}
         <div
           className="scrollbar-hidden -mx-[calc(min(var(--section-horizontal-padding),1rem))] -my-4 flex snap-x snap-mandatory overflow-x-auto *:w-full *:shrink-0 *:grow-0 md:my-0"
           ref={scrollRef}
@@ -141,18 +147,20 @@ const OtherPostList = ({ posts, post }: { post: Post; posts: Post[] }) => {
             ))}
           </div>
         )}
-        <IconButton
-          ref={rightChevronRef}
-          onClick={() => next()}
-          className={cn(
-            "absolute top-1/2 right-0 hidden translate-x-16 -translate-y-1/2 md:block",
-            !isRightInViewport && "hidden",
-            activePageIndex === carouselPages.length - 1 &&
-              "pointer-events-none invisible opacity-0",
-          )}
-        >
-          <FiChevronRight />
-        </IconButton>
+        {bp.up("sm") && (
+          <IconButton
+            ref={rightChevronRef}
+            onClick={() => next()}
+            className={cn(
+              "absolute top-1/2 right-0 translate-x-16 -translate-y-1/2",
+              !isRightInViewport && "hidden",
+              activePageIndex === carouselPages.length - 1 &&
+                "pointer-events-none invisible opacity-0",
+            )}
+          >
+            <FiChevronRight />
+          </IconButton>
+        )}
       </div>
     </>
   );
