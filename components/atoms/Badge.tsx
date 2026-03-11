@@ -1,49 +1,74 @@
 import { cn } from "@lib/utils/cn";
+import { cva } from "class-variance-authority";
 import Fade from "./Fade";
 
 export interface BadgeProps {
   content: string;
   index: number;
-  size?: "small" | "medium";
+  size?: "tiny" | "small" | "medium";
 }
+
+const badgeWrapperVariants = cva(
+  "relative mt-[0.4rem] inline-flex flex-col items-center justify-center text-center",
+  {
+    variants: {
+      size: {
+        medium: "h-[8.5rem] w-[8.5rem]",
+        small: "h-[4.725rem] w-[4.725rem]",
+        tiny: "h-[4rem] w-[4rem]",
+      },
+    },
+  },
+);
+
+const badgeInnerVariants = cva(
+  "absolute flex h-full w-full flex-col items-center justify-center rounded-full text-center",
+  {
+    variants: {
+      size: {
+        medium: "px-5 py-3",
+        small: "px-3 pt-0.5 pb-2",
+        tiny: "px-3 py-1",
+      },
+    },
+  },
+);
+
+const badgePrizeVariants = cva(
+  "text-secondary block px-1 font-mono font-medium uppercase",
+  {
+    variants: {
+      size: {
+        medium: "mb-1 text-[0.725rem] leading-tight",
+        small: "mb-1 text-[0.625rem] leading-[0.95]",
+        tiny: "mb-0.5 text-[0.52rem] leading-[0.9]",
+      },
+    },
+  },
+);
+
+const badgeContestVariants = cva(
+  "text-tertiary text-center font-mono leading-tight font-medium uppercase",
+  {
+    variants: {
+      size: {
+        medium: "text-[0.6875rem]",
+        small: "text-[0.4625rem]",
+        tiny: "text-[0.4rem]",
+      },
+    },
+  },
+);
 
 const Badge = ({ content, index, size = "medium" }: BadgeProps) => {
   const parts = content.split(":");
   const prize = size == "medium" ? parts[0] : parts[2] || parts[0];
   const contest = size == "medium" ? parts[1] : parts[3] || parts[1];
   return (
-    <Fade
-      className={cn(
-        size == "medium"
-          ? "h-[8.5rem] w-[8.5rem]"
-          : "h-[4.725rem] w-[4.725rem]",
-        "relative mt-[0.4rem] inline-flex flex-col items-center justify-center text-center",
-      )}
-    >
-      <div
-        className={cn(
-          size == "medium" ? "px-5 py-3" : "px-3 pt-0.5 pb-2",
-          "absolute flex h-full w-full flex-col items-center justify-center rounded-full text-center",
-        )}
-      >
-        <span
-          className={cn(
-            size == "medium"
-              ? "mb-1 text-sm leading-tight"
-              : "mb-1 text-[0.625rem] leading-[0.95]",
-            "text-secondary block px-1 font-mono font-medium uppercase",
-          )}
-        >
-          {prize}
-        </span>
-        <span
-          className={cn(
-            size == "medium" ? "text-[0.6875rem]" : "text-[0.4625rem]",
-            "text-tertiary text-center font-mono leading-tight font-medium uppercase",
-          )}
-        >
-          {contest}
-        </span>
+    <Fade className={cn(badgeWrapperVariants({ size }))}>
+      <div className={cn(badgeInnerVariants({ size }))}>
+        <span className={cn(badgePrizeVariants({ size }))}>{prize}</span>
+        <span className={cn(badgeContestVariants({ size }))}>{contest}</span>
       </div>
       {/* <svg className='absolute top-0 left-0 w-full h-full fill-gray-300' */}
       <svg

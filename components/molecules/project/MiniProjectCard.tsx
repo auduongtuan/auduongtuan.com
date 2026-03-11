@@ -22,11 +22,16 @@ const MiniProjectCard = ({ project }: { project: Project }) => {
   const content = (
     <Fragment>
       {project.icon && (
-        <ProjectIcon src={project.icon.url} size={48} alt={project.title} />
+        <ProjectIcon
+          src={project.icon.url}
+          size={48}
+          mobileSize={40}
+          alt={project.title}
+        />
       )}
       <div>
-        <h3 className="text-lg leading-tight h3">{project.title}</h3>
-        <p className="mt-0.5 text-sm text-secondary line-clamp-2">
+        <h3 className="h3 text-lg leading-tight">{project.title}</h3>
+        <p className="text-secondary mt-0.5 line-clamp-2 text-sm">
           {project.tagline}
         </p>
       </div>

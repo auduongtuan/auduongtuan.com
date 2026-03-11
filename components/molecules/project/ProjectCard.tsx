@@ -125,7 +125,7 @@ const ProjectCard = memo(
     );
 
     const footer = (
-      <div className="flex gap-4">
+      <div className="flex gap-x-3 md:gap-4">
         {project.caseStudy && (
           <Button href={`/project/${project.slug}`} arrow variant="secondary">
             View project

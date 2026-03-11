@@ -5,6 +5,7 @@ type ProjectIconProps = {
   src: string;
   alt: string;
   size: number;
+  mobileSize?: number;
   className?: string;
 };
 
@@ -14,19 +15,31 @@ export default function ProjectIcon({
   src,
   alt,
   size,
+  mobileSize,
   className,
 }: ProjectIconProps) {
-  const radius = size * PROJECT_ICON_RADIUS_RATIO + 1;
-  const borderRadius = `${radius}px`;
+  const radius = Math.round(size * PROJECT_ICON_RADIUS_RATIO + 1);
+  const mobileRadius = mobileSize
+    ? Math.round(mobileSize * PROJECT_ICON_RADIUS_RATIO + 1)
+    : radius;
+
+  const cssVars = {
+    "--pi-size": `${mobileSize ?? size}px`,
+    "--pi-radius": `${mobileRadius}px`,
+    "--pi-size-md": `${size}px`,
+    "--pi-radius-md": `${radius}px`,
+  } as React.CSSProperties;
 
   return (
     <div
-      className={cn("relative shrink-0 grow-0 overflow-hidden", className)}
-      style={{
-        width: size,
-        height: size,
-        borderRadius,
-      }}
+      className={cn(
+        "relative shrink-0 grow-0 self-start overflow-hidden",
+        "h-(--pi-size) w-(--pi-size) rounded-(--pi-radius)",
+        mobileSize &&
+          "md:h-(--pi-size-md) md:w-(--pi-size-md) md:rounded-(--pi-radius-md)",
+        className,
+      )}
+      style={cssVars}
     >
       <CustomImage
         src={src}
@@ -35,12 +48,10 @@ export default function ProjectIcon({
         alt={alt}
         autoDarkSvg={false}
         className="h-full w-full"
-        style={{ width: "100%", height: "100%", borderRadius }}
       />
       <span
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 z-20 rounded-(--pi-radius) md:rounded-(--pi-radius-md)"
         style={{
-          borderRadius,
           boxShadow: "inset 0 0 0 1px var(--project-icon-inner-border)",
         }}
       />

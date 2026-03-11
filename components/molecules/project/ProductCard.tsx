@@ -36,52 +36,66 @@ const ProductCard = memo(
     const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
     const formattedDate = formatProjectDate(project.date);
-    const _achievement = (
+    const bp = useBreakpoint();
+    const achievementBadgeSize = bp.breakpoint === "sm" ? "tiny" : "small";
+    const achievements = (
       <Fade className={twMerge("shrink-0 grow-0")} duration={300} delay={400}>
         {project.achievements && (
           <div className="flex gap-4">
             {project.achievements.map((achievement, i) => (
-              <Badge size="small" key={i} index={i} content={achievement} />
+              <Badge
+                size={achievementBadgeSize}
+                key={i}
+                index={i}
+                content={achievement}
+              />
             ))}
           </div>
         )}
       </Fade>
     );
-    const bp = useBreakpoint();
     const icon = project.icon && (
       <ProjectIcon
         src={project.icon.url}
-        size={48}
+        size={52}
+        mobileSize={44}
         alt={project.title}
         className="mb-4"
       />
     );
     const info = (
-      <div className="flex grow flex-col">
-        <h2 className="h3">
-          {project.caseStudy ? (
-            <Link href={`/project/${project.slug}`}>
-              <Balancer>{project.title}</Balancer>
-            </Link>
-          ) : (
-            <Balancer>{project.title}</Balancer>
-          )}
-        </h2>
-        {formattedDate && (
-          <p className="muted-text mt-0.5 md:mt-1">{formattedDate}</p>
-        )}
-        <p className="text-secondary body-text mt-2 md:mt-3">
-          <Balancer ratio={0.67}>{project.tagline}</Balancer>
-        </p>
-        {/* <ScrollableTagList
+      <div className="flex w-full grow gap-3 md:gap-4">
+        <div className="min-w-0 grow">
+          <header>
+            <h2 className="h3">
+              {project.caseStudy ? (
+                <Link href={`/project/${project.slug}`}>
+                  <Balancer>{project.title}</Balancer>
+                </Link>
+              ) : (
+                <Balancer>{project.title}</Balancer>
+              )}
+            </h2>
+            {formattedDate && (
+              <p className="muted-text mt-0.5 md:mt-1">{formattedDate}</p>
+            )}
+          </header>
+          <p className="text-secondary body-text mt-2 md:mt-3">
+            <Balancer ratio={0.67}>{project.tagline}</Balancer>
+          </p>
+          {/* <ScrollableTagList
           tags={project.roles || []}
           background={"var(--bg-card)"}
           className="mt-4"
         /> */}
+        </div>
+        {project.achievements?.length ? (
+          <div className="shrink-0 self-start">{achievements}</div>
+        ) : null}
       </div>
     );
     const footer = (
-      <div className="flex space-x-4">
+      <div className="flex gap-x-3 md:gap-x-4">
         {project.caseStudy && (
           <Button href={`/project/${project.slug}`} arrow variant="secondary">
             View product
@@ -125,7 +139,7 @@ const ProductCard = memo(
       <div
         ref={ref}
         className={twMerge(
-          "text-primary rounded-2xl p-4 md:p-6 lg:p-6",
+          "text-primary rounded-2xl p-4 md:p-6",
           "ease bg-card transition-all duration-400",
           className,
         )}
@@ -134,18 +148,18 @@ const ProductCard = memo(
         }}
         {...rest}
       >
-        <div className={twMerge("flex h-full gap-4 md:gap-y-8")}>
+        <div className={twMerge("flex h-full w-full gap-4 md:gap-y-8")}>
           <Fade
             duration={200}
             slide
             className={twMerge(
-              `ease-bounce intro flex h-full flex-col transition-all duration-200`,
+              `ease-bounce intro flex h-full w-full flex-col transition-all duration-200`,
             )}
           >
             {horizontal || !bp.up("lg") ? (
               <div className="flex gap-4 md:gap-6">
                 {icon}
-                <div className="flex grow flex-col items-start justify-start gap-6 lg:flex-col">
+                <div className="flex grow flex-col items-start justify-start gap-3 md:gap-4 lg:flex-col">
                   {info}
                   {footer}
                 </div>
