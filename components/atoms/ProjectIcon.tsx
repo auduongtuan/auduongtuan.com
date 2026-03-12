@@ -33,7 +33,7 @@ export default function ProjectIcon({
   return (
     <div
       className={cn(
-        "relative shrink-0 grow-0 self-start overflow-hidden",
+        "relative shrink-0 grow-0 overflow-hidden",
         "h-(--pi-size) w-(--pi-size) rounded-(--pi-radius)",
         mobileSize &&
           "md:h-(--pi-size-md) md:w-(--pi-size-md) md:rounded-(--pi-radius-md)",
