@@ -70,7 +70,7 @@
     --bg-button-secondary-hover: oklch(from var(--base-fg) l c h / 0.12);
     --bg-button-secondary-pressed: oklch(from var(--base-fg) l c h / 0.2);
     --bg-button-secondary-activated: oklch(from var(--base-fg) l c h / 0.2);
-    --project-icon-inner-border: oklch(0 0 0 / 0.12);
+    --project-icon-inner-border: oklch(0 0 0 / 0.2);
 
     --fg-oncolor: oklch(0.95 0 0);
     --accent: light-dark(oklch(54.6% 0.245 262.881), oklch(66% 0.19 262.881));
@@ -133,7 +133,7 @@
     --base-bg: oklch(0.252 0 0);
     --bg-card: oklch(0.313 0 0);
     --bg-badge: oklch(from var(--base-fg) l c h / 0.2);
-    --project-icon-inner-border: oklch(1 0 0 / 0.16);
+    --project-icon-inner-border: oklch(1 0 0 / 0.24);
     --shadow-base-opacity: 0.16;
   }
 }
