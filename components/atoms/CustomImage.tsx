@@ -37,7 +37,7 @@ const CustomImage = ({
 
   return (
     <Skeleton.Wrapper
-      className={cn("overflow-hidden rounded-[inherit]", className)}
+      className={cn("overflow-hidden rounded-md", className)}
       loaded={isLoaded}
       data-image
     >
