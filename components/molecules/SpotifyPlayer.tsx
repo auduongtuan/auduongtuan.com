@@ -805,7 +805,7 @@ const SpotifyPlayer = () => {
   return (
     <>
       {data ? (
-        <div className="flex items-center gap-4">
+        <div className="flex w-full items-center gap-4">
           <div
             className="relative shrink-0 overflow-hidden rounded-xl"
             style={{
@@ -967,7 +967,7 @@ const SpotifyPlayer = () => {
           )}
 
           {/* Song info */}
-          <div className="flex shrink grow flex-col">
+          <div className="min-w-0 flex shrink grow flex-col">
             <p className="_text-secondary _text-sm muted-text">
               {data.isPlaying ? "Now playing" : "Offline - Recently played"}
             </p>
@@ -980,14 +980,17 @@ const SpotifyPlayer = () => {
           </div>
         </div>
       ) : (
-        <Skeleton.Wrapper loaded={false} className="flex items-center gap-4">
+        <Skeleton.Wrapper loaded={false} className="flex w-full items-center gap-4">
           <Skeleton
-            className="h-[114px] w-[148px] shrink-0 rounded-xl"
+            className="h-[114px] w-[clamp(104px,35vw,148px)] shrink-0 rounded-xl"
             type="inline"
           />
-          <div className="flex shrink grow flex-col">
+          <div className="min-w-0 flex shrink grow flex-col">
             <Skeleton className="h-3.5 w-32 rounded-full" type="inline" />
-            <Skeleton className="mt-2 h-4 w-60 rounded-full" type="inline" />
+            <Skeleton
+              className="mt-2 h-4 w-full max-w-60 rounded-full"
+              type="inline"
+            />
           </div>
         </Skeleton.Wrapper>
       )}
