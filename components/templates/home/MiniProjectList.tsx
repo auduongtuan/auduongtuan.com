@@ -4,12 +4,20 @@ import { Project } from "@lib/notion";
 import Button from "@atoms/Button";
 import SectionTitle from "@molecules/SectionTitle";
 import SnapScrollContainer from "@molecules/SnapScrollContainer";
+import { useInView } from "react-intersection-observer";
 
 export default function ProjectList({ projects }: { projects: Project[] }) {
+  const { ref, inView } = useInView({
+    threshold: 0.2,
+    initialInView: false,
+    triggerOnce: true,
+  });
+
   return (
     <section
       id="works"
       className="relative"
+      ref={ref}
       style={
         {
           "--half-margin":
@@ -19,8 +27,9 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
     >
       <Fade
         // className="main-container ml-0"
-        delay={500}
+        delay={100}
         duration={200}
+        show={inView}
       >
         <div className="main-container">
           <SectionTitle
