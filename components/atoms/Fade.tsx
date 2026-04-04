@@ -50,7 +50,7 @@ function Fade<T extends React.ElementType = "div">({
     [slide],
   );
   const [ref, setRef] = useState<HTMLElement | null>(null);
-  const [mounted, setMounted] = useState(show);
+  const [mounted, setMounted] = useState(show || !unmount);
   const [styles, setStyles] = useState(cn(originStyles, ...stateStyles.hide));
   const Component = as || "div";
 
@@ -66,6 +66,11 @@ function Fade<T extends React.ElementType = "div">({
         clearTimeout(timeout);
       };
     } else {
+      if (!unmount) {
+        setMounted(true);
+        setStyles(cn(originStyles, ...stateStyles.hide));
+        return;
+      }
       const transitionProp =
         window.getComputedStyle(ref, null)["transition-property"] || "";
 
@@ -84,7 +89,7 @@ function Fade<T extends React.ElementType = "div">({
         ref.removeEventListener("transitionend", unMountElement);
       };
     }
-  }, [ref, show, slide, originStyles, stateStyles, delay]);
+  }, [ref, show, slide, originStyles, stateStyles, delay, unmount]);
   return (
     <Component className={styles} {...rest} ref={setRef}>
       {mounted ? children : null}

@@ -9,7 +9,6 @@ import BrowserFrame from "@atoms/Frame";
 import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
 import { useBreakpoint } from "@hooks";
-import useVisibleRatio from "@hooks/useVisiblePercentage";
 
 import { parseInternalLink } from "@lib/utils";
 import { formatProjectDate } from "@lib/utils/format";
@@ -76,7 +75,6 @@ const ProjectCard = memo(
     horizontal = false,
     ...rest
   }: ProjectCardProps) => {
-    const { ref, visibleRatio } = useVisibleRatio();
     const vertical = !horizontal;
     const internalLink = parseInternalLink(project.link || "");
     const formattedDate = formatProjectDate(project.date);
@@ -225,7 +223,6 @@ const ProjectCard = memo(
           "flex items-stretch justify-stretch gap-4 lg:gap-6",
         )}
         slide
-        show={visibleRatio > 0.4}
       >
         {(!project.cover || !project.cover.length) && icon}
         {coverContent}
@@ -234,16 +231,12 @@ const ProjectCard = memo(
 
     return (
       <div
-        ref={ref}
         className={twMerge(
           "text-primary rounded-2xl p-4 md:p-6 lg:p-6",
           "ease bg-card transition-all duration-400",
           className,
           !vertical && "md:col-span-2",
         )}
-        style={{
-          opacity: visibleRatio,
-        }}
         {...rest}
       >
         <div
@@ -254,7 +247,6 @@ const ProjectCard = memo(
         >
           <Fade
             duration={200}
-            show={visibleRatio > 0.4}
             slide
             className={twMerge(
               `ease-bounce intro col-span-2 transition-all duration-200`,

@@ -5,7 +5,6 @@ import Fade from "@atoms/Fade";
 import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
 import { useBreakpoint } from "@hooks";
-import useVisibleRatio from "@hooks/useVisiblePercentage";
 import { Project } from "@lib/notion";
 import { parseInternalLink } from "@lib/utils";
 import { formatProjectDate } from "@lib/utils/format";
@@ -32,7 +31,6 @@ const ProductCard = memo(
     horizontal = false,
     ...rest
   }: ProjectCardProps) => {
-    const { ref, visibleRatio } = useVisibleRatio();
     const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
     const formattedDate = formatProjectDate(project.date);
@@ -137,15 +135,11 @@ const ProductCard = memo(
     );
     return (
       <div
-        ref={ref}
         className={twMerge(
           "text-primary rounded-2xl p-4 md:p-6",
           "ease bg-card transition-all duration-400",
           className,
         )}
-        style={{
-          opacity: visibleRatio,
-        }}
         {...rest}
       >
         <div className={twMerge("flex h-full w-full gap-4 md:gap-y-8")}>

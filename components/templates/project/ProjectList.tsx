@@ -15,6 +15,7 @@ import {
   PiPaletteBold,
   PiWrenchBold,
 } from "react-icons/pi";
+import { useInView } from "react-intersection-observer";
 
 export default function ProjectList({
   projects,
@@ -99,6 +100,11 @@ export default function ProjectList({
     [shownProjects],
   );
   const [sent, setSent] = useState<string[]>([]);
+  const { ref, inView } = useInView({
+    threshold: 0.2,
+    initialInView: false,
+    triggerOnce: true,
+  });
 
   useEffect(() => {
     if (sent.length > 0) {
@@ -111,8 +117,14 @@ export default function ProjectList({
   }, [sent, sent.length]);
 
   return (
-    <section id="works" className={className}>
-      <Fade className="main-container" delay={500} duration={200}>
+    <section id="works" className={className} ref={ref}>
+      <Fade
+        className="main-container"
+        delay={100}
+        duration={200}
+        show={inView}
+        unmount={false}
+      >
         <SectionTitle
           title="Selected projects"
           action={
