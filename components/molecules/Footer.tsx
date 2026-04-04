@@ -43,13 +43,14 @@ export default function Footer() {
               show={inView}
               as={"div"}
               delay={0}
+              unmount={false}
               className="col-span-12 lg:col-span-6 lg:row-span-1 lg:self-center"
             >
               <SpotifyPlayer />
             </Fade>
 
             <div className="col-span-12 lg:col-span-6 lg:row-span-1 lg:self-center lg:justify-self-end">
-              <Fade slide show={inView} delay={100} as="div">
+              <Fade slide show={inView} delay={100} as="div" unmount={false}>
                 <p className="_text-secondary _text-sm muted-text">
                   Let&apos;s connect{" "}
                 </p>
@@ -77,6 +78,7 @@ export default function Footer() {
               as="div"
               delay={100}
               show={inView}
+              unmount={false}
               className="body-text col-span-12 text-sm leading-loose lg:col-span-4 lg:row-span-1 lg:row-start-2 lg:self-start"
             >
               Written, designed and built by Tuan.
