@@ -66,6 +66,9 @@ const parseBlocks = (blocks: unknown, assets?: NotionAssets) => {
       case "heading_3":
         content.push(<Heading block={block} key={block.id} />);
         break;
+      case "heading_4":
+        content.push(<Heading block={block} key={block.id} />);
+        break;
       case "bookmark":
         content.push(<Bookmark block={block} key={block.id} />);
         break;

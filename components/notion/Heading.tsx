@@ -7,6 +7,7 @@ const Heading = ({ block }) => {
   const gutterTop = {
     h2: "mt-content-section first:mt-0",
     h3: "mt-content-group -mb-1 first:mt-0",
+    h4: "mt-content-element first:mt-0",
   };
   // const tagStyleMap = {
   //   h1: "h2",
