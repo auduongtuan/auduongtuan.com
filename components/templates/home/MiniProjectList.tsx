@@ -30,6 +30,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
         delay={100}
         duration={200}
         show={inView}
+        unmount={false}
       >
         <div className="main-container">
           <SectionTitle

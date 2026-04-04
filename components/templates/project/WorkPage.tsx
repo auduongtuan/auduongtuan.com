@@ -27,6 +27,7 @@ export default function WorkPage({ projects, projectGroups }: WorksPageProps) {
               slide
               duration={100}
               show={inView}
+              unmount={false}
             >
               Work
             </Fade>
@@ -38,6 +39,7 @@ export default function WorkPage({ projects, projectGroups }: WorksPageProps) {
                 duration={200}
                 delay={50}
                 show={inView}
+                unmount={false}
               >
                 A collection of my best work
               </Fade>

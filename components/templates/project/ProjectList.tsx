@@ -123,6 +123,7 @@ export default function ProjectList({
         delay={100}
         duration={200}
         show={inView}
+        unmount={false}
       >
         <SectionTitle
           title="Selected projects"
