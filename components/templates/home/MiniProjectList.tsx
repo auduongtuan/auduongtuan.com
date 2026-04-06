@@ -8,7 +8,7 @@ import { useInView } from "react-intersection-observer";
 
 export default function ProjectList({ projects }: { projects: Project[] }) {
   const { ref, inView } = useInView({
-    threshold: 0.2,
+    threshold: 0.1,
     initialInView: false,
     triggerOnce: true,
   });

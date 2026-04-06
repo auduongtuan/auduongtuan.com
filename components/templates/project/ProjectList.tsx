@@ -101,7 +101,7 @@ export default function ProjectList({
   );
   const [sent, setSent] = useState<string[]>([]);
   const { ref, inView } = useInView({
-    threshold: 0.2,
+    threshold: 0.1,
     initialInView: false,
     triggerOnce: true,
   });
