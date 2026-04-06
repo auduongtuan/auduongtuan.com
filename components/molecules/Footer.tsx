@@ -21,7 +21,7 @@ import SpotifyPlayer from "./SpotifyPlayer";
 export default function Footer() {
   const { ref, inView } = useInView({
     /* Optional options */
-    threshold: 0.5,
+    threshold: 0.25,
     initialInView: false,
     triggerOnce: true,
     // rootMargin: '-10px'

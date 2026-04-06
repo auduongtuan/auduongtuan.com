@@ -11,7 +11,7 @@ export type WorksPageProps = {
 
 export default function WorkPage({ projects, projectGroups }: WorksPageProps) {
   const { ref, inView } = useInView({
-    threshold: 0.2,
+    threshold: 0.05,
     initialInView: false,
     triggerOnce: true,
   });
