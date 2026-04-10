@@ -106,6 +106,33 @@ const Navigation = React.memo(() => {
     "border-b border-divider",
     hidden && "-translate-y-full",
   );
+
+  const toggleThemeWithTransition = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      const nextTheme = isDarkTheme ? "light" : "dark";
+      const buttonRect = event.currentTarget.getBoundingClientRect();
+
+      document.documentElement.style.setProperty(
+        "--theme-transition-x",
+        `${buttonRect.left + buttonRect.width / 2}px`,
+      );
+      document.documentElement.style.setProperty(
+        "--theme-transition-y",
+        `${buttonRect.top + buttonRect.height / 2}px`,
+      );
+
+      if (!document.startViewTransition) {
+        setTheme(nextTheme);
+        return;
+      }
+
+      document.startViewTransition(() => {
+        setTheme(nextTheme);
+      });
+    },
+    [isDarkTheme, setTheme],
+  );
+
   return (
     <>
       <header className={NavigationStyles}>
@@ -125,54 +152,54 @@ const Navigation = React.memo(() => {
             </button>
             {!menuOpened && (
               <>
-              <div className="relative hidden items-center md:flex">
-                <ul className="flex items-center gap-8">
-                  {menuItems.map((item, i) => (
-                    <li key={i}>
-                      <NavigationLink
-                        href={item.href}
-                        isActive={currentActive == item.href}
-                        ref={(el) => {
-                          if (el) {
-                            menuRefs.current = {
-                              ...menuRefs.current,
-                              [item.href]: el,
-                            };
-                          }
-                        }}
-                      >
-                        {item.name}
-                      </NavigationLink>
-                    </li>
-                  ))}
-                </ul>
-                {currentActive && menuRefs.current[currentActive] && (
-                  <span
-                    className="bg-secondary absolute -bottom-3.75 h-1 w-0 origin-center rounded-t-full opacity-0 transition-all ease-in-out"
-                    style={indicatorStyle}
-                  ></span>
-                )}
-                <Tooltip
-                  content={`Switch to ${isDarkTheme ? "light" : "dark"} mode`}
-                >
-                  <IconButton
-                    variant="ghost"
-                    size="small"
-                    className="ml-4 md:ml-10"
-                    onClick={() => setTheme(isDarkTheme ? "light" : "dark")}
+                <div className="relative hidden items-center md:flex">
+                  <ul className="flex items-center gap-8">
+                    {menuItems.map((item, i) => (
+                      <li key={i}>
+                        <NavigationLink
+                          href={item.href}
+                          isActive={currentActive == item.href}
+                          ref={(el) => {
+                            if (el) {
+                              menuRefs.current = {
+                                ...menuRefs.current,
+                                [item.href]: el,
+                              };
+                            }
+                          }}
+                        >
+                          {item.name}
+                        </NavigationLink>
+                      </li>
+                    ))}
+                  </ul>
+                  {currentActive && menuRefs.current[currentActive] && (
+                    <span
+                      className="bg-secondary absolute -bottom-3.75 h-1 w-0 origin-center rounded-t-full opacity-0 transition-all ease-in-out"
+                      style={indicatorStyle}
+                    ></span>
+                  )}
+                  <Tooltip
+                    content={`Switch to ${isDarkTheme ? "light" : "dark"} mode`}
                   >
-                    {mounted ? (
-                      isDarkTheme ? (
-                        <FiSun />
+                    <IconButton
+                      variant="ghost"
+                      size="small"
+                      className="ml-4 md:ml-10"
+                      onClick={toggleThemeWithTransition}
+                    >
+                      {mounted ? (
+                        isDarkTheme ? (
+                          <FiSun />
+                        ) : (
+                          <FiMoon />
+                        )
                       ) : (
                         <FiMoon />
-                      )
-                    ) : (
-                      <FiMoon />
-                    )}
-                  </IconButton>
-                </Tooltip>
-              </div>
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                </div>
               </>
             )}
           </>
