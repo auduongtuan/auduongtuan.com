@@ -18,6 +18,29 @@ const isProduction = process.env.NODE_ENV === "production";
 
 TimeAgo.addLocale(en);
 
+function SafariFlag() {
+  useEffect(() => {
+    const ua = window.navigator.userAgent;
+    const isSafari =
+      /Safari\//.test(ua) &&
+      !/Chrome\//.test(ua) &&
+      !/Chromium\//.test(ua) &&
+      !/Edg\//.test(ua) &&
+      !/OPR\//.test(ua) &&
+      !/CriOS\//.test(ua) &&
+      !/FxiOS\//.test(ua);
+
+    if (isSafari) {
+      document.documentElement.dataset.browser = "safari";
+      return;
+    }
+
+    delete document.documentElement.dataset.browser;
+  }, []);
+
+  return null;
+}
+
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   useEffect(() => {
@@ -61,6 +84,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         enableSystem
         disableTransitionOnChange
       >
+        <SafariFlag />
         {isProduction && (
           <>
             <Script
