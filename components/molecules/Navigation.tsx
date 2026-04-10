@@ -106,6 +106,33 @@ const Navigation = React.memo(() => {
     "border-b border-divider",
     hidden && "-translate-y-full",
   );
+
+  const toggleThemeWithTransition = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      const nextTheme = isDarkTheme ? "light" : "dark";
+      const buttonRect = event.currentTarget.getBoundingClientRect();
+
+      document.documentElement.style.setProperty(
+        "--theme-transition-x",
+        `${buttonRect.left + buttonRect.width / 2}px`,
+      );
+      document.documentElement.style.setProperty(
+        "--theme-transition-y",
+        `${buttonRect.top + buttonRect.height / 2}px`,
+      );
+
+      if (!document.startViewTransition) {
+        setTheme(nextTheme);
+        return;
+      }
+
+      document.startViewTransition(() => {
+        setTheme(nextTheme);
+      });
+    },
+    [isDarkTheme, setTheme],
+  );
+
   return (
     <>
       <header className={NavigationStyles}>
@@ -159,16 +186,7 @@ const Navigation = React.memo(() => {
                       variant="ghost"
                       size="small"
                       className="ml-4 md:ml-10"
-                      onClick={() => {
-                        const theme = isDarkTheme ? "light" : "dark";
-                        if (!document.startViewTransition) {
-                          setTheme(theme);
-                          return;
-                        }
-                        document.startViewTransition(() => {
-                          setTheme(theme);
-                        });
-                      }}
+                      onClick={toggleThemeWithTransition}
                     >
                       {mounted ? (
                         isDarkTheme ? (
