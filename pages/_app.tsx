@@ -18,24 +18,48 @@ const isProduction = process.env.NODE_ENV === "production";
 
 TimeAgo.addLocale(en);
 
-function SafariFlag() {
-  useEffect(() => {
-    const ua = window.navigator.userAgent;
-    const isSafari =
-      /Safari\//.test(ua) &&
-      !/Chrome\//.test(ua) &&
-      !/Chromium\//.test(ua) &&
-      !/Edg\//.test(ua) &&
-      !/OPR\//.test(ua) &&
-      !/CriOS\//.test(ua) &&
-      !/FxiOS\//.test(ua);
+type NavigatorWithUAData = Navigator & {
+  userAgentData?: {
+    brands?: Array<{
+      brand: string;
+    }>;
+  };
+};
 
-    if (isSafari) {
-      document.documentElement.dataset.browser = "safari";
+function BrowserEngineFlag() {
+  useEffect(() => {
+    const html = document.documentElement;
+    const uaData = (window.navigator as NavigatorWithUAData).userAgentData;
+    const brands = uaData?.brands?.map((brand) => brand.brand) ?? [];
+    const hasChromiumBrand = brands.some((brand) =>
+      /Chromium|Google Chrome|Microsoft Edge|Opera/i.test(brand),
+    );
+    const hasNonChromiumBrand = brands.some((brand) =>
+      /Firefox|Safari/i.test(brand),
+    );
+
+    if (hasChromiumBrand && !hasNonChromiumBrand) {
+      html.dataset.browserEngine = "chromium";
       return;
     }
 
-    delete document.documentElement.dataset.browser;
+    const ua = window.navigator.userAgent;
+    const fallbackChromium =
+      (/Chrome\//.test(ua) ||
+        /Chromium\//.test(ua) ||
+        /Edg\//.test(ua) ||
+        /OPR\//.test(ua) ||
+        /CriOS\//.test(ua)) &&
+      !/Firefox\//.test(ua) &&
+      !/FxiOS\//.test(ua) &&
+      !/Safari\//.test(ua);
+
+    if (fallbackChromium) {
+      html.dataset.browserEngine = "chromium";
+      return;
+    }
+
+    delete html.dataset.browserEngine;
   }, []);
 
   return null;
@@ -84,7 +108,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         enableSystem
         disableTransitionOnChange
       >
-        <SafariFlag />
+        <BrowserEngineFlag />
         {isProduction && (
           <>
             <Script
