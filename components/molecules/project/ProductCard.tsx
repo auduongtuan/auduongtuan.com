@@ -31,7 +31,6 @@ const ProductCard = memo(
     horizontal = false,
     ...rest
   }: ProjectCardProps) => {
-    const isHalf = true;
     const internalLink = parseInternalLink(project.link || "");
     const formattedDate = formatProjectDate(project.date);
     const bp = useBreakpoint();
@@ -62,34 +61,31 @@ const ProductCard = memo(
       />
     );
     const info = (
-      <div className="flex w-full grow gap-3 md:gap-4">
-        <div className="min-w-0 grow">
-          <header>
-            <h2 className="h3">
-              {project.caseStudy ? (
-                <Link href={`/project/${project.slug}`}>
-                  <Balancer>{project.title}</Balancer>
-                </Link>
-              ) : (
-                <Balancer>{project.title}</Balancer>
-              )}
-            </h2>
-            {formattedDate && (
-              <p className="muted-text mt-0.5 md:mt-1">{formattedDate}</p>
-            )}
-          </header>
-          <p className="text-secondary body-text mt-2 md:mt-3">
-            <Balancer ratio={0.67}>{project.tagline}</Balancer>
-          </p>
-          {/* <ScrollableTagList
+      <div className="">
+        {project.achievements?.length ? (
+          <div className="float-right inline-block pb-1 pl-1">
+            {achievements}
+          </div>
+        ) : null}
+        <h2 className="h3 -mt-0.5 inline-block">
+          {project.caseStudy ? (
+            <Link href={`/project/${project.slug}`}>{project.title}</Link>
+          ) : (
+            project.title
+          )}
+        </h2>
+        {formattedDate && (
+          <p className="muted-text mt-0.5 md:mt-1">{formattedDate}</p>
+        )}
+        <p className="text-secondary small-body-text mt-2 text-balance md:mt-3">
+          {project.tagline}
+        </p>
+
+        {/* <ScrollableTagList
           tags={project.roles || []}
           background={"var(--bg-card)"}
           className="mt-4"
         /> */}
-        </div>
-        {project.achievements?.length ? (
-          <div className="shrink-0 self-start">{achievements}</div>
-        ) : null}
       </div>
     );
     const footer = (

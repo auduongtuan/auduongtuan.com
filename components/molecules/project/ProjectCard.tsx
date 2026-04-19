@@ -115,7 +115,7 @@ const ProjectCard = memo(
           </div>
           {achievements}
         </header>
-        <p className="text-secondary body-text mt-2 md:mt-3">
+        <p className="text-secondary small-body-text mt-2 md:mt-3">
           <Balancer ratio={0.67}>{project.tagline}</Balancer>
         </p>
         <ScrollableTagList tags={project.roles || []} className="mt-4" />
