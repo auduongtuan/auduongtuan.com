@@ -147,7 +147,7 @@ const ProductCard = memo(
             )}
           >
             {horizontal || !bp.up("lg") ? (
-              <div className="flex gap-4 md:gap-4">
+              <div className="flex gap-4 md:gap-6">
                 {icon}
                 <div className="flex grow flex-col items-start justify-start gap-3 md:gap-4 lg:flex-col">
                   {info}
