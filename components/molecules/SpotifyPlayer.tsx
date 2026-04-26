@@ -470,9 +470,11 @@ const SLIDER_STEP_SIZE = THUMB_TOP_OFF / (SLIDER_STEPS - 1);
 
 const Slider = ({
   volume,
+  isFading,
   onVolumeChange,
 }: {
   volume: number;
+  isFading?: boolean;
   onVolumeChange: (volume: number) => void;
 }) => {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -547,7 +549,7 @@ const Slider = ({
       <div
         className={twMerge(
           "absolute cursor-pointer overflow-visible",
-          !isDragging && "transition-[top] duration-300",
+          !isDragging && !isFading && "transition-[top] duration-300",
         )}
         style={{
           left: 0,
@@ -741,6 +743,12 @@ const VINYL_SIZE = 100;
 const COVER_SIZE = 50;
 const VINYL_OFFSET = 7;
 const PLAY_BUTTON_SIZE = 16;
+const RECORD_ROTATION_MS = 3000;
+const RECORD_START_DELAY_MS = 280;
+const RECORD_STOP_DURATION_MS = 900;
+const RECORD_STOP_COAST_DEGREES = 22;
+const VOLUME_FADE_IN_MS = 420;
+const VOLUME_FADE_OUT_MS = 320;
 
 type SpotifyTrack = {
   isPlaying: boolean;
@@ -749,6 +757,114 @@ type SpotifyTrack = {
   album: string;
   albumImageUrl: string;
   songUrl: string;
+};
+
+const easeOutCubic = (value: number) => 1 - Math.pow(1 - value, 3);
+
+const VinylCover = ({
+  src,
+  alt,
+  playing,
+}: {
+  src: string;
+  alt: string;
+  playing: boolean;
+}) => {
+  const [rotation, setRotation] = useState(0);
+  const animationFrameRef = useRef<number | null>(null);
+  const startTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rotationRef = useRef(0);
+  const lastFrameAtRef = useRef<number | null>(null);
+  const hasStartedRef = useRef(false);
+
+  useEffect(() => {
+    const cancelMotion = () => {
+      if (animationFrameRef.current !== null) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+      if (startTimeoutRef.current !== null) {
+        clearTimeout(startTimeoutRef.current);
+        startTimeoutRef.current = null;
+      }
+    };
+
+    cancelMotion();
+
+    if (playing) {
+      hasStartedRef.current = true;
+
+      const spin = (now: number) => {
+        const lastFrameAt = lastFrameAtRef.current ?? now;
+        const elapsed = now - lastFrameAt;
+        lastFrameAtRef.current = now;
+        rotationRef.current =
+          (rotationRef.current + (elapsed / RECORD_ROTATION_MS) * 360) % 360;
+        setRotation(rotationRef.current);
+        animationFrameRef.current = requestAnimationFrame(spin);
+      };
+
+      startTimeoutRef.current = setTimeout(() => {
+        lastFrameAtRef.current = performance.now();
+        animationFrameRef.current = requestAnimationFrame(spin);
+      }, RECORD_START_DELAY_MS);
+
+      return cancelMotion;
+    }
+
+    if (!hasStartedRef.current) {
+      return cancelMotion;
+    }
+
+    const coastFromCurrentRotation = () => {
+      const startRotation = rotationRef.current;
+      const stopStartedAt = performance.now();
+
+      const coast = (now: number) => {
+        const progress = Math.min(
+          (now - stopStartedAt) / RECORD_STOP_DURATION_MS,
+          1,
+        );
+        rotationRef.current =
+          (startRotation +
+            RECORD_STOP_COAST_DEGREES * easeOutCubic(progress)) %
+          360;
+        setRotation(rotationRef.current);
+
+        if (progress < 1) {
+          animationFrameRef.current = requestAnimationFrame(coast);
+        }
+      };
+
+      animationFrameRef.current = requestAnimationFrame(coast);
+    };
+
+    coastFromCurrentRotation();
+
+    return cancelMotion;
+  }, [playing]);
+
+  return (
+    <div
+      className="absolute shrink-0 grow-0 overflow-hidden rounded-full"
+      style={{
+        width: COVER_SIZE,
+        height: COVER_SIZE,
+        top: (VINYL_SIZE - COVER_SIZE) / 2,
+        left: (VINYL_SIZE - COVER_SIZE) / 2,
+        transform: `rotate(${rotation}deg)`,
+        willChange: "transform",
+      }}
+    >
+      <CustomImage
+        className="overflow-hidden rounded-full"
+        width={COVER_SIZE}
+        height={COVER_SIZE}
+        src={src}
+        alt={alt}
+      />
+    </div>
+  );
 };
 
 const SpotifyPlayer = () => {
@@ -770,14 +886,62 @@ const SpotifyPlayer = () => {
   const { data: ytData } = useAxiosSWR<{ videoId?: string }>(ytQuery);
 
   const [userIsPlaying, setUserIsPlaying] = useState(false);
+  const [playerIsPlaying, setPlayerIsPlaying] = useState(false);
   const [volume, setVolume] = useState(0); // Start at 0 (paused)
+  const [volumeIsFading, setVolumeIsFading] = useState(false);
+  const volumeAnimationFrameRef = useRef<number | null>(null);
+  const volumeRef = useRef(0);
 
   const videoId = ytData?.videoId;
 
-  // Sync volume with play state: 0 when paused, 1 when playing
+  const setCurrentVolume = useCallback((nextVolume: number) => {
+    volumeRef.current = nextVolume;
+    setVolume(nextVolume);
+  }, []);
+
+  const clearVolumeFade = useCallback(() => {
+    if (volumeAnimationFrameRef.current !== null) {
+      cancelAnimationFrame(volumeAnimationFrameRef.current);
+      volumeAnimationFrameRef.current = null;
+    }
+    setVolumeIsFading(false);
+  }, []);
+
+  const fadeVolumeTo = useCallback(
+    (targetVolume: number, duration: number, onComplete?: () => void) => {
+      clearVolumeFade();
+
+      const startVolume = volumeRef.current;
+      const startedAt = performance.now();
+      setVolumeIsFading(true);
+
+      const fade = (now: number) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const nextVolume = startVolume + (targetVolume - startVolume) * progress;
+
+        setCurrentVolume(nextVolume);
+
+        if (progress < 1) {
+          volumeAnimationFrameRef.current = requestAnimationFrame(fade);
+          return;
+        }
+
+        volumeAnimationFrameRef.current = null;
+        setCurrentVolume(targetVolume);
+        setVolumeIsFading(false);
+        onComplete?.();
+      };
+
+      volumeAnimationFrameRef.current = requestAnimationFrame(fade);
+    },
+    [clearVolumeFade, setCurrentVolume],
+  );
+
   useEffect(() => {
-    setVolume(userIsPlaying ? 1 : 0);
-  }, [userIsPlaying]);
+    return () => {
+      clearVolumeFade();
+    };
+  }, [clearVolumeFade]);
 
   // Handle YouTube song end - revalidate Spotify and continue playing
   const handleEnded = useCallback(async () => {
@@ -792,7 +956,15 @@ const SpotifyPlayer = () => {
     const nextIsPlaying = !userIsPlaying;
     playSpotifyPlaybackSound(nextIsPlaying);
     setUserIsPlaying(nextIsPlaying);
-  }, [userIsPlaying, videoId]);
+
+    if (nextIsPlaying) {
+      setPlayerIsPlaying(true);
+      fadeVolumeTo(1, VOLUME_FADE_IN_MS);
+      return;
+    }
+
+    fadeVolumeTo(0, VOLUME_FADE_OUT_MS, () => setPlayerIsPlaying(false));
+  }, [fadeVolumeTo, userIsPlaying, videoId]);
 
   // Handle volume change from slider
   const handleVolumeChange = useCallback(
@@ -801,22 +973,25 @@ const SpotifyPlayer = () => {
         playSpotifyVolumeSound();
       }
 
-      setVolume(newVolume);
+      clearVolumeFade();
+      setCurrentVolume(newVolume);
       // If volume is set to 0, pause playback
       if (newVolume === 0) {
         if (userIsPlaying) {
           playSpotifyPlaybackSound(false);
         }
         setUserIsPlaying(false);
+        setPlayerIsPlaying(false);
       } else if (videoId) {
         // If volume is turned up from 0, start playing
         if (!userIsPlaying) {
           playSpotifyPlaybackSound(true);
           setUserIsPlaying(true);
+          setPlayerIsPlaying(true);
         }
       }
     },
-    [userIsPlaying, videoId, volume],
+    [clearVolumeFade, setCurrentVolume, userIsPlaying, videoId, volume],
   );
 
   return (
@@ -869,27 +1044,11 @@ const SpotifyPlayer = () => {
               }}
             >
               {/* Cover (centered in vinyl) */}
-              <div
-                className={twMerge(
-                  "absolute overflow-hidden rounded-full",
-                  (data.isPlaying || userIsPlaying) &&
-                    "animate-spin-slow shrink-0 grow-0",
-                )}
-                style={{
-                  width: COVER_SIZE,
-                  height: COVER_SIZE,
-                  top: (VINYL_SIZE - COVER_SIZE) / 2,
-                  left: (VINYL_SIZE - COVER_SIZE) / 2,
-                }}
-              >
-                <CustomImage
-                  className="overflow-hidden rounded-full"
-                  width={COVER_SIZE}
-                  height={COVER_SIZE}
-                  src={data.albumImageUrl}
-                  alt={data.title}
-                />
-              </div>
+              <VinylCover
+                src={data.albumImageUrl}
+                alt={data.title}
+                playing={data.isPlaying || userIsPlaying}
+              />
               <VinylFrame />
             </div>
 
@@ -932,7 +1091,11 @@ const SpotifyPlayer = () => {
             {/* Slider — draggable volume control with 7 snapped steps */}
             <Tooltip content={`Volume: ${Math.round(volume * 100)}%`}>
               <div>
-                <Slider volume={volume} onVolumeChange={handleVolumeChange} />
+                <Slider
+                  volume={volume}
+                  isFading={volumeIsFading}
+                  onVolumeChange={handleVolumeChange}
+                />
               </div>
             </Tooltip>
 
@@ -974,13 +1137,18 @@ const SpotifyPlayer = () => {
           {videoId && (
             <ReactPlayer
               src={`https://www.youtube.com/watch?v=${videoId}`}
-              playing={userIsPlaying}
+              playing={playerIsPlaying}
               volume={volume}
               width={0}
               height={0}
               style={{ position: "absolute", visibility: "hidden" }}
               onEnded={handleEnded}
-              onError={() => setUserIsPlaying(false)}
+              onError={() => {
+                clearVolumeFade();
+                setUserIsPlaying(false);
+                setPlayerIsPlaying(false);
+                setCurrentVolume(0);
+              }}
             />
           )}
 
