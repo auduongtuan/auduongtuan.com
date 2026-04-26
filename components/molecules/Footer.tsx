@@ -84,9 +84,8 @@ export default function Footer() {
               Written, designed and built by Tuan.
               <br />© {new Date().getFullYear()}.{" "}
               <InlineLink
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
+                as="button"
+                onClick={() => {
                   event({
                     action: "view_colophon",
                     category: "engagement",

@@ -80,6 +80,7 @@ type IconButtonProps<T extends React.ElementType> = {
   children?: React.ReactNode;
   href?: string;
   external?: boolean;
+  sound?: boolean;
   as?: T;
 } & VariantProps<typeof iconButtonVariants> &
   React.ComponentPropsWithoutRef<T>;
@@ -89,6 +90,7 @@ const IconButton = <T extends React.ElementType = "button">({
   tooltip,
   href,
   external,
+  sound = true,
   children,
   size,
   inverted,
@@ -102,9 +104,11 @@ const IconButton = <T extends React.ElementType = "button">({
 }) => {
   const externalAttrs = external ? { target: "_blank", rel: "noreferrer" } : {};
   const buttonStyles = cn(iconButtonVariants({ size, className, variant }));
-  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleClick = (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>,
+  ) => {
     onClick?.(event);
-    if (!event.defaultPrevented) {
+    if (sound && (href ? !event.defaultPrevented : true)) {
       playNavigationSound();
     }
   };
@@ -124,7 +128,7 @@ const IconButton = <T extends React.ElementType = "button">({
     <button
       {...externalAttrs}
       className={buttonStyles}
-      onClick={onClick}
+      onClick={handleClick}
       {...rest}
       ref={ref as React.Ref<HTMLButtonElement>}
     >

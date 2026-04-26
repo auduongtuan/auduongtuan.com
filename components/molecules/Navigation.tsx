@@ -212,6 +212,7 @@ const Navigation = React.memo(() => {
                       variant="ghost"
                       size="small"
                       className="ml-4"
+                      sound={false}
                       onClick={toggleThemeWithTransition}
                     >
                       {mounted ? (

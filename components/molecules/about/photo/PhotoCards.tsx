@@ -89,7 +89,11 @@ export default function PhotoCards() {
     });
   };
 
-  const handleSwipe = (direction: Direction, photo: DisplayPhoto) => {
+  const handleSwipe = (
+    direction: Direction,
+    photo: DisplayPhoto,
+    options?: { playSound?: boolean },
+  ) => {
     // console.log(`Swiped ${direction} on ${photo.name}`);
 
     // Add current photo to viewed photos
@@ -118,7 +122,7 @@ export default function PhotoCards() {
     // Reset the preparation state
     setIsPreparingNextCard(false);
 
-    swipeAction(direction, photo);
+    swipeAction(direction, photo, options);
   };
 
   // We show at most 4 cards at a time for stack effect

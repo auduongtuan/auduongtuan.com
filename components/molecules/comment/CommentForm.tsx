@@ -50,7 +50,7 @@ const CommentForm = ({
           setState({ loading: false, open: false });
           playSuccessSound();
           toast({
-            message: `Message sent. Thank for your ${wording.singular}.`,
+            message: `Message sent. Thanks for your ${wording.singular}.`,
             type: "success",
           });
           resetField("content");
