@@ -1,11 +1,30 @@
 import { defineSound, ensureReady } from "@web-kits/audio";
-import { confetti, hover, success, tap } from "../../.web-kits/core";
+import {
+  confetti,
+  success,
+} from "../../.web-kits/core";
+import {
+  click as retroClick,
+  deselect as retroDeselect,
+  error as retroError,
+  hover as retroHover,
+  info as retroInfo,
+  notification as retroNotification,
+  slide as retroSlide,
+  success as retroSuccess,
+} from "../../.web-kits/retro";
 import useAppStore from "@store/useAppStore";
 
-const playTap = defineSound(tap);
+const playTap = defineSound(retroClick);
 const playConfetti = defineSound(confetti);
-const playHover = defineSound(hover);
+const playHover = defineSound(retroHover);
+const playSlide = defineSound(retroSlide);
 const playSuccess = defineSound(success);
+const playReactionLove = defineSound(retroNotification);
+const playReactionSuccess = defineSound(retroSuccess);
+const playReactionError = defineSound(retroError);
+const playReactionInfo = defineSound(retroInfo);
+const playReactionInactive = defineSound(retroDeselect);
 const playNeedleDrop = defineSound({
   layers: [
     {
@@ -83,8 +102,30 @@ export function playGifHoverSound() {
   void playSound(playHover);
 }
 
+export function playSlideSound() {
+  void playSound(playSlide);
+}
+
 export function playSuccessSound() {
   void playSound(playSuccess);
+}
+
+export function playReactionSound(emoji: string, active: boolean) {
+  if (!active) {
+    void playSound(playReactionInactive);
+    return;
+  }
+
+  const reactionSound =
+    emoji === "💖"
+      ? playReactionLove
+      : emoji === "🤨"
+        ? playReactionError
+        : emoji === "😮"
+          ? playReactionInfo
+          : playReactionSuccess;
+
+  void playSound(reactionSound);
 }
 
 export function playSpotifyPlaybackSound(isPlaying: boolean) {

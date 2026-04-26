@@ -26,15 +26,17 @@ const inlineLinkVariants = cva(
 );
 
 interface InlineLinkProps
-  extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap">,
+  extends Omit<React.ComponentPropsWithoutRef<"a">, "wrap" | "as">,
     VariantProps<typeof inlineLinkVariants> {
   href?: string;
   className?: string;
   children: React.ReactNode;
+  as?: "a" | "button";
 }
 
 const InlineLink = ({
   ref,
+  as = "a",
   href = "#",
   className = "",
   children,
@@ -43,16 +45,51 @@ const InlineLink = ({
   onClick,
   ...rest
 }: InlineLinkProps & {
-  ref?: React.RefObject<HTMLAnchorElement>;
+  ref?: React.RefObject<HTMLAnchorElement | HTMLButtonElement>;
 }) => {
   // get the internal link (without /)
   let checkInternal = parseInternalLink(href);
-  const Component = href == "#" ? "span" : checkInternal ? Link : ExternalLink;
+  const Component = checkInternal ? Link : ExternalLink;
   const linkStyles = cn(inlineLinkVariants({ underline, wrap }), className);
   const link = checkInternal ? checkInternal : href;
+
+  if (as == "button") {
+    return (
+      <button
+        ref={ref as React.Ref<HTMLButtonElement>}
+        type="button"
+        className={linkStyles}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+          if (onClick) {
+            onClick(e as unknown as React.MouseEvent<HTMLAnchorElement>);
+          }
+        }}
+        {...(rest as React.ComponentPropsWithoutRef<"button">)}
+      >
+        {children}
+      </button>
+    );
+  }
+
+  if (href == "#") {
+    return (
+      <span
+        ref={ref as React.Ref<HTMLSpanElement>}
+        className={linkStyles}
+        onClick={(e: React.MouseEvent<HTMLSpanElement>) => {
+          if (onClick) {
+            onClick(e as unknown as React.MouseEvent<HTMLAnchorElement>);
+          }
+        }}
+        {...(rest as React.ComponentPropsWithoutRef<"span">)}
+      >
+        {children}
+      </span>
+    );
+  }
+
   return (
     <Component
-      ref={ref}
       href={link as string}
       className={linkStyles}
       onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {

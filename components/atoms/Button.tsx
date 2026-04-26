@@ -53,6 +53,7 @@ export interface ButtonProps extends VariantProps<typeof buttonVariants> {
   icon?: React.ReactNode;
   loading?: boolean;
   scroll?: boolean;
+  sound?: boolean;
   type?: "submit" | "button" | "reset";
   onClick?: React.MouseEventHandler<HTMLButtonElement | HTMLAnchorElement>;
 }
@@ -74,6 +75,7 @@ const Button = React.forwardRef<
       loading = false,
       variant = "primary",
       scroll = true,
+      sound = true,
       type,
       onClick,
       ...rest
@@ -96,7 +98,7 @@ const Button = React.forwardRef<
         return;
       }
       onClick?.(event);
-      if (href && !event.defaultPrevented) {
+      if (sound && (href ? !event.defaultPrevented : true)) {
         playNavigationSound();
       }
     };
