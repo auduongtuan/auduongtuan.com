@@ -5,6 +5,7 @@ import { cn } from "@lib/utils/cn";
 import axios from "axios";
 import { useAxiosSWR } from "@hooks/index";
 import { emojiBlast } from "emoji-blast";
+import { playReactionSound } from "@lib/audio/uiSounds";
 
 type Emoji = string;
 interface CounterValue {
@@ -105,8 +106,10 @@ const ReactButton = ({
             // console.error(err);
           });
         if (counter[emoji].reacted) {
+          playReactionSound(emoji, false);
           dispatch({ type: "undo", payload: emoji });
         } else {
+          playReactionSound(emoji, true);
           dispatch({ type: "react", payload: emoji });
           if (onReact) {
             onReact(emoji);

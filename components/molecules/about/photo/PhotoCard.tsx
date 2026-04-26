@@ -13,7 +13,11 @@ import { useResizeObserver } from "@hooks/useResizeObserver";
 
 interface PhotoCardProps {
   photo: DisplayPhoto;
-  onSwipe?: (direction: Direction, photo: DisplayPhoto) => void;
+  onSwipe?: (
+    direction: Direction,
+    photo: DisplayPhoto,
+    options?: { playSound?: boolean },
+  ) => void;
   isActive?: boolean;
   nextCardReady?: () => void;
   revertNextCardReady?: () => void;
@@ -36,6 +40,7 @@ export const PhotoCard = React.memo(
     className,
   }: PhotoCardProps) => {
     const cardRef = useRef<HTMLDivElement>(null);
+    const suppressNextSwipeSoundRef = useRef(false);
     const { isExpanded, isExpanding } = usePhotoStore();
     const combinedRef = (node: HTMLDivElement) => {
       cardRef.current = node;
@@ -59,7 +64,11 @@ export const PhotoCard = React.memo(
     } = usePhotoCardSwipe({
       index,
       cardRef,
-      onSwipe,
+      onSwipe: (direction, swipedPhoto) => {
+        const playSound = !suppressNextSwipeSoundRef.current;
+        suppressNextSwipeSoundRef.current = false;
+        onSwipe(direction, swipedPhoto, { playSound });
+      },
       revertNextCardReady,
       nextCardReady,
       photo,
@@ -191,7 +200,7 @@ export const PhotoCard = React.memo(
                     direction = Direction.RIGHT;
                 }
 
-                // Use the triggerSwipe function from the hook
+                suppressNextSwipeSoundRef.current = true;
                 triggerSwipe(direction);
               }
             }}

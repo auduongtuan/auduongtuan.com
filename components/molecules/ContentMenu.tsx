@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import slugify from "slugify";
 import Fade from "@atoms/Fade";
 import Balancer from "react-wrap-balancer";
+import { playSlideSound } from "@lib/audio/uiSounds";
 interface VisibleInfo {
   start: number;
   end: number;
@@ -125,6 +126,7 @@ const ContentMenu = () => {
                 <a
                   onClick={(e) => {
                     e.preventDefault();
+                    playSlideSound();
                     if (i != 0) {
                       heading.scrollIntoView({ behavior: "smooth" });
                     } else {

@@ -1,10 +1,16 @@
 import { Direction, DisplayPhoto } from "./types";
+import { playReactionSound } from "@lib/audio/uiSounds";
 import { isDevEnvironment, trackEvent } from "@lib/utils";
 import {
   CARD_STACK_SCALE_OFFSET,
   CARD_STACK_TRANSLATE_Y_OFFSET,
 } from "./constants";
 import axios from "axios";
+
+type SwipeReaction = {
+  emoji: string;
+  event: "swipe" | "double_tap";
+};
 
 export function giveReaction(
   emoji: string,
@@ -28,33 +34,37 @@ export function giveReaction(
     });
 }
 
-export function swipeAction(direction: Direction, photo: DisplayPhoto) {
+export function getSwipeReaction(direction: Direction): SwipeReaction {
   switch (direction) {
     case Direction.LEFT:
-      // Handle haha reaction
-      giveReaction("😆", photo, "swipe");
-      break;
+      return { emoji: "😆", event: "swipe" };
 
     case Direction.RIGHT:
-      // Handle love reaction
-      giveReaction("💖", photo, "swipe");
-      break;
+      return { emoji: "💖", event: "swipe" };
 
     case Direction.TOP:
-      // Handle slay reaction
-      giveReaction("💅", photo, "swipe");
-      break;
+      return { emoji: "💅", event: "swipe" };
 
     case Direction.BOTTOM:
-      // Handle eww reaction
-      giveReaction("🤨", photo, "swipe");
-      break;
+      return { emoji: "🤨", event: "swipe" };
 
     case Direction.DOUBLE_TAP:
-      // Handle wow reaction
-      giveReaction("😮", photo, "double_tap");
-      break;
+      return { emoji: "😮", event: "double_tap" };
   }
+}
+
+export function swipeAction(
+  direction: Direction,
+  photo: DisplayPhoto,
+  options: { playSound?: boolean } = {},
+) {
+  const reaction = getSwipeReaction(direction);
+
+  if (options.playSound !== false) {
+    playReactionSound(reaction.emoji, true);
+  }
+
+  giveReaction(reaction.emoji, photo, reaction.event);
 }
 export const getStackCardTransform = (index: number) => {
   return `translateY(${CARD_STACK_TRANSLATE_Y_OFFSET * (index || 0)}px) scale(${1 - CARD_STACK_SCALE_OFFSET * (index || 0)})`;
