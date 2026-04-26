@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Post } from "@lib/notion";
-import Link from "next/link";
+import SoundLink from "@atoms/SoundLink";
 import { FiLock } from "react-icons/fi";
 import Tag from "@atoms/Tag";
 import clsx from "clsx";
@@ -21,7 +21,7 @@ const PostCard = ({
 }: PostCardProps) => {
   const formattedDate = formatPostDate(post.date);
   return (
-    <Link
+    <SoundLink
       href={`/blog/${post.slug}`}
       key={post.slug}
       className={clsx(
@@ -67,7 +67,7 @@ const PostCard = ({
           </div>
         </div>
       </div>
-    </Link>
+    </SoundLink>
   );
 };
 

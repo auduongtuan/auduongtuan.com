@@ -12,6 +12,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({
   href,
   children,
   callback,
+  onClick,
   ...rest
 }) => {
   const router = useRouter();
@@ -29,6 +30,9 @@ const CustomLink: React.FC<CustomLinkProps> = ({
   }, []);
   const handleOnClick = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
+      onClick?.(e as React.MouseEvent<HTMLAnchorElement>);
+      if (e.defaultPrevented) return;
+
       e.preventDefault();
       const location = window.location;
       const urlParts = href.split("#");
@@ -43,7 +47,7 @@ const CustomLink: React.FC<CustomLinkProps> = ({
       }
       if (callback) callback();
     },
-    [href, router, scrollIntoEl, callback],
+    [href, router, scrollIntoEl, callback, onClick],
   );
   return (
     <a onClick={handleOnClick} href={href} className={className} {...rest}>

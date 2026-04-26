@@ -2,7 +2,7 @@ import Tag from "@atoms/Tag";
 import { Post } from "@lib/notion";
 import { formatPostDate } from "@lib/utils/format";
 import clsx from "clsx";
-import Link from "next/link";
+import SoundLink from "@atoms/SoundLink";
 import { FiLock } from "react-icons/fi";
 
 type MiniPostCardProps = {
@@ -13,7 +13,7 @@ type MiniPostCardProps = {
 const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
   const formattedDate = formatPostDate(post.date);
   return (
-    <Link
+    <SoundLink
       href={`/blog/${post.slug}`}
       key={post.slug}
       className={clsx(
@@ -41,10 +41,10 @@ const MiniPostCard = ({ post, className = "" }: MiniPostCardProps) => {
           ))}
         </div>
         {formattedDate && (
-          <p className={clsx("muted-text mt-2")}>Posted on {formattedDate}</p>
+          <p className={clsx("muted-text mt-2")}>{formattedDate}</p>
         )}
       </div>
-    </Link>
+    </SoundLink>
   );
 };
 

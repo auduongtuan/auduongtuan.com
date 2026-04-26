@@ -3,12 +3,12 @@ import Button from "@atoms/Button";
 import ProjectIcon from "@atoms/ProjectIcon";
 import Fade from "@atoms/Fade";
 import IconButton from "@atoms/IconButton";
+import SoundLink from "@atoms/SoundLink";
 import Tooltip from "@atoms/Tooltip";
 import { useBreakpoint } from "@hooks";
 import { Project } from "@lib/notion";
 import { parseInternalLink } from "@lib/utils";
 import { formatProjectDate } from "@lib/utils/format";
-import Link from "next/link";
 import { memo } from "react";
 import { FiEye } from "react-icons/fi";
 import Balancer from "react-wrap-balancer";
@@ -67,16 +67,16 @@ const ProductCard = memo(
             {achievements}
           </div>
         ) : null}
-        <h2 className="h3 -mt-0.5 inline-block">
+        <h2 className="inline-block text-base font-semibold md:text-lg">
           {project.caseStudy ? (
-            <Link href={`/project/${project.slug}`}>{project.title}</Link>
+            <SoundLink href={`/project/${project.slug}`}>
+              {project.title}
+            </SoundLink>
           ) : (
             project.title
           )}
         </h2>
-        {formattedDate && (
-          <p className="muted-text mt-0.5 md:mt-1">{formattedDate}</p>
-        )}
+        {formattedDate && <p className="muted-text">{formattedDate}</p>}
         <p className="text-secondary small-body-text mt-2 text-balance md:mt-3">
           {project.tagline}
         </p>

@@ -17,6 +17,7 @@
     "@notionhq/client": "^5.16.0",
     "@tailwindcss/postcss": "^4.1.5",
     "@vercel/og": "^0.6.8",
+    "@web-kits/audio": "^0.1.0",
     "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.6.0",

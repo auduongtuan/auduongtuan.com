@@ -1,4 +1,5 @@
 "use client";
+import { playNavigationSound } from "@lib/audio/uiSounds";
 import { cn } from "@lib/utils/cn";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -94,18 +95,26 @@ const IconButton = <T extends React.ElementType = "button">({
   className,
   as,
   variant,
+  onClick,
   ...rest
 }: IconButtonProps<T> & {
   ref?: React.RefObject<unknown>;
 }) => {
   const externalAttrs = external ? { target: "_blank", rel: "noreferrer" } : {};
   const buttonStyles = cn(iconButtonVariants({ size, className, variant }));
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(event);
+    if (!event.defaultPrevented) {
+      playNavigationSound();
+    }
+  };
 
   return href ? (
     <a
       href={href}
       {...externalAttrs}
       className={buttonStyles}
+      onClick={handleClick}
       {...rest}
       ref={ref as React.Ref<HTMLAnchorElement>}
     >
@@ -115,6 +124,7 @@ const IconButton = <T extends React.ElementType = "button">({
     <button
       {...externalAttrs}
       className={buttonStyles}
+      onClick={onClick}
       {...rest}
       ref={ref as React.Ref<HTMLButtonElement>}
     >

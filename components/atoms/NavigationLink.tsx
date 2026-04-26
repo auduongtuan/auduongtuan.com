@@ -2,6 +2,7 @@ import React from "react";
 import CustomLink, { CustomLinkProps } from "./CustomLink";
 import { useRouter } from "next/router";
 import { cn } from "@lib/utils/cn";
+import { playNavigationSound } from "@lib/audio/uiSounds";
 
 type AnchorProps = React.ComponentProps<"a">;
 
@@ -44,6 +45,7 @@ const NavigationLink = ({
   inverted = false,
   isActive = false,
   callback,
+  onClick,
   ...rest
 }: NavigationLinkProps) => {
   const router = useRouter();
@@ -69,7 +71,15 @@ const NavigationLink = ({
     <CustomLink
       href={href}
       className={anchorClassName}
-      callback={callback}
+      onClick={(event) => {
+        onClick?.(event);
+        if (!event.defaultPrevented) {
+          playNavigationSound();
+        }
+      }}
+      callback={() => {
+        callback?.();
+      }}
       {...rest}
     >
       {children}

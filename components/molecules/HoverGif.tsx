@@ -13,6 +13,7 @@ import {
   useInteractions,
 } from "@floating-ui/react";
 import { event } from "@lib/gtag";
+import { playGifHoverSound } from "@lib/audio/uiSounds";
 import { trackEvent } from "@lib/utils";
 import { useRouter } from "next/router";
 import React, { useEffect, useId, useState } from "react";
@@ -57,6 +58,8 @@ export default function HoverGif({
     whileElementsMounted: autoUpdate,
     onOpenChange: (open) => {
       if (open) {
+        playGifHoverSound();
+
         // Close all other instances before opening this one
         activeInstances.forEach((closeOther, otherId) => {
           if (otherId !== instanceId) {

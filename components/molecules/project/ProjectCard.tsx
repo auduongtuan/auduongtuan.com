@@ -7,13 +7,13 @@ import CustomVideo from "@atoms/CustomVideo";
 import Fade from "@atoms/Fade";
 import BrowserFrame from "@atoms/Frame";
 import IconButton from "@atoms/IconButton";
+import SoundLink from "@atoms/SoundLink";
 import Tooltip from "@atoms/Tooltip";
 import { useBreakpoint } from "@hooks";
 
 import { parseInternalLink } from "@lib/utils";
 import { formatProjectDate } from "@lib/utils/format";
 import ScrollableTagList from "@molecules/ScrollableTagList";
-import Link from "next/link";
 import { memo } from "react";
 import { FiEye } from "react-icons/fi";
 import Balancer from "react-wrap-balancer";
@@ -102,9 +102,9 @@ const ProjectCard = memo(
           <div className="grow">
             <h2 className="h3">
               {project.caseStudy ? (
-                <Link href={`/project/${project.slug}`}>
+                <SoundLink href={`/project/${project.slug}`}>
                   <Balancer>{project.title}</Balancer>
-                </Link>
+                </SoundLink>
               ) : (
                 <Balancer>{project.title}</Balancer>
               )}
