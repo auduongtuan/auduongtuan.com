@@ -39,7 +39,7 @@ const ProjectComponents = (slug: string) => ({
   Figure,
   Note,
   FullWidth: ({ children }: { children: React.ReactNode }) => {
-    return <div className="full">{children}</div>;
+    return <div className="full [&>*:first-child]:mt-0">{children}</div>;
   },
   ContentNode: ({
     children,

@@ -168,17 +168,19 @@
       @apply col-span-3 col-start-1;
     } */
 
-    > .full {
+    /* > .full {
       @apply mt-content-node pt-3;
       & > *:first-child {
         @apply mt-0;
       }
-    }
+    } */
 
     figure > div > p {
       line-height: 0;
     }
+  }
 
+  @layer utilities {
     .persona-1 {
       .image {
         @apply overflow-hidden rounded-md;
@@ -197,7 +199,7 @@
       p,
       ul,
       li {
-        @apply text-base leading-7 md:text-base;
+        @apply text-base leading-7;
       }
       li {
         @apply mt-1 first:mt-0;
@@ -212,7 +214,7 @@
         @apply mt-0;
       }
       h4 {
-        @apply subheading2;
+        @apply subheading2!;
       }
     }
   }

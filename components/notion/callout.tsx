@@ -156,7 +156,11 @@ export const parseCallout = (
         break;
       case "FullWidth":
         rendered = (
-          <div key={block.id} className={"full mt-content-node"} {...options}>
+          <div
+            key={block.id}
+            className={"full mt-content-node [&>*:first-child]:mt-0"}
+            {...options}
+          >
             {parseChildren()}
           </div>
         );
