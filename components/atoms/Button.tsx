@@ -1,4 +1,5 @@
 import { parseInternalLink } from "@lib/utils";
+import { playNavigationSound } from "@lib/audio/uiSounds";
 import { cn } from "@lib/utils/cn";
 import { cva, type VariantProps } from "class-variance-authority";
 import Link from "next/link";
@@ -95,6 +96,9 @@ const Button = React.forwardRef<
         return;
       }
       onClick?.(event);
+      if (href && !event.defaultPrevented) {
+        playNavigationSound();
+      }
     };
 
     const defaultIcon = showPopoutIcon ? (

@@ -6,6 +6,11 @@ import { useTheme } from "next-themes";
 import { useEffect, useState, useRef, useCallback } from "react";
 import { twMerge } from "tailwind-merge";
 import { useAxiosSWR } from "@hooks/index";
+import {
+  playGifHoverSound,
+  playSpotifyPlaybackSound,
+  playSpotifyVolumeSound,
+} from "@lib/audio/uiSounds";
 
 const ReactPlayer = dynamic(() => import("react-player"), {
   ssr: false,
@@ -784,22 +789,34 @@ const SpotifyPlayer = () => {
   // Handle tonearm click to toggle play/pause
   const handleTonearmClick = useCallback(() => {
     if (!videoId) return;
-    setUserIsPlaying((prev) => !prev); // ✅ Functional setState for stable callback
-  }, [videoId]);
+    const nextIsPlaying = !userIsPlaying;
+    playSpotifyPlaybackSound(nextIsPlaying);
+    setUserIsPlaying(nextIsPlaying);
+  }, [userIsPlaying, videoId]);
 
   // Handle volume change from slider
   const handleVolumeChange = useCallback(
     (newVolume: number) => {
+      if (newVolume !== volume) {
+        playSpotifyVolumeSound();
+      }
+
       setVolume(newVolume);
       // If volume is set to 0, pause playback
       if (newVolume === 0) {
+        if (userIsPlaying) {
+          playSpotifyPlaybackSound(false);
+        }
         setUserIsPlaying(false);
       } else if (videoId) {
         // If volume is turned up from 0, start playing
-        setUserIsPlaying((prev) => (prev ? prev : true)); // ✅ Functional setState
+        if (!userIsPlaying) {
+          playSpotifyPlaybackSound(true);
+          setUserIsPlaying(true);
+        }
       }
     },
-    [videoId],
+    [userIsPlaying, videoId, volume],
   );
 
   return (
@@ -925,7 +942,8 @@ const SpotifyPlayer = () => {
             >
               <button
                 type="button"
-                onClick={() => setUserIsPlaying((prev) => !prev)}
+                onClick={handleTonearmClick}
+                onMouseEnter={playGifHoverSound}
                 disabled={!videoId}
                 className="absolute cursor-pointer border-0 bg-transparent p-0 transition-opacity disabled:cursor-default disabled:opacity-30"
                 style={{

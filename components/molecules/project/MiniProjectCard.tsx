@@ -1,4 +1,4 @@
-import Link from "next/link";
+import SoundLink from "@atoms/SoundLink";
 import ProjectIcon from "@atoms/ProjectIcon";
 import { Fragment, useEffect, useState } from "react";
 import { Project } from "@lib/notion";
@@ -40,13 +40,13 @@ const MiniProjectCard = ({ project }: { project: Project }) => {
   const classname =
     "bg-card col-span-6 md:col-span-3 lg:col-span-2 text-primary p-3 md:p-3.5 transition-all rounded-xl flex flex-row items-center space-x-4 group-hover:opacity-80 hover:opacity-100! hover:scale-[1.02] active:scale-[1.01]";
   return project.caseStudy || internalLink ? (
-    <Link
+    <SoundLink
       href={project.caseStudy ? `/project/${project.slug}` : internalLink}
       className={classname}
       style={{ backgroundColor: themedBackgroundColor }}
     >
       {content}
-    </Link>
+    </SoundLink>
   ) : (
     <a
       target="_blank"

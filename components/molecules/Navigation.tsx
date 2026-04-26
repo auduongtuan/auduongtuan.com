@@ -11,11 +11,12 @@ import React, {
   useState,
   useCallback,
 } from "react";
-import { FiMoon, FiSun } from "react-icons/fi";
+import { FiMoon, FiSun, FiVolume, FiVolume2, FiVolumeX } from "react-icons/fi";
 import { twMerge } from "tailwind-merge";
 import IconButton from "@atoms/IconButton";
 import Tooltip from "@atoms/Tooltip";
 import { useTheme } from "next-themes";
+import { playThemeSound } from "@lib/audio/uiSounds";
 
 const menuItems = [
   { href: "/", name: "Home" },
@@ -25,7 +26,13 @@ const menuItems = [
 ];
 
 const Navigation = React.memo(() => {
-  const { menuOpened, pauseScrollEvent, setMenuOpened } = useAppStore();
+  const {
+    menuOpened,
+    pauseScrollEvent,
+    soundEffectsEnabled,
+    setMenuOpened,
+    setSoundEffectsEnabled,
+  } = useAppStore();
   const [hidden, setHidden] = useState(false);
   const bp = useBreakpoint();
   const { theme, resolvedTheme, setTheme } = useTheme();
@@ -109,6 +116,7 @@ const Navigation = React.memo(() => {
 
   const toggleThemeWithTransition = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
+      playThemeSound();
       const nextTheme = isDarkTheme ? "light" : "dark";
       const buttonRect = event.currentTarget.getBoundingClientRect();
 
@@ -153,7 +161,7 @@ const Navigation = React.memo(() => {
             {!menuOpened && (
               <>
                 <div className="relative hidden items-center md:flex">
-                  <ul className="flex items-center gap-8">
+                  <ul className="flex items-center gap-7">
                     {menuItems.map((item, i) => (
                       <li key={i}>
                         <NavigationLink
@@ -180,12 +188,30 @@ const Navigation = React.memo(() => {
                     ></span>
                   )}
                   <Tooltip
+                    content={`${soundEffectsEnabled ? "Turn off" : "Turn on"} sound effects`}
+                  >
+                    <IconButton
+                      variant="ghost"
+                      size="small"
+                      className="ml-4 md:ml-7"
+                      onClick={() =>
+                        setSoundEffectsEnabled(!soundEffectsEnabled)
+                      }
+                    >
+                      {mounted && !soundEffectsEnabled ? (
+                        <FiVolume />
+                      ) : (
+                        <FiVolume2 />
+                      )}
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip
                     content={`Switch to ${isDarkTheme ? "light" : "dark"} mode`}
                   >
                     <IconButton
                       variant="ghost"
                       size="small"
-                      className="ml-4 md:ml-10"
+                      className="ml-4"
                       onClick={toggleThemeWithTransition}
                     >
                       {mounted ? (
@@ -230,7 +256,15 @@ const Navigation = React.memo(() => {
             </ul>
             <div>
               <button
+                onClick={() => setSoundEffectsEnabled(!soundEffectsEnabled)}
+                className="block w-full px-4 py-4 text-left"
+              >
+                Turn {mounted && !soundEffectsEnabled ? "on" : "off"} sound
+                effects
+              </button>
+              <button
                 onClick={() => {
+                  playThemeSound();
                   setTheme(isDarkTheme ? "light" : "dark");
                   setMenuOpened(false);
                 }}

@@ -1,6 +1,7 @@
 import Button from "@atoms/Button";
 import TextField from "@atoms/TextField";
 import { toast } from "@atoms/Toast";
+import { playSuccessSound } from "@lib/audio/uiSounds";
 import axios from "axios";
 import { Fragment, useReducer } from "react";
 import { FieldValues, useForm } from "react-hook-form";
@@ -47,6 +48,7 @@ const CommentForm = ({
         .then((res) => {
           // console.log(res);
           setState({ loading: false, open: false });
+          playSuccessSound();
           toast({
             message: `Message sent. Thank for your ${wording.singular}.`,
             type: "success",

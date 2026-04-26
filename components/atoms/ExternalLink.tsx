@@ -1,4 +1,5 @@
 import React from "react";
+import { playNavigationSound } from "@lib/audio/uiSounds";
 export interface ExternalLinkProps
   extends React.HTMLAttributes<HTMLAnchorElement> {
   href?: string;
@@ -12,6 +13,7 @@ const ExternalLink = ({
   href = "#",
   children,
   className = "",
+  onClick,
 
   // icon,
   ...rest
@@ -27,6 +29,12 @@ const ExternalLink = ({
       className={className}
       target="_blank"
       rel="noreferrer"
+      onClick={(event) => {
+        onClick?.(event);
+        if (href !== "#" && !event.defaultPrevented) {
+          playNavigationSound();
+        }
+      }}
       {...rest}
       ref={ref}
     >

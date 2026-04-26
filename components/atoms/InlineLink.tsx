@@ -1,6 +1,7 @@
 import Link from "next/link";
 import ExternalLink from "./ExternalLink";
 import { cn } from "@lib/utils/cn";
+import { playNavigationSound } from "@lib/audio/uiSounds";
 import { parseInternalLink, trackEvent } from "@lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -63,6 +64,9 @@ const InlineLink = ({
           });
         }
         if (onClick) onClick(e);
+        if (link != "#" && !e.defaultPrevented) {
+          playNavigationSound();
+        }
       }}
       {...rest}
     >
