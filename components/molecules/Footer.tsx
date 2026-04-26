@@ -9,7 +9,6 @@ import { event } from "@lib/gtag";
 import socialNetworks from "@lib/socialNetworks";
 
 import { trackEvent } from "@lib/utils";
-import { playNavigationSound } from "@lib/audio/uiSounds";
 import React, { useState } from "react";
 import {
   PiBehanceLogoBold,
@@ -87,7 +86,6 @@ export default function Footer() {
               <InlineLink
                 as="button"
                 onClick={() => {
-                  playNavigationSound();
                   event({
                     action: "view_colophon",
                     category: "engagement",
