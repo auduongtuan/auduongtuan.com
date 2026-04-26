@@ -42,7 +42,15 @@ export async function getCommentSuggestion(
   try {
     result = await generateContent("gemini-3-flash-preview");
   } catch {
-    result = await generateContent("gemini-2.5-flash");
+    try {
+      result = await generateContent("gemini-2.5-flash");
+    } catch {
+      try {
+        result = await generateContent("gemini-2.5-flash-lite");
+      } catch {
+        result = await generateContent("gemini-2.0-flash");
+      }
+    }
   }
   return result.text
     ? JSON.parse(result.text)
